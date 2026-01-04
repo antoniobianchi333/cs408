@@ -1,0 +1,15 @@
+    public int countPositivesOdd(int[] a)
+    {
+        // Effects:
+        //  If a == null, throw NullPointerException.
+        //  Otherwise, return the number of elements in a that are greater than 0 and odd.
+
+        int count = 0;
+        for (int i = 0; i <= a.length; i++) {    
+            if (a[i] > 0) {
+                if (a[i] % 2 == 1)
+                count++;
+            }
+        }
+        return count;
+    }

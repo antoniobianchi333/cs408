@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+*$py.class
+
+.venv/
+
+.idea/
+.vscode/
+*.swp
+*.swo
+
+*.o
+*.a
+
+.DS_Store
+
+!aflpp/**

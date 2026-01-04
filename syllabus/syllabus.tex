@@ -1,0 +1,531 @@
+\documentclass[letterpaper,11pt]{article}
+\usepackage[margin=1.1in]{geometry}
+
+% For angular brackets
+\usepackage{textcomp}
+% Skip the indents for every paragraph
+\usepackage{parskip}
+\input{cmds}
+
+\usepackage{xurl}
+
+
+\begin{document}
+
+\begin{center}
+	{\LARGE{\textbf{Syllabus}}}\\
+	  \vspace*{10pt}
+	{\Large{CS408: Software Testing}}\\
+	  \vspace*{5pt}
+	{\Large{Fall 2025}}\\
+	  \vspace*{5pt}
+  Updated: \today \\
+
+  \vspace*{10pt}
+\end{center}
+
+
+% Add regrade policy
+% Add group projects different grades 
+
+
+%% Syllabus examples: https://cs17-fall2022.github.io/resources
+%%
+
+%% TODO: Check that the regrade policy is here
+%% TODO: Say that every group member is responsible for the entire project delivered
+
+\section{Overview}
+
+
+
+The software testing course introduces various testing concepts, principles, and
+methodologies that assist developers in the process of testing and validating
+software systems. To help students better understand the subject, the course
+uses a hands-on approach and is project based.
+
+The course covers the basic principles of software testing: the psychology and
+economics of software testing, development and use of test cases, design and
+code inspection, version control systems, black box testing, higher-order
+testing, white box testing, unit testing, incremental testing, regression
+testing, processes for debugging and fixing software defects, and testing
+techniques for concurrent and complex systems.
+
+\section{Teaching staff}
+
+\begin{itemize}
+    \item Pedro Fonseca (Instructor), \texttt{pfonseca@purdue.edu}\\
+	\hphantom{.}\hspace{1cm}\textit{Office hour:} TBA
+    \item Attreyee Mukherjee (GTA)
+	\item Chih-En Lin (GTA)
+	\item Congyu Liu (GTA)
+\end{itemize}
+
+
+TA office hours will be announced during the semester. 
+
+\section{Grading structure overview}
+
+\begin{itemize}
+    \item Projects: 25\%
+    \item Homework: 15\%
+    \item Midterm: 30\% (in-person)
+    \item Final: 30\% (in-person)
+\end{itemize}
+
+\section{Learning objectives}
+
+This course has the following learning objectives:
+
+\begin{itemize}
+
+\item \textbf{Become better testers.}
+Understand and be able to create high-quality tests at all testing levels.
+Learn practical ways to design and automate high-quality tests.
+Understand how to apply theory (test criteria) in practical ways.
+
+\item \textbf{Become better programmers.}
+Be aware of potential problems in software and able to create high-quality developer tests.
+
+\item \textbf{Become better engineers.}
+Understand and be able to build programs and test them in a unified manner.
+
+\item \textbf{Become better thinkers.}
+Understand and be able to approach software problem-solving in logical and analytical ways.
+\end{itemize}
+
+
+\section{Textbook}
+
+The theoretical component of this course will follow the following textbook: \textit{Introduction to Software Testing}, 2nd edition, Paul Ammann and Jeff Offutt.
+
+
+\section{Course Format}
+
+\subsection{Lectures}
+
+Lectures will be in-person during the scheduled lecture time, unless otherwise noted. Every student is expected to attend the lectures, but attendance will not be tracked.
+
+%Students that are not able to attend lectures or enable video should talk with the instructor \textit{beforehand}.
+
+\subsection{Office hours}
+
+Office hours attendance is optional and are in-person. The office hours schedule will be announced during lectures and/or on Ed.
+
+
+\subsection{Projects}
+
+The course will have two projects and the project will be done in group.
+
+Students will need to use GitHub Classroom for the projects. It is a course
+requirement to commit the changes to the repository frequently -- typically this means 
+every two hours of work or more frequently. 
+The GitHub Classroom system will be used to facilitate support
+by course staff,
+help students cooperate on the projects, and assess individual student
+performance. Additional instructions will be provided during the course on how
+to use GitHub Classroom.
+
+%If the assignement does not explicitly say that it is a group project, then it is an individual project.
+
+\subsubsection{Group projects}
+\label{projects:group}
+For group projects \textit{only}:
+\begin{itemize}
+	\item Project discussions will be allowed only within the group, no exceptions.
+	\item Group projects will be explicitly noted (otherwise they should be assumed to be individual).
+	\item To use late days \textbf{all group members} must have enough late days left.
+	\item Every group member has the responsibility to ensure that their project is kept secure by setting appropriate permissions.
+\end{itemize}
+
+\subsubsection{Late days for projects}
+
+There is no partial credit for late assignments. Each student has \textbf{3 late
+days} to use on the project submissions throughout the semester. Each day (or
+fraction of a day) that the student hands out a project late consumes one full
+day of the late days.
+
+Students cannot retroactively change the application of late days to different
+projects. I.e., reassigning late days to projects is \textbf{not allowed}.
+
+Note the policy on late days for group projects (\autoref{projects:group}).
+
+There is no penalty for using late days and students do not need to notify the
+TAs.  We will automatically use available late days (if there are still any
+left) if students deliver the project after the deadline. If there are not
+enough late days available for a late submission, the project will be graded
+with 0. For all purposes, we will only consider the last submission of any given
+project.
+
+Homework assignments and exams \textbf{do not have late days}.
+
+\subsubsection{Project grading}
+
+Project grading is generally done mostly or entirely through several \textbf{automated pass/fail grading tests}. 
+
+% The relative weight of the projects is defined by the points assigned to each
+% project, as indicated in the project handout. For instance, if project A has 100
+% points and project B 50 points, project A would weight twice as much as  B. 
+
+\section{Tentative schedule}
+
+The following list presents an approximate schedule for the material that will be covered in the lectures. The tentative schedule is expected to be updated during the course of the semester.
+
+\begin{itemize}
+\item
+Intro and administration (1 lecture)
+\item
+Fault, error, failure (2 lecture)
+\item
+Structural coverage, CFG (6 lectures)
+\item
+Data-flow	(4 lectures)
+\item
+Junit and pytest (1 lecture)
+\item
+Concurrency (4 lectures)
+\item
+Syntax-based testing (4 lectures)
+\item
+Bug reports (1 lecture)
+\item
+Logic coverage (4 lectures)
+\item
+Symbolic execution (4 lectures)
+\item
+ML-bug testing (1 lecture)
+\item
+Automated testing tools (1 lecture)
+\item
+Input based partitioning (2 lectures)
+\item
+Verification  (1 lecture)
+\item
+Regression testing (1 lecture)
+\item
+Integration testing (1 lecture)
+\end{itemize}
+
+If time permits, 1 or 2 lectures will cover advanced topics at the end of the course or guest lectures. A live and more comprehensive tentative schedule for the course will be maintained online [1].
+
+\section{Course resources}
+
+\begin{itemize}
+	\item \textbf{Ed:} This will be the primary resource for the course and the anchor to other resources.
+	\begin{itemize}
+		\item \textbf{Announcements.}
+		Information provided by the instructor on Ed supersedes information on slides.
+		Students are responsible for checking Ed for updates \textbf{frequently}.
+		\item \textbf{Communication with staff.}
+		%\item \textbf{Discussions.}
+		\item \textbf{Links to course material.} Links to slides will be provided on the Ed ``Resource'' tab when available.
+		%\item \textbf{Links to course material.} Links to slides and lecture videos will be provided on the Ed ``Resource'' tab when available.
+	\end{itemize}
+	\item \textbf{Brightspace:} Only used for grades.
+
+	\begin{itemize}
+		\item \textbf{Grades.}
+	
+	\end{itemize}
+
+	\item \textbf{Gradescope:} 
+	\begin{itemize}
+		\item \textbf{Homework assignments.} 
+		\item \textbf{Exam review and regrades.} (Exams are in-person). 
+	\end{itemize}
+
+\end{itemize}
+
+
+
+\section{Ed Etiquette}
+\label{sec:ed}
+
+The following expectations for Ed are meant to help us build an inclusive
+and effective learning environment:
+\begin{itemize}
+
+\item \textbf{Respect:} Please be respectful of those who ask questions and
+those who answer, whether it is your peers or the teaching staff.
+
+\item \textbf{Questions:} Before posting a question, make a reasonable effort to
+check that your question: (a) has not already been asked or addressed in Ed
+(e.g., in the project Q\&A mega-thread or other students' questions), and (b) is not
+addressed in the project handout or slides. Avoiding redundancy caused by
+repeated questions or excessive ``me too'' comments improves efficiency and lets
+the staff get to the non-redundant questions faster. For similar reasons, ensure
+you provide sufficient context with your question and make sure you make a 
+good-faith effort to solve the problem on your own beforehand. 
+
+\item \textbf{Responses:} Please be patient when waiting to receive a response
+from a member of the teaching staff. We will work to check Ed as often as we
+can. We aim to respond accurately and appropriately to your question in a timely
+manner, but please be advised that our response will not be instant and can take
+more than 24h. Response times are typically higher outside regular office hours
+and close to deadlines when there is more demand from students, so plan
+accordingly.  
+
+\item \textbf{Concerns:} Direct personal concerns or requests about the course
+(e.g., grading criteria, course structure) to the instructor using the online form
+(\autoref{sec:feedback}), via email, or during 1:1 office hours meetings.
+
+
+\end{itemize}
+
+\textbf{Answering questions:}
+While the TAs will work to answer all Ed questions, please feel welcome to respond to your
+peers. However, just as in TA hours, please do not do the following:
+
+\begin{itemize}
+	\item Share answers or solutions
+	\item Post code publicly
+	\item Provide descriptions of how to implement or design a solution
+\end{itemize}
+
+
+\textbf{Important reminder: } You must never post code related to your
+assignments publicly or share it outside your group. If you need to reference
+code in your question, please make your post private so that only the course
+staff can see it.
+
+
+\section{Course Feedback}
+\label{sec:feedback}
+
+Course feedback is welcome. You can provide anonymous course feedback through the following Google form:
+
+\url{https://forms.gle/W7FXz9XKLGBdmB4t7}
+
+Please do not use Ed for course feedback (\autoref{sec:ed}). 
+
+
+\section{Academic honesty}
+
+\subsection{Independent work}
+All work turned in must be that of the individual student unless stated otherwise.
+\begin{itemize}
+\item Do not share or copy from others.
+\item Do not use or look at code found online.
+\item Violations result in zero credit to all students concerned.
+\end{itemize}
+
+Student projects, homework, and exams must be the own work of the student - the course will have a zero tolerance policy towards cheating of any kind and any student who cheats will get:
+\begin{itemize}
+\item Zero grade for the project/homework/exam at first offense
+\item F grade for the course thereafter
+\item (group projects allow discussion within the group only)
+\end{itemize}
+
+Both the cheater and the person(s) who aided the cheater will be held responsible for the cheating.
+If in doubt about this policy \textbf{ask the instructor beforehand}.
+
+\subsection{Artificial intelligence (AI) and machine learning (ML) tools}
+
+The use of AI or ML tools that generate text or code is forbidden. This restriction applies to all work delivered, including quizzes, homework assignments, projects, and exams.
+
+
+\subsection{Other resources}
+For additional resources on academic honesty refer to the Purdue integrity/code of conduct. Except as by prior arrangement or notification by the professor or an extension before the deadline, missing or late work will be counted as a zero/fail.
+
+\section{Student responsibilities}
+
+\begin{itemize}
+\item Attend lectures and actively participate during the lecture
+\item Read textbook and lecture notes
+\item Projects, homework, exams
+\item Periodically check Ed for announcements
+\item Be respectful to course staff and other students
+%\item Read and participate in Ed discussion
+\end{itemize}
+
+\section{Staff contact}
+
+To contact the course staff please use the following methods in order of preference:
+\begin{enumerate}
+\item \textbf{Ed} (preferred approach)
+\item \textbf{Office hours}
+\item \textbf{Email} (email must include the ``[CS408] '' prefix in subject)
+\end{enumerate}
+
+\section{University policies}
+
+\subsection{Accessibility}
+Purdue University strives to make learning experiences as accessible as
+possible. If you anticipate or experience physical or academic barriers based on
+disability, you are welcome to let your instructor know so that you can discuss
+options.
+
+You are also encouraged to contact the Disability Resource Center at:
+drc@purdue.edu or by phone: 765-494-1247. (The DRC weblink is \url{https://www.purdue.edu/drc/index.php})
+
+\textbf{Testing accommodations}
+
+Students with disabilities whose DRC Course Accessibility Letter (CAL) includes
+test accommodations must first release their CAL to me and then schedule to take
+their exams with the DRC at:\\
+\url{http://olympic.accessiblelearning.com/Purdue}
+
+You must do this at least one week before the exam date listed on the syllabus. In the case
+of finals week, you must do this at least four weeks before the start of finals
+week (or insert the relevant date for the semester). I will provide the DRC with
+your exam, and they will administer it and provide the result to me for grade
+reporting. Students must inform me immediately of cases where the DRC does not
+have space so that I can make other arrangements. Students who fail to follow
+this process and these deadlines risk not being able to have their
+accommodations for that exam.
+
+
+\textbf{Other accessibility concern}
+
+For accessibility concerns beyond this, the Office of Institutional Equity is
+responsible for ensuring Americans with Disability Act compliance, can be
+contacted with any accessibility concerns at:
+
+Phone: (765) 494-7253\\
+Email: equity@purdue.edu\\
+TTY: (765) 496-1343\\
+Website: \url{http://www.purdue.edu/ethics/oie/}
+
+
+
+
+
+\subsection{Mental health/wellness statement}
+
+If you find yourself beginning to feel some stress, anxiety and/or feeling
+slightly overwhelmed, try WellTrack. Sign in and find information and tools at
+your fingertips, available to you at any time. 
+
+If you need support and information about options and resources, please contact
+or see the Office of the Dean of Students. Call 765-494-1747. Hours of operation
+are M-F, 8 am- 5 pm.
+
+If you find yourself struggling to find a healthy balance between academics,
+social life, stress, etc., sign up for free one-on-one virtual or in-person
+sessions with a Purdue Wellness Coach at RecWell. Student coaches can help you
+navigate through barriers and challenges toward your goals throughout the
+semester. Sign up is free and can be done on BoilerConnect. 
+
+If you're struggling and need mental health services: Purdue University is
+committed to advancing the mental health and well-being of its students. If you
+or someone you know is feeling overwhelmed, depressed, and/or in need of mental
+health support, services are available. For help, such individuals should
+contact Counseling and Psychological Services (CAPS) at 765-494-6995 during and
+after hours, on weekends and holidays, or by going to the CAPS office on the
+second floor of the Purdue University Student Health Center (PUSH) during
+business hours. The CAPS website also offers resources specific to situations
+such as COVID-19.
+
+
+Resources:
+\begin{itemize}
+
+\item
+WellTrack\\
+\url{https://purdue.welltrack.com}
+
+\item
+Office of the Dean of Students\\
+\url{http://www.purdue.edu/odos}
+
+
+\item
+Purdue Wellness Coach at RecWell\\
+\url{https://www.purdue.edu/recwell/fitness-wellness/wellness/one-on-one-coaching/wellness-coaching.php}
+
+\item
+CAPS\\
+\url{https://www.purdue.edu/caps/}
+
+\end{itemize}
+
+\subsection{Basic needs security}
+
+Any student who faces challenges securing their food or housing and believes
+this may affect their performance in the course is urged to contact the Dean of
+Students for support. There is no appointment needed, and Student Support
+Services is available to serve students 8 a.m.-5 p.m. Monday through Friday.
+
+
+
+\subsection{Emergency preparedness}
+
+To report an emergency, call 911. To obtain updates regarding an ongoing emergency, sign up for Purdue Alert text messages, view:\\
+\url{http://www.purdue.edu/ea}.
+
+There are nearly 300 Emergency Telephones outdoors across campus and in parking garages that connect directly to the PUPD. If you feel threatened or need help, push the button, and you will be connected immediately.
+
+If we hear a fire alarm during class we will immediately suspend class, evacuate the building, and proceed outdoors. Do not use the elevator.
+
+If we are notified during class of a Shelter in Place requirement for a tornado warning, we will suspend class and shelter in the basement.
+
+If we are notified during class of a Shelter in Place requirement for a hazardous materials release, or a civil disturbance, including a shooting or other use of weapons, we will suspend class and shelter in the classroom, shutting the door and turning off the lights.
+
+Please review the Emergency Preparedness website for additional information:\\
+\url{http://www.purdue.edu/ehps/emergency_preparedness/index.html}
+
+
+
+\subsection{University policy resources}
+
+The following resources describe additional university policies that complement the course-specific policies.
+
+
+
+\begin{itemize}
+
+\item 
+Purdue's Student Guide for Academic Integrity\\
+\url{https://www.purdue.edu/odos/osrr/academic-integrity/index.html}
+
+\item 
+Nondiscrimination Policy Statement\\
+\url{https://www.purdue.edu/purdue/ea_eou_statement.php}
+
+\item 
+Academic Regulations: Attendance\\
+\url{https://catalog.purdue.edu/content.php?catoid=15\&navoid=18634\#classes}
+
+\item 
+Amorous Relationships\\
+\url{https://www.purdue.edu/policies/ethics/iiia1.html}
+
+\item 
+Emergency Preparedness\\
+\url{https://www.purdue.edu/ehps/emergency-preparedness/}
+
+\item 
+Violent Behavior Policy\\
+\url{https://www.purdue.edu/policies/facilities-safety/iva3.html}
+
+\item 
+Office of the Dean of Students: Class Absences\\
+\url{https://www.purdue.edu/advocacy/students/absences.html}
+
+\item 
+Use of Copyrighted Materials\\
+\url{https://www.purdue.edu/policies/academic-research-affairs/ia3.html}
+
+\item 
+Land Acknowledgement\\
+\url{https://www.cs.purdue.edu/diversity/native_land_acknowledgement.html}
+
+\end{itemize}
+
+
+
+
+
+\section{Course updates}
+
+Information provided by the instructor on Ed or lectures supersedes information on this document.
+
+\section{References}
+
+[1] https://www.cs.purdue.edu/homes/pfonseca/teaching/cs408/24spring/schedule.html
+
+%\newpage
+%\bibliographystyle{abbrvnat}
+%\bibliography{n-str,p,n}
+
+\end{document}

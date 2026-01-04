@@ -1,0 +1,13 @@
+*/*.bak
+*~
+**/*.swp
+**/*.aux
+**/*.bbl
+**/*.blg
+**/*.fdb_latexmk
+**/*.fls
+**/*.log
+**/*.out
+**/.DS_Store
+**/*.synctex.gz
+**/*.synctex.gz(busy)

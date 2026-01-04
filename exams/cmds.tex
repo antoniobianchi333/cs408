@@ -1,0 +1,86 @@
+\usepackage[utf8]{inputenc}
+\usepackage{calc}
+\usepackage[dvipsnames]{xcolor}
+
+
+% \makebox[\textwidth]{Name:\enspace\hrulefill}
+%  
+% \vspace{5mm}
+%\makebox[\textwidth]{Instructor’s name:\enspace\hrulefill}
+
+\definecolor{MyLightGray}{gray}{0.60}
+
+\newcommand{\truefalse}
+{		\begin{checkboxes}
+			 \choice True
+			 \choice False. Explanation: 
+		\end{checkboxes}
+		\vspace{10pt}
+}
+
+\newcommand{\answerspace}[1]
+{
+	\ifprintanswers
+	\else
+		\setlength{\mylength}{10pt}%
+		% \vspace{#1\mylength}
+		% Make the grey box
+		\par\nobreak\noindent
+		\makebox[\linewidth][l]{%
+			% set inner padding to zero, so only the frame shows
+			{\setlength{\fboxsep}{0pt}%
+			% draw a color frame, white (or transparent) inside
+			\fcolorbox{MyLightGray}{white}{%
+			% the inner box has zero width content but fixed height
+			\parbox[t][#1\mylength][c]{%
+				% subtract twice the frame‐thickness from the full width
+				\dimexpr\linewidth-2\fboxrule\relax
+			}{\strut}%
+			}%
+			}%
+		}%
+		\par
+		\vspace{3\mylength}
+
+  	\fi
+}
+
+
+
+\newcommand{\answerspacenopostpadding}[1]
+{
+	\ifprintanswers
+	\else
+		\setlength{\mylength}{10pt}%
+		% \vspace{#1\mylength}
+		% Make the grey box
+		\par\nobreak\noindent
+		\makebox[\linewidth][l]{%
+			% set inner padding to zero, so only the frame shows
+			{\setlength{\fboxsep}{0pt}%
+			% draw a color frame, white (or transparent) inside
+			\fcolorbox{MyLightGray}{white}{%
+			% the inner box has zero width content but fixed height
+			\parbox[t][#1\mylength][c]{%
+				% subtract twice the frame‐thickness from the full width
+				\dimexpr\linewidth-2\fboxrule\relax
+			}{\strut}%
+			}%
+			}%
+		}%
+		\par
+		% \vspace{3\mylength}
+
+  	\fi
+}
+
+
+\newcommand\pf[1]{\textcolor{red}{PF: #1}}
+
+\newlength{\mylength}
+
+\newcommand{\code}[1]{{\texttt{#1}}}
+
+\newcommand{\answer}[1]{\begin{solution}{#1}\end{solution}}
+
+

@@ -1,0 +1,429 @@
+
+% Add "answers" option to print the answers
+\documentclass[addpoints]{exam}
+
+\input{cmds}
+
+%\usepackage{listings}
+\usepackage{color}
+\usepackage{lastpage}
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\usepackage{float}
+
+%\pagestyle{fancy}
+%\fancyfoot[C]{{\thepage} of \pageref{LastPage}}
+\newcommand{\includecode}[2][c]{\lstinputlisting[caption=, escapechar=, language=#1]{#2}<!---->}
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
+
+\renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
+
+\definecolor{SolutionColor}{rgb}{0.8,0.9,1}
+
+
+\cfoot{Page \thepage\ of \pageref{LastPage}}
+
+\rhead{Initials: \rule{20mm}{0.4pt}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\fvset{numbers=left,numbersep=3pt}
+\thispagestyle{empty}
+
+\begin{center}
+	{\LARGE CS 408 Fall 2025 -- Midterm (A)\\}
+
+	\vspace{20mm}
+\fbox{\fbox{\parbox{5.5in}{\centering
+	\begin{itemize}
+		%\item Write your \textbf{name} in the first page and your \textbf{initials in every other page}.
+		\item The exam is closed notes, closed book.
+		\item No collaboration and no communication of any kind allowed.
+		\item Please print or write legibly.
+		\item Provide complete and clear but concise answers. Justify thoroughly statements where required.
+		\item Answer the questions in the spaces provided. Your answer does not need to take up all the space provided. If you run out of room, continue on the back.
+		\item Coding questions should be answered in C, unless requested otherwise.
+		\item Assume CFG nodes represent basic blocks whenever possible.
+			% or low-level pseudo-code.
+		%\item Unless otherwise noted, assume that questions refer to C code, AT\&T assembly syntax and the x86 architecture.
+		\item Please check that you have all the exam pages (\pageref{LastPage} pages).
+		\item You have 90 minutes to complete the exam.
+	\end{itemize}
+	}}}
+\end{center}
+
+% Instructions actually used
+% EXAM INSTRUCTIONS:
+% - The exam is open notes and open book.
+% - No collaboration and no communication of any kind allowed.
+% - There will be no clarifications of questions during the exam.
+% - Provide complete and clear but concise answers. Justify thoroughly statements where required.
+% - Coding questions should be answered in C.
+% - You have 90 minutes to complete the exam.
+% - Do not share the questions or answers of the exam with anyone until the grades of the exam are released
+
+
+
+\vspace{13mm}
+\begin{center}
+	\makebox[0.6\textwidth]{
+		\combinedgradetable[h][questions]
+	}
+\end{center}
+%\begin{center}\combinedgradetable[h][questions]\end{center}
+\vspace{28mm}
+
+
+\makebox[\textwidth]{\textbf{Name (please print)}: \rule{100mm}{0.8pt} }
+%\end{center}
+
+\vspace{10mm}
+%\begin{center}
+\makebox[\textwidth]{\textbf{PUID}: \rule{40mm}{0.8pt} \hspace{35mm}}
+%\end{center}
+
+
+
+
+\begin{questions}
+
+	\newpage
+%	\question State whether the following statements are true of false. \textbf{Explain the false statements.}
+%	\begin{parts}
+%		\part[2]
+%		\truefalse
+%		\answer{True.}
+%
+%	\end{parts}
+
+
+
+
+\question Consider the concept of faults, errors and failures. 
+
+\begin{parts}
+
+	\part[3] What is an error? Explain.
+	\answerspace{9}
+	\answer{}
+
+	\part[3] What is the relation between an error and a failure? Explain.
+	\answerspace{10}
+	\answer{}
+
+\end{parts}
+
+
+
+
+\question Consider the following three approaches to test a database management engine:
+\begin{itemize}
+	\item \textbf{Approach 1:} Run the target program on N random inputs
+	\item \textbf{Approach 2:} Run the target program on a representative set of inputs with N inputs
+	\item \textbf{Approach 3:} Run the target program on all inputs
+\end{itemize}
+
+You can assume N is in the order of tens of thousands.
+
+\begin{parts}
+
+	\part[3] Explain the pros and cons of the approach 1 (N random inputs) and approach 3 (all inputs).
+	\answerspace{11}
+	\answer{}
+
+	\newpage
+	\part[3] How would a tester execute approach 3 (a representative set of inputs)? What does ``representative set of inputs'' mean in practice? 
+	\answerspace{9}
+	\answer{}
+
+	\part[3] What is the advantage of the approach 3 over the other two approaches (approach 1 and 2)?
+	\answerspace{9}
+	\answer{}
+
+\end{parts}
+
+
+
+\question Consider the RIP model, as discussed in class.
+
+\begin{parts}
+
+	\part[5] What are the components of the RIP model? What is the relevance of the RIP model and each of its components for testing? Explain.
+	\answerspace{12}
+	\answer{}
+
+
+	\part[3] What part is not covered by the RIP model that is also important for testing?
+	\answerspace{12}
+	\answer{}
+
+
+\end{parts}
+
+
+
+
+\question Consider the following function:
+
+\VerbatimInput{midterm-function1.txt}
+
+\begin{parts}
+
+	\part[4] Draw the CFG of this program. Label nodes using the line numbers. Use basic blocks for each node. 
+	\answerspace{22}
+	\answer{}
+
+
+	\part[3] What is a basic block? 
+	\answerspace{9}
+	\answer{}
+
+
+	% \part[3] Why are basic blocks commonly used in CFGs for testing? 
+	\part[2] Is there any advantage in using basic blocks as opposed to statements in CFGs? 
+	\answerspace{9}
+	\answer{}
+	
+	\part[2] Is there any disadvantage in using basic blocks as opposed to statements in CFGs?
+	\answerspace{9}
+	\answer{}
+
+
+\end{parts}
+
+
+\newpage
+
+\question Consider the following C function:
+\VerbatimInput{midterm-function1.txt}
+
+\begin{parts}
+
+	\part[3] Is it possible to satisfy \textbf{node coverage} of this function? Explain.
+	If your answer is yes, provide a simple and minimal test case set that
+	satisfies \textbf{node coverage} of this function. If your answer is no, (a) make a
+	simple change to the function so that it becomes possible to satisfy \textbf{node coverage} and (b) provide a
+	simple and minimal test case set that satisfies \textbf{node coverage} of this
+	function.
+	\answerspace{14}
+	\answer{}
+
+
+	\part[3] Is it possible to satisfy \textbf{edge coverage} of this function? Explain.
+	If your answer is yes, provide a simple and minimal test case set that
+	satisfies \textbf{edge coverage} of this function. If your answer is no, (a) make a
+	simple change to the function so that it becomes possible to satisfy \textbf{edge coverage} and (b) provide a
+	simple and minimal test case set that satisfies \textbf{edge coverage} of this
+	function.
+	\answerspace{14}
+	\answer{}
+
+	\newpage
+	\part[3] Is it possible to satisfy \textbf{complete path coverage} of this function? Explain.
+	If your answer is yes, provide a simple and minimal test case set that
+	satisfies \textbf{complete path coverage} of this function. If your answer is no, (a) make a
+	simple change to the function so that it becomes possible to satisfy \textbf{complete path coverage} and (b) provide a 
+	simple and minimal test case set that satisfies \textbf{complete path coverage} of this
+	function.
+	\answerspace{15}
+	\answer{}
+
+
+\end{parts}
+
+
+
+
+\newpage
+
+
+
+\question Consider the following code.
+\VerbatimInput{midterm-bug1.txt}
+
+
+\begin{parts}
+	\part[3] State where is the program fault and explain how you would fix the program. Consider only the smallest and simplest fix.
+	\answerspace{10}
+	\answer{}
+
+	\part[3] Identify all components, including relevant variables and registers, that constitute the program state.
+	\answerspace{10}
+	\answer{}
+
+	\newpage
+	\part[3] If possible, provide an example of a test input that does not cause the
+	fault to execute. If this is not possible, explain why.
+	\answerspace{10}
+	\answer{}
+
+
+	\part[3] If possible, provide an example of a test input that causes the fault to execute
+	but no error to occur. If this is not possible, explain why.
+	\answerspace{10}
+	\answer{}
+
+	\part[3] If possible, provide an example of a test input that causes the fault to execute,
+	the error to occur, but no failure to occur. If this is not possible, explain why.
+	\answerspace{10}
+	\answer{}
+
+	\newpage
+
+	\part[4] Describe and explain the input condition for the error to occur.
+	\answerspace{10}
+	\answer{}
+
+	\part[4] Describe and explain the input condition for the failure to occur.
+	\answerspace{10}
+	\answer{}
+
+\end{parts}
+
+\newpage
+
+
+
+
+\newpage
+
+
+\newpage
+\question Consider the following control-flow graph:
+	\begin{figure}[ht]
+		\includegraphics[width=7cm]{midterm-cfg1.pdf}
+	\end{figure}
+
+\vspace{0.2cm}
+
+\begin{parts}
+	\part[3] If possible, list 2 test paths. If this is not possible, explain why.
+	\answerspace{7}
+	\answer{}
+
+	\part[3] If possible, list 3 simple paths that (a) are not prime paths and (b) start on node 2. If this is not possible, explain why.
+	\answerspace{7}
+	\answer{}
+
+	\part[3] If possible, list 3 prime paths that start on node 4. If this is not possible, explain why.
+	\answerspace{7}
+	\answer{}
+
+
+	\newpage
+	\part[3] Write an example of a syntactically valid C function that generates
+	the control-flow graph provided, without using assembly. If this is not possible,
+	explain why.
+	\answerspace{23}
+	\answer{}
+
+\end{parts}
+
+
+\newpage
+\question Consider the following control-flow graph. 
+The labels indicate that the variable X is \textit{defined} (D) in nodes 1 and 2 and \textit{used} (U) in nodes 2 and 4.
+
+
+\begin{figure}[ht]
+	\includegraphics[width=09cm]{midterm-cfg2-data}
+\end{figure}
+
+
+\begin{parts}
+    \part[3] List the test requirement set of all-defs coverage with respect to X.
+    \answerspace{12}
+    \answer{}
+
+    \part[3] List the test requirement set of all-uses coverage with respect to X.
+    \answerspace{12}
+    \answer{}
+
+    \part[4] List the test requirement set of all-du-paths coverage with respect to X.
+    \answerspace{12}
+    \answer{}
+
+\end{parts}
+
+
+
+
+
+\question Consider the different techniques to address non-deterministic failures.
+
+\begin{parts}
+
+\part[3] Provide three different examples of sources of non-determinism that can affect the results of a C program.
+\answerspace{15}
+\answer{}
+
+
+\part[6] Describe the lockset algorithm using low-level pseudo-code by filling out an 
+\texttt{on\_memory\_access()} function. This function will be called through instrumentation every time the target program makes a memory access. Pass arguments to this function that are necessary for the algorithm. You may define other functions that are called through instrumentation if necessary.
+\answerspace{24}
+\answer{}
+
+\newpage
+\part[4] Provide a simple example of a faulty program such that the lockset algorithm is able to help identify the fault. Provide and explain the results of the lockset algorithm on this program. 
+\answerspace{20}
+\answer{}
+
+
+
+\end{parts}
+
+
+
+\question[5] Explain how the feedback-based fuzzers discussed in class work.
+\answerspace{20}
+\answer{} 
+
+
+\newpage
+\question[4] Describe two approaches to determine what are the properties of good bug reports. Explain how you would implement each.
+\answerspace{16}
+\answer{} 
+
+
+\newpage
+
+
+
+\if 0 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\question[10]
+	\answerspace{30}
+	\answer{}
+
+	\question
+	\begin{parts}
+		\part[6]
+		\answerspace{20}
+		\answer{}
+
+		\part[2]
+		\answerspace{10}
+		\answer{}
+
+	\end{parts}
+\fi %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\newpage
+	\begin{center}
+		[EMPTY PAGE 1]
+	\end{center}
+
+	\newpage
+	\begin{center}
+		[EMPTY PAGE 2]
+	\end{center}
+
+\end{questions}
+
+
+
+
+
+\end{document}

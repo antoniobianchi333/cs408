@@ -1,0 +1,9 @@
+{
+        "cmd": "python3 -u fuzzer.py --greybox -g grammar -o out harness",
+        "timeout": 120,
+        "required_files": [
+                "harness",
+                "grammar"
+        ],
+        "validate_cmd": "python3 validate.py"
+}

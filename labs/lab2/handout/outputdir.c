@@ -1,0 +1,14 @@
+[output_dir]
+  -> bugs
+     -> 0
+        ->input
+        ->out
+        ->prev
+        ->mut
+        ->type
+     -> 1
+        ->input
+        ->out
+        ->prev
+        ->mut
+        ->type

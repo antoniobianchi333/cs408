@@ -1,0 +1,11 @@
+int f(unsigned int x)
+{
+    int i;
+    while (x >= 0){
+        i = i + 1;
+        if(i%2 == 0){
+            i = i + 1;
+        }
+    }
+    return i;
+}

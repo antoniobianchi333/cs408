@@ -1,0 +1,361 @@
+
+% Add "answers" option to print the answers
+\documentclass[addpoints]{exam}
+
+\input{cmds}
+
+%\usepackage{listings}
+\usepackage{color}
+\usepackage{lastpage}
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\usepackage{float}
+
+%\pagestyle{fancy}
+%\fancyfoot[C]{{\thepage} of \pageref{LastPage}}
+\newcommand{\includecode}[2][c]{\lstinputlisting[caption=, escapechar=, language=#1]{#2}<!---->}
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
+
+\renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
+
+\definecolor{SolutionColor}{rgb}{0.8,0.9,1}
+
+
+\cfoot{Page \thepage\ of \pageref{LastPage}}
+
+\rhead{Initials: \rule{20mm}{0.4pt}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\fvset{numbers=left,numbersep=3pt}
+\thispagestyle{empty}
+
+\begin{center}
+	{\LARGE CS 408 Fall 2025 -- Final (A)\\}
+
+	\vspace{20mm}
+\fbox{\fbox{\parbox{5.5in}{\centering
+	\begin{itemize}
+		\item The exam is closed notes, closed book.
+		\item No collaboration and no communication of any kind allowed.
+		\item Please print or write legibly.
+		\item Provide complete and clear but concise answers. Justify thoroughly statements where required.
+		\item Answer the questions in the spaces provided. Your answer does not need to take up all the space provided. If you run out of room, continue on the back.
+		\item Coding questions should be answered in C, unless requested otherwise.
+		\item Assume CFG nodes represent basic blocks whenever possible.
+		\item Please check that you have all the exam pages (\pageref{LastPage} pages).
+		\item You have 120 minutes to complete the exam.
+	\end{itemize}
+	}}}
+\end{center}
+
+
+
+
+
+\vspace{13mm}
+\begin{center}
+	\makebox[0.6\textwidth]{
+		\gradetable[h][questions]
+		%\combinedgradetable[h][questions]
+	}
+\end{center}
+%\begin{center}\combinedgradetable[h][questions]\end{center}
+\vspace{28mm}
+
+
+\makebox[\textwidth]{\textbf{Name (please PRINT)}: \rule{100mm}{0.8pt} }
+%\end{center}
+
+\vspace{10mm}
+%\begin{center}
+\makebox[\textwidth]{\textbf{PUID}: \rule{40mm}{0.8pt} \hspace{35mm}}
+%\end{center}
+
+
+
+
+\begin{questions}
+
+	\newpage
+
+
+
+
+
+\question Consider predicate coverage (PC) and clause coverage (CC). 
+
+\begin{parts}
+
+	\part[3] Provide the TR criteria for predicate coverage.
+	\answerspace{9}
+	\answer{}
+
+	\part[3] Provide the TR criteria for clause coverage.
+	\answerspace{9}
+	\answer{}
+
+
+\newpage
+
+	\part[4] If possible, (a) complete the following function such that it is possible to satisfy predicate coverage with the test set given but not clause coverage with the test set given and (b) explain your answer in the box. If not possible, explain why.
+
+	Test set: \{a=0, a=1\}
+	\vspace{3pt}
+
+	\textbf{Function to complete (if possible):}
+	\VerbatimInput[numbers=none, frame=single, rulecolor=\color{gray}]{final-function1.c}
+
+	\textbf{Explanation (if possible or not possible):}
+	\answerspace{9}
+	\answer{}
+
+	\part[4]  If possible, (a) complete the following function such that it is possible to satisfy clause coverage with the test set given but not predicate coverage with the test set given and (b) explain your answer in the box.  If not possible, explain why.
+
+	Test set: \{a=0, a=1\}
+	\vspace{3pt}
+
+	\textbf{Function to complete (if possible):}
+	\VerbatimInput[numbers=none, frame=single, rulecolor=\color{gray}]{final-function1.c}
+
+	\vspace{3pt}
+	\textbf{Explanation (if possible or not possible):}
+	\answerspace{9}
+	\answer{}
+
+\end{parts}
+
+
+
+\newpage
+\question Consider the following predicate: $P = (a \land \lnot b) \lor c$
+\begin{parts}
+
+	\part[2] Write the truth table for the predicate P.
+
+	\begin{table}[h]
+		\begin{center}
+			\renewcommand{\arraystretch}{1.3}
+			\begin{tabular}{|| c | c c c | p{1cm}||} 
+		\hline
+			& a & b & c & P\\ [0.5ex] 
+		\hline\hline
+		1 & T & T & T &  \\ 
+		\hline
+		2 & T & T & F &  \\
+		\hline
+		3 & T & F & T &  \\
+		\hline
+		4 & T & F & F &  \\
+		\hline
+		5 & F & T & T &  \\ 
+		\hline
+		6 & F & T & F &  \\
+		\hline
+		7 & F & F & T &  \\
+		\hline
+		8 & F & F & F &  \\ 
+		[1ex] 
+		\hline
+			\end{tabular}
+		\end{center}
+	\end{table}
+
+	\part[3] Provide the final (simplified) $p_a$ condition without the simplification steps.
+	\answerspace{4}
+	\answer{}
+	
+	\part[3] Provide the final (simplified) $p_b$ condition without the simplification steps.
+	\answerspace{4}
+	\answer{}
+
+	\part[3] Provide the final (simplified) $p_c$ condition without the simplification steps.
+	\answerspace{4}
+	\answer{}
+
+ 
+	\part[2] Provide a minimal set with assignments to $a$, $b$, and $c$ that satisfies predicate coverage. If this is not possible, explain why.
+	\answerspace{6}
+	\answer{}
+
+	\part[2] Provide a minimal set with assignments to $a$, $b$, and $c$ that satisfies clause coverage. If this is not possible, explain why.
+	\answerspace{5}
+	\answer{}
+
+
+	\part[4] If possible, provide a minimal set with assignments to $a$, $b$, and $c$ that satisfies restricted active clause coverage. If this is not possible, explain why.
+	\answerspace{11}
+	\answer{}
+
+
+	\part[4] If possible, provide a minimal set with assignments to $a$, $b$, and $c$ that satisfies correlated active clause coverage, if possible, making sure that this set is different from the one given in the previous question. If this is not possible, explain why.
+	\answerspace{11}
+	\answer{}
+
+
+	\part[4] If possible, provide a minimal set with assignments to $a$, $b$, and $c$ that satisfies general active clause coverage, making sure that this set is different from those given in the previous two questions. If this is not possible, explain why.
+	\answerspace{11}
+	\answer{}
+
+
+
+	
+
+	% \answerspace{4}
+	% \answer{}
+
+
+
+\end{parts}
+
+
+
+
+% \newpage
+\question Consider the following predicate: $p = (a \oplus \lnot b) \land c$
+
+\begin{parts}
+
+	\part[5] Provide the final (simplified) $p_a$ condition. Include the simplification steps, one per line.
+	\answerspace{20}
+	\answer{}
+
+
+	\part[5] Provide the final (simplified) $p_c$ condition. Note this question refers to the \textbf{c clause}. Include the simplification steps, one per line.
+	\answerspace{20}
+	\answer{}
+
+\end{parts}
+
+
+\newpage
+\question[6] Show how concolic execution can be used to discover a buffer overflow vulnerability by providing a simple program. Chose an example that a feedback-based fuzzer will struggle to handle. Explain concretely how concolic execution can be effective at finding bugs using this program.
+\answerspace{20}
+\answer{}
+
+
+
+\question Consider the use of machine learning (ML) in software testing. 
+\begin{parts}
+
+	\part[5] What are the common challenges when using ML algorithms for bug detection? Explain.
+	\answerspace{12}
+	\answer{}
+
+	\part[5] Propose a methodology to reduce false positives in ML-based bug detection tools. Discuss its potential benefits and drawbacks.
+	\answerspace{12}
+	\answer{}
+
+\end{parts}
+
+
+
+\question Consider deterministic execution tools like the one discussed in class (i.e., dthreads)
+\begin{parts}
+
+	\part[5] Explain what this deterministic execution tool achieves for users. 
+	\answerspace{12}
+	\answer{}
+
+
+	\part[5] If users were to deploy software with a deterministic execution tool, explain how would this impact testing. 
+	\answerspace{12}
+	\answer{}
+
+\end{parts}
+
+
+
+\question[5] Explain the idea underlying Base Choice Coverage (BCC) and how it can be advantageous over Each Choice Coverage (ECC).
+\answerspace{14}
+\answer{}
+
+
+\newpage
+\question Consider the following statement from the Jet Propulsion Laboratory regarding the LOC-3 compliance level discussed in class:
+
+Quote: \textit{``We originally formulated the rule to require all functions with more than 10 lines of code contain at least one assertion. We later revised it to require that the flight software as a whole, and each module within it, had to reach a minimal assertion density of 2''}
+
+
+\begin{parts}
+
+
+	\part[3] Explain what is the LOC-3 compliance level. (You do not need to explain the specific rules of this level.)
+	\answerspace{9}
+	\answer{It is a series of static checks applied to code deemed moderately critical. The checks aim to ensure high code quality while balancing development cost. }
+
+	\part[4] For each one of the approaches to assertions discussed in the quote above, provide one advantage over the other approach. Explain. 
+	\answerspace{15}
+	\answer{Example of an advantage of the original approach: ensures that all medium (>10 lines) or larger functions have error checks, where faults are more likely. Example of an advantage of the revised approach: provides more flexibility to the developer (e.g., assertions on small functions count towards the requirement).}
+
+
+	\part[6] Discuss two approaches on how to handle assertions that get triggered. Discuss the advantages and disadvantages of each approach.
+	\answerspace{15}
+	\answer{Approach 1 example: Stop the system during testing on triggering, but ignore assertions during deployment. Approach 2 example: Reset the system to a safe state when assertions are triggered. Approach 1 incurs no deployment overhead but does not recover from failures like approach 2.}
+
+\end{parts}
+
+
+\question[5] Explain two factors that can make a regression test suite lose effectiveness over time.
+\answerspace{15}
+\answer{New features added to software typically require additional tests to maintain coverage. Removal or modification of old features may require updating or removing existing tests to avoid false positives. }
+
+
+
+
+
+\if 0
+
+
+\question
+\begin{parts}
+
+	\part[3]
+	\answerspace{9}
+	\answer{}
+
+\end{parts}
+
+\fi
+
+
+
+
+\if 0 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\question[10]
+	\answerspace{30}
+	\answer{}
+
+	\question
+	\begin{parts}
+		\part[6]
+		\answerspace{20}
+		\answer{}
+
+		\part[2]
+		\answerspace{10}
+		\answer{}
+
+	\end{parts}
+\fi %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\newpage
+	\begin{center}
+		[EMPTY PAGE 1]
+	\end{center}
+
+	\newpage
+	\begin{center}
+		[EMPTY PAGE 2]
+	\end{center}
+
+\end{questions}
+
+
+
+
+
+\end{document}

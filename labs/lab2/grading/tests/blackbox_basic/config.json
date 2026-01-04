@@ -1,0 +1,9 @@
+{
+        "cmd": "python3 -u fuzzer.py -i seeds -o out harness",
+        "timeout": 120,
+        "required_files": [
+                "harness",
+                "seeds/"
+        ],
+        "validate_cmd": "python3 validate.py"
+}

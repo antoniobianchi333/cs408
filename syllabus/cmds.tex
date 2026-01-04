@@ -1,0 +1,77 @@
+\usepackage{epsfig,endnotes}
+\usepackage[T1]{fontenc}
+\usepackage{times}
+\usepackage[square,comma,numbers,sort&compress]{natbib}
+\usepackage[breaklinks,colorlinks]{hyperref}
+\hypersetup{citecolor=blue,linkcolor=blue}
+\usepackage{listings}
+%\usepackage[outputdir=latex.out]{minted}
+\usepackage{endnotes,graphicx,fancyvrb,multirow}
+\usepackage{booktabs}
+\usepackage{underscore}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,shadows,matrix,positioning,fit}
+
+
+\newcommand\todo[1]{\textcolor{red}{TODO: #1}}
+\newcommand\note[1]{\textcolor{red}{NOTE: #1}}
+\newcommand\pf[1]{\textcolor{red}{PF: #1}}
+
+\newcommand\ic[1]{\texttt{#1}}
+\newcommand\red[1]{\textcolor{red}{#1}}
+
+\newcommand\para[1]{\vspace*{5pt} \noindent \textbf{#1}}
+\newcommand\TODO{\textcolor{red}{TODO}}
+
+\newenvironment{code}
+{\begin{center}
+	\fontfamily{pcr} \selectfont
+    \begin{tabular}{|p{0.9\textwidth}|}
+    \hline
+	\\[-8pt]
+    }
+    {
+	\\[-8pt]
+	\\
+	\hline
+    \end{tabular}
+    \end{center}
+}
+
+\def\Snospace~{\S{}}
+\renewcommand*\sectionautorefname{\Snospace}
+\def\sectionautorefname{\Snospace}
+\def\subsectionautorefname{\Snospace}
+\def\subsubsectionautorefname{\Snospace}
+
+
+\newenvironment{temporary}{\par\color{blue}}{\par}
+
+
+\newcommand{\squishenumerate}{
+   \begin{enumerate}
+    { \setlength{\itemsep}{0pt}      \setlength{\parsep}{3pt}
+      \setlength{\topsep}{3pt}       \setlength{\partopsep}{0pt}
+      \setlength{\leftmargin}{2em} \setlength{\labelwidth}{1em}
+      \setlength{\labelsep}{0.5em} } }
+
+\newcommand{\squishenumerateend}{
+    \end{enumerate}  }
+
+\newcommand{\squishlist}{
+   \begin{list}{$\bullet$}
+    { \setlength{\itemsep}{0pt}      \setlength{\parsep}{3pt}
+      \setlength{\topsep}{3pt}       \setlength{\partopsep}{0pt}
+      \setlength{\leftmargin}{2em} \setlength{\labelwidth}{1em}
+      \setlength{\labelsep}{0.5em} } }
+
+\newcommand{\squishlisttwo}{
+   \begin{list}{$\bullet$}
+    { \setlength{\itemsep}{0pt}    \setlength{\parsep}{0pt}
+      \setlength{\topsep}{0pt}     \setlength{\partopsep}{0pt}
+      \setlength{\leftmargin}{2em} \setlength{\labelwidth}{1.5em}
+      \setlength{\labelsep}{0.5em} } }
+
+\newcommand{\squishend}{
+    \end{list}  }
