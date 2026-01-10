@@ -1,0 +1,436 @@
+\documentclass[addpoints,answers]{exam}
+
+\input{cmds}
+
+\usepackage{color}
+\usepackage{lastpage}
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{algorithm}
+\usepackage{listings}
+\usepackage{algpseudocode}
+\usepackage{tabularx}
+\usepackage{amsmath}
+
+\newcommand{\includecode}[2][c]{\lstinputlisting[caption=, escapechar=, language=#1]{#2}<!---->}
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
+
+\renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
+
+\definecolor{SolutionColor}{rgb}{0.8,0.9,1}
+
+
+\cfoot{Page \thepage\ of \pageref{LastPage}}
+
+\rhead{Initials: \rule{20mm}{0.4pt}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\fvset{numbers=left,numbersep=3pt}
+\thispagestyle{empty}
+
+\begin{center}
+	{\LARGE CS408 Fall 2025 -- Homework 3 (100 points)\\}
+
+	{\Large Deadline: October 24, Friday\\}
+
+	\vspace{20mm}
+\fbox{\fbox{\parbox{5.5in}{\centering
+	\begin{itemize}
+		\item The quiz is open notes, open book.
+		\item No collaboration and no communication of any kind allowed.
+		\item Provide complete and clear but concise answers. Justify thoroughly statements where required.
+		\item coding questions should be answered in c.
+		\item Use basic blocks for all cFG exercises.
+		\item The conditions for $p_x$ should be simplified as shown in class.
+	\end{itemize}
+	}}}
+\end{center}
+
+\vspace{13mm}
+\begin{center}
+	\makebox[0.6\textwidth]{
+		\combinedgradetable[h][questions]
+	}
+\end{center}
+%\begin{center}\combinedgradetable[h][questions]\end{center}
+\vspace{28mm}
+
+\begin{center}
+\makebox[\textwidth]{\textbf{Name (please print)}: \rule{100mm}{0.8pt} }
+\end{center}
+
+\newpage
+\begin{questions}
+
+\question For the following clause: $p = (a \oplus b) \land (\lnot c)$
+
+\begin{parts}
+
+% correct = 5
+% Partial simplification = 3
+% Incorrect = 0
+\part[5] Provide the final (simplified) $p_a$ condition. Please include simplification steps.
+\answerspace{10}
+
+\answer{
+	\\
+	$p_a = p_{a = \top} \oplus p_{a = \bot}$ \\
+	$p_a = \bigl((\top \oplus b) \land \lnot c\bigr) \oplus \bigl((\bot \oplus b) \land \lnot c\bigr)$ \\
+	$p_a = \bigl(\lnot b \land \lnot c\bigr) \oplus \bigl(b \land \lnot c\bigr)$ \\
+	% factor out common \lnot c
+	$p_a = \lnot c \land \bigl(\lnot b \oplus b\bigr)$ \\
+	but $\lnot b \oplus b = \top$ (they are complements), hence \\
+	\[
+	\boxed{\,p_a \;=\; \lnot c\,}
+	\]
+    \\
+}
+
+
+% correct = 5
+% Partial simplification = 3
+% Incorrect = 0
+\part[5] Provide the final (simplified) $p_b$ condition. Please include simplification steps.
+\answerspace{10}
+\answer{
+	\\
+	$p_b = p_{b = \top} \oplus p_{b = \bot}$ \\
+	$p_b = \bigl((a \oplus \top) \land \lnot c\bigr) \oplus \bigl((a \oplus \bot) \land \lnot c\bigr)$ \\
+	$p_b = \bigl(\lnot a \land \lnot c\bigr) \oplus \bigl(a \land \lnot c\bigr)$ \\
+	% factor out common \lnot c
+	$p_b = \lnot c \land \bigl(\lnot a \oplus a\bigr)$ \\
+	Since $\lnot a \oplus a = \top$, we get \\
+	\[
+	\boxed{\,p_b \;=\; \lnot c\,}
+	\]
+}
+
+
+% correct = 5
+% Partial simplification = 3
+% Incorrect = 0
+\part[5] Provide the final (simplified) $p_c$ condition. Please include simplification steps.
+\answerspace{10}
+\answer{
+	\\
+	$p_c = p_{c = \top} \oplus p_{c = \bot}$ \\
+	$p_{c=\top} = (a \oplus b)\land \lnot\top = (a \oplus b)\land \bot = \bot$ \\
+	$p_{c=\bot} = (a \oplus b)\land \lnot\bot = (a \oplus b)\land \top = (a \oplus b)$ \\
+	Therefore
+	\[
+	p_c = \bot \oplus (a \oplus b) = a \oplus b.
+	\]
+	Hence
+	\[
+	\boxed{\,p_c \;=\; a \oplus b\,.}
+	\]
+}
+
+
+
+\begin{table}
+    \begin{center}
+        \begin{tabular}{||c c c c c||} 
+    \hline
+        & a & b & c & $(a \oplus b) \land (\lnot c)$ \\ [0.5ex] 
+    \hline\hline
+     1 & T & T & T & F \\ 
+     \hline
+     2 & T & T & F & F \\
+     \hline
+     3 & T & F & T & F \\
+     \hline
+     4 & T & F & F & T \\
+     \hline
+     5 & F & T & T & F \\ 
+     \hline
+     6 & F & T & F & T \\
+     \hline
+     7 & F & F & T & F \\
+     \hline
+     8 & F & F & F & F \\ 
+     [1ex] 
+    \hline
+        \end{tabular}
+        \caption{Truth table for $(a \oplus b) \land (\lnot c)$.\label{table:truth_xor}}
+    \end{center}
+\end{table}
+
+% \pf{Please add a question for them to write the truth table, make it worth 4 points. Do it for this and the next predicate.}
+\part[4] Write the truth table for the given predicate in this question.
+\answerspace{10}
+\answer{
+	The truth table is Table 2.
+}	
+
+% 2 each for the true and false case
+\part[4] For the given predicate in this question, determine whether the following test set satisfies Predicate Coverage:
+\begin{itemize}
+	\item {Test 1: a=True, b=False, c=False}
+	\item {Test 2: a=False, b=True, c=True}
+\end{itemize}
+\answerspace{10}
+\answer{
+	The truth table is Table 1. \\
+	% The given inputs correspond to rows 4 and 5 in the truth table, where row 4 evaluates to True and row 5 evaluates to False. \\
+	% To satisfy Predicate Coverage, we need at least one test case that evaluates to True and one that evaluates to False. \\
+	Test 1 evaluates the predicate to true, and Test 2 evaluates it to false. 
+	Hence, this input satisfies Predicate Coverage.
+}
+
+% 0.5 points for each T/F covered for a b c
+\part[3] Write the TR for Clause Coverage (CC).
+% with respect to $TR_a$, $TR_b$ and $TR_c$.
+\answerspace{10}
+\answer{
+	%The truth table is Table 1.  \\
+	TR: a=False, a=True, b=False, b=True, c=False, c=True.
+	%For clause a, $TR_a$ is: include any pair (r\_true, r\_false), where r\_true$\in$\{1, 2, 3, 4\} and r\_false$\in$\{5, 6, 7, 8\}. \\
+	%For clause b, $TR_b$ is: include any pair (r\_true, r\_false), where r\_true$\in$\{1, 2, 5, 6\} and r\_false$\in$\{3, 4, 7, 8\}. \\
+	%For clause c, $TR_c$ is: include any pair (r\_true, r\_false), where r\_true$\in$\{1, 3, 5, 7\} and r\_false$\in$\{2, 4, 6, 8\}. \\
+	% So the TR is the union of any one in CC\_a, any one in CC\_b and any one in CC\_c.
+	%TR: satisfy $TR_a$, $TR_b$ and $TR_c$ simultaneously.
+}
+
+
+\end{parts}
+
+% \pf{Attreyee, please apply the same type of changes I made to question 1 to question 2. Make sure you apply all the changes.}
+
+\question For the following clause: $p = a \land (\lnot b \rightarrow c)$
+
+\begin{parts}
+
+% correct = 5
+% Partial simplification = 3
+% Incorrect = 0
+\part[5] Provide the final (simplified) $p_a$ condition. Please include simplification steps.
+\answerspace{10}
+\answer{
+	\\
+	$p_a = p_{a = \top} \oplus p_{a = \bot}$ \\
+	$p_a = \bigl((\top) \land (\lnot b \rightarrow c)\bigr) \oplus \bigl((\bot) \land (\lnot b \rightarrow c)\bigr)$ \\
+	$p_a = \bigl(\lnot b \rightarrow c\bigr) \oplus \bot$ \\
+	Since $X \oplus \bot = X$, we get \\
+	$p_a = \lnot b \rightarrow c$ \\
+	Using implication equivalence $\;X\rightarrow Y \equiv \lnot X \lor Y\;$, we have \\
+	\[
+	\lnot b \rightarrow c \;=\; \lnot(\lnot b)\lor c \;=\; b \lor c.
+	\]
+	Hence
+	\[
+	\boxed{\,p_a \;=\; b \lor c\,}
+	\]
+}
+
+% correct = 5
+% Partial simplification = 3
+% Incorrect = 0
+\part[5] Provide the final (simplified) $p_b$ condition. Please include simplification steps.
+\answerspace{10}
+\answer{
+	\\
+	$p_b = p_{b = \top} \oplus p_{b = \bot}$ \\
+	$p_{b=\top} = a \land (\lnot \top \rightarrow c) = a \land (\bot \rightarrow c) = a \land \top = a$ \\
+	$p_{b=\bot} = a \land (\lnot \bot \rightarrow c) = a \land (\top \rightarrow c) = a \land c$ \\
+	Therefore
+	\[
+	p_b = a \oplus (a \land c).
+	\]
+	Simplify $a \oplus (a\land c)$:
+	\[
+	a \oplus (a\land c) = a \land \lnot(a\land c)
+	= a \land (\lnot a \lor \lnot c)
+	= (a\land\lnot a)\;\lor\;(a\land\lnot c)
+	= a\land\lnot c.
+	\]
+	Hence
+	\[
+	\boxed{\,p_b \;=\; a \land \lnot c\,}
+	\]
+}
+
+% correct = 5
+% Partial simplification = 3
+% Incorrect = 0
+\part[5] Provide the final (simplified) $p_c$ condition. Please include simplification steps.
+\answerspace{10}
+\answer{
+	\\
+	$p_c = p_{c = \top} \oplus p_{c = \bot}$ \\
+	$p_{c=\top} = a \land (\lnot b \rightarrow \top) = a \land \top = a$ \\
+	$p_{c=\bot} = a \land (\lnot b \rightarrow \bot) = a \land \lnot(\lnot b) = a \land b$ \\
+	Therefore
+	\[
+	p_c = a \oplus (a \land b).
+	\]
+	Simplify $a \oplus (a\land b)$ similarly to above:
+	\[
+	a \oplus (a\land b) = a \land \lnot b.
+	\]
+	Hence
+	\[
+	\boxed{\,p_c \;=\; a \land \lnot b\,}
+	\]
+}
+
+\begin{table}
+    \begin{center}
+        \begin{tabular}{||c c c c c||} 
+    \hline
+        & a & b & c & $a \land (\lnot b \rightarrow c)$ \\ [0.5ex] 
+    \hline\hline
+     1 & T & T & T & T \\ 
+     \hline
+     2 & T & T & F & T \\
+     \hline
+     3 & T & F & T & T \\
+     \hline
+     4 & T & F & F & F \\
+     \hline
+     5 & F & T & T & F \\ 
+     \hline
+     6 & F & T & F & F \\
+     \hline
+     7 & F & F & T & F \\
+     \hline
+     8 & F & F & F & F \\ 
+     [1ex] 
+    \hline
+        \end{tabular}
+        \caption{Truth table for $a \land (\lnot b \rightarrow c)$.\label{table:truth_abc}}
+    \end{center}
+\end{table}
+
+\part[4] Write the truth table for the given predicate in this question.
+\answerspace{10}
+\answer{
+	The truth table is Table 2.
+}	
+
+% 2 each for the true and false case
+\part[4] For the given predicate in this question, determine whether the following test set satisfies Predicate Coverage:
+\begin{itemize}
+	\item {Test 1 : a=True , b=False , c=False}
+	\item {Test 2 : a=False , b=True , c=True}
+\end{itemize}
+\answerspace{10}
+\answer{
+	The given inputs correspond to rows 4 and 5 in the truth table, which both evaluate to False. \\
+	To satisfy Predicate Coverage, we need at least one test case that evaluates to True and one that evaluates to False. \\
+	Hence, this input does not satisfy Predicate Coverage.
+}
+
+% 0.5 points for each T/F covered for a b c
+\part[3] Write the TR for Clause Coverage (CC).
+\answerspace{10}
+\answer{
+	TR: a=False, a=True, b=False, b=True, c=False, c=True.
+}
+\end{parts}
+
+\question Answer the following questions for the method checkIt() below, which 
+prints ``P is true'' if the boolean values of a, b, and c 
+satisfy the condition \texttt{(a \&\& b) || (c)}, and ``P isn't true'' otherwise.
+\VerbatimInput{hw3/checkIt.java}
+\begin{parts}
+\part[5] List all predicates in the checkIt method, including predicates that are part of other predicates.
+\answerspace{10}
+\answer{
+	
+	$(a \wedge b) \vee c$ \\
+	$a \wedge b$ \\
+	$a$ \\
+	$b$ \\
+	$c$ 
+}
+
+% One point for each in TR
+\part[7] Derive a Active Clause Coverage (ACC) test set for checkIt(). Explain your answer.
+\answerspace{10}
+\answer{
+	% The truth table of the predicate in (a) is: \\
+	% \begin{tabular}{l|l|l|l|l}
+	% 	& a & b & c & P \\ \hline
+	% 1 & F & F & F & F \\ \hline
+	% 2 & F & F & T & F \\ \hline
+	% 3 & F & T & F & F \\ \hline
+	% 4 & F & T & T & F \\ \hline
+	% 5 & T & F & F & F \\ \hline
+	% 6 & T & F & T & T \\ \hline
+	% 7 & T & T & F & T \\ \hline
+	% 8 & T & T & T & T
+	% \end{tabular}
+	The following forms of ACC: GACC, CACC, and RACC were accepted as correct answers.
+
+	Make $a$ major then we need $c=\bot$ and $b=\top$ for $a$ to determine \(p = (a \wedge b) \vee c\).
+	\[
+	TR_a = \{ (a = \top, b = \top, c = \bot),\; (a = \bot, b = \top, c = \bot)\}
+	\]
+
+	Make $b$ major then we need $c=\bot$ and $a=\top$ to determine 
+	\(p = (a \wedge b) \vee c\).
+
+	\[
+	TR_b = \{ (a = \top, b = \bot, c = \bot),\; (a = \top, b = \top, c = \bot)\}
+	\]
+
+	Make $c$ major then we need $(a \wedge b)=\bot$ to determine 
+	\(p = (a \wedge b) \vee c\).
+
+	\[
+	TR_c = \{ (a = \bot, b = \bot, c = \bot),\; (a = \bot, b = \bot, c = \top)\}
+	\]
+
+	This gives us
+
+	\[
+	TR = TR_a \cup TR_b \cup TR_c
+	\]
+
+	\[
+	TR = \left\{
+	\begin{aligned}
+	& (a = \top, b = \top, c = \bot),\\
+	& (a = \bot, b = \top, c = \bot),\\
+	& (a = \top, b = \bot, c = \bot),\\
+	& (a = \bot, b = \bot, c = \bot),\\
+	& (a = \bot, b = \bot, c = \top)
+\end{aligned}
+\right\}
+\]
+}
+
+\end{parts}
+
+\if 0 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\question[10]
+	\answerspace{30}
+	\answer{}
+
+	\question
+	\begin{parts}
+		\part[6]
+		\answerspace{20}
+		\answer{}
+
+		\part[2]
+		\answerspace{10}
+		\answer{}
+
+	\end{parts}
+\fi %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\newpage
+	\begin{center}
+		[EMPTY PAGE]
+	\end{center}
+
+\end{questions}
+
+\end{document}

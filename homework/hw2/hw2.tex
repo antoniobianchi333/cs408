@@ -1,0 +1,279 @@
+
+% Add "answers" option to print the answers
+\documentclass[addpoints,answers]{exam}
+
+\input{cmds}
+
+%\usepackage{listings}
+\usepackage{color}
+\usepackage{lastpage}
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+%\pagestyle{fancy}
+%\fancyfoot[C]{{\thepage} of \pageref{LastPage}}
+\newcommand{\includecode}[2][c]{\lstinputlisting[caption=, escapechar=, language=#1]{#2}<!---->}
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
+
+\renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
+
+\definecolor{SolutionColor}{rgb}{0.8,0.9,1}
+
+
+\cfoot{Page \thepage\ of \pageref{LastPage}}
+
+\rhead{Initials: \rule{20mm}{0.4pt}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\fvset{numbers=left,numbersep=3pt}
+\thispagestyle{empty}
+
+\begin{center}
+	{\LARGE CS408 Spring 2024 -- Quiz 2 (100 points)\\}
+
+	{\Large Deadline: February 16, Friday\\}
+
+	\vspace{20mm}
+\fbox{\fbox{\parbox{5.5in}{\centering
+	\begin{itemize}
+		\item The quiz is open notes, open book.
+		\item No collaboration and no communication of any kind allowed.
+		\item Provide complete and clear but concise answers. Justify thoroughly statements where required.
+		\item Coding questions should be answered in C.
+		\item Use basic blocks for all CFG exercises.
+	\end{itemize}
+	}}}
+\end{center}
+
+\vspace{13mm}
+\begin{center}
+	\makebox[0.6\textwidth]{
+		\combinedgradetable[h][questions]
+	}
+\end{center}
+%\begin{center}\combinedgradetable[h][questions]\end{center}
+\vspace{28mm}
+
+\begin{center}
+\makebox[\textwidth]{\textbf{Name (please print)}: \rule{100mm}{0.8pt} }
+\end{center}
+
+\newpage
+\begin{questions}
+
+\question Given the following graph:
+(Starting node: 1 , Final node : 7)\\
+% The code for both old and new cfgs can be found at hw2/q1_new_old_code.c
+\includegraphics[width=0.5\textwidth]{hw2/q1_graph.png}
+
+% \textbf{REMOVE THE FOLLOWING BEFORE RELEASE.}
+% \VerbatimInput{hw2/q1_new_code.c}
+% \textbf{REMOVE THE ABOVE BEFORE RELEASE.}
+
+\begin{parts}
+\part[4] List the TR for Node Coverage.  Please provide your answer sorted.
+\answerspace{10}
+\answer{
+    TR = \{1, 2, 3, 4, 5, 6, 7\}
+}
+\part[5] List the TR for Edge Coverage. Please provide your answer sorted. 
+\answerspace{10}
+\answer{
+		TR = \{ [1,2], [1,7], [2, 3], [2, 4], [3, 2], [4, 5], [4, 6], [5, 6], [6, 1]\}
+}
+% \part[15] List all Simple Paths
+% \answerspace{10}
+% \answer{
+% 	[1, 2, 8],
+% 	[1, 3, 8],
+% 	[1, 3, 4, 5, 7],
+% 	[1, 3, 4, 6, 7],
+% 	[2, 8],
+% 	[3, 8],
+% 	[3, 4, 5, 7, 3],
+% 	[3, 4, 6, 7, 3],
+% 	[4, 5, 7, 3, 8],
+% 	[4, 5, 7, 3, 4],
+% 	[4, 6, 7, 3, 8],
+% 	[4, 6, 7, 3, 4],
+% 	[5, 7, 3, 8],
+% 	[5, 7, 3, 4, 5],
+% 	[5, 7, 3, 4, 6],
+% 	[6, 7, 3, 8],
+% 	[6, 7, 3, 4, 5],
+% 	[6, 7, 3, 4, 6],
+% 	[7, 3, 8],
+% 	[7, 3, 4, 5, 7],
+% 	[7, 3, 4, 6, 7]
+% }
+\part[15] How many prime paths exist in this graph?
+
+\answerspace{10}
+\answer{
+	% TR = \{[1,2,4,5,6,1]
+ %                [1,2,4,6,1]
+ %                [2,3,2]
+ %                [2,4,5,6,1,2]
+ %                [2,4,6,1,2]
+ %                [3,2,3]
+ %                [3,2,4,5,6,1,7]
+ %                [3,2,4,6,1,7]
+ %                [4,5,6,1,2,3]
+ %                [4,5,6,1,2,4]
+ %                [4,6,1,2,3]
+ %                [4,6,1,2,4]
+ %                [5,6,1,2,4,5]
+ %                [6,1,2,4,5,6]
+ %                [6,1,2,4,6]\}
+                    There are in total 15 prime paths in the given graph.
+}
+\part[8] How many edge-pairs exist in this graph?
+\answerspace{10}
+\answer{
+    % TR = \{[1,2,3], [1,2,4], [2,3,2], [2,4,5], [2,4,6], [3,2,3], [3,2,4], [4,5,6], [5,6,1], [6,1,2] ,[6,1,7]\}
+    There are in total 11 edge-pairs in the given graph.
+
+}
+\end{parts}
+
+\newpage
+
+\question Given the following graph: 
+(Starting node: 1 , Final node : 6)\\
+
+\includegraphics[width=0.5\textwidth]{hw2/q2_graph.png}
+
+And the following test paths: \\
+t1 = [1, 2, 3, 4, 5, 6] \\
+t2 = [1, 2, 3, 5, 6] \\
+t3 = [1, 2, 3, 5, 2, 6] \\
+t4 = [1, 2, 6] \\
+\\
+
+\begin{parts}
+\part[10] List all of the du-paths with respect to $X$. (Note: Include all du-paths, even those that are subpaths of some other du-paths).
+
+Please use the format:
+
+\begin{center}
+	du (node \#, node \#, variable name): [node \#, node \#, ...]
+\end{center}
+
+\answerspace{10}
+\answer{
+    \\
+		du (1, 6, $X$): [1, 2, 6] \\
+		du (4, 6, $X$): [4, 5, 6] \\
+		du (5, 6, $X$): [5, 6] \\
+		du (5, 6, $X$): [5, 2, 6] \\
+}
+
+
+\part[10] For each test path, determine which du-paths the test path directly tours.
+\begin{center}
+	A: [node \#, node \#, ...] \\
+	B: [node \#, node \#, ...]
+\end{center}
+
+We define the following test paths through the graph. For each test path, specify which du-paths it directly tours.
+
+A: [1, 2, 6]
+B: [5, 6]
+C: [5, 2. 6]
+
+\begin{center}
+	t1 tours A, B
+\end{center}
+
+\answerspace{10}
+\answer{
+    \\
+	Denote the paths in part (a) as the following: \\
+		 \\
+
+		t1 tours B \\
+		t2 tours B \\
+		t3 tours C \\
+		t4 tours A \\
+}
+
+\part[5] List a minimal test set that satisfies all-defs coverage with respect to $X$ (consider direct tours only). Use the given test paths.
+\answerspace{10}
+\answer{
+		% def2, def1, def5
+            \{t1, t4\}
+            \{t2, t4\}
+}
+
+\part[7] List a minimal test set that satisfies all-du-paths coverage with respect to $X$ (consider direct tours only). Use the given test paths.
+\answerspace{10}
+\answer{
+		% d1 -> u8: t2
+		% d1 -> u7: t4
+		% d2 -> u8: t1
+		% d5 -> u7: t3
+		% d5 -> u8: t3
+		% \{t1, t2, t3, t4\}
+
+		% OR 
+
+		\{t1, t3, t4\}
+            or 
+            \{t2, t3, t4\}
+}
+\end{parts}
+
+\question Answer the following questions regarding subsumption:
+\begin{parts}
+\part[10] Does Node Coverage subsume Edge Coverage? Justify your answer.
+\answerspace{10}
+\answer{
+    Yes. Proof No. Example: a path visiting nodes 1→2→3 covers all nodes, but may miss the edge (2,3) if traversal ends early. Node Coverage does not guarantee every edge is covered.y Contradiction or Induction accepted.
+}
+\part[10] Does Edge Coverage subsume Edge Pair Coverage? Justify your answer.
+\answerspace{10}
+\answer{
+    No. Edge coverage requires the edge to be traveled once whereas each page coverage document is traversed more than once. 
+}
+\part[11] Does Edge Pair Coverage subsume Prime Path Coverage? Justify your answer.
+\answerspace{10}
+\answer{
+    No. Prime path coverage requires all maximal simple paths. Due to this, there cannot the more than 2 edges. 
+}
+\end{parts}
+
+
+
+\if 0 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\question[10]
+	\answerspace{30}
+	\answer{}
+
+	\question
+	\begin{parts}
+		\part[6]
+		\answerspace{20}
+		\answer{}
+
+		\part[2]
+		\answerspace{10}
+		\answer{}
+
+	\end{parts}
+\fi %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\newpage
+	\begin{center}
+		[EMPTY PAGE]
+	\end{center}
+
+\end{questions}
+
+\end{document}

@@ -1,0 +1,372 @@
+
+% Add "answers" option to print the answers
+\documentclass[addpoints,answers]{exam}
+
+\input{cmds}
+
+\usepackage{color}
+\usepackage{lastpage}
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{algorithm}
+\usepackage{listings}
+\usepackage{algpseudocode}
+\usepackage{tabularx}
+\usepackage{ulem}
+
+\newcommand{\includecode}[2][c]{\lstinputlisting[caption=, escapechar=, language=#1]{#2}<!---->}
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
+
+\renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
+
+\definecolor{SolutionColor}{rgb}{0.8,0.9,1}
+
+
+\cfoot{Page \thepage\ of \pageref{LastPage}}
+
+\rhead{Initials: \rule{20mm}{0.4pt}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\fvset{numbers=left,numbersep=3pt}
+\thispagestyle{empty}
+
+\begin{center}
+	{\LARGE CS408 Fall 2025 -- Homework 5 (77 points)\\}
+
+	{\Large Deadline: December 5, Friday\\}
+
+	\vspace{20mm}
+\fbox{\fbox{\parbox{5.5in}{\centering
+	\begin{itemize}
+		\item The homework is open notes, open book.
+		\item No collaboration and no communication of any kind allowed.
+		\item Provide complete and clear but concise answers. Justify thoroughly statements where required.
+		\item Coding questions should be answered in C.
+		\item Use basic blocks for all CFG exercises.
+		\item For questions related to compilation, test code on the Purdue ``data'' server and with the default gcc compiler on the ``data'' server.
+	\end{itemize}
+	}}}
+\end{center}
+
+\vspace{13mm}
+\begin{center}
+	\makebox[0.6\textwidth]{
+		\combinedgradetable[h][questions]
+	}
+\end{center}
+%\begin{center}\combinedgradetable[h][questions]\end{center}
+\vspace{28mm}
+
+\begin{center}
+\makebox[\textwidth]{\textbf{Name (please print)}: \rule{100mm}{0.8pt} }
+\end{center}
+
+\newpage
+\begin{questions}
+
+%-----Question 1-----%
+\question Answer the following questions related to Integration testing:
+\begin{parts}
+	\part[4] Please provide the advantages of Bottom Up Integration testing over Top Down Integration testing.
+	\answer{
+		\answerspace{10}
+		\begin{itemize}
+			\item \textbf{Early testing of low-level modules}: Bottom Up Integration testing allows for the early testing of low-level modules, which can help identify issues in foundational components before integrating them into higher-level modules.
+			\item \textbf{No need for stubs}: In Bottom Up Integration testing, there is no need to create stubs for higher-level modules, which can simplify the testing process and reduce the amount of test code that needs to be written.
+		\end{itemize}
+	}
+	\vspace{5mm}
+
+	\part[4] Please provide the advantages of Top Down Integration testing over Bottom Up Integration testing.
+	\answer{
+		\answerspace{10}
+		\begin{itemize}
+			\item \textbf{Early detection of high-level design flaws}: Top Down Integration testing allows for the early detection of design flaws in high-level modules, which can be critical for the overall architecture of the system.
+			\item \textbf{User interface testing}: It enables testing of the user interface early in the development process, ensuring that the user experience is considered from the start.
+		\end{itemize}
+	}
+\end{parts}
+\vspace{5mm}
+
+%-----Question 2-----%
+\question Consider a hypothetical \textbf{Library Management System} designed with the following three-layer architecture:
+
+\begin{itemize}
+    \item \textbf{Layer I (Top):} \texttt{LibraryDashboard} (User Interface)
+    \item \textbf{Layer II (Middle):} \texttt{BookService} (Business Logic), \texttt{MemberService} (Business Logic)
+    \item \textbf{Layer III (Bottom):} \texttt{SQLDatabase} (Data Storage), \texttt{EmailNotifier} (External Alert System)
+\end{itemize}
+
+\noindent \textbf{Dependency Rules:}
+\begin{itemize}
+    \item \texttt{LibraryDashboard} calls \texttt{BookService} and \texttt{MemberService}.
+    \item \texttt{BookService} calls \texttt{SQLDatabase}.
+    \item \texttt{MemberService} calls both \texttt{SQLDatabase} and \texttt{EmailNotifier}.
+\end{itemize}
+
+\vspace{5mm}
+\begin{parts}
+	\part[3] You are performing \textbf{Top-Down Integration} on this Library Management System. 
+	\begin{itemize}
+		\item You have successfully verified the top layer (\texttt{LibraryDashboard}) in isolation.
+		\item You are now moving to the next step: \textbf{Integrating \texttt{MemberService}}.
+		\item Note: \texttt{BookService} has \textit{not} been integrated yet.
+	\end{itemize}
+	
+	To successfully execute this specific integration step without crashing, what distinct testing components (stubs or drivers) are required?
+	\vspace{2mm}
+	
+	\begin{enumerate}
+		\item[A)] 1 driver for \texttt{LibraryDashboard} and 1 stub for \texttt{BookService}.
+		\item[B)] 2 stubs simulating \texttt{SQLDatabase} and \texttt{EmailNotifier}.
+		\item[C)] 1 stub simulating \texttt{SQLDatabase} only.
+		\item[D)] No stubs are needed because \texttt{MemberService} contains the logic.
+	\end{enumerate}
+
+	\answer{
+		B
+		\\
+		\textbf{Explanation:} 
+		\begin{enumerate}
+			\item \textbf{Current context:} You are utilizing a Top-Down strategy. Layer I is present, and you are currently testing the integration of Layer II (\texttt{MemberService}).
+			\item \textbf{Dependency analysis:} The \texttt{MemberService} module depends on calls to Layer III components to function (specifically \texttt{SQLDatabase} to save data and \texttt{EmailNotifier} to send alerts).
+			\item \textbf{Missing components:} In a Top-Down approach, the bottom layers (Layer III) are developed or integrated \textit{last}. Therefore, the real \texttt{SQLDatabase} and \texttt{EmailNotifier} are not yet available.
+			\item \textbf{The Solution:} To prevent the system from crashing when \texttt{MemberService} attempts to invoke these missing dependencies, you must create \textbf{Stubs} for both.
+			\item \textbf{Why not A?} A driver for \texttt{LibraryDashboard} is unnecessary because the real module is already present and acts as the caller. A stub for \texttt{BookService} is unnecessary for this specific test because \texttt{MemberService} does not call \texttt{BookService} (they are independent siblings in Layer II).
+		\end{enumerate}
+	}
+
+	\vspace{5mm}
+	\part[3] You are performing \textbf{Bottom-Up Integration}. 
+	\begin{itemize}
+		\item You have already successfully tested and integrated all modules in Layer III (\texttt{SQLDatabase} and \texttt{EmailNotifier}).
+		\item You are now ready to test \textbf{\texttt{MemberService}} (Layer II).
+	\end{itemize}
+	\vspace{2mm}
+	Which of the following describes the correct test configuration for this step?
+	
+	\begin{enumerate}
+		\item[A)] You need a driver simulating \texttt{LibraryDashboard} to call \texttt{MemberService}; the real Layer III modules are used.
+		\item[B)] You need a stub for \texttt{SQLDatabase} and a driver for \texttt{LibraryDashboard}.
+		\item[C)] You need stubs for both \texttt{SQLDatabase} and \texttt{EmailNotifier} because Layer II is the target.
+		\item[D)] No stubs or drivers are needed; \texttt{MemberService} can be tested in isolation.
+	\end{enumerate}
+	\answer{
+		A
+		\\
+		\textbf{Explanation:} 
+		Both \texttt{BookService} and \texttt{MemberService} directly depend on (call) \texttt{SQLDatabase}. Any change in the database structure or behavior directly impacts them. \texttt{EmailNotifier} is a sibling in Layer III and does not call \texttt{SQLDatabase}, so it is unaffected.
+	}
+
+
+	
+\end{parts}
+
+\vspace{5mm}
+%-----Question 3-----%
+\question[30] Design a function in C that adheres to LOC-3 compliance rules for code written at JPL. The function should calculate the factorial of a given non-negative integer ($N!$) and return the result. \\
+Please make sure to include any required C headers.\\
+Ensure that the function follows these guidelines:
+\begin{enumerate}
+    \item It passes the compiler and a static source code analyzer without triggering warnings (Assume \texttt{gcc -Wall} satisfies both requirements).
+    \item It contains a statically verifiable upper bound on the number of loop iterations (Assume that the verifier can only analyze bounds of the form "i $<$ C" in the for loop, with i in the iteration count and C a constant).
+    \item The function has at least one assertion to check the input value, and the code reaches a minimal assertion density of 2\%.
+\end{enumerate}
+Provide a brief explanation of how your implementation follows each of these guidelines. \\
+Keep your code simple and concise, up to 30 lines of code. \\
+The function's signature is given below: \\
+uint32\_t \_safe\_factorial(uint32\_t n);
+
+\answerspace{10}
+\answer {
+	\VerbatimInput{hw5/q2.c}
+	
+		\textbf{Explanation of Guidelines:}
+		\begin{enumerate}
+			\item The code is standard C, includes \texttt{stdint.h} for types and \texttt{assert.h} for the assertion. It compiles without warnings.
+			\item The loop includes a statically verifiable constant bound: $i < 13$. The verifier can easily confirm the loop will never run more than 13 times, satisfying the safety constraint regardless of the variable $n$.
+			\item The assertion \texttt{assert(n <= 12)} ensures the input will not cause an integer overflow. With approximately 12 lines of code and 1 assertion, the density is $\approx 8\%$, exceeding the 2\% requirement.
+		\end{enumerate}
+	
+}
+\vspace{5mm}
+
+%-----Question 4-----%
+\question Consider three inputs, with the following representative values from each block of a partition: \\
+\textbf{Partition A}: \{Block a1, Block a2\} \\
+\textbf{Partition B}: \{Block b1, Block b2, Block b3\} \\
+\textbf{Partition C}: \{Block c1, Block c2\, Block c3\} \\
+
+For each of the following parts, please ensure each set entry is printed on a different line and lines are sorted.
+Eg. In Lecture 32 slide 23, the answer should be
+
+TR = \{ \\
+(A, 1, x) \\
+(A, 1, y) \\
+(A, 2, x) \\
+(A, 2, y) \\
+(A, 3, x) \\
+(A, 3, y) \\
+(B, 1, x) \\
+(B, 1, y) \\
+(B, 2, x) \\
+(B, 2, y) \\
+(B, 3, x) \\
+(B, 3, y) \\
+\}
+
+You can use the Linux utility \texttt{sort} to sort the entries.
+\texttt{sort} expects one entry per line.
+\vspace{5mm}
+\begin{parts}
+\part[6] List the TR for Each Choice Coverage (ECC).
+\answer {
+	TR = \\
+	\{ \\
+		a1 \\
+		a2 \\
+		b1 \\
+		b2 \\
+		b3 \\
+		c1 \\
+		c2 \\
+		c3 \\
+	\}
+}
+\vspace{5mm}
+\part[9] List the TR for Pair-Wise Coverage (PWC).
+\answer{
+	% A B
+	% A C
+	% B C
+	TR = \\
+	\{ \\
+	(a1, b1) \\
+	(a1, b2) \\
+	(a1, b3) \\
+	(a1, c1) \\
+	(a1, c2) \\
+	(a1, c3) \\
+	(a2, b1) \\
+	(a2, b2) \\
+	(a2, b3) \\
+	(a2, c1) \\
+	(a2, c2) \\
+	(a2, c3) \\
+	(b1, c1) \\
+	(b1, c2) \\
+	(b1, c3) \\
+	(b2, c1) \\
+	(b2, c2) \\
+	(b2, c3) \\
+	(b3, c1) \\
+	(b3, c2) \\
+	(b3, c3) \\
+	
+	\}
+}
+
+% \part[10] List the TR for Base Choice Coverage (BCC).
+% \answer {
+% 	For a base choice (a1, b1, c1), the TR is: \{(a2, b1, c1), (a3, b1, c1), (a1, b2, c1), (a1, b1, c2)\}
+% }
+\vspace{5mm}
+\part[9] List the TR for All Combinations Coverage (ACoC).
+\answerspace{10}
+\answer {
+	TR = \\
+	\{ \\
+	(a1, b1, c1) \\
+	(a1, b1, c2) \\
+	(a1, b1, c3) \\
+	(a1, b2, c1) \\
+	(a1, b2, c2) \\
+	(a1, b2, c3) \\
+	(a1, b3, c1) \\
+	(a1, b3, c2) \\
+	(a1, b3, c3) \\
+	(a2, b1, c1) \\
+	(a2, b1, c2) \\
+	(a2, b1, c3) \\
+	(a2, b2, c1) \\
+	(a2, b2, c2) \\
+	(a2, b2, c3) \\
+	(a2, b3, c1) \\
+	(a2, b3, c2) \\
+	(a2, b3, c3) \\
+	\}
+}
+\end{parts}
+
+\vspace{5mm}
+%-----Question 5-----%
+\question[3] LOC-2 aims to secure "predictable execution" in an embedded context. When defining the upper bound for loop iterations, what specific constraint does the rule place on \textit{how} this bound must be determined?
+\begin{enumerate}
+    \item[\textbf{A)}] The bound must be enforced by a runtime watchdog timer that resets the system if exceeded.
+    \item[\textbf{B)}] The bound must be statically verifiable, meaning it can be proven without executing the code.
+    \item[\textbf{C)}] The bound must be dynamically calculated based on the available stack memory at the start of the loop.
+    \item[\textbf{D)}] The bound must be manually certified by two independent engineers during the code review process.
+\end{enumerate}
+\answerspace{10}
+\answer {
+    B
+}
+
+\vspace{5mm}
+\question[3] Which of the following best explains the reasoning behind the LOC-3 compliance rule concerning the use of assertions in flight software, requiring the software as a whole and each module within it to reach a minimal assertion density of 2\%?
+\begin{enumerate}
+	\item[\textbf{A)}] The rule aims to make the code work.
+	\item[\textbf{B)}] The rule ensures that the code contains enough comments and documentation.
+	\item[\textbf{C)}] The rule helps to improve software reliability by catching potential errors early and reducing residual defect densities.
+	\item[\textbf{D)}] The rule enforces a strict coding style that prioritizes performance over maintainability.
+\end{enumerate}
+\answerspace{10}
+\answer {
+	C
+}
+
+\vspace{5mm}
+\question[3] LOC-4 represents the highest target level for mission-critical code and restricts powerful features like function pointers. Despite this high level of strictness, how does the text characterize the \textit{quantity} of rules required to reach this level?
+\begin{enumerate}
+    \item[\textbf{A)}] It requires complying with hundreds of specific compiler-extension constraints.
+    \item[\textbf{B)}] The cumulative number of coding rules remains relatively low, with no more than 31 risk-related rules.
+    \item[\textbf{C)}] It requires a significant increase in rules, specifically doubling the number of assertions required by LOC-3.
+    \item[\textbf{D)}] It introduces a complex set of over 100 new syntax restrictions to prevent pointer indirection.
+\end{enumerate}
+\answerspace{10}
+\answer {
+    B
+}
+
+
+\if 0 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\question[10]
+	\answerspace{30}
+	\answer{}
+
+	\question
+	\begin{parts}
+		\part[6]
+		\answerspace{20}
+		\answer{}
+
+		\part[2]
+		\answerspace{10}
+		\answer{}
+
+	\end{parts}
+\fi %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\newpage
+	\begin{center}
+		[EMPTY PAGE]
+	\end{center}
+
+\end{questions}
+
+\end{document}
