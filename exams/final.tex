@@ -1,6 +1,6 @@
 
 % Add "answers" option to print the answers
-\documentclass[addpoints]{exam}
+\documentclass[addpoints, answers]{exam}
 
 \input{cmds}
 
@@ -16,6 +16,8 @@
 %\fancyfoot[C]{{\thepage} of \pageref{LastPage}}
 \newcommand{\includecode}[2][c]{\lstinputlisting[caption=, escapechar=, language=#1]{#2}<!---->}
 \RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
+
+%\renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch$_*$: }}
 
 \renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
 
@@ -39,6 +41,7 @@
 	\vspace{20mm}
 \fbox{\fbox{\parbox{5.5in}{\centering
 	\begin{itemize}
+		%\item Write your \textbf{name} in the first page and your \textbf{initials in every other page}.
 		\item The exam is closed notes, closed book.
 		\item No collaboration and no communication of any kind allowed.
 		\item Please print or write legibly.
@@ -46,13 +49,25 @@
 		\item Answer the questions in the spaces provided. Your answer does not need to take up all the space provided. If you run out of room, continue on the back.
 		\item Coding questions should be answered in C, unless requested otherwise.
 		\item Assume CFG nodes represent basic blocks whenever possible.
+			% or low-level pseudo-code.
+		%\item Unless otherwise noted, assume that questions refer to C code, AT\&T assembly syntax and the x86 architecture.
 		\item Please check that you have all the exam pages (\pageref{LastPage} pages).
 		\item You have 120 minutes to complete the exam.
 	\end{itemize}
 	}}}
 \end{center}
 
+% \pf{\LARGE COMMENTS ENABLED}
 
+% Instructions actually used
+% EXAM INSTRUCTIONS:
+% - The exam is open notes and open book.
+% - No collaboration and no communication of any kind allowed.
+% - There will be no clarifications of questions during the exam.
+% - Provide complete and clear but concise answers. Justify thoroughly statements where required.
+% - Coding questions should be answered in C.
+% - You have 90 minutes to complete the exam.
+% - Do not share the questions or answers of the exam with anyone until the grades of the exam are released
 
 
 
@@ -64,8 +79,8 @@
 	}
 \end{center}
 %\begin{center}\combinedgradetable[h][questions]\end{center}
-\vspace{28mm}
 
+  \vspace{28mm}
 
 \makebox[\textwidth]{\textbf{Name (please PRINT)}: \rule{100mm}{0.8pt} }
 %\end{center}
@@ -75,13 +90,30 @@
 \makebox[\textwidth]{\textbf{PUID}: \rule{40mm}{0.8pt} \hspace{35mm}}
 %\end{center}
 
+ \vspace{10mm}
+
+% \ifanswers{
+%   % Code for the box when answers are visible
+%   \begin{tcolorbox}[colback=blue!20!white, colframe=blue!75!black, title=Solution sketches]
+%   The solution sketches show examples on how to approach the questions. Questions may allow alternative answers. In general, solution sketches are not complete solutions. 
+%   \end{tcolorbox}
+% }{
+	
+% }
+
 
 
 
 \begin{questions}
 
 	\newpage
-
+%	\question State whether the following statements are true of false. \textbf{Explain the false statements.}
+%	\begin{parts}
+%		\part[2]
+%		\truefalse
+%		\answer{True.}
+%
+%	\end{parts}
 
 
 
@@ -92,11 +124,18 @@
 
 	\part[3] Provide the TR criteria for predicate coverage.
 	\answerspace{9}
-	\answer{}
+	\answer{
+		For all p in P,
+		TR = \{ $p$ = true , $p$ = false \}
+	
+	}
 
 	\part[3] Provide the TR criteria for clause coverage.
 	\answerspace{9}
-	\answer{}
+	\answer{
+		For each c in C,
+		TR = \{ $c$ = true , $c$ = false \}
+	}
 
 
 \newpage
@@ -107,11 +146,16 @@
 	\vspace{3pt}
 
 	\textbf{Function to complete (if possible):}
-	\VerbatimInput[numbers=none, frame=single, rulecolor=\color{gray}]{final-function1.c}
+	\VerbatimInput[numbers=none, frame=single, rulecolor=\color{gray}]{final-function1c.c}
 
 	\textbf{Explanation (if possible or not possible):}
 	\answerspace{9}
-	\answer{}
+	\answer{
+		It is possible to complete the function.
+		For example, the above implementation of the code works.
+		In this case, the clause 'a' can be both True and False with the given test set, but b cannot, hence it does not satisfy clause coverage.
+		The predicate (a \&\& b) is both True and False, so predicate coverage can be satisfied with the test set.
+	}
 
 	\part[4]  If possible, (a) complete the following function such that it is possible to satisfy clause coverage with the test set given but not predicate coverage with the test set given and (b) explain your answer in the box.  If not possible, explain why.
 
@@ -119,12 +163,17 @@
 	\vspace{3pt}
 
 	\textbf{Function to complete (if possible):}
-	\VerbatimInput[numbers=none, frame=single, rulecolor=\color{gray}]{final-function1.c}
+	\VerbatimInput[numbers=none, frame=single, rulecolor=\color{gray}]{final-function1d.c}
 
 	\vspace{3pt}
 	\textbf{Explanation (if possible or not possible):}
 	\answerspace{9}
-	\answer{}
+	\answer{
+		It is possible to complete the function.
+		For example, the above implementation of the code works.
+		In this case, the predicate (a \&\& b) is always False, so predicate coverage cannot be satisfied with the test set.
+		However, the clause 'a' can be both True and False with the given test set, and similarly b can also be both True and False as it is the negation of a, satisfying clause coverage.
+	}
 
 \end{parts}
 
@@ -143,62 +192,99 @@
 		\hline
 			& a & b & c & P\\ [0.5ex] 
 		\hline\hline
-		1 & T & T & T &  \\ 
+		1 & T & T & T & T \\   % h 
 		\hline
-		2 & T & T & F &  \\
+		2 & T & T & F & F \\   % g h i
 		\hline
-		3 & T & F & T &  \\
+		3 & T & F & T & T \\
 		\hline
-		4 & T & F & F &  \\
+		4 & T & F & F & T \\   % g h i
 		\hline
-		5 & F & T & T &  \\ 
+		5 & F & T & T & T \\   % i
 		\hline
-		6 & F & T & F &  \\
+		6 & F & T & F & F \\
 		\hline
-		7 & F & F & T &  \\
+		7 & F & F & T & T \\   % g
 		\hline
-		8 & F & F & F &  \\ 
+		8 & F & F & F & F \\   % g h i
 		[1ex] 
 		\hline
 			\end{tabular}
 		\end{center}
 	\end{table}
 
+    % Steps:
+    % p_a = (true ^ ~b) v c \xor (false ^ ~b) v c
+    %     =    ~b v c       \xor  c, with x \xor y = (x and ~y) or (~x and y)
+    %     =  ( (~b v c) ^ ~c ) or (~(~b v c) ^ c)
+    %     =         ~b ^ ~c    or 0
+    %     = ~b ^ ~c
 	\part[3] Provide the final (simplified) $p_a$ condition without the simplification steps.
 	\answerspace{4}
-	\answer{}
+    \answer{$\lnot b \land \lnot c$}
 	
+    % p_b = (a ^ ~true) v c \xor (a ^ ~false) v c
+    %     =           c     \xor  a v c
+    %     = ( c ^ ~(a v c) ) v ( ~c ^ (a v c))
+    %     =  c ^ (~a ^ ~c)   v (~c ^ a) v (~c ^ c)
+    %     =          0       v (~c ^ a)
+    %     = ~c ^ a
 	\part[3] Provide the final (simplified) $p_b$ condition without the simplification steps.
 	\answerspace{4}
-	\answer{}
+	\answer{$a \land \lnot c$}
 
+
+    % p_c = (a ^ ~b) v true \xor (a ^ ~b) v false
+    %     =        true     \xor (a ^ ~b)           , 1 \xor x = ~x
+    %     = ~(a ^ ~b)
+    %     = ~a v b
 	\part[3] Provide the final (simplified) $p_c$ condition without the simplification steps.
 	\answerspace{4}
-	\answer{}
+	\answer{$\lnot a \lor b$}
 
- 
 	\part[2] Provide a minimal set with assignments to $a$, $b$, and $c$ that satisfies predicate coverage. If this is not possible, explain why.
 	\answerspace{6}
-	\answer{}
+    \answer{Example: \{\{a=T, b=T, c=T\}, \{a=T, b=T, c=F\}\}}
 
+    % clause = basic elements (i.e., without logic ops)
 	\part[2] Provide a minimal set with assignments to $a$, $b$, and $c$ that satisfies clause coverage. If this is not possible, explain why.
 	\answerspace{5}
-	\answer{}
+    \answer{Example: \{
+        \{a=T, b=T, c=T\},
+        \{a=F, b=F, c=F\}
+    \}}
 
 
+    % minor c must be same when major c is true and s false
 	\part[4] If possible, provide a minimal set with assignments to $a$, $b$, and $c$ that satisfies restricted active clause coverage. If this is not possible, explain why.
 	\answerspace{11}
-	\answer{}
+    \answer{Example: \{
+        \{a=T, b=F, c=F\}, % (a,b), P=T
+        \{a=F, b=F, c=F\}, % (a,c), P=F
+        \{a=F, b=F, c=T\}, % (c), P=T
+        \{a=T, b=T, c=F\}  % (b), P=F
+    \}}
 
 
 	\part[4] If possible, provide a minimal set with assignments to $a$, $b$, and $c$ that satisfies correlated active clause coverage, if possible, making sure that this set is different from the one given in the previous question. If this is not possible, explain why.
 	\answerspace{11}
-	\answer{}
+    \answer{Example: \{
+        \{a=T, b=F, c=F\},  % (a, b), P=T
+        \{a=F, b=F, c=F\},  % (a)   , P=F
+        \{a=T, b=T, c=F\},  % (b, c), P=F
+        \{a=T, b=T, c=T\}   % (c)   , P=T
+    \}}
 
 
 	\part[4] If possible, provide a minimal set with assignments to $a$, $b$, and $c$ that satisfies general active clause coverage, making sure that this set is different from those given in the previous two questions. If this is not possible, explain why.
 	\answerspace{11}
-	\answer{}
+    \answer{Example: \{
+        \{a=T, b=F, c=F\},  % (a, b), P=T
+        \{a=F, b=F, c=F\},  % (a, c), P=F
+        \{a=T, b=T, c=F\},  % (b), P=F
+        %\{a=F, b=F, c=T\}   % (c), P=T (repeated as g)
+        \{a=F, b=T, c=T\}   % (c), P=T
+    \}}
 
 
 
@@ -221,12 +307,34 @@
 
 	\part[5] Provide the final (simplified) $p_a$ condition. Include the simplification steps, one per line.
 	\answerspace{20}
-	\answer{}
+	\answer{
+		$p = (a \oplus \lnot b) \land c$ \\
+		$p_a = p_{a = \top} \oplus p_{a = \bot}$ \\
 
+		$p_a = \bigl((\top \oplus \lnot b) \land c\bigr) \oplus \bigl((\bot \oplus \lnot b) \land c\bigr)$ \\
+		$p_a = \bigl(b \land c\bigr) \oplus \bigl(\lnot b \land c\bigr)$ \\
+		% factor out common c
+		$p_a = c \land \bigl(b \oplus \lnot b\bigr)$ \\
+		$p_a = c \land \top$ \\
+		$p_a = c$ \\
+	}
+	
+	% \part[5] Provide the final (simplified) $p_b$ condition. Include the simplification steps, one per line.
+	% \answerspace{10}
+	% \answer{}
 
 	\part[5] Provide the final (simplified) $p_c$ condition. Note this question refers to the \textbf{c clause}. Include the simplification steps, one per line.
 	\answerspace{20}
-	\answer{}
+	\answer{
+		\\
+		$p_c = p_{c = \top} \oplus p_{c = \bot}$ \\
+		$p_{c=\top} = (a \oplus \lnot b)\land \top = (a \oplus \lnot b)$ \\
+		$p_{c=\bot} = (a \oplus \lnot b)\land \bot = \bot$ \\
+		Therefore
+		\[
+		p_c = (a \oplus \lnot b) \oplus \bot = (a \oplus \lnot b)  = (a \land \lnot b) \lor (\lnot a \land b) \\
+		\]
+	}
 
 \end{parts}
 
@@ -234,7 +342,11 @@
 \newpage
 \question[6] Show how concolic execution can be used to discover a buffer overflow vulnerability by providing a simple program. Chose an example that a feedback-based fuzzer will struggle to handle. Explain concretely how concolic execution can be effective at finding bugs using this program.
 \answerspace{20}
-\answer{}
+\answer{
+\VerbatimInput{final-q4-function.c}
+
+Concolic execution can effectively figure out ``i == 0xDEAD0DEAD'', and simply check the buffer reference is buffer overflow as it is constant comparison.
+}
 
 
 
@@ -243,11 +355,20 @@
 
 	\part[5] What are the common challenges when using ML algorithms for bug detection? Explain.
 	\answerspace{12}
-	\answer{}
+	\answer{
+		How to train the model (e.g., labeled data), how to represent ML queries (e.g., code representation), etc. 
+		Answers that discuss other challenges are also acceptable as long as they are well justified.
+	}
 
 	\part[5] Propose a methodology to reduce false positives in ML-based bug detection tools. Discuss its potential benefits and drawbacks.
 	\answerspace{12}
-	\answer{}
+	\answer{
+		One approach is to use more data for training, including negative examples. This can help the model learn to distinguish between true bugs and false positives.
+		Drawbacks include increased training time and the need for more labeled data.
+		Another approach is to use larger and more complex models, which can capture more nuanced patterns in the data.
+		However, this can lead to overfitting and increased computational requirements.
+		Answers that discuss other approaches are also acceptable as long as they are well justified.
+	}
 
 \end{parts}
 
@@ -258,12 +379,20 @@
 
 	\part[5] Explain what this deterministic execution tool achieves for users. 
 	\answerspace{12}
-	\answer{}
+	\answer{
+		Deterministic execution tools ensure that a program produces the same output for the same user input and follows the same execution path every time it runs. 
+		This helps users reproduce bugs reliably and simplifies debugging even when programs are non-deterministic.
+	}
 
 
 	\part[5] If users were to deploy software with a deterministic execution tool, explain how would this impact testing. 
 	\answerspace{12}
-	\answer{}
+	\answer{
+		This would reduce the flaky tests caused by non-deterministic behavior, making test results more easy to reproduce and debug.
+		However, it may also hide certain concurrency bugs that only manifest under non-deterministic conditions.
+		Also, the overhead of the tool may impact performance.
+		Answers that discuss other impacts are also acceptable as long as they are well justified.
+	}
 
 \end{parts}
 
@@ -271,7 +400,14 @@
 
 \question[5] Explain the idea underlying Base Choice Coverage (BCC) and how it can be advantageous over Each Choice Coverage (ECC).
 \answerspace{14}
-\answer{}
+\answer{
+	BCC definition: choose a base choice block for each characteristic, and a base test by combining the base choices for all characteristics.
+	For each characteristic c, TR contains the requirements for a test which varies the base test by using all other blocks for characteristic c.
+
+	Advantages: BCC provides more practical and realistic test cases by varying one characteristic at a time from a base test, while ECC may create unrealistic combinations of choices across characteristics.
+	BCC also makes it easier to isolate the effects of individual characteristics on system behavior.
+	Answers that discuss other advantages are also acceptable as long as they are well justified.
+}
 
 
 \newpage
@@ -285,7 +421,7 @@ Quote: \textit{``We originally formulated the rule to require all functions with
 
 	\part[3] Explain what is the LOC-3 compliance level. (You do not need to explain the specific rules of this level.)
 	\answerspace{9}
-	\answer{It is a series of static checks applied to code deemed moderately critical. The checks aim to ensure high code quality while balancing development cost. }
+	\answer{LOC-3 is one of several levels of compliance. This level consists of a series of static checks applied to all code deemed moderately critical (level 3). The checks aim to ensure high code quality while balancing development cost. }
 
 	\part[4] For each one of the approaches to assertions discussed in the quote above, provide one advantage over the other approach. Explain. 
 	\answerspace{15}
@@ -321,6 +457,300 @@ Quote: \textit{``We originally formulated the rule to require all functions with
 
 \fi
 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+% \question Consider the concept of faults, errors and failures. 
+
+% \begin{parts}
+
+% 	\part[3] What is an error? Explain.
+% 	\answerspace{9}
+% 	\answer{}
+
+% 	\part[3] What is the relation between an error and a failure? Explain.
+% 	\answerspace{10}
+% 	\answer{}
+
+% \end{parts}
+
+
+
+
+% \question Consider the following three approaches to test a database management engine:
+% \begin{itemize}
+% 	\item \textbf{Approach 1:} Run the target program on N random inputs
+% 	\item \textbf{Approach 2:} Run the target program on a representative set of inputs with N inputs
+% 	\item \textbf{Approach 3:} Run the target program on all inputs
+% \end{itemize}
+
+% You can assume N is in the order of tens of thousands.
+
+% \begin{parts}
+
+% 	\part[3] Explain the pros and cons of the approach 1 (N random inputs) and approach 3 (all inputs).
+% 	\answerspace{11}
+% 	\answer{}
+
+% 	\newpage
+% 	\part[3] How would a tester execute approach 3 (a representative set of inputs)? What does ``representative set of inputs'' mean in practice? 
+% 	\answerspace{9}
+% 	\answer{}
+
+% 	\part[3] What is the advantage of the approach 3 over the other two approaches (approach 1 and 2)?
+% 	\answerspace{9}
+% 	\answer{}
+
+% \end{parts}
+
+
+
+% \question Consider the RIP model, as discussed in class.
+
+% \begin{parts}
+
+% 	\part[5] What are the components of the RIP model? What is the relevance of the RIP model and each of its components for testing? Explain.
+% 	\answerspace{12}
+% 	\answer{}
+
+
+% 	\part[3] What part is not covered by the RIP model that is also important for testing?
+% 	\answerspace{12}
+% 	\answer{}
+
+
+% \end{parts}
+
+
+
+
+% \question Consider the following function:
+
+% \VerbatimInput{midterm-function1.txt}
+
+% \begin{parts}
+
+% 	\part[4] Draw the CFG of this program. Label nodes using the line numbers. Use basic blocks for each node. 
+% 	\answerspace{22}
+% 	\answer{}
+
+
+% 	\part[3] What is a basic block? 
+% 	\answerspace{9}
+% 	\answer{}
+
+
+% 	% \part[3] Why are basic blocks commonly used in CFGs for testing? 
+% 	\part[2] Is there any advantage in using basic blocks as opposed to statements in CFGs? 
+% 	\answerspace{9}
+% 	\answer{}
+	
+% 	\part[2] Is there any disadvantage in using basic blocks as opposed to statements in CFGs?
+% 	\answerspace{9}
+% 	\answer{}
+
+
+% \end{parts}
+
+
+% \newpage
+
+% \question Consider the following C function:
+% \VerbatimInput{midterm-function1.txt}
+
+% \begin{parts}
+
+% 	\part[3] Is it possible to satisfy \textbf{node coverage} of this function? Explain.
+% 	If your answer is yes, provide a simple and minimal test case set that
+% 	satisfies \textbf{node coverage} of this function. If your answer is no, (a) make a
+% 	simple change to the function so that it becomes possible to satisfy \textbf{node coverage} and (b) provide a
+% 	simple and minimal test case set that satisfies \textbf{node coverage} of this
+% 	function.
+% 	\answerspace{14}
+% 	\answer{}
+
+
+% 	\part[3] Is it possible to satisfy \textbf{edge coverage} of this function? Explain.
+% 	If your answer is yes, provide a simple and minimal test case set that
+% 	satisfies \textbf{edge coverage} of this function. If your answer is no, (a) make a
+% 	simple change to the function so that it becomes possible to satisfy \textbf{edge coverage} and (b) provide a
+% 	simple and minimal test case set that satisfies \textbf{edge coverage} of this
+% 	function.
+% 	\answerspace{14}
+% 	\answer{}
+
+% 	\newpage
+% 	\part[3] Is it possible to satisfy \textbf{complete path coverage} of this function? Explain.
+% 	If your answer is yes, provide a simple and minimal test case set that
+% 	satisfies \textbf{complete path coverage} of this function. If your answer is no, (a) make a
+% 	simple change to the function so that it becomes possible to satisfy \textbf{complete path coverage} and (b) provide a 
+% 	simple and minimal test case set that satisfies \textbf{complete path coverage} of this
+% 	function.
+% 	\answerspace{15}
+% 	\answer{}
+
+
+% \end{parts}
+
+
+
+
+% \newpage
+
+
+
+% \question Consider the following code.
+% \VerbatimInput{midterm-bug1.txt}
+
+
+% \begin{parts}
+% 	\part[3] State where is the program fault and explain how you would fix the program. Consider only the smallest and simplest fix.
+% 	\answerspace{10}
+% 	\answer{}
+
+% 	\part[3] Identify all components, including relevant variables and registers, that constitute the program state.
+% 	\answerspace{10}
+% 	\answer{}
+
+% 	\newpage
+% 	\part[3] If possible, provide an example of a test input that does not cause the
+% 	fault to execute. If this is not possible, explain why.
+% 	\answerspace{10}
+% 	\answer{}
+
+
+% 	\part[3] If possible, provide an example of a test input that causes the fault to execute
+% 	but no error to occur. If this is not possible, explain why.
+% 	\answerspace{10}
+% 	\answer{}
+
+% 	\part[3] If possible, provide an example of a test input that causes the fault to execute,
+% 	the error to occur, but no failure to occur. If this is not possible, explain why.
+% 	\answerspace{10}
+% 	\answer{}
+
+% 	\newpage
+
+% 	\part[4] Describe and explain the input condition for the error to occur.
+% 	\answerspace{10}
+% 	\answer{}
+
+% 	\part[4] Describe and explain the input condition for the failure to occur.
+% 	\answerspace{10}
+% 	\answer{}
+
+% \end{parts}
+
+% \newpage
+
+
+
+
+% \newpage
+
+
+% \newpage
+% \question Consider the following control-flow graph:
+% 	\begin{figure}[ht]
+% 		\includegraphics[width=7cm]{midterm-cfg1.pdf}
+% 	\end{figure}
+
+% \vspace{0.2cm}
+
+% \begin{parts}
+% 	\part[3] If possible, list 2 test paths. If this is not possible, explain why.
+% 	\answerspace{7}
+% 	\answer{}
+
+% 	\part[3] If possible, list 3 simple paths that (a) are not prime paths and (b) start on node 2. If this is not possible, explain why.
+% 	\answerspace{7}
+% 	\answer{}
+
+% 	\part[3] If possible, list 3 prime paths that start on node 4. If this is not possible, explain why.
+% 	\answerspace{7}
+% 	\answer{}
+
+
+% 	\newpage
+% 	\part[3] Write an example of a syntactically valid C function that generates
+% 	the control-flow graph provided, without using assembly. If this is not possible,
+% 	explain why.
+% 	\answerspace{23}
+% 	\answer{}
+
+% \end{parts}
+
+
+% \newpage
+% \question Consider the following control-flow graph. 
+% The labels indicate that the variable X is \textit{defined} (D) in nodes 1 and 2 and \textit{used} (U) in nodes 2 and 4.
+
+
+% \begin{figure}[ht]
+% 	\includegraphics[width=09cm]{midterm-cfg2-data}
+% \end{figure}
+
+
+% \begin{parts}
+%     \part[3] List the test requirement set of all-defs coverage with respect to X.
+%     \answerspace{12}
+%     \answer{}
+
+%     \part[3] List the test requirement set of all-uses coverage with respect to X.
+%     \answerspace{12}
+%     \answer{}
+
+%     \part[4] List the test requirement set of all-du-paths coverage with respect to X.
+%     \answerspace{12}
+%     \answer{}
+
+% \end{parts}
+
+
+
+
+
+% \question Consider the different techniques to address non-deterministic failures.
+
+% \begin{parts}
+
+% \part[3] Provide three different examples of sources of non-determinism that can affect the results of a C program.
+% \answerspace{15}
+% \answer{}
+
+
+% \part[6] Describe the lockset algorithm using low-level pseudo-code by filling out an 
+% \texttt{on\_memory\_access()} function. This function will be called through instrumentation every time the target program makes a memory access. Pass arguments to this function that are necessary for the algorithm. You may define other functions that are called through instrumentation if necessary.
+% \answerspace{24}
+% \answer{}
+
+% \newpage
+% \part[4] Provide a simple example of a faulty program such that the lockset algorithm is able to help identify the fault. Provide and explain the results of the lockset algorithm on this program. 
+% \answerspace{20}
+% \answer{}
+
+
+
+% \end{parts}
+
+
+
+% \question[5] Explain how the feedback-based fuzzers discussed in class work.
+% \answerspace{20}
+% \answer{} 
+
+
+% \newpage
+% \question[4] Describe two approaches to determine what are the properties of good bug reports. Explain how you would implement each.
+% \answerspace{16}
+% \answer{} 
+
+
+% \newpage
 
 
 
