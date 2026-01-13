@@ -3,7 +3,11 @@
 *.fls
 *.log
 *.out
-*.pdf
+syllabus/*.pdf
+exams/*.pdf
+labs/*.pdf
+homework/*.pdf
+organization/*.pdf
 *.synctex.gz
 *.tex.bak
 latex.out/
@@ -11,3 +15,5 @@ prev
 common
 shared*
 .DS_Store
+/labs/*.pdf
+/labs/lab1/handout/project-1-handout.pdf
