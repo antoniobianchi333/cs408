@@ -1,5 +1,6 @@
 % Add "answers" option to print the answers
-\documentclass[addpoints,answers]{exam}
+%\documentclass[addpoints,answers]{exam}
+\documentclass[addpoints]{exam}
 
 \input{cmds}
 
@@ -19,6 +20,7 @@
 \RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
 
 \renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
+\renewcommand{\pf}[1]{}
 
 \definecolor{SolutionColor}{rgb}{0.8,0.9,1}
 
@@ -35,9 +37,9 @@
 \thispagestyle{empty}
 
 \begin{center}
-	{\LARGE CS408 Fall 2025 -- Homework 1 (85 points)\\}
+	{\LARGE CS408 Spring 2026 -- Homework 1 (85 points)\\}
 
-	{\Large Deadline: Sep 12, Friday\\}
+	{\Large Deadline: Friday, Jan 30th\\}
 
 	\vspace{20mm}
 \fbox{\fbox{\parbox{5.5in}{\centering
@@ -74,7 +76,7 @@
 
 \begin{parts}
 \part[7]  List the elements of $N$ (nodes), $N_0$ (initial nodes),
-    $N_f$ (final nodes), and $E$ (edges) that define the function's control-flow graph. Let the elements be the line numbers corresponding to the algorithm. 
+    $N_f$ (final nodes), and $E$ (edges) that define the function's control-flow graph. Let the elements be the labels of the basic blocks in the program. Assume basic block labels are given by the code comments. 
     
     Your solution on gradescope should be in the form of this example:\\
     	$$N=\{1,2,3,4,5,6\}$$
@@ -89,14 +91,14 @@ The set of edges is given by
     $$E = \{[1,2],[2,3],[2,8],[3,4],[4,2],[4,5],[5,6],[5,7],[6,7],[7,4],[8,9]\}$$
 }
 
-\part[5] Given the CFG from 1.1, list the elements of $N$, $N_0$, $N_f$, and $E$ that define the subgraph
+\part[5] Given the CFG from 1.a, list the elements of $N$, $N_0$, $N_f$, and $E$ that define the subgraph
 with nodes 1, 2, and 3.
 \answerspace{10}
 \answer{
 Let $N = \{1, 2, 3\}$, $N_0 = \{1\}$, and $N_f = \{\}$. The set of edges is given by $E = \{[1, 2], [2, 3]\}$.
 }
 
-\part[7] List three test cases that lead to different test paths. For each test case provided, list the corresponding test path and state explicitly the length of the test path. 
+\part[7] List three test cases that lead to different test paths. For each test case provided, list the corresponding test path and provide the length of the test path. 
 
 \answerspace{10}
 \answerspace{10}
@@ -125,7 +127,7 @@ Let $N = \{1, 2, 3\}$, $N_0 = \{1\}$, and $N_f = \{\}$. The set of edges is give
 
 
 
-\question Read this faulty program, which includes a test case  that results in failure.
+\question Consider this faulty program, whose comment describes a test case  that results in failure.
 \VerbatimInput{hw1/q2_copyarr.c}
 
 \begin{parts}
@@ -155,17 +157,15 @@ The error state is triggered at line 6: ``int mod\_2=x\%3''. This is also the fi
 
 \end{parts}
 
-\question Given the original code and alternative code that contains two faults, answer the following questions and explain with reasoning-
+\question Answer the following questions about this pair of faulty and correct programs.
 
+Faulty Code (faulty lines are commented): \verbatiminput{hw1/q3_infected_division.c}
 
-Correct Code:
-\verbatiminput{hw1/q3_division.c}
-
-Incorrect Code: (comments faulty lines): \verbatiminput{hw1/q3_infected_division.c}
+Repaired Code: \verbatiminput{hw1/q3_division.c}
 
 \begin{parts}
 
-\part [2] For each faulty line, identify at least one test input that makes the line reachable. 
+\part [2] For each faulty line, identify at least one test input that makes the line reachable. Explain your reasoning.
 \answerspace{10}
 \answer{
 \begin{enumerate}
@@ -174,7 +174,7 @@ Incorrect Code: (comments faulty lines): \verbatiminput{hw1/q3_infected_division
 \end{enumerate}
 }
 
-\part [2] For those inputs, explain whether the program state becomes infected. 
+\part [2] For those inputs, explain whether the program state becomes infected. Explain your reasoning.
 \answerspace{10}
 \answer{
 \begin{enumerate} 
@@ -184,7 +184,7 @@ The 2nd fault infects the state for test input a=6 and b=0 as it leads to an err
 \end{enumerate}
 }
 
-\part [1] For the same inputs, explain whether the infection is propagated to the program's output.
+\part [1] For the inputs you identified, explain whether the infection is propagated to the program's output.
 \answerspace{10}
 \answer{
 \begin{enumerate}
@@ -198,26 +198,26 @@ For the second fault - With the test input of a=6 and b=0, the error propagates 
 
 \newpage
 
-\question Please consider the following CFG. \\
+\question Consider the following CFG. \\
 \includegraphics[width=0.8\textwidth]{hw1/q4_graph.pdf}
 
 \begin{parts}
-	\part[8] Provide a simple example using C source code that generates the control-flow graph considered.
-	The code should be a valid C code fragment. Do not add ``include'' preprocessor directives or a ``main'' function. Do not use gotos unless necessary. Label the source code statements using comments with the CFG node names.
-    \pf{I'm not sure that the solution is correct in terms of naming. The statement 2 has to have three parts: the init (2a), the condition (2b), and the increment (2c). Statement 2a is part of the same basic block as statement 1, so CFG 1 is fine. The same happens between 8 and 2c. So the line with the for loop should have the comment: // 1, 2, 8. You can also delete the current lines with comments 1 and 8. I could be missing something so double check again.}
+	\part[8] Provide a simple example of a program that generates this control-flow graph.
+	The program must be a valid C code fragment, e.g. do not add ``include'' preprocessor directives or a ``main'' function. Do not use gotos (unless necessary). Label the source code statements with comments corresponding to the CFG node names, similar to Question 1.
+    %\pf{I'm not sure that the solution is correct in terms of naming. The statement 2 has to have three parts: the init (2a), the condition (2b), and the increment (2c). Statement 2a is part of the same basic block as statement 1, so CFG 1 is fine. The same happens between 8 and 2c. So the line with the for loop should have the comment: // 1, 2, 8. You can also delete the current lines with comments 1 and 8. I could be missing something so double check again.}
     \answerspace{10}
     \answer{
         \verbatiminput{hw1/q4_answer.c}
     }
 
 
-	\part[3] List the testing requirement set necessary to satisfy node coverage.
+	\part[3] List the set of testing requirements necessary for node coverage.
     \answerspace{10}
     \answer{
     TR = \{1, 2, 3, 4, 5, 6, 7, 8, 9\}
     }
 
-    \part[4] List the testing requirement set necessary to satisfy edge coverage.
+    \part[4] List the set of testing requirements necessary for edge coverage.
     \answerspace{10}
     \answer{
     TR=\{[1,2],[2,3],[2,9],[3,4],[4,5],[4,8],[5,6],[5,7],[6,7],[7,4],[8,2]\}
@@ -234,7 +234,7 @@ For the second fault - With the test input of a=6 and b=0, the error propagates 
 
 \end{parts}
 
-\newpage
+%\newpage
 
 \question Please consider the following CFG. \\
 % \includegraphics[width=0.6\linewidth]{hw1/cfg2.drawio.png}
@@ -242,20 +242,20 @@ For the second fault - With the test input of a=6 and b=0, the error propagates 
 
 \begin{parts}
 
-	\part[8] Provide a simple example using C source code that generates the control-flow graph considered.
-	The code should be a valid C code fragment. Do not add ``include'' preprocessor directives or a ``main'' function. Do not use gotos unless necessary. Label the source code statements using comments with the CFG node names.
+	\part[8] Provide a simple example of a program that generates this control-flow graph.
+	The program must be a valid C code fragment, e.g. do not add ``include'' preprocessor directives or a ``main'' function. Do not use gotos (unless necessary). Label the source code statements with comments corresponding to the CFG node names, similar to Question 1.    
     
     \answerspace{10}
     \answer{
         \verbatiminput{hw1/q5_answer.c}
     }
     
-	\part[3] List the testing requirement set necessary to satisfy node coverage.
+	\part[3] List the set of testing requirements necessary for node coverage.
     \answerspace{10}
     \answer{
         TR=\{1,2,3,4,5,6\}
     }
-    \part[3] List the testing requirement set necessary to satisfy edge coverage.
+    \part[3] List the set of testing requirements necessary for edge coverage.
     \answerspace{10}
     \answer{
     TR=\{[1,2], [2,3], [2,6], [3,4], [3,5], [4,5], [5,2]\}
@@ -286,7 +286,7 @@ For the second fault - With the test input of a=6 and b=0, the error propagates 
 	\end{parts}
 \fi %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-	\newpage
+	%\newpage
 	\begin{center}
 		[EMPTY PAGE]
 	\end{center}
