@@ -18,12 +18,12 @@
 \begin{center}
     {\LARGE{Project 1: Dynamic testing}}\\
   \vspace*{10pt}
-  {\Large{CS408, Fall 2025}}\\
+  {\Large{CS408, Spring 2026}}\\
     \vspace*{10pt}
 
   {\large{\textbf{Group Project (140 points)\\
         \vspace*{3pt}
-        Due date: October 10, 2025}}}\\
+        Due date: February 27, 2026}}}\\
       \vspace*{15pt}
 \end{center}
 
@@ -239,7 +239,8 @@ constraints to the program, which will cause the execution of other interleaving
 
 For this section, you will need to modify or implement the following files:
 \begin{itemize}
-\item \texttt{testlib.h} and \texttt{testlib.c}
+%\item \texttt{testlib.h} and \texttt{testlib.c}
+\item \texttt{testlib.c}
 \item \texttt{coverage\_tests\_helper.py}
 \item testing programs in \texttt{coverage\_tests/} directory
 \end{itemize}
@@ -304,8 +305,8 @@ different order and with different argument values, when \textit{pthread_create}
 is invoked by the target program:
 
 \begin{verbatim}
-  CALL pthread_create(0x100010, 0x1000030, 0x1000)
-  RETURN pthread_create(0x100010, 0x1000030, 0x1000) = 0x0
+  CALL pthread_create(0x100010, 0x1000030, 0x1000, 0x1000)
+  RETURN pthread_create(0x100010, 0x1000030, 0x1000, 0x1000) = 0x0
   THREAD CREATED (2, 103)
   THREAD EXITED (2, 103)
 \end{verbatim}
@@ -692,7 +693,7 @@ will be allowed.
 
 The submitted package size needs to be reasonable (less than 0.5 MB uncompressed). The framework and all tests must: run in reasonable time (less than 10 min for the entire test set), use only reasonable resources, and run correctly on \textit{data.cs.purdue.edu}.
 
-Projects delivered 5 full days ahead (October 5, 2025) of the official project due date receive 5 bonus points, as long as they score at least 50\% of the regular points.
+Projects delivered 5 full days ahead (February 22, 2026) of the official project due date receive 5 bonus points, as long as they score at least 50\% of the regular points.
 
 
 
