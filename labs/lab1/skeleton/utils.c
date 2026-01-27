@@ -71,9 +71,12 @@ int *get_priorities()
 
 int seed_set = 0;
 
+// FIXME: 1000 is to simple, change to 1024 or other more complicated.
+#define MAGIC_NUMBER 1000
+
 void rsleep()
 {
-    rsleep_with_arg(1000);
+    rsleep_with_arg(MAGIC_NUMBER);
 }
 
 // Helper function.
@@ -81,7 +84,7 @@ void rsleep_with_arg(int mod)
 {
     assert(mod >= 1);
     assert(seed_set);
-    usleep((rand() % mod) * 1000);
+    usleep((rand() % mod) * MAGIC_NUMBER);
 }
 
 // This will get called before any other code.
