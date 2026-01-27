@@ -15,9 +15,9 @@ BASE_COMMIT=`git rev-list --max-parents=0 HEAD`
 MODIFIED=$(git diff --name-only "$BASE_COMMIT")
 
 echo "Following immutable file(s) are modified and have been added to the git:"
-# Process each pattern in paths.txt
 while IFS= read -r pattern; do
-    [[ -z "$pattern" || "$pattern" =~ ^# ]] && continue  # skip empty lines and comments
+    # skip empty lines and comments
+    [[ -z "$pattern" || "$pattern" =~ ^# ]] && continue
 
     # Expand glob pattern into actual files
     files=( $pattern )
