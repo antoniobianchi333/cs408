@@ -18,3 +18,4 @@ SOFTWARE.
 --
 
 Libunwind has its own license.
+FIXME: we should state this as a comment in the beginning of testlib.c

@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------#
-# You do not have to modify this file while working on section 3.       #
+# You do not haveto modify this file while working on section 3.        #
 # Expand the file to support bug detecting functions on section 4.      #
 # ----------------------------------------------------------------------#
 

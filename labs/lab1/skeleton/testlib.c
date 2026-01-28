@@ -1,5 +1,8 @@
+/*
+ * Copyright (c) 2020 CS408 Fall, Purdue University 
+ */
 #define _GNU_SOURCE
-#include <assert.h> // Use this, it is your friend!
+#include <assert.h> // Use this, is it your friend!
 #include <libunwind.h>
 #include <stdlib.h>
 
