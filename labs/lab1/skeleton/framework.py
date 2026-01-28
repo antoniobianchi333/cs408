@@ -1,6 +1,6 @@
 # ----------------------------------------------------------------------#
 # You do not haveto modify this file while working on section 3.        #
-# Expand the file to support bug detecting functions on section 4.      #
+# Expand the file to support bug detecting functions on section 4.      # 
 # ----------------------------------------------------------------------#
 
 import argparse
@@ -44,6 +44,7 @@ if not os.path.exists("testlib.so"):
   print("testlib.so not found! Make sure to compile it with \"make library\"!")
   exit(1)
 
+# Add the option here if you need 
 parser = argparse.ArgumentParser(description="Concurrent program testing")
 parser.add_argument('-s', choices=["none", "random"], default="none", action="store", dest="algorithm")
 parser.add_argument('-n', type=int, default=1, action="store", dest="iterations")

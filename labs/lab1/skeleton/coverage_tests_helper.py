@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------#
 # In this file you need to add code to run your unit testing framework. #
 # You can refer to coverage_tests_sample.py for ideas on how you could  #
-# do this. This program gets called by the Makefile when running        #
+# do this. This program get  called by the Makefile when running        #
 # "make run_coverage_tests".                                            #
 # ----------------------------------------------------------------------#
 

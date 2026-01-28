@@ -1,15 +1,15 @@
-/*
+/*   
  * Copyright (c) 2020 CS408 Fall, Purdue University 
  */
 #define _GNU_SOURCE
-#include <assert.h> // Use this, is it your friend!
+#include <assert.h> // Use this, is it your friend! 
 #include <libunwind.h>
 #include <stdlib.h>
 
 #include "testlib.h"
 #include "utils.h"
 #include <pthread.h>
-#include <semaphore.h>
+#include <semaphore.h>  // Use this for critical  section! 
 #include <unistd.h>
 #include <sys/syscall.h>
 
@@ -91,7 +91,7 @@ int pthread_mutex_trylock(pthread_mutex_t *mutex)
     return 0;
 }
 
-// This will get called at the start of the target programs main function
+// This will get called at the start of the target progams main function 
 static __attribute__((constructor(200))) void init_testlib(void)
 {
     // You can initialize stuff here

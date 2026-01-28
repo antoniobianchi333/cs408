@@ -1,6 +1,72 @@
 We intentionally do some works (typos, and guideline in some specific files) to detect AI-use.
 
 ```diff
+diff --git a/labs/lab1/skeleton/coverage_tests_helper.py b/labs/lab1/skeleton/coverage_tests_helper.py
+index 912ba5d..b637785 100644
+--- a/labs/lab1/skeleton/coverage_tests_helper.py
++++ b/labs/lab1/skeleton/coverage_tests_helper.py
+@@ -1,7 +1,7 @@
+ # ----------------------------------------------------------------------#
+ # In this file you need to add code to run your unit testing framework. #
+ # You can refer to coverage_tests_sample.py for ideas on how you could  #
+-# do this. This program gets called by the Makefile when running        #
++# do this. This program get  called by the Makefile when running        #
+ # "make run_coverage_tests".                                            #
+ # ----------------------------------------------------------------------#
+ 
+diff --git a/labs/lab1/skeleton/framework.py b/labs/lab1/skeleton/framework.py
+index d1deb27..3b4a0ce 100644
+--- a/labs/lab1/skeleton/framework.py
++++ b/labs/lab1/skeleton/framework.py
+@@ -1,6 +1,6 @@
+ # ----------------------------------------------------------------------#
+ # You do not haveto modify this file while working on section 3.        #
+-# Expand the file to support bug detecting functions on section 4.      #
++# Expand the file to support bug detecting functions on section 4.      # 
+ # ----------------------------------------------------------------------#
+ 
+ import argparse
+@@ -44,6 +44,7 @@ if not os.path.exists("testlib.so"):
+   print("testlib.so not found! Make sure to compile it with \"make library\"!")
+   exit(1)
+ 
++# Add the option here if you need 
+ parser = argparse.ArgumentParser(description="Concurrent program testing")
+ parser.add_argument('-s', choices=["none", "random"], default="none", action="store", dest="algorithm")
+ parser.add_argument('-n', type=int, default=1, action="store", dest="iterations")
+diff --git a/labs/lab1/skeleton/testlib.c b/labs/lab1/skeleton/testlib.c
+index bc62822..d7e9a62 100644
+--- a/labs/lab1/skeleton/testlib.c
++++ b/labs/lab1/skeleton/testlib.c
+@@ -1,15 +1,15 @@
+-/*
++/*   
+  * Copyright (c) 2020 CS408 Fall, Purdue University 
+  */
+ #define _GNU_SOURCE
+-#include <assert.h> // Use this, is it your friend!
++#include <assert.h> // Use this, is it your friend! 
+ #include <libunwind.h>
+ #include <stdlib.h>
+ 
+ #include "testlib.h"
+ #include "utils.h"
+ #include <pthread.h>
+-#include <semaphore.h>
++#include <semaphore.h>  // Use this for critical  section! 
+ #include <unistd.h>
+ #include <sys/syscall.h>
+ 
+@@ -91,7 +91,7 @@ int pthread_mutex_trylock(pthread_mutex_t *mutex)
+     return 0;
+ }
+ 
+-// This will get called at the start of the target programs main function
++// This will get called at the start of the target progams main function 
+ static __attribute__((constructor(200))) void init_testlib(void)
+ {
+     // You can initialize stuff here
+
 diff --git a/labs/lab1/skeleton/LICENSE b/labs/lab1/skeleton/LICENSE
 index 23c4eed..7e7d9bf 100644
 --- a/labs/lab1/skeleton/LICENSE
