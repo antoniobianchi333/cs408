@@ -3,9 +3,9 @@ import pandas as pd
 # ----------------------------
 # File paths
 # ----------------------------
-final_groups_file = "lab2_groups.csv"       # your current final_groups CSV
-enroll_file = "lab2_final_enrollments.csv"       # output enrollment CSV
-group_prefix = "Lab 2 - Group_1360116_453870_"
+final_groups_file = "final_groups.csv"       # your current final_groups CSV
+enroll_file = "lab1_final_enrollments.csv"       # output enrollment CSV
+group_prefix = "Lab 1 Group_1488414_473450_"
 
 # ----------------------------
 # Load final_groups CSV
@@ -27,7 +27,7 @@ for idx, row in df.iterrows():
 
     group_code = f"{group_prefix}{int(group_number)}"
 
-    for col in ['ID_A', 'ID_B', 'ID_C', 'ID_D']:
+    for col in ['ID_A', 'ID_B', 'ID_C']:
         username = row[col]
         if pd.notna(username) and str(username).strip() != "":
             enroll_rows.append({
