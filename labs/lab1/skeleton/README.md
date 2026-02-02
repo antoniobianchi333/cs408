@@ -14,8 +14,8 @@ The Makefile has several targets you should find useful.
     - Add `coverage=1` to enable the coverage.
 - `build_coverage_tests`: this will compile your testlib.so and the *_test.c files in the `coverage_tests/` directory in a way which should be compatible with gcov.
 - `run_coverage_tests`: this will run `build_coverage_tests` and then call the `coverage_tests_helper.py` script you must implement.
-- `build_dectector_tests`: this will compile your testlib.so and the files in the `dectector_tests/` directory in a way which should be compatible with gcov.
-- `run_dectector_tests`: you will need add targets to compile examples and run them with the framework.
+- `build_detector_tests`: this will compile your testlib.so and the files in the `dectector_tests/` directory in a way which should be compatible with gcov.
+- `run_detector_tests`: you will need add targets to compile examples and run them with the framework.
 
 ### Do Not Modify The Immutable Files
 
