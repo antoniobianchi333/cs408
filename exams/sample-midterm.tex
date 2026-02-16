@@ -1,0 +1,634 @@
+% Add "answers" option to print the answers
+\documentclass[addpoints, answers]{exam}
+
+\input{cmds}
+
+%\usepackage{listings}
+\usepackage{color}
+\usepackage{lastpage}
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\usepackage{float}
+
+
+\newcommand{\includecode}[2][c]{\lstinputlisting[caption=, escapechar=, language=#1]{#2}<!---->}
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
+
+\renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
+
+\definecolor{SolutionColor}{rgb}{0.8,0.9,1}
+
+\cfoot{Page \thepage\ of \pageref{LastPage}}
+
+\rhead{Initials: \rule{20mm}{0.4pt}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\fvset{numbers=left,numbersep=3pt}
+\thispagestyle{empty}
+
+\begin{center}
+	{\LARGE CS 408 Spring 2026 -- Midterm (A)\\}
+
+	\vspace{20mm}
+\fbox{\fbox{\parbox{5.5in}{\centering
+	\begin{itemize}
+          % \item Write your \textbf{name} in the first page and your \textbf{initials in every other page}.
+        \item The exam is closed notes, closed book.
+
+        \item The exam should be completed individually: any
+          communication with your fellow students is strictly
+          prohibited.
+
+	\item Please print or write legibly.
+
+        \item If you have a question, raise your hand and the
+          course staff will come to you.
+
+        \item Provide complete and clear but concise
+          answers. Justify thoroughly statements where
+          required.
+
+        \item Answer the questions in the spaces provided. Your answer
+          does not need to take up all the space provided; if you run
+          out of room, use the empty pages at the back of the exam to
+          complete your answer.
+
+        \item Coding questions should be answered in Java, unless
+          requested otherwise.
+
+        \item Unless otherwise noted, CFG nodes represent basic blocks.
+          % or low-level pseudo-code.
+          % \item Unless otherwise noted, assume that questions refer to C code, AT\&T assembly syntax and the x86 architecture.
+
+        \item Please double check that your copy of the exam
+          is complete; you should have \pageref{LastPage}
+          pages.
+
+        \item You have 75 minutes to complete the exam.
+        \end{itemize}
+	}}}
+\end{center}
+
+
+\vspace{13mm}
+\begin{center}
+	\makebox[0.6\textwidth]{
+		\combinedgradetable[h][questions]
+	}
+\end{center}
+%\begin{center}\combinedgradetable[h][questions]\end{center}
+\vspace{28mm}
+
+
+\makebox[\textwidth]{\textbf{Name (please print)}: \rule{100mm}{0.8pt} }
+%\end{center}
+
+\vspace{10mm}
+%\begin{center}
+\makebox[\textwidth]{\textbf{PUID}: \rule{40mm}{0.8pt} \hspace{35mm}}
+%\end{center}
+
+
+
+
+\begin{questions}
+
+	\newpage
+%	\question State whether the following statements are true of false. \textbf{Explain the false statements.}
+%	\begin{parts}
+%		\part[2]
+%		\truefalse
+%		\answer{True.}
+%
+%	\end{parts}
+
+
+
+
+\question Consider the concept of faults, errors and failures.
+
+\begin{parts}
+
+	\part[3] What is an error? Explain.
+	\answerspace{9}
+	\answer{
+          An error is an incorrect internal state of the program, such as a wrong value for a variable.
+	}
+
+      \part[3] What is the relation between an error and a failure? Explain.
+	\answerspace{10}
+	\answer{
+          A failure is an external, incorrect behavior with respect to the expected behavior (e.g., crash, wrong output).
+          An error is a necessary precondition for a failure.
+          However, not all errors can cause a failure.
+	}
+
+\end{parts}
+
+
+
+
+\question Consider the following three approaches to test a database management engine:
+\begin{itemize}
+	\item \textbf{Approach 1:} Run the target program on N random inputs
+	\item \textbf{Approach 2:} Run the target program on a representative set of inputs with N inputs
+	\item \textbf{Approach 3:} Run the target program on all inputs
+\end{itemize}
+
+You can assume N is in the order of tens of thousands.
+
+\begin{parts}
+
+	\part[3] Explain the pros and cons of the approach 1 (N random inputs) and approach 3 (all inputs).
+	\answerspace{11}
+	\answer{
+
+		Approach 1:
+
+		\textbf{Pros:} Simple and efficient. Might find some failures.
+
+		\textbf{Cons:} Provides weak guarantees and likely misses corner cases.
+
+		Approach 3:
+
+		\textbf{Pros:} More comprehensive, can find more faults.
+
+		\textbf{Cons:} More complex to generate tests.
+
+	}
+
+	\newpage
+	\part[3] How would a tester execute approach 2 (a representative set of inputs)? What does ``representative set of inputs'' mean in practice?
+	\answerspace{9}
+	\answer{
+		A tester partitions the inputs into equivalence classes and selects inputs from each class.
+		Inputs in the same class are expected to behave similarly, while inputs in different classes are expected to behave differently.
+	}
+
+	\part[3] What is the advantage of the approach 3 over the other two approaches (approach 1 and 2)?
+	\answerspace{9}
+	\answer{
+		The main advantage is completeness.
+		Approach 3 is an exhaustive test that can prove the absence of bugs.
+		Approaches 1 and 2 are sampling techniques that can only prove the presence of bugs.
+	}
+
+\end{parts}
+
+
+
+\question Consider the RIP model, as discussed in class.
+
+\begin{parts}
+
+	\part[5] What are the components of the RIP model? What is the relevance of the RIP model and each of its components for testing? Explain.
+	\answerspace{12}
+	\answer{
+		RIP model defines three conditions that must be satisfied for a failure to be observed during testing, specifically:
+		\begin{itemize}
+			\item \textbf{Reachability:} The location or locations in the program that contain the fault must be reached.
+			\item \textbf{Infection:} After executing the location, the state of the program must be incorrect.
+			\item \textbf{Propagation:} The infected state must propagate to cause some output of the program to be incorrect.
+		\end{itemize}
+	}
+
+
+	\part[3] What part is not covered by the RIP model that is also important for testing?
+	\answerspace{12}
+	\answer{
+		Revealability. The tester must observe part of the incorrect output.
+	}
+
+
+\end{parts}
+
+
+
+
+\question Consider the following function:
+
+\VerbatimInput{midterm-function1.txt}
+
+\begin{parts}
+
+	\part[4] Draw the CFG of this program. Label nodes using the line numbers. Use basic blocks for each node.
+	\answerspace{22}
+	\answer{
+          % \includegraphics[width=7cm]{midterm-q4-solution-cfg1.pdf}
+	}
+
+
+	\part[3] What is a basic block?
+	\answerspace{9}
+	\answer{
+		A basic block is a sequence of consecutive statements that has one entry point and one exit point, with no jump to/from the middle.
+	}
+
+
+	\part[2] Is there any advantage in using basic blocks as opposed to statements in CFGs?
+	\answerspace{9}
+	\answer{
+		Yes. It creates a much more compact graph, which is more efficient for control-flow and data-flow analyses.
+	}
+
+	\part[2] Is there any disadvantage in using basic blocks as opposed to statements in CFGs?
+	\answerspace{9}
+	\answer{
+		For structural coverage analysis there is generally no disadvantage. (Other answers are also valid if well justified.)
+		%Yes. It is impossible to analyze the program state between statements that are grouped into the same basic block.
+	}
+
+
+\end{parts}
+
+
+\newpage
+
+\question Consider the following C function:
+\VerbatimInput{midterm-function1.txt}
+
+\begin{parts}
+
+	\part[3] Is it possible to satisfy \textbf{node coverage} of this function? Explain.
+	If your answer is yes, provide a simple and minimal test case set that
+	satisfies \textbf{node coverage} of this function. If your answer is no, (a) make a
+	simple change to the function so that it becomes possible to satisfy \textbf{node coverage} and (b) provide a
+	simple and minimal test case set that satisfies \textbf{node coverage} of this
+	function.
+	\answerspace{14}
+	\answer{\\
+        % rubric:
+        % Case 1 - Yes:
+        %       - explain: 2
+        %       - test case: 1
+        % Case 2 - No:
+        %       - explain: 1
+        %       - change: 1
+        %       - test case: 1
+        No. Because within the while loop, \texttt{x} will never be less than zero due to \texttt{unsigned int} type.
+        Thus, the node, \texttt{line 7}, will never be covered. \\
+        Example change: To satisfy node coverage with a simple change, changing \texttt{unsigned int x} to \texttt{int x}, and adding \texttt{x -= 1;} after line $5$ in the while loop.
+        In this case, the test case, \texttt{\{x = 1\}}, will satisfy node coverage of this function.
+    }
+
+
+	\part[3] Is it possible to satisfy \textbf{edge coverage} of this function? Explain.
+	If your answer is yes, provide a simple and minimal test case set that
+	satisfies \textbf{edge coverage} of this function. If your answer is no, (a) make a
+	simple change to the function so that it becomes possible to satisfy \textbf{edge coverage} and (b) provide a
+	simple and minimal test case set that satisfies \textbf{edge coverage} of this
+	function.
+	\answerspace{14}
+	\answer{\\
+        % rubric:
+        % Case 1 - Yes:
+        %       - explain: 2
+        %       - test case: 1
+        % Case 2 - No:
+        %       - explain: 1
+        %       - change: 1
+        %       - test case: 1
+        No. Because within the while loop, \texttt{x} will never be less than zero due to \texttt{unsigned int} type.
+        Thus, the edge, \texttt{(line 4, line 7)}, will never be covered. \\
+        Example change: To satisfy edge coverage with a simple change, changing \texttt{unsigned int x} to \texttt{int x}, and adding \texttt{x -= 1;} after line $5$ in the while loop.
+        In this case, the test case, \texttt{\{x = 1\}}, will satisfy edge coverage of this function.
+    }
+
+	\newpage
+	\part[3] Is it possible to satisfy \textbf{complete path coverage} of this function? Explain.
+	If your answer is yes, provide a simple and minimal test case set that
+	satisfies \textbf{complete path coverage} of this function. If your answer is no, (a) make a
+	simple change to the function so that it becomes possible to satisfy \textbf{complete path coverage} and (b) provide a
+	simple and minimal test case set that satisfies \textbf{complete path coverage} of this
+	function.
+	\answerspace{15}
+	\answer{\\
+        % rubric:
+        % Case 1 - Yes:
+        %       - explain: 2
+        %       - test case: 1
+        % Case 2 - No:
+        %       - explain: 1
+        %       - change: 1
+        %       - test case: 1
+        No. Because of the while loop, the function will have infinite paths, but the complete path coverage requires covering all paths. \\
+        Example change: To satisfy complete path coverage with simple change, changing \texttt{unsigned int x} to \texttt{int x}, adding \texttt{x -= 1;} after line $5$, and unrolling while loop to the finite statements.
+        In this case, the test cases, \texttt{\{x = 1, x = -1\}}, will satisfy complete path coverage of this function.
+    }
+
+
+\end{parts}
+
+
+
+
+\newpage
+
+
+
+\question Consider the following code.
+\VerbatimInput{midterm-bug1.txt}
+
+
+\begin{parts}
+	\part[3] State where is the program fault and explain how you would fix the program. Consider only the smallest and simplest fix.
+	\answerspace{10}
+    \answer{\\
+        % rubric:
+        % location: 1
+        % explain: 1
+        % fix: 1
+        %% Comment says the null pointer case is handled in exception.
+        %One of the faults occurs in line 8, where the function does not check the a is null or not before the dereference. \\
+        %Fix this fault by adding null checking before the for loop. \\
+        Fault occurs in line 8, where the potentail out-of-bound access via the wrong condition in the for loop.
+        Fix this fault by modifying \texttt{"i <= a.length"} to \texttt{"i < a.length"}. \\
+    }
+
+	\part[3] Identify all components, including relevant variables and registers, that constitute the program state.
+	\answerspace{10}
+    \answer{\\
+        % rubric:
+        % var: 2
+        % register: 1
+        \texttt{a}, \texttt{i}, \texttt{count},
+        program counter (PC).
+    }
+
+	\newpage
+	\part[3] If possible, provide an example of a test input that does not cause the
+	fault to execute. If this is not possible, explain why.
+	\answerspace{10}
+	\answer{\\
+        % rubric:
+        % Case 1 - have an example:
+        %   - have: 1
+        %   - input: 2
+        % Case 2 - don't have an example:
+        %   - don't have: 1
+        %   - explain: 2
+        It is impossible to avoid the fault in line 8,
+        since there is no selection, jump, or iteration statements to let the program not to execute line 8.
+    }
+
+
+	\part[3] If possible, provide an example of a test input that causes the fault to execute
+	but no error to occur. If this is not possible, explain why.
+	\answerspace{10}
+    \answer{\\
+        % rubric:
+        % Case 1 - have an example:
+        %   - have: 1
+        %   - input satisfy requirement: 2
+        % Case 2 - don't have an example:
+        %   - don't have: 1
+        %   - explain: 2
+		% NOTE: Stating just the out-of-bounds or extra iteration is enough for full points on the justification.
+        If \texttt{a = null}, the program will throw a \texttt{NullPointerException}, which is expected behavior. This will execute the fault but no error to occur.
+        %There is no possible way to have a test input that causes the fault to execute but no error to occur.
+        %The program will throw an out-of-bounds access exception or the program will always execute an extra iteration if the language runtime does not detect it. (Either justification is acceptable).
+    }
+
+	\part[3] If possible, provide an example of a test input that causes the fault to execute,
+	the error to occur, but no failure to occur. If this is not possible, explain why.
+	\answerspace{10}
+    \answer{\\
+        % rubric:
+        % Case 1 - have an example:
+        %   - have: 1
+        %   - input satisfy requirement: 2
+        % Case 2 - don't have an example:
+        %   - don't have: 1
+        %   - explain: 2
+        % In this case we have:
+        % - provide invalid input: -2
+        % - Not possible w/o oob access description: -2
+        If the language does not detect the out-of-bounds access exception: \texttt{a = [ 1 ]},
+        where the memory locations next to \texttt{a} is also zero.
+		If the language detects the out-of-bounds access exception: not possible. (Only one explanation is required.)
+    }
+
+	\newpage
+
+	\part[4] Describe and explain the input condition for the error to occur.
+	\answerspace{10}
+	\answer{ \\
+        % rebric:
+        % input condition: 1
+        % what/where error: 1
+        % explain: 2
+ 		Any input will trigger an error due to the additional final iteration (i.e., wrong PC value). This applies regardless of whether the runtime implements memory safety or not.
+        % The input condition is that \texttt{a} is allocated with a contiguous block of memory, including one extra element that holds a negative value in \texttt{int} type. \\
+        % This will trigger the fault in line 8. \\
+        % In the final iteration of the for loop, where \texttt{"i == a.length"}, the condition expression, \texttt{"i  <= a.length"}, is still true, resulting in out-of-bound memory access.
+        % This behavior is incorrect.
+        % However, \texttt{count} is still correct due to the extra element is a negative value. \\
+        % If the program does not throw an out-of-bounds access exception, the expected value of \texttt{count} will still be returned by the function.
+        % Thus, this input will trigger the error in the program.
+    }
+
+	\part[4] Describe and explain the input condition for the failure to occur.
+	\answerspace{10}
+	\answer{ \\
+        % rebric:
+        % input condition: 1
+        % what/where failure: 1
+        % explain: 2
+		Two solutions accepted:
+		\begin{enumerate}
+
+		\item  If assuming memory-safety: Any input will trigger an out-of-bounds exception on the last iteration.
+
+		\item If assuming no memory safety: Any input where the memory at a[a.length] is accessible and contains a value v that is greater than 0 and is odd. This will cause the variable ``count'' to increase beyond the expected result, which is returned.
+		\end{enumerate}
+        % The input condition is that \texttt{a} is allocated with a contiguous block of memory, including one extra element that holds a positive odd value in \texttt{int} type. \\
+        % This will trigger the fault in line 8. \\
+        % In the final iteration of the for loop, where \texttt{"i == a.length"}, the condition expression, \texttt{"i  <= a.length"}, is still true, resulting in \texttt{count} be incremented an addtional time.
+        % This behavior is unintended, as \texttt{count} should not one extra time due to the out-of-bound access. \\
+        % If the program does not throw an out-of-bounds access exception, the unexpected value of \texttt{count} will finally be returned by the function, which is an incorrect observed behavior.
+        % Thus, this input will trigger the failure in the program. \\
+        % If the program throw the out-of-bounds access, then any size of \texttt{a} will have failure. (Only one explanation is required.)
+    }
+
+\end{parts}
+
+\newpage
+
+
+
+
+\newpage
+
+
+\newpage
+\question Consider the following control-flow graph:
+	\begin{figure}[ht]
+          % \includegraphics[width=7cm]{midterm-cfg1.pdf}
+	\end{figure}
+
+\vspace{0.2cm}
+
+\begin{parts}
+	\part[3] If possible, list 2 test paths. If this is not possible, explain why.
+	\answerspace{7}
+	\answer{
+		Examples: [1, 3, 4, 5] and [1, 2, 4, 5].
+		The test paths start from node 1 and end at node 5. There can be many possibilities of test paths in the given cfg, out of which, one path can be [1, 3, 4, 5] and another can be [1, 2 , 4, 5].
+	}
+
+	\part[3] If possible, list 3 simple paths that (a) are not prime paths and (b) start on node 2. If this is not possible, explain why.
+	\answerspace{7}
+	\answer{
+		[2],
+		[2, 4],
+		[2, 4, 5],
+		[2, 4, 1]
+		\\
+		Any three of the above four simple paths are acceptable answers.
+	}
+
+	\part[3] If possible, list 3 prime paths that start on node 4. If this is not possible, explain why.
+	\answerspace{7}
+	\answer{
+		There are only be 2 prime paths that start on 4 (which are [4, 1, 2, 4] and [4, 1, 3, 4]);  in total there are only 6 simple paths starting on 4, out of which only these two are not the proper subsets of other simple paths.
+		}
+
+
+	\newpage
+	\part[3] Write an example of a syntactically valid C function that generates
+	the control-flow graph provided, without using assembly. If this is not possible,
+	explain why.
+	\answerspace{23}
+	\answer{
+		This is the closest possible solution-
+		\VerbatimInput{midterm-q7_d_answer.txt}
+	}
+
+\end{parts}
+
+
+\newpage
+\question Consider the following control-flow graph.
+The labels indicate that the variable X is \textit{defined} (D) in nodes 0 and 3 and \textit{used} (U) in nodes 2 and 4.
+
+
+\begin{figure}[ht]
+  % \includegraphics[width=09cm]{midterm-cfg2-data}
+\end{figure}
+
+
+\begin{parts}
+    \part[3] List the test requirement set of all-defs coverage with respect to X.
+    \answerspace{12}
+    \answer{
+		TR for all-defs coverage:
+		TR = \{([0, 1, 2] or [0, 1, 4] or [0, 1, 2, 4])\}.
+		% Accept answers with just
+		%  TR = \{[0, 1, 2]\} OR
+		%  TR = \{[0, 1, 4]\} OR
+		%  TR = \{[0, 1, 2, 4]\}
+	}
+
+    \part[3] List the test requirement set of all-uses coverage with respect to X.
+    \answerspace{12}
+    \answer{
+		TR for all-uses coverage:
+		TR = \{[0, 1, 2], ([0, 1, 4] or [0, 1, 2, 4])\}
+		% Accept answer with just:
+		%  - TR = {[0, 1, 2], [0, 1, 4]}    OR
+        %  - TR = {[0, 1, 2], [0, 1, 2, 4]}
+
+	}
+
+    \part[4] List the test requirement set of all-du-paths coverage with respect to X.
+    \answerspace{12}
+    \answer{
+		TR for all-du-paths coverage:
+		TR = \{[0, 1, 2], [0, 1, 4], [0, 1, 2, 4]\}
+	}
+
+\end{parts}
+
+
+
+
+
+\question Consider the different techniques to address non-deterministic failures.
+
+\begin{parts}
+
+\part[3] Provide three different examples of sources of non-determinism that can affect the results of a C program.
+\answerspace{15}
+\answer{Memory layout, time system calls, thread schedules.}
+
+
+\part[6] Describe the lockset algorithm using low-level pseudo-code by filling out an
+\texttt{on\_memory\_access()} function. This function will be called through instrumentation every time the target program makes a memory access. Pass arguments to this function that are necessary for the algorithm. You may define other functions that are called through instrumentation if necessary.
+\answerspace{24}
+\answer{A typical solution needs to define \texttt{on\_memory\_access()}, \texttt{on\_lock\_aquire()}, and \texttt{on\_lock\_release()} instrumentation functions in pseudo-code. Needs to keep track of the candidate set for each variable and currently held locks for each thread. Held and candidate set must be calculated by the code. Must report an error on empty candidate sets.}
+
+\newpage
+\part[4] Provide a simple example of a faulty program such that the lockset algorithm is able to help identify the fault. Provide and explain the results of the lockset algorithm on this program.
+\answerspace{20}
+\answer{Two threads that write to a shared variable x without any locks. First access will have an empty candidate set (no locks held by the thread), leading to an alert.}
+
+
+
+\end{parts}
+
+
+
+\question[5] Explain how the feedback-based fuzzers discussed in class work.
+\answerspace{20}
+\answer{They use lightweight instrumentation to get the coverage (feedback) of each executed test. They iteratively generate new tests by mutating an initial or existing corpus test. If a test increases overall testing coverage, over the coverage of the corpus, it is added to the corpus.}
+
+
+\newpage
+\question[4] Describe two approaches to determine what are the properties of good bug reports. Explain how you would implement each.
+\answerspace{16}
+\answer{Examples: (a) conducting developer surveys and (b) studying the properties of bug reports in bug repositories.}
+
+
+\newpage
+
+
+
+\if 0 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\question[10]
+	\answerspace{30}
+	\answer{}
+
+	\question
+	\begin{parts}
+		\part[6]
+		\answerspace{20}
+		\answer{}
+
+		\part[2]
+		\answerspace{10}
+		\answer{}
+
+	\end{parts}
+\fi %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\newpage
+	\begin{center}
+		[EMPTY PAGE 1]
+	\end{center}
+
+	\newpage
+	\begin{center}
+		[EMPTY PAGE 2]
+	\end{center}
+
+\end{questions}
+
+
+
+
+
+\end{document}
