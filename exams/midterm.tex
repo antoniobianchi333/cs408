@@ -92,8 +92,10 @@
 \makebox[\textwidth]{\textbf{PUID}: \rule{40mm}{0.8pt} \hspace{35mm}}
 %\end{center}
 
-
-
+\newpage
+\begin{center}
+  [PAGE DELIBERATELY LEFT BLANK]
+\end{center}
 
 \begin{questions}
 
@@ -105,40 +107,6 @@
   %     \answer{True.}
   %
   %   \end{parts}
-
-\question[4] What are the key differences between black-box
-  and white-box testing approaches?
-
-  \answerspace{25}
-  \answer{
-    White-box approaches assume complete access to the source code of
-    the program under test, while black-box assumes you can only run
-    the program.
-  }
-
-\question[4] List some of the advantages and disadvantages of
-  both black-box and white-box testing.
-
-  \answerspace{25}
-  \answer{
-    \begin{itemize}
-    \item[BB Pros:] Easy to deploy: works out of the box, regardless
-      of source language, hardware, etc. Assumes no expertise from the
-      user.
-    \item[BB Con:] Without access to the system under test, have to
-      rely on domain knowledge and luck to find bugs. Can easily miss
-      bugs that depend on very specific inputs.
-    \item[WB Pro:] Can leverage information about the system under
-      test to more intelligently search for faults. Can quantify how
-      much of the space we've explore and search deeper into the call
-      graph.
-    \item[WB Cons:] More heavy-weight technique, cannot be immediately
-      applied to all systems, may not have access to the system under
-      test. May require
-    \end{itemize}
-  }
-
-\newpage
 
 \question Consider the following control-flow graph:
   \begin{figure}[ht]
@@ -214,7 +182,7 @@ public static int square(int x) {
 
 \begin{parts}
 
-\part[4] Is it possible to devise a set of test cases that achieve
+\part[4] Is it feasible to devise a set of test cases that achieve
   100\% \textbf{node coverage} for \mintinline{java}{square}?  %
   If your answer is yes, provide a minimal set of test cases that do
   so. %
@@ -238,7 +206,7 @@ public static int square(int x) {
         In this case, the test case, \texttt{\{x = 1\}}, will satisfy node coverage of this function.
       }
 
-    \part[4] Is it possible to devise a set of test cases that achieve
+    \part[4] Is it feasible to devise a set of test cases that achieve
       100\% \textbf{edge coverage} for \mintinline{java}{square}?  %
       If your answer is yes, provide a minimal set of test cases that
       do so. %
@@ -265,18 +233,13 @@ public static int square(int x) {
     changing \texttt{unsigned int x} to \texttt{int x}, and adding
     \texttt{x -= 1;} after line $5$ in the while loop.  In this case,
     the test case, \texttt{\{x = 1\}}, will satisfy node coverage of
-    this function.  }
-  \end{parts}
+    this function.}
 
-  \newpage
-
-\question[3] Is it possible for a set of test cases to achieve
+\part[4] Is it feasible for a set of test cases to achieve
   \textbf{complete path coverage} for \mintinline{java}{square}? %
-  If your answer is yes, provide an example of such a program and set
-  of test cases. %
-  If your answer is no, explain why not.
-  \answerspace{15}
-  \answer{
+  If your answer is yes, provide a minimal set of test cases that do
+  so. %
+  If your answer is no, explain why not.  \answerspace{40} \answer{
         % rubric:
         % Case 1 - Yes:
         %       - explain: 2
@@ -292,7 +255,10 @@ public static int square(int x) {
     changing \texttt{unsigned int x} to \texttt{int x}, and adding
     \texttt{x -= 1;} after line $5$ in the while loop.  In this case,
     the test case, \texttt{\{x = 1\}}, will satisfy node coverage of
-    this function.  }
+    this function.
+  }
+
+  \end{parts}
 
 \newpage
 \question Consider the following faulty Java program:
@@ -341,7 +307,7 @@ public static int sum(List<Integer> numbers) {
 
   \part[3] If possible, provide an example of a test input that causes the fault to execute
 	but no failure to occur. If this is not possible, explain why.
-	\answerspace{20}
+	\answerspace{35}
     \answer{
         % rubric:
         % Case 1 - have an example:
@@ -394,17 +360,17 @@ public static void guessingGame() {
 \begin{parts}
 \part[3] List all the DU-pairs for the variable
   \mintinline{java}{secretNumber}. Please use the format (Line \#X, Line \#Y).
-  \answerspace{9}
+  \answerspace{22}
   \answer{}
 
 \part[3] List all the DU-pairs for the variable
   \mintinline{java}{guess}. Please use the format (Line\#X, Line\#Y).
-  \answerspace{9}
+  \answerspace{22}
   \answer{ }
 
 \part[3] List all the DU-pairs for the variable
   \mintinline{java}{attempts}. Please use the format (Line\#X, Line\#Y).
-  \answerspace{9}
+  \answerspace{28}
   \answer{ }
 \end{parts}
 
@@ -460,28 +426,28 @@ For example: \texttt{\{\}} (empty set), \texttt{\{A\}}, \texttt{\{A, B\}}. Do no
 \begin{parts}
 
 \part[2] Candidate lockset for \mintinline{java}{sharedCounter} before step 2: (Use the \textbf{answer format} specified above)
-\answerspace{10}
+\answerspace{12}
 \answer{
 	\{\}
 }
 \part[2] Candidate lockset for \mintinline{java}{sharedCounter} between steps 2+3: (Use the \textbf{answer format} specified above)
-\answerspace{10}
+\answerspace{12}
 \answer{
 	\{\}
 }
 \part[2] Candidate lockset for \mintinline{java}{sharedCounter} after step 3: (Use the \textbf{answer format} specified above)
-\answerspace{10}
+\answerspace{14}
 \answer{
 	\{A\}
 }
 \part[2] Does the lockset data race algorithm flag this execution as
   containing a potential data race?
-\answerspace{10}
+\answerspace{14}
 \answer{
 
 }
 \part[3] Is this an actual data race and, if so, is it a benign data race? Explain your answer.
-\answerspace{10}
+\answerspace{14}
 \answer{
 	No.
 }
@@ -530,6 +496,38 @@ and the following set of blocks:
 
 \end{parts}
 
+\question[4] What are the key differences between black-box
+  and white-box testing approaches?
+
+  \answerspace{25}
+  \answer{
+    White-box approaches assume complete access to the source code of
+    the program under test, while black-box assumes you can only run
+    the program.
+  }
+
+\question[4] List some of the advantages and disadvantages of
+  both black-box and white-box testing.
+
+  \answerspace{25}
+  \answer{
+    \begin{itemize}
+    \item[BB Pros:] Easy to deploy: works out of the box, regardless
+      of source language, hardware, etc. Assumes no expertise from the
+      user.
+    \item[BB Con:] Without access to the system under test, have to
+      rely on domain knowledge and luck to find bugs. Can easily miss
+      bugs that depend on very specific inputs.
+    \item[WB Pro:] Can leverage information about the system under
+      test to more intelligently search for faults. Can quantify how
+      much of the space we've explore and search deeper into the call
+      graph.
+    \item[WB Cons:] More heavy-weight technique, cannot be immediately
+      applied to all systems, may not have access to the system under
+      test. May require
+    \end{itemize}
+  }
+
 \if 0 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\question[10]
 	\answerspace{30}
@@ -556,7 +554,7 @@ and the following set of blocks:
 	\newpage
 	\begin{center}
 		[EMPTY PAGE 2]
-	\end{center}
+              \end{center}
 
 \end{questions}
 
