@@ -1,5 +1,5 @@
 % Add "answers" option to print the answers
-\documentclass[addpoints, answers]{exam}
+\documentclass[addpoints]{exam}
 
 \input{cmds}
 
@@ -109,58 +109,58 @@
 \question[4] What are the key differences between black-box
   and white-box testing approaches?
 
-  \answerspace{9}
+  \answerspace{25}
   \answer{
-    An error is an incorrect internal state of the program, such as a wrong value for a variable.
+    White-box approaches assume complete access to the source code of
+    the program under test, while black-box assumes you can only run
+    the program.
   }
 
 \question[4] List some of the advantages and disadvantages of
   both black-box and white-box testing.
 
-  \answerspace{9}
+  \answerspace{25}
   \answer{
-    An error is an incorrect internal state of the program, such as a wrong value for a variable.
+    \begin{itemize}
+    \item[BB Pros:] Easy to deploy: works out of the box, regardless
+      of source language, hardware, etc. Assumes no expertise from the
+      user.
+    \item[BB Con:] Without access to the system under test, have to
+      rely on domain knowledge and luck to find bugs. Can easily miss
+      bugs that depend on very specific inputs.
+    \item[WB Pro:] Can leverage information about the system under
+      test to more intelligently search for faults. Can quantify how
+      much of the space we've explore and search deeper into the call
+      graph.
+    \item[WB Cons:] More heavy-weight technique, cannot be immediately
+      applied to all systems, may not have access to the system under
+      test. May require
+    \end{itemize}
   }
 
+\newpage
 
 \question Consider the following control-flow graph:
-	\begin{figure}[ht]
-          % \includegraphics[width=7cm]{midterm-cfg1.pdf}
-    %         public static void process(int n) {
-    %     int i = 0;
-
-    %     while (i < n) {
-
-    %         // Meaningful but iteration-invariant condition
-    %         if (n % 2 == 0) {
-    %             System.out.println("Even n");
-    %         } else {
-    %             System.out.println("Odd n");
-    %         }
-
-    %         i++;
-    %     }
-
-    %     System.out.println("Done");
-    % }
-
-	\end{figure}
+  \begin{figure}[ht]
+    \begin{center}
+      \includegraphics[width=.5\linewidth]{midterm-cfg-1.pdf}
+    \end{center}
+  \end{figure}
 
 \vspace{0.2cm}
 
 \begin{parts}
-\part[3] If possible, provide 2 valid test paths through this program
-  \textit{and} the test case inputs that would generate these
-  paths. If this is not possible, explain why.
+\part[3] If possible, provide 2 valid test paths through this program.
+  If this is not possible, explain why.
 
-	\answerspace{7}
+	\answerspace{11}
 	\answer{
 		Examples: [1, 3, 4, 5] and [1, 2, 4, 5].
 		The test paths start from node 1 and end at node 5. There can be many possibilities of test paths in the given cfg, out of which, one path can be [1, 3, 4, 5] and another can be [1, 2 , 4, 5].
 	}
 
-	\part[3] If possible, list 3 simple paths that (a) are not prime paths and (b) start on node 3. If this is not possible, explain why.
-	\answerspace{7}
+	\part[3] If possible, list 3 simple paths that (a) are not prime paths and (b) start on node C1. If this is not possible, explain why.
+	\answerspace{11}
 	\answer{
 		[2],
 		[2, 4],
@@ -170,33 +170,40 @@
 		Any three of the above four simple paths are acceptable answers.
 	}
 
-	\part[5] If possible, list four prime paths that start on node 4. If this is not possible, explain why.
-	\answerspace{7}
+	\part[5] If possible, list four prime paths that start on node BB4. If this is not possible, explain why.
+	\answerspace{11}
 	\answer{
 		There are only 2 prime paths that start on 4 (which are [4, 1, 2, 4] and [4, 1, 3, 4]);  in total there are only 6 simple paths starting on 4, out of which only these two are not the proper subsets of other simple paths.
 		}
 
-
-	\newpage
-      \part[5] Write an example of a syntactically valid Java function that generates
+      \part[3] Write an example of a syntactically valid Java function that generates
 	this control-flow graph. If this is not possible,
 	explain why.
-	\answerspace{23}
+	\answerspace{26}
 	\answer{
-		This is the closest possible solution-
-		% \VerbatimInput{midterm-q7_d_answer.txt}
+          This is the closest possible solution-
+          % \VerbatimInput{midterm-q7_d_answer.txt}
+        }
+
+      \part[3] Provide test case inputs that would generate
+        execution paths corresponding to the test paths you
+        gave in part (1). If this is not possible,
+        explain why.
+        \answerspace{26} \answer{ This is the
+          closest possible solution-
+          % \VerbatimInput{midterm-q7_d_answer.txt}
 	}
 
 \end{parts}
 
-\newpage
 \question Consider the following Java program:
   \begin{minted}{java}
-public static void process(int x) {
+public static int square(int x) {
   int y = Math.abs(x);
-  while (y >= 0) {
-    if (y < 0) {
-       System.out.println("Negative y");
+  int z = 0;
+  while (0 < y) {
+     if (z < x * x) {
+        z += Math.abs(x);
      }
      y--;
   }
@@ -208,15 +215,15 @@ public static void process(int x) {
 \begin{parts}
 
 \part[4] Is it possible to devise a set of test cases that achieve
-  100\% \textbf{node coverage} for \mintinline{java}{process}?  %
+  100\% \textbf{node coverage} for \mintinline{java}{square}?  %
   If your answer is yes, provide a minimal set of test cases that do
   so. %
   If your answer is no, (a) provide a simple change to
-  \mintinline{java}{process} so that it becomes possible to satisfy
+  \mintinline{java}{square} so that it becomes possible to satisfy
   100\% \textbf{node coverage} and (b) provide a simple and minimal
   test case set that satisfies \textbf{node coverage} of this
-  function.  \answerspace{14}
-  \answer{\\
+  function.  \answerspace{15}
+  \answer{
         % rubric:
         % Case 1 - Yes:
         %       - explain: 2
@@ -232,17 +239,17 @@ public static void process(int x) {
       }
 
     \part[4] Is it possible to devise a set of test cases that achieve
-      100\% \textbf{edge coverage} for \mintinline{java}{process}?  %
+      100\% \textbf{edge coverage} for \mintinline{java}{square}?  %
       If your answer is yes, provide a minimal set of test cases that
       do so. %
       If your answer is no, (a) provide a simple change to
-      \mintinline{java}{process} so that it becomes possible to
+      \mintinline{java}{square} so that it becomes possible to
       satisfy 100\% \textbf{edge coverage} and (b) provide a simple
       and minimal test case set that satisfies \textbf{edge coverage}
       of this function.
 
-  \answerspace{14}
-  \answer{\\
+  \answerspace{15}
+  \answer{
         % rubric:
         % Case 1 - Yes:
         %       - explain: 2
@@ -264,19 +271,37 @@ public static void process(int x) {
   \newpage
 
 \question[3] Is it possible for a set of test cases to achieve
-  \textbf{complete path coverage} for a program? %
+  \textbf{complete path coverage} for \mintinline{java}{square}? %
   If your answer is yes, provide an example of such a program and set
   of test cases. %
   If your answer is no, explain why not.
+  \answerspace{15}
+  \answer{
+        % rubric:
+        % Case 1 - Yes:
+        %       - explain: 2
+        %       - test case: 1
+        % Case 2 - No:
+        %       - explain: 1
+        %       - change: 1
+        %       - test case: 1
+    No. Because within the while loop, \texttt{x} will never be less
+    than zero due to \texttt{unsigned int} type.
+    Thus, the node, \texttt{line 7}, will never be covered. \\
+    Example change: To satisfy node coverage with a simple change,
+    changing \texttt{unsigned int x} to \texttt{int x}, and adding
+    \texttt{x -= 1;} after line $5$ in the while loop.  In this case,
+    the test case, \texttt{\{x = 1\}}, will satisfy node coverage of
+    this function.  }
 
-
+\newpage
 \question Consider the following faulty Java program:
   \begin{minted}{java}
 // Sums all elements in a list
 public static int sum(List<Integer> numbers) {
   int total = 0;
   for (int i = 0; i < numbers.size() - 1; i++) {
-    total += numbers[i];
+    total += numbers.get(i);
   }
   return total;
 }
@@ -286,8 +311,8 @@ public static int sum(List<Integer> numbers) {
 \part[3] State the location(s) of the program fault and explain how
   you would fix the program. Consider only the smallest and simplest
   fix.
-  \answerspace{10}
-  \answer{\\
+  \answerspace{19}
+  \answer{
         % rubric:
         % location: 1
         % explain: 1
@@ -301,8 +326,8 @@ public static int sum(List<Integer> numbers) {
 
   \part[3] If possible, provide an example of a test input that does not cause the
     fault to execute. If this is not possible, explain why.
-    \answerspace{10}
-    \answer{\\
+    \answerspace{19}
+    \answer{
       % rubric:
         % Case 1 - have an example:
         %   - have: 1
@@ -316,8 +341,8 @@ public static int sum(List<Integer> numbers) {
 
   \part[3] If possible, provide an example of a test input that causes the fault to execute
 	but no failure to occur. If this is not possible, explain why.
-	\answerspace{10}
-    \answer{\\
+	\answerspace{20}
+    \answer{
         % rubric:
         % Case 1 - have an example:
         %   - have: 1
@@ -335,84 +360,98 @@ public static int sum(List<Integer> numbers) {
 
 \newpage
 
-\question Consider the following faulty Java program:
+\question Consider the following Java program:
   \begin{minted}{java}
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+public static void guessingGame() {
+  Scanner scanner = new Scanner(System.in);
 
-        int secretNumber = 42;
-        int guess;
-        int attempts = 0;
+  int secretNumber = 42;
+  int guess;
+  int attempts = 1;
 
-        System.out.println("Try to guess the secret number between 1 and 100.");
+  System.out.println("Try to guess the secret number between 1 and 100.");
 
-        while (true) {
-            System.out.print("Enter your guess: ");
-            guess = scanner.nextInt();
-            attempts++;
-
-            if (guess == secretNumber) {
-                System.out.println("Correct! You guessed it in " + attempts + " attempts.");
-                break;
-            } else if (guess < secretNumber) {
-                System.out.println("Too low!");
-            } else {
-                System.out.println("Too high!");
-            }
-            if (attempts == 5) {
-                int hint = secretNumber \% 10
-                System.out.println("Hint: The last digit of the secret number is " + hint);
-            }
-        }
-        scanner.close();
+  do {
+    System.out.print("Enter your guess: ");
+    guess = scanner.nextInt();
+    if (guess < secretNumber) {
+      System.out.println("Too low!");
+      attempts++;
+    } else if (guess > secretNumber) {
+      System.out.println("Too high!");
+      attempts++;
     }
+    if (attempts == 5) {
+      int hint = secretNumber % 10;
+      System.out.println("Hint: The last digit of the secret number is " + hint);
+    }
+   } while (guess != secretNumber);
+   System.out.println("Correct! You guessed it in " + attempts + " attempts.");
+   scanner.close();
 }
 \end{minted}
 
 \begin{parts}
 \part[3] List all the DU-pairs for the variable
-  \mintinline{java}{secretNumber}. Please use the format (Line\#X, Line\#Y).
-  \answerspace{7}
-  \answer{ }
+  \mintinline{java}{secretNumber}. Please use the format (Line \#X, Line \#Y).
+  \answerspace{9}
+  \answer{}
 
 \part[3] List all the DU-pairs for the variable
   \mintinline{java}{guess}. Please use the format (Line\#X, Line\#Y).
-  \answerspace{7}
+  \answerspace{9}
   \answer{ }
 
 \part[3] List all the DU-pairs for the variable
   \mintinline{java}{attempts}. Please use the format (Line\#X, Line\#Y).
-  \answerspace{7}
+  \answerspace{9}
   \answer{ }
 \end{parts}
 
 \newpage
 
 \question Consider the following pair of Java threads:
-  \begin{minted}{java}
-    Thread t1 = new Thread(() -> {
-            A.lock();
-            sharedCounter++;
-            A.unlock();
-            B.lock();
-            sharedCounter--;
-            B.unlock();
-        });
 
-        Thread t2 = new Thread(() -> {
-            B.lock();
-            sharedCounter += 2;
-            B.unlock();
-            A.lock();
-            sharedCounter += 3;
-            A.unlock();
-        });
-      \end{minted}
-And suppose these threads execute according to the following schedule:
+  \begin{tabular}{p{.45\linewidth}|cp{.45\linewidth}}
+  \begin{minted}{java}
+Thread t1 = new Thread(() -> {
+  A.lock();
+  B.lock();
+  sharedCounter++;
+  B.unlock();
+  A.unlock();
+
+  B.lock();
+  C.lock();
+  sharedCounter--;
+  C.unlock();
+  B.unlock();
+});
+\end{minted}
+    &
+\quad &
+\begin{minted}{java}
+Thread t2 = new Thread(() -> {
+  A.lock();
+  C.lock();
+  sharedCounter += 2;
+  C.unlock();
+  A.unlock();
+
+  A.lock();
+  B.lock();
+  sharedCounter += 3;
+  B.unlock();
+  A.unlock();
+});
+\end{minted}
+  \end{tabular}
+
+  And suppose these threads execute according to the following schedule:
   \begin{enumerate}
-  \item \textbf{T1:} L1-L3
-  \item \textbf{T2:} L1-L6
-  \item \textbf{T1:} L4-L6
+  \item \textbf{T1:} L1-L6
+  \item \textbf{T2:} L1-L12
+  \item \textbf{T1:} L7-L12
   \end{enumerate}
 \textbf{Answer format:} When writing candidate locksets or held locks, always use curly braces
 (\texttt{\{\}}).
@@ -441,11 +480,10 @@ For example: \texttt{\{\}} (empty set), \texttt{\{A\}}, \texttt{\{A, B\}}. Do no
 \answer{
 
 }
-\part[4] Is this an actual data race and, if so, is it a benign data
-  race? Explain your answer.
+\part[3] Is this an actual data race and, if so, is it a benign data race? Explain your answer.
 \answerspace{10}
 \answer{
-	Yes. T2 writes to \texttt{x} without holding \texttt{A} while T1 writes while holding \texttt{A}.
+	No.
 }
 \end{parts}
 
@@ -478,9 +516,18 @@ and the following set of blocks:
 \begin{parts}
 \part[5] Is this a valid partitioning of the input space of
   \mintinline{java}{calculateCurve}? Explain your answer.
+\answerspace{14}
+\answer{
+
+}
 
 \part[5] If your answer was no, how would you modify and/or augment
   this set of blocks to turn it into a valid partitioning?
+\answerspace{14}
+\answer{
+
+}
+
 \end{parts}
 
 \if 0 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
