@@ -49,8 +49,7 @@
           course staff will come to you.
 
         \item Provide complete and clear but concise
-          answers. Justify thoroughly statements where
-          required.
+          answers. Any explanations should be thorough.
 
         \item Answer the questions in the spaces provided. Your answer
           does not need to take up all the space provided; if you run
@@ -155,7 +154,7 @@
 
       \part[3] Provide test case inputs that would generate
         execution paths corresponding to the test paths you
-        gave in part (1). If this is not possible,
+        gave in part (1a). If this is not possible,
         explain why.
         \answerspace{26} \answer{ This is the
           closest possible solution-
@@ -263,7 +262,7 @@ public static int square(int x) {
 \newpage
 \question Consider the following faulty Java program:
   \begin{minted}{java}
-// Sums all elements in a list
+// Sums all elements in a non-null list assuming no integer under/overflow
 public static int sum(List<Integer> numbers) {
   int total = 0;
   for (int i = 0; i < numbers.size() - 1; i++) {
@@ -275,10 +274,9 @@ public static int sum(List<Integer> numbers) {
 
 \begin{parts}
 \part[3] State the location(s) of the program fault and explain how
-  you would fix the program. Consider only the smallest and simplest
-  fix.
-  \answerspace{19}
-  \answer{
+  you would rewrite each line to fix the fault. Your fixes should be
+  as simple as possible.
+  \answerspace{19} \answer{
         % rubric:
         % location: 1
         % explain: 1
@@ -415,9 +413,9 @@ Thread t2 = new Thread(() -> {
 
   And suppose these threads execute according to the following schedule:
   \begin{enumerate}
-  \item \textbf{T1:} L1-L6
-  \item \textbf{T2:} L1-L12
-  \item \textbf{T1:} L7-L12
+  \item \textbf{Step 1:} Thread T1, L1-L6
+  \item \textbf{Step 2:} Thread T2, L1-L12
+  \item \textbf{Step 3:} Thread T1, L7-L12
   \end{enumerate}
 \textbf{Answer format:} When writing candidate locksets or held locks, always use curly braces
 (\texttt{\{\}}).
@@ -473,9 +471,9 @@ double calculateCurve(StudentCategory cat, double origScore) {
 and the following set of blocks:
 \begin{tabular}{c|c|c}
   \textbf{block} & \textbf{status} & \textbf{grade} \\
-  b1 & graduate & F \\
-  b2 & graduate & below C \\
-  b3 & honors & below D \\
+  b1 & graduate & F ($\le 59$) \\
+  b2 & graduate & below C ($< 70$) \\
+  b3 & honors & below A ($< 90$) \\
   b4 & undergrad & any \\
 \end{tabular}
 
