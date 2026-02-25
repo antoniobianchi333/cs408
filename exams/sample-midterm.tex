@@ -11,6 +11,7 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{minted}
+\usepackage{multicol}
 
 \newcommand{\includecode}[2][c]{\lstinputlisting[caption=, escapechar=, language=#1]{#2}<!---->}
 \RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
@@ -127,7 +128,7 @@
 
 \end{parts}
 
-\question Consider the following three approaches to test a database management engine:
+\question Consider the following three approaches to testing a function:
 \begin{itemize}
 	\item \textbf{Approach 1:} Run the target program on N
           randomly chosen inputs
@@ -283,10 +284,11 @@ public static int indexEven(int[] x, int n) {
         }
         int count = 0;
         for (int i = 0; i < x.length; i++) {
-            if ((x[i] & 1) == 0) {
-                count++;
-                if (count = n) {
+            if (x[i] % 2 == 0) {
+                if (count == n) {
                    return i;
+                 } else {
+                   count++;
                  }
             }
         }
@@ -442,10 +444,6 @@ public static int indexEven(int[] x, int n) {
   lines and 12 statements, that can not satisfy two different
   categories of coverage criteria that were discussed in class.
 
-  \begin{figure}[ht]
-    % \includegraphics[width=7cm]{midterm-cfg1.pdf}
-  \end{figure}
-
 \begin{parts}
 \part[3] Identify the first coverage criterion that you selected and
   thoroughly explain why it is impossible for any test suite to
@@ -478,21 +476,28 @@ public static int indexEven(int[] x, int n) {
 
 \newpage
 \question Consider the following control-flow graph:
-	\begin{figure}[ht]
-          % \includegraphics[width=7cm]{midterm-cfg1.pdf}
-	\end{figure}
-
-\vspace{0.2cm}
+  \begin{center}
+  \begin{figure}[ht]
+    \includegraphics[width=7cm]{sample-midterm-cfg-2.pdf}
+  \end{figure}
+\end{center}
 
 \begin{parts}
-	\part[3] If possible, list 2 test paths. If this is not possible, explain why.
+\part[3] List all the simple paths in the CFG given above.
 	\answerspace{7}
 	\answer{
 		Examples: [1, 3, 4, 5] and [1, 2, 4, 5].
 		The test paths start from node 1 and end at node 5. There can be many possibilities of test paths in the given cfg, out of which, one path can be [1, 3, 4, 5] and another can be [1, 2 , 4, 5].
 	}
 
-	\part[3] If possible, list 3 simple paths that (a) are not prime paths and (b) start on node 2. If this is not possible, explain why.
+      \part[3] List three test paths in the CFG given above.
+	\answerspace{7}
+	\answer{
+		Examples: [1, 3, 4, 5] and [1, 2, 4, 5].
+		The test paths start from node 1 and end at node 5. There can be many possibilities of test paths in the given cfg, out of which, one path can be [1, 3, 4, 5] and another can be [1, 2 , 4, 5].
+	}
+
+      \part[3] List all the prime paths in the CFG given above.
 	\answerspace{7}
 	\answer{
 		[2],
@@ -502,13 +507,6 @@ public static int indexEven(int[] x, int n) {
 		\\
 		Any three of the above four simple paths are acceptable answers.
 	}
-
-	\part[3] If possible, list 3 prime paths that start on node 4. If this is not possible, explain why.
-	\answerspace{7}
-	\answer{
-		There are only be 2 prime paths that start on 4 (which are [4, 1, 2, 4] and [4, 1, 3, 4]);  in total there are only 6 simple paths starting on 4, out of which only these two are not the proper subsets of other simple paths.
-		}
-
 
 	\newpage
       \part[10] Write an example of a syntactically valid Java function
@@ -521,6 +519,8 @@ public static int indexEven(int[] x, int n) {
 
       \part[3] Provide test inputs that would generate the test paths
         you identified in 6a.
+        \answerspace{15}
+        \answer{ Foo }
 
 
 \end{parts}
@@ -569,28 +569,50 @@ public static int indexEven(int[] x, int n) {
 
 \end{parts}
 
-\newpage
+\question{4} A tester defined three characteristics for the input
+  parameter car: \textbf{Where Made}, \textbf{Energy Source}, and
+  \textbf{Size}. The following partitioning for these characteristics
+  has (at least) two mistakes. How would you correct them?
+
+  \begin{center}
+  \begin{tabular}{|c|c|c|}
+    \hline
+    \multicolumn{3}{|c|}{\textbf{Where Made}} \\\hline
+    North America & Europe & Asia \\\hline
+    \multicolumn{3}{|c|}{\textbf{Energy Source}} \\\hline
+    gas & electric & hybrid \\\hline
+    \multicolumn{3}{|c|}{\textbf{Size}}\\\hline
+    2-door & 4-door & hatch back\\\hline
+  \end{tabular}
+\end{center}
+\answerspace{15}
+\answer{They use lightweight instrumentation to get the coverage (feedback) of each executed test. They iteratively generate new tests by mutating an initial or existing corpus test. If a test increases overall testing coverage, over the coverage of the corpus, it is added to the corpus.}
+
+\question[5] Explain how the coverage-guided fuzzers discussed in class work.
+\answerspace{20}
+\answer{They use lightweight instrumentation to get the coverage (feedback) of each executed test. They iteratively generate new tests by mutating an initial or existing corpus test. If a test increases overall testing coverage, over the coverage of the corpus, it is added to the corpus.}
+
+  \newpage
+
 \question[4]
   Provide a simple example of a program with a data race, where the
-  lockset algorithm can help identify the fault. Provide and explain
+  lockset algorithm can help identify the problem. Provide and explain
   the results of the lockset algorithm on this program.
 
   \answerspace{20}
 \answer{Two threads that write to a shared variable x without any locks. First access will have an empty candidate set (no locks held by the thread), leading to an alert.}
 
-\question[4]
-  Provide a simple example of a program without a problematic data
-  race, where the lockset algorithm will nevertheless flag the data
-  race for the user. Provide and explain the results of the lockset
-  algorithm on this program, and argue why this is a false positive.
+\question[4] Provide a simple example of a program without a
+  problematic data race, where the lockset algorithm will nevertheless
+  flag a potential data race for the user. Provide and explain the
+  results of the lockset algorithm on this program, and argue why this
+  is a false positive.
 
   \answerspace{20} \answer{Two threads that write to a shared variable
     x without any locks. First access will have an empty candidate set
     (no locks held by the thread), leading to an alert.}
 
-\question[5] Explain how the feedback-based fuzzers discussed in class work.
-\answerspace{20}
-\answer{They use lightweight instrumentation to get the coverage (feedback) of each executed test. They iteratively generate new tests by mutating an initial or existing corpus test. If a test increases overall testing coverage, over the coverage of the corpus, it is added to the corpus.}
+
 
 
 % \newpage
