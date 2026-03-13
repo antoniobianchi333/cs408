@@ -1,4 +1,4 @@
-\documentclass[addpoints,answers]{exam}
+\documentclass[addpoints]{exam}
 
 \input{cmds}
 
@@ -13,6 +13,7 @@
 \usepackage{algpseudocode}
 \usepackage{tabularx}
 \usepackage{amsmath}
+\usepackage{minted}
 
 \newcommand{\includecode}[2][c]{\lstinputlisting[caption=, escapechar=, language=#1]{#2}<!---->}
 \RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
@@ -44,7 +45,6 @@
 		\item The homework is open notes, open book.
 		\item All assignments must be completed individually.
 		\item Provide complete and clear but concise answers. Provide thorough justification where required.
-		\item Coding questions should be answered in C.
 		\item Use basic blocks for all CFG exercises.
 		\item The conditions for $p_x$ should be simplified as shown in class.
 	\end{itemize}
@@ -67,18 +67,21 @@
 \newpage
 \begin{questions}
 
-\question For the following clause: $p = (a \oplus b) \land (\lnot c)$
+\question For the following predicate: $p = (a \oplus b) \land (\lnot c)$
 
 \begin{parts}
 
 % correct = 5
 % Partial simplification = 3
 % Incorrect = 0
-\part[5] Provide the final (simplified) $p_a$ condition. Please include simplification steps.
-\answerspace{10}
+\part[5] Provide a fully simplified $p_a$ predicate.(Recall
+    that $P_c$ is a predicate taht describes the exact conditions
+    under which clause $c$ determines $P$.) Please show the
+    intermediate simplification steps. %
+    \answerspace{12} %
 
 \answer{
-	\\
+
 	$p_a = p_{a = \top} \oplus p_{a = \bot}$ \\
 	$p_a = \bigl((\top \oplus b) \land \lnot c\bigr) \oplus \bigl((\bot \oplus b) \land \lnot c\bigr)$ \\
 	$p_a = \bigl(\lnot b \land \lnot c\bigr) \oplus \bigl(b \land \lnot c\bigr)$ \\
@@ -88,17 +91,18 @@
 	\[
 	\boxed{\,p_a \;=\; \lnot c\,}
 	\]
-    \\
+
 }
 
 
 % correct = 5
 % Partial simplification = 3
 % Incorrect = 0
-\part[5] Provide the final (simplified) $p_b$ condition. Please include simplification steps.
-\answerspace{10}
+\part[5] Provide a fully simplified $p_b$ predicate. Show the
+  intermediate simplification steps. %
+\answerspace{12}%
 \answer{
-	\\
+
 	$p_b = p_{b = \top} \oplus p_{b = \bot}$ \\
 	$p_b = \bigl((a \oplus \top) \land \lnot c\bigr) \oplus \bigl((a \oplus \bot) \land \lnot c\bigr)$ \\
 	$p_b = \bigl(\lnot a \land \lnot c\bigr) \oplus \bigl(a \land \lnot c\bigr)$ \\
@@ -114,10 +118,10 @@
 % correct = 5
 % Partial simplification = 3
 % Incorrect = 0
-\part[5] Provide the final (simplified) $p_c$ condition. Please include simplification steps.
-\answerspace{10}
+\part[5] Provide the fully simplified $p_c$ predicate. Show the intermediate simplification steps.
+\answerspace{12}%
 \answer{
-	\\
+
 	$p_c = p_{c = \top} \oplus p_{c = \bot}$ \\
 	$p_{c=\top} = (a \oplus b)\land \lnot\top = (a \oplus b)\land \bot = \bot$ \\
 	$p_{c=\bot} = (a \oplus b)\land \lnot\bot = (a \oplus b)\land \top = (a \oplus b)$ \\
@@ -133,60 +137,61 @@
 
 
 
-\begin{table}
-    \begin{center}
-        \begin{tabular}{||c c c c c||} 
-    \hline
-        & a & b & c & $(a \oplus b) \land (\lnot c)$ \\ [0.5ex] 
-    \hline\hline
-     1 & T & T & T & F \\ 
-     \hline
-     2 & T & T & F & F \\
-     \hline
-     3 & T & F & T & F \\
-     \hline
-     4 & T & F & F & T \\
-     \hline
-     5 & F & T & T & F \\ 
-     \hline
-     6 & F & T & F & T \\
-     \hline
-     7 & F & F & T & F \\
-     \hline
-     8 & F & F & F & F \\ 
-     [1ex] 
-    \hline
-        \end{tabular}
-        \caption{Truth table for $(a \oplus b) \land (\lnot c)$.\label{table:truth_xor}}
-    \end{center}
-\end{table}
+% \begin{table}
+%     \begin{center}
+%         \begin{tabular}{||c c c c c||}
+%     \hline
+%         & a & b & c & $(a \oplus b) \land (\lnot c)$ \\ [0.5ex]
+%     \hline\hline
+%      1 & T & T & T & F \\
+%      \hline
+%      2 & T & T & F & F \\
+%      \hline
+%      3 & T & F & T & F \\
+%      \hline
+%      4 & T & F & F & T \\
+%      \hline
+%      5 & F & T & T & F \\
+%      \hline
+%      6 & F & T & F & T \\
+%      \hline
+%      7 & F & F & T & F \\
+%      \hline
+%      8 & F & F & F & F \\
+%      [1ex]
+%     \hline
+%         \end{tabular}
+%         \caption{Truth table for $(a \oplus b) \land (\lnot c)$.\label{table:truth_xor}}
+%     \end{center}
+% \end{table}
 
 % \pf{Please add a question for them to write the truth table, make it worth 4 points. Do it for this and the next predicate.}
-\part[4] Write the truth table for the given predicate in this question.
-\answerspace{10}
+\part[4] Write the truth table for the predicate $p$ given above.
+\answerspace{18}%
 \answer{
 	The truth table is Table 2.
-}	
+}
 
 % 2 each for the true and false case
-\part[4] For the given predicate in this question, determine whether the following test set satisfies Predicate Coverage:
+\part[4] Does the following test set satisfy Predicate Coverage (PC)
+  for $p$?
 \begin{itemize}
 	\item {Test 1: a=True, b=False, c=False}
 	\item {Test 2: a=False, b=True, c=True}
 \end{itemize}
-\answerspace{10}
+\answerspace{14}%
 \answer{
 	The truth table is Table 1. \\
 	% The given inputs correspond to rows 4 and 5 in the truth table, where row 4 evaluates to True and row 5 evaluates to False. \\
 	% To satisfy Predicate Coverage, we need at least one test case that evaluates to True and one that evaluates to False. \\
-	Test 1 evaluates the predicate to true, and Test 2 evaluates it to false. 
+	Test 1 evaluates the predicate to true, and Test 2 evaluates it to false.
 	Hence, this input satisfies Predicate Coverage.
 }
 
 % 0.5 points for each T/F covered for a b c
-\part[3] Write the TR for Clause Coverage (CC).
+\part[3] Write the test requirements for Clause Coverage (CC) for $p$.
 % with respect to $TR_a$, $TR_b$ and $TR_c$.
-\answerspace{10}
+\answerspace{14}%
 \answer{
 	%The truth table is Table 1.  \\
 	TR: a=False, a=True, b=False, b=True, c=False, c=True.
@@ -202,17 +207,18 @@
 
 % \pf{Attreyee, please apply the same type of changes I made to question 1 to question 2. Make sure you apply all the changes.}
 
-\question For the following clause: $p = a \land (\lnot b \rightarrow c)$
+\question For the following predicate: $q = a \land (\lnot b \rightarrow c)$
 
 \begin{parts}
 
 % correct = 5
 % Partial simplification = 3
 % Incorrect = 0
-\part[5] Provide the final (simplified) $p_a$ condition. Please include simplification steps.
-\answerspace{10}
+\part[5] Provide the fully simplified $q_a$ predicate. Show
+  the intermediate simplification steps.
+\answerspace{12}%
 \answer{
-	\\
+
 	$p_a = p_{a = \top} \oplus p_{a = \bot}$ \\
 	$p_a = \bigl((\top) \land (\lnot b \rightarrow c)\bigr) \oplus \bigl((\bot) \land (\lnot b \rightarrow c)\bigr)$ \\
 	$p_a = \bigl(\lnot b \rightarrow c\bigr) \oplus \bot$ \\
@@ -231,10 +237,10 @@
 % correct = 5
 % Partial simplification = 3
 % Incorrect = 0
-\part[5] Provide the final (simplified) $p_b$ condition. Please include simplification steps.
-\answerspace{10}
+\part[5] Provide the fully simplified $q_b$ predicate. Show the intermediate simplification steps.
+\answerspace{14}%
 \answer{
-	\\
+
 	$p_b = p_{b = \top} \oplus p_{b = \bot}$ \\
 	$p_{b=\top} = a \land (\lnot \top \rightarrow c) = a \land (\bot \rightarrow c) = a \land \top = a$ \\
 	$p_{b=\bot} = a \land (\lnot \bot \rightarrow c) = a \land (\top \rightarrow c) = a \land c$ \\
@@ -258,10 +264,10 @@
 % correct = 5
 % Partial simplification = 3
 % Incorrect = 0
-\part[5] Provide the final (simplified) $p_c$ condition. Please include simplification steps.
-\answerspace{10}
+\part[5] Provide the fully simplified $q_c$ predicate. Show the intermediate simplification steps.
+\answerspace{14}%
 \answer{
-	\\
+
 	$p_c = p_{c = \top} \oplus p_{c = \bot}$ \\
 	$p_{c=\top} = a \land (\lnot b \rightarrow \top) = a \land \top = a$ \\
 	$p_{c=\bot} = a \land (\lnot b \rightarrow \bot) = a \land \lnot(\lnot b) = a \land b$ \\
@@ -279,47 +285,48 @@
 	\]
 }
 
-\begin{table}
-    \begin{center}
-        \begin{tabular}{||c c c c c||} 
-    \hline
-        & a & b & c & $a \land (\lnot b \rightarrow c)$ \\ [0.5ex] 
-    \hline\hline
-     1 & T & T & T & T \\ 
-     \hline
-     2 & T & T & F & T \\
-     \hline
-     3 & T & F & T & T \\
-     \hline
-     4 & T & F & F & F \\
-     \hline
-     5 & F & T & T & F \\ 
-     \hline
-     6 & F & T & F & F \\
-     \hline
-     7 & F & F & T & F \\
-     \hline
-     8 & F & F & F & F \\ 
-     [1ex] 
-    \hline
-        \end{tabular}
-        \caption{Truth table for $a \land (\lnot b \rightarrow c)$.\label{table:truth_abc}}
-    \end{center}
-\end{table}
+% \begin{table}
+%     \begin{center}
+%         \begin{tabular}{||c c c c c||}
+%     \hline
+%         & a & b & c & $a \land (\lnot b \rightarrow c)$ \\ [0.5ex]
+%     \hline\hline
+%      1 & T & T & T & T \\
+%      \hline
+%      2 & T & T & F & T \\
+%      \hline
+%      3 & T & F & T & T \\
+%      \hline
+%      4 & T & F & F & F \\
+%      \hline
+%      5 & F & T & T & F \\
+%      \hline
+%      6 & F & T & F & F \\
+%      \hline
+%      7 & F & F & T & F \\
+%      \hline
+%      8 & F & F & F & F \\
+%      [1ex]
+%     \hline
+%         \end{tabular}
+%         \caption{Truth table for $a \land (\lnot b \rightarrow c)$.\label{table:truth_abc}}
+%     \end{center}
+% \end{table}
 
-\part[4] Write the truth table for the given predicate in this question.
-\answerspace{10}
+\part[4] Write the truth table for the predicate $q$ given above.
+\answerspace{18}%
 \answer{
 	The truth table is Table 2.
-}	
+}
 
 % 2 each for the true and false case
-\part[4] For the given predicate in this question, determine whether the following test set satisfies Predicate Coverage:
+\part[4] Does the following test set satisfy Predicate Coverage (PC)
+  for $q$? Explain.
 \begin{itemize}
 	\item {Test 1 : a=True , b=False , c=False}
 	\item {Test 2 : a=False , b=True , c=True}
 \end{itemize}
-\answerspace{10}
+\answerspace{12}%
 \answer{
 	The given inputs correspond to rows 4 and 5 in the truth table, which both evaluate to False. \\
 	To satisfy Predicate Coverage, we need at least one test case that evaluates to True and one that evaluates to False. \\
@@ -327,33 +334,45 @@
 }
 
 % 0.5 points for each T/F covered for a b c
-\part[3] Write the TR for Clause Coverage (CC).
-\answerspace{10}
+\part[3] Write the test requirements for Clause Coverage (CC) for $q$.
+\answerspace{12}%
 \answer{
 	TR: a=False, a=True, b=False, b=True, c=False, c=True.
 }
 \end{parts}
 
-\question Answer the following questions for the method checkIt() below, which 
-prints ``P is true'' if the boolean values of a, b, and c 
-satisfy the condition \texttt{(a \&\& b) || (c)}, and ``P isn't true'' otherwise.
-\VerbatimInput{hw3/checkIt.java}
+\question Answer the following questions for the method
+  \mintinline{java}{checkIt()} shown below.
+\begin{minted}{java}
+ public static void checkIt(boolean a, boolean b, int c, int d) {
+    if ((a && b) || (c < d)) {
+        System.out.println("P is true");
+      } else {
+        if (d < c) {
+          System.out.println("P isn't true and c is not equal to d");
+        } else {
+          System.out.println("P isn't true and c is equal to d");
+        }
+    }
+}
+\end{minted}
+
 \begin{parts}
-\part[5] List all predicates in the checkIt method, including predicates that are part of other predicates.
-\answerspace{10}
-\answer{
-	
+\part[5] List all predicates in \mintinline{java}{checkIt()}, followed
+  by a list of the individual clauses in each predicate.
+  Use the format ``predicate1: clause1, clause2, ...''
+  \answerspace{12} \answer{
 	$(a \wedge b) \vee c$ \\
 	$a \wedge b$ \\
 	$a$ \\
 	$b$ \\
-	$c$ 
+	$c$
 }
 
 % One point for each in TR
-\part[7] Derive a Active Clause Coverage (ACC) test set for checkIt(). Explain your answer.
-\answerspace{10}
-\answer{
+\part[7] Derive a test set which satisfies one of the Active Clause
+  Coverage (ACC) criteria for \mintinline{java}{checkIt()}. Explain
+  your answer.  \answerspace{12} \answer{
 	% The truth table of the predicate in (a) is: \\
 	% \begin{tabular}{l|l|l|l|l}
 	% 	& a & b & c & P \\ \hline
@@ -373,14 +392,14 @@ satisfy the condition \texttt{(a \&\& b) || (c)}, and ``P isn't true'' otherwise
 	TR_a = \{ (a = \top, b = \top, c = \bot),\; (a = \bot, b = \top, c = \bot)\}
 	\]
 
-	Make $b$ major then we need $c=\bot$ and $a=\top$ to determine 
+	Make $b$ major then we need $c=\bot$ and $a=\top$ to determine
 	\(p = (a \wedge b) \vee c\).
 
 	\[
 	TR_b = \{ (a = \top, b = \bot, c = \bot),\; (a = \top, b = \top, c = \bot)\}
 	\]
 
-	Make $c$ major then we need $(a \wedge b)=\bot$ to determine 
+	Make $c$ major then we need $(a \wedge b)=\bot$ to determine
 	\(p = (a \wedge b) \vee c\).
 
 	\[
@@ -420,7 +439,7 @@ satisfy the condition \texttt{(a \&\& b) || (c)}, and ``P isn't true'' otherwise
 		\answer{}
 
 		\part[2]
-		\answerspace{10}
+		\answerspace{14}%
 		\answer{}
 
 	\end{parts}
