@@ -1,6 +1,7 @@
 
 % Add "answers" option to print the answers
 \documentclass[addpoints,answers]{exam}
+%\documentclass[addpoints]{exam}
 
 \input{cmds}
 
@@ -36,15 +37,15 @@
 \thispagestyle{empty}
 
 \begin{center}
-	{\LARGE CS408 Fall 2025 -- Homework 2 (134 points)\\}
+	{\LARGE CS408 Spring 2026 -- Homework 2 (126 points)\\}
 
-	{\Large Deadline: Oct 3, Friday\\}
+	{\Large Deadline: Friday, Feb 20th\\}
 
 	\vspace{20mm}
 \fbox{\fbox{\parbox{5.5in}{\centering
 	\begin{itemize}
-		\item The quiz is open notes, open book.
-		\item No collaboration and no communication of any kind allowed.
+		\item The homework is open notes, open book.
+		\item All assignments must be completed individually.
 		\item Provide complete and clear but concise answers. Justify thoroughly statements where required.
 		\item Coding questions should be answered in C.
 		\item Use basic blocks for all CFG exercises.
@@ -68,7 +69,7 @@
 \newpage
 \begin{questions}
 
-\question Given the following graph with the starting node as 1 and final node as 7: \\
+\question Given the following graph, where the starting and terminal nodes are labeled 1 and 7, respectively: \\
 % The code for both old and new cfgs can be found at hw2/q1_new_old_code.c
 \includegraphics[width=0.5\textwidth]{hw2/q1_graph.png}
 
@@ -77,12 +78,12 @@
 % \textbf{REMOVE THE ABOVE BEFORE RELEASE.}
 
 \begin{parts}
-\part[4] List the TR for Node Coverage.  Please provide your answer sorted.
+\part[4] List the Testing Requirements for Node Coverage.
 \answerspace{10}
 \answer{
     TR = \{1, 2, 3, 4, 5, 6, 7\}
 }
-\part[5] List the TR for Edge Coverage. Please provide your answer sorted. 
+\part[5] List the Testing Requirements for Edge Coverage.
 \answerspace{10}
 \answer{
 		TR = \{ [1,2], [1,7], [2, 3], [2, 4], [3, 2], [4, 5], [4, 6], [5, 6], [6, 1]\}
@@ -128,19 +129,21 @@
 
 \newpage
 
-\question Given the following graph with the starting node as 1 and the final node as 6:
+\question Given the following graph, where the starting and terminal nodes are labeled 1 and 6, respectively:
+
+Unless otherwise noted, assume $def(l) = \emptyset$ and $use(l) = \emptyset$.
 
 \includegraphics[width=0.5\textwidth]{hw2/graph2.png}
 
 And the following test paths: \\
-t1 = [1, 2, 3, 4, 5, 6] \\
-t2 = [1, 2, 3, 5, 6] \\
-t3 = [1, 2, 3, 5, 2, 6] \\
-t4 = [1, 2, 6] \\
+T1 = [1, 2, 3, 4, 5, 6] \\
+T2 = [1, 2, 3, 5, 6] \\
+T3 = [1, 2, 3, 5, 2, 6] \\
+T4 = [1, 2, 6] \\
 \\
 
 \begin{parts}
-\part[10] List all the DU-paths with respect to $X$. (Note: Include all DU-paths, even those that are subpaths of other DU-paths).
+\part[10] List all the DU-paths with respect to $X$. (Note: Include \textbf{all} DU-paths, even those that are subpaths of other DU-paths).
 
 Please use the format:
 
@@ -157,59 +160,59 @@ Please use the format:
 }
 
 
-\part[2.5] Which DU paths does t1 tour directly? 
+\part[3] Which DU paths does T1 tour directly? 
 Please format your answer as 
 \begin{center}
-	t1 tours {[n0,n1,...], …}
+	T1 tours {[n0,n1,...], …}
 \end{center}
 \answerspace{10}
 \answer{
     \\
-    t1 tours [5, 6] \\
+    T1 tours [5, 6] \\
 }
 
-\part[2.5] Which DU paths does t2 tour directly? 
+\part[3] Which DU paths does T2 tour directly? 
 Please format your answer as 
 \begin{center}
-	t2 tours {[n0,n1,...], …}
-\end{center}
-
-\answerspace{10}
-\answer{
-    \\
-    t2 tours [5, 6] \\
-}
-
-\part[2.5] Which DU paths does t3 tour directly? 
-Please format your answer as 
-\begin{center}
-	t3 tours {[n0,n1,...], …}
-\end{center}
-
-
-\answerspace{10}
-\answer{
-    \\
-    t3 tours [5, 2, 6] \\
-}
-
-\part[2.5] Which DU paths does t4 tour directly? 
-Please format your answer as 
-\begin{center}
-	t4 tours {[n0,n1,...], …}
+	T2 tours {[n0,n1,...], …}
 \end{center}
 
 \answerspace{10}
 \answer{
     \\
-    t4 tours [1, 2, 6] \\
+    T2 tours [5, 6] \\
+}
+
+\part[3] Which DU paths does T3 tour directly? 
+Please format your answer as 
+\begin{center}
+	T3 tours {[n0,n1,...], …}
+\end{center}
+
+
+\answerspace{10}
+\answer{
+    \\
+    T3 tours [5, 2, 6] \\
+}
+
+\part[3] Which DU paths does T4 tour directly? 
+Please format your answer as 
+\begin{center}
+	T4 tours {[n0,n1,...], …}
+\end{center}
+
+\answerspace{10}
+\answer{
+    \\
+    T4 tours [1, 2, 6] \\
 }
 
 
 
 
 
-\part[5] List a minimal test set that satisfies all-defs coverage with respect to $X$ (consider direct tours only). Use the given test paths. 
+\part[5] List a minimal subset of \{T1,T2,T3,T4\} that satisfies all-defs coverage with respect to $X$ (consider direct tours only). 
 \answerspace{10}
 \answer{
 		% def2, def1, def5
@@ -217,14 +220,14 @@ Please format your answer as
 		Answer can also be {t2 , t4}
 }
 
-\part[5] List a minimal test set that satisfies all-uses coverage with respect to $X$ (consider direct tours only). Use the given test paths.
+\part[5] List a minimal subset of \{T1,T2,T3,T4\} that satisfies all-uses coverage with respect to $X$ (consider direct tours only).
 \answerspace{10}
 \answer{
     \{t2,t4\} 
 	Answer can also be {t1, t4} and {t3, t4}
 }
 
-\part[7] List a minimal test set that satisfies all-du-paths coverage with respect to $X$ (consider direct tours only). Use the given test paths.
+\part[7] List a minimal subset of \{T1,T2,T3,T4\} that satisfies all-du-paths coverage with respect to $X$ (consider direct tours only).
 \answerspace{10}
 \answer{
 		% d1 -> u8: t2
@@ -271,10 +274,10 @@ Please format your answer as
 \question Consider the following program and answer the questions below:
 \VerbatimInput{hw2/q4_1_code.c}
 Execution order: \\
-1. \textbf{T1:} L(A) \\
-2. \textbf{T2:} W(x) \\
-3. \textbf{T1:} W(x) \\
-4. \textbf{T1:} U(A) \\
+Step 1. \textbf{T1:} L(A) \\
+Step 2. \textbf{T2:} W(x) \\
+Step 3. \textbf{T1:} W(x) \\
+Step 4. \textbf{T1:} U(A) \\
 \\
 \textbf{Answer format:} When writing candidate locksets or held locks, always use curly braces 
 (\texttt{\{\}}). 
@@ -302,7 +305,7 @@ For example: \texttt{\{\}} (empty set), \texttt{\{A\}}, \texttt{\{A, B\}}. Do no
 \answer{
 	\{\}
 }
-\part[2] What is the lockset race algorithm conclusion?
+\part[2] Does the lockset race algorithm report a potential data race on this execution?
 \answerspace{10}
 \answer{
 	Yes. The intersection of candidate set and held lock set is empty after step 3, so the lockset algorithm flags a potential race.
@@ -318,11 +321,11 @@ Consider the following program:
 \VerbatimInput{hw2/q4_2_code.c}
 
 Execution order: \\
-1. \textbf{Main:} \texttt{pthread\_create(Worker)} \\
-2. \textbf{Worker:} W(x) \\
-3. \textbf{Worker:} finishes \\
-4. \textbf{Main:} \texttt{pthread\_join} returns \\
-5. \textbf{Main:} R(x) \\
+Step 1. \textbf{Main:} \texttt{pthread\_create(Worker)} \\
+Step 2. \textbf{Worker:} W(x) \\
+Step 3. \textbf{Worker:} finishes \\
+Step 4. \textbf{Main:} \texttt{pthread\_join} returns \\
+Step 5. \textbf{Main:} R(x) \\
 
 \textbf{Answer format:} When writing candidate locksets or held locks, always use curly braces 
 (\texttt{\{\}}). 
@@ -352,7 +355,7 @@ For example: \texttt{\{\}} (empty set), \texttt{\{A\}}, \texttt{\{A, B\}}. Do no
 \answer{
 	\{\}
 }
-\part[2] What is the lockset race algorithm conclusion?
+\part[2] Does the lockset race algorithm report a potential data race on this execution?
 \answerspace{10}
 \answer{
 	Yes. The intersection of candidate set and held lock set is empty after step 5, so the lockset algorithm flags a potential race.

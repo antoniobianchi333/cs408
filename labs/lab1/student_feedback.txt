@@ -1,0 +1,2 @@
+The handout/project presentation didn't include any information about how to use the coverage testing (mentioned in the handout), and the material hasn't yet been covered in class. Some better information to the students (demo, written resources, ?) in advance of or synchronously with the handout would be helpful.
+
