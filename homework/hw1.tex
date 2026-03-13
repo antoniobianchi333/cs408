@@ -37,7 +37,7 @@
 \thispagestyle{empty}
 
 \begin{center}
-	{\LARGE CS408 Spring 2026 -- Homework 1 (85 points)\\}
+	{\LARGE CS408 Spring 2026 -- Homework 1\\}
 
 	{\Large Deadline: Friday, Jan 30th\\}
 
@@ -76,8 +76,8 @@
 
 \begin{parts}
 \part[7]  List the elements of $N$ (nodes), $N_0$ (initial nodes),
-    $N_f$ (final nodes), and $E$ (edges) that define the function's control-flow graph. Let the elements be the labels of the basic blocks in the program. Assume basic block labels are given by the code comments. 
-    
+    $N_f$ (final nodes), and $E$ (edges) that define the function's control-flow graph. Let the elements be the labels of the basic blocks in the program. Assume basic block labels are given by the code comments.
+
     Your solution on gradescope should be in the form of this example:\\
     	$$N=\{1,2,3,4,5,6\}$$
     	$$N_0=\{1\}$$
@@ -86,7 +86,7 @@
 \answerspace{10}
 \answer{
 Let $N = \{1, 2, 3, 4, 5, 6, 7, 8, 9\}$, $N_0 = \{1\}$, and $N_f = \{9\}$. \\
-The set of edges is given by 
+The set of edges is given by
 
     $$E = \{[1,2],[2,3],[2,8],[3,4],[4,2],[4,5],[5,6],[5,7],[6,7],[7,4],[8,9]\}$$
 }
@@ -98,25 +98,25 @@ with nodes 1, 2, and 3.
 Let $N = \{1, 2, 3\}$, $N_0 = \{1\}$, and $N_f = \{\}$. The set of edges is given by $E = \{[1, 2], [2, 3]\}$.
 }
 
-\part[7] List three test cases that lead to different test paths. For each test case provided, list the corresponding test path and provide the length of the test path. 
+\part[7] List three test cases that lead to different test paths. For each test case provided, list the corresponding test path and provide the length of the test path.
 
 \answerspace{10}
 \answerspace{10}
 \answer{
-    \paragraph{Test case 1:} 
+    \paragraph{Test case 1:}
     Input: graph = [[0]];
     start = 0;
     visited = [0];
     n = 1;
     Path is [1,2,3,4,5,7,4,2,8,9] , Len: 9
-    \paragraph{Test case 2:} 
+    \paragraph{Test case 2:}
     Input: graph= [[0,1],
-    [1,0]]; 
+    [1,0]];
     start = 0;
     visited = [0,0];
     n = 2;
     \\
-    Path is 
+    Path is
     [1,2,3,4,5,7,4,5,6,7,4,2,3,4,5,7,4,2,8,9] Len: 19
     \paragraph{Test case 3:} Input: graph=[[0,1,0],[1,0,1],[0,1,0]], start = 0, visited =[0,0,0], n=3;
     \\
@@ -169,7 +169,7 @@ Repaired Code: \verbatiminput{hw1/q3_division.c}
 \answerspace{10}
 \answer{
 \begin{enumerate}
-\item Reachable: The 1st faulty line is reachable and for a test input of a=6 and b=2. With these values, the function will return 0 and not the actual answer of the division. The 2nd faulty line is also reachable for a test input of a=6 and b=0. With these values, the function will return an error since the division is being done with 0.  
+\item Reachable: The 1st faulty line is reachable and for a test input of a=6 and b=2. With these values, the function will return 0 and not the actual answer of the division. The 2nd faulty line is also reachable for a test input of a=6 and b=0. With these values, the function will return an error since the division is being done with 0.
 
 \end{enumerate}
 }
@@ -177,7 +177,7 @@ Repaired Code: \verbatiminput{hw1/q3_division.c}
 \part [2] For those inputs, explain whether the program state becomes infected. Explain your reasoning.
 \answerspace{10}
 \answer{
-\begin{enumerate} 
+\begin{enumerate}
 \item Infection: The 1st fault infects the state for test input a=6 and b=2. After executing ``if(b!=0)'' and returning 0, the state of the program is incorrect as it shows wrong result. The correct state should be the actual answer of the division. So, there is infection.
 The 2nd fault infects the state for test input a=6 and b=0 as it leads to an error caused by division with 0.
 
@@ -225,10 +225,10 @@ For the second fault - With the test input of a=6 and b=0, the error propagates 
 
 	\part[2] List all the test paths with length up to 7, inclusive. Each path should be listed on its own line.
     \answerspace{10}
-    
+
     \answer{
     [1,2,3,4,8,2,9]
-    
+
     [1,2,9]
     }
 
@@ -243,13 +243,13 @@ For the second fault - With the test input of a=6 and b=0, the error propagates 
 \begin{parts}
 
 	\part[8] Provide a simple example of a program that generates this control-flow graph.
-	The program must be a valid C code fragment, e.g. do not add ``include'' preprocessor directives or a ``main'' function. Do not use gotos (unless necessary). Label the source code statements with comments corresponding to the CFG node names, similar to Question 1.    
-    
+	The program must be a valid C code fragment, e.g. do not add ``include'' preprocessor directives or a ``main'' function. Do not use gotos (unless necessary). Label the source code statements with comments corresponding to the CFG node names, similar to Question 1.
+
     \answerspace{10}
     \answer{
         \verbatiminput{hw1/q5_answer.c}
     }
-    
+
 	\part[3] List the set of testing requirements necessary for node coverage.
     \answerspace{10}
     \answer{
@@ -261,7 +261,7 @@ For the second fault - With the test input of a=6 and b=0, the error propagates 
     TR=\{[1,2], [2,3], [2,6], [3,4], [3,5], [4,5], [5,2]\}
     }
     \part[3] List all the test paths with length less than or equal to 5, inclusive. Each path should be listed on its own line.
-    \answerspace{10} 
+    \answerspace{10}
     \answer{
         [1,2,6]
         [1,2,3,5,2,6]

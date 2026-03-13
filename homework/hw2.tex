@@ -1,7 +1,6 @@
 
 % Add "answers" option to print the answers
-\documentclass[addpoints,answers]{exam}
-%\documentclass[addpoints]{exam}
+\documentclass[addpoints]{exam}
 
 \input{cmds}
 
@@ -37,9 +36,9 @@
 \thispagestyle{empty}
 
 \begin{center}
-	{\LARGE CS408 Spring 2026 -- Homework 2 (126 points)\\}
+	{\LARGE CS408 Spring 2026 -- Homework 2\\}
 
-	{\Large Deadline: Friday, Feb 20th\\}
+	{\Large Deadline: Friday, February 20th\\}
 
 	\vspace{20mm}
 \fbox{\fbox{\parbox{5.5in}{\centering
@@ -83,7 +82,7 @@
 \answer{
     TR = \{1, 2, 3, 4, 5, 6, 7\}
 }
-\part[5] List the Testing Requirements for Edge Coverage.
+\part[5] List the TR for Edge Coverage. Please provide your answer sorted.
 \answerspace{10}
 \answer{
 		TR = \{ [1,2], [1,7], [2, 3], [2, 4], [3, 2], [4, 5], [4, 6], [5, 6], [6, 1]\}
@@ -153,38 +152,36 @@ Please use the format:
 
 \answerspace{10}
 \answer{
-    \\
-		du (1, 6, $X$): [1, 2, 6] \\
+ 		du (1, 6, $X$): [1, 2, 6] \\
 		du (4, 6, $X$): [ ] \\
 		du (5, 6, $X$): [5, 2, 6], [5, 6] \\
 }
 
 
-\part[3] Which DU paths does T1 tour directly? 
-Please format your answer as 
+\part[2.5] Which DU paths does t1 tour directly?
+Please format your answer as
 \begin{center}
 	T1 tours {[n0,n1,...], …}
 \end{center}
 \answerspace{10}
 \answer{
-    \\
-    T1 tours [5, 6] \\
+     T1 tours [5, 6] \\
 }
 
-\part[3] Which DU paths does T2 tour directly? 
-Please format your answer as 
+\part[2.5] Which DU paths does t2 tour directly?
+Please format your answer as
 \begin{center}
 	T2 tours {[n0,n1,...], …}
 \end{center}
 
 \answerspace{10}
 \answer{
-    \\
-    T2 tours [5, 6] \\
+     T2 tours [5, 6] \\
 }
 
-\part[3] Which DU paths does T3 tour directly? 
-Please format your answer as 
+
+\part[3] Which DU paths does T3 tour directly?
+Please format your answer as
 \begin{center}
 	T3 tours {[n0,n1,...], …}
 \end{center}
@@ -192,19 +189,17 @@ Please format your answer as
 
 \answerspace{10}
 \answer{
-    \\
-    T3 tours [5, 2, 6] \\
+     T3 tours [5, 2, 6] \\
 }
 
-\part[3] Which DU paths does T4 tour directly? 
-Please format your answer as 
+\part[3] Which DU paths does T4 tour directly?
+Please format your answer as
 \begin{center}
 	T4 tours {[n0,n1,...], …}
 \end{center}
 
 \answerspace{10}
 \answer{
-    \\
     T4 tours [1, 2, 6] \\
 }
 
@@ -212,7 +207,7 @@ Please format your answer as
 
 
 
-\part[5] List a minimal subset of \{T1,T2,T3,T4\} that satisfies all-defs coverage with respect to $X$ (consider direct tours only). 
+\part[5] List a minimal subset of \{T1,T2,T3,T4\} that satisfies all-defs coverage with respect to $X$ (consider direct tours only).
 \answerspace{10}
 \answer{
 		% def2, def1, def5
@@ -223,7 +218,7 @@ Please format your answer as
 \part[5] List a minimal subset of \{T1,T2,T3,T4\} that satisfies all-uses coverage with respect to $X$ (consider direct tours only).
 \answerspace{10}
 \answer{
-    \{t2,t4\} 
+    \{t2,t4\}
 	Answer can also be {t1, t4} and {t3, t4}
 }
 
@@ -237,10 +232,10 @@ Please format your answer as
 		% d5 -> u8: t3
 		% \{t1, t2, t3, t4\}
 
-		% OR 
+		% OR
 
 		\{t1, t3, t4\}
-            or 
+            or
             \{t2, t3, t4\}
 }
 \end{parts}
@@ -260,7 +255,7 @@ Please format your answer as
 % \part[11] Does Edge Pair Coverage subsume Prime Path Coverage? Justify your answer.
 % \answerspace{10}
 % \answer{
-%     No. Prime path coverage requires all maximal simple paths. Due to this, there cannot be more than 2 edges. 
+%     No. Prime path coverage requires all maximal simple paths. Due to this, there cannot be more than 2 edges.
 % }
 
 \part[11] Does Prime Path Coverage subsume All-DU-path Coverage? Justify your answer.
@@ -279,8 +274,8 @@ Step 2. \textbf{T2:} W(x) \\
 Step 3. \textbf{T1:} W(x) \\
 Step 4. \textbf{T1:} U(A) \\
 \\
-\textbf{Answer format:} When writing candidate locksets or held locks, always use curly braces 
-(\texttt{\{\}}). 
+\textbf{Answer format:} When writing candidate locksets or held locks, always use curly braces
+(\texttt{\{\}}).
 For example: \texttt{\{\}} (empty set), \texttt{\{A\}}, \texttt{\{A, B\}}. Do not write \texttt{None}, \texttt{empty} or leave the text field empty.\\
 
 \begin{parts}
@@ -327,8 +322,8 @@ Step 3. \textbf{Worker:} finishes \\
 Step 4. \textbf{Main:} \texttt{pthread\_join} returns \\
 Step 5. \textbf{Main:} R(x) \\
 
-\textbf{Answer format:} When writing candidate locksets or held locks, always use curly braces 
-(\texttt{\{\}}). 
+\textbf{Answer format:} When writing candidate locksets or held locks, always use curly braces
+(\texttt{\{\}}).
 For example: \texttt{\{\}} (empty set), \texttt{\{A\}}, \texttt{\{A, B\}}. Do not write \texttt{None}, \texttt{empty} or leave the text field empty.\\
 
 
