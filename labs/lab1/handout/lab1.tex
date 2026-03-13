@@ -18,12 +18,12 @@
 \begin{center}
     {\LARGE{Project 1: Dynamic testing}}\\
   \vspace*{10pt}
-  {\Large{CS408, Fall 2025}}\\
+  {\Large{CS408, Spring 2026}}\\
     \vspace*{10pt}
 
   {\large{\textbf{Group Project (140 points)\\
         \vspace*{3pt}
-        Due date: October 10, 2025}}}\\
+        Due date: February 27, 2026}}}\\
       \vspace*{15pt}
 \end{center}
 
@@ -92,7 +92,7 @@ Groups have to be registered according to the instructions provided in Ed.
 
 Please follow the instructions in \autoref{sec:appx:setup} to \textbf{clone}, \textbf{setup}, and regularly \textbf{update} your Github classroom private repository.
 
-Use this link \url{https://classroom.github.com/a/VTRXy3E9} to accept the assignment on GitHub classroom.
+Use this link \url{https://classroom.github.com/a/ot2qUSFv} to accept the assignment on GitHub classroom.
 
 
 \vspace*{10pt}
@@ -111,6 +111,23 @@ Hence, in this course, students are \textbf{required} to use GitHub classroom an
 throughout the project duration equally and be familiar with all
 components of the work delivered by the group.
 
+\para{Attribution.}
+To ensure that we can properly assess all the team member's contributions to the project, your team must include comments of the form:
+\begin{verbatim}
+# Created by: PURDUE_ALIAS1
+# Edited by: PURDUE_ALIAS1; PURDUE_ALIAS2
+def foo(x, y):
+   ...
+\end{verbatim}
+above each function definition you create or modify, where \textit{PURDUE_ALIAS1} is the authors' \textit{ALIAS}.
+Furthermore, any source files that are modified must also include the alias of each contributor at the end of the file, similar to:
+\begin{verbatim}
+def foo(x, y):
+   ...
+
+# File Contributors: PURDUE_ALIAS1, PURDUE_ALIAS2
+\end{verbatim}
+There is no need to include your alias other than functions and statements, such as global variable declarations.
 
 \subsection{Starting}
 
@@ -239,7 +256,8 @@ constraints to the program, which will cause the execution of other interleaving
 
 For this section, you will need to modify or implement the following files:
 \begin{itemize}
-\item \texttt{testlib.h} and \texttt{testlib.c}
+%\item \texttt{testlib.h} and \texttt{testlib.c}
+\item \texttt{testlib.c}
 \item \texttt{coverage\_tests\_helper.py}
 \item testing programs in \texttt{coverage\_tests/} directory
 \end{itemize}
@@ -304,8 +322,8 @@ different order and with different argument values, when \textit{pthread_create}
 is invoked by the target program:
 
 \begin{verbatim}
-  CALL pthread_create(0x100010, 0x1000030, 0x1000)
-  RETURN pthread_create(0x100010, 0x1000030, 0x1000) = 0x0
+  CALL pthread_create(0x100010, 0x1000030, 0x1000, 0x1000)
+  RETURN pthread_create(0x100010, 0x1000030, 0x1000, 0x1000) = 0x0
   THREAD CREATED (2, 103)
   THREAD EXITED (2, 103)
 \end{verbatim}
@@ -569,7 +587,7 @@ be similar or even the same if it helps, but make sure you use distinct files
 for each project component.
 
 Place all the program bug examples in the \textit{detector\_tests/} subdirectory.
-In addition, make sure your framework has a \textit{Makefile} target called ``run\_detectors'' that will compile and run all the test cases in your framework.
+In addition, make sure your framework has a \textit{Makefile} target called ``run\_detector\_tests'' that will compile and run all the test cases in your framework.
 By default, the Makefile target should run these programs using the options: ``-s random -n 100 -st false -seed 1''.
 Name the test programs as follows:
 
@@ -690,9 +708,9 @@ will be allowed.
 
 \squishend
 
-The submitted package size needs to be reasonable (less than 0.5 MB uncompressed). The framework and all tests must: run in reasonable time (less than 10 min for the entire test set), use only reasonable resources, and run correctly on \textit{data.cs.purdue.edu}.
+The submitted package size needs to be reasonable (e.g., less than 2 MB uncompressed). The framework and all tests must: run in reasonable time (less than 10 min for the entire test set), use only reasonable resources, and run correctly on \textit{data.cs.purdue.edu}.
 
-Projects delivered 5 full days ahead (October 5, 2025) of the official project due date receive 5 bonus points, as long as they score at least 50\% of the regular points.
+Projects delivered 5 full days ahead (February 22, 2026) of the official project due date receive 5 bonus points, as long as they score at least 50\% of the regular points.
 
 
 
@@ -781,7 +799,7 @@ Ed Discussion. Clicking on the setup link will bring you to the following page:
   \includegraphics[height=5cm]{figures/github/img02}
 
 \item \textbf{Accept the assignment (Create a team).}
-  Use this link \url{https://classroom.github.com/a/VTRXy3E9} to accept the assignment on github classroom.
+  Use this link \url{https://classroom.github.com/a/ot2qUSFv} to accept the assignment on github classroom.
 
   The first person in a team accepting the assignment need to create a team. Please use your group name on Brightspace as your team name (e.g. group1). Other team members should find and join the team.
 
@@ -802,16 +820,16 @@ Find your team and click join.
 \item \textbf{Get you repo URL.}
   As the image shows, your project repository will have the
   format:\\
-  \url{https://github.com/cs408-fall-2025/<projectName>-<yourTeamName>/}
+  \url{https://github.com/cs408-spring-2026/<projectName>-<yourTeamName>/}
 \end{enumerate}
 
 \subsection{Development workflow}
 \label{development-workflow}
 
 In case you forget the project repository name, you can go to
-\url{https://github.com/cs408-fall-2025} to find it. For illustration
+\url{https://github.com/cs408-spring-2026} to find it. For illustration
 purposes, we will \textbf{assume} that your project is under
-\emph{https://github.com/cs408-fall-2025/Lab-1---Group-123} and your team's name is
+\emph{https://github.com/cs408-spring-2026/Lab-1-Group-123} and your team's name is
 \textit{Lab 1 - Group 123}, so please adjust the links/directories accordingly.
 
 \begin{enumerate}
@@ -823,11 +841,11 @@ directory you should execute the following commands:
 
 \begin{verbatim}
 $ mkdir -p ~/myclass/; cd ~/myclass/;
-$ git clone git@github.com:cs408-fall-2025/Lab-1---Group-123.git
-$ cd Lab-1---Group-123/
+$ git clone git@github.com:cs408-spring-2026/Lab-1-Group-123.git
+$ cd Lab-1-Group-123/
 \end{verbatim}
 
-This project folder, \emph{Lab-1---Group-123}, would be your
+This project folder, \emph{Lab-1-Group-123}, would be your
 project's \textbf{root directory}.
 
 \item \textbf{Modify the source code as needed.}

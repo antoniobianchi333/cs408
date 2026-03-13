@@ -1,5 +1,3 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-8d59dc4de5201274e310e4c54b9627a8934c3b88527886e3b421487c677d23eb.svg)](https://classroom.github.com/a/VTRXy3E9)
-
 # Framework structure
 
 The framework consists of the following files and functions.
@@ -16,8 +14,8 @@ The Makefile has several targets you should find useful.
     - Add `coverage=1` to enable the coverage.
 - `build_coverage_tests`: this will compile your testlib.so and the *_test.c files in the `coverage_tests/` directory in a way which should be compatible with gcov.
 - `run_coverage_tests`: this will run `build_coverage_tests` and then call the `coverage_tests_helper.py` script you must implement.
-- `build_dectector_tests`: this will compile your testlib.so and the files in the `dectector_tests/` directory in a way which should be compatible with gcov.
-- `run_dectector_tests`: you will need add targets to compile examples and run them with the framework.
+- `build_detector_tests`: this will compile your testlib.so and the files in the `dectector_tests/` directory in a way which should be compatible with gcov.
+- `run_detector_tests`: you will need add targets to compile examples and run them with the framework.
 
 ### Do Not Modify The Immutable Files
 

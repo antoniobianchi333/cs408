@@ -35,4 +35,7 @@
 
 #include "libunwind-x86_64.h"
 
+// FIXME: We should set this magic number to 1024
+#define __UNW_MAGIC_NUMBER 1000
+
 #endif /* UNW_REMOTE_ONLY */

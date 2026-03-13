@@ -1,6 +1,5 @@
 import pandas as pd
 import math
-from rapidfuzz import process, fuzz
 
 # Input file paths (replace with your actual paths)
 group_file = "existing_group.csv"
@@ -21,6 +20,9 @@ def find_full_name(name, candidates):
         if found:
             return full_name
     return None
+
+print("Image\tName\tUsername\tOrg Defined ID\tEmail\tRole\tLast Accessed")
+print(classlist_df)
 
 # Extract full student roster
 all_students = set(classlist_df["Username"])

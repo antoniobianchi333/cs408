@@ -1,0 +1,8 @@
+1. Program hung
+
+Program hung in this lab is mostly caused by nested invocations of your library functions. For example, libunwind, a third-party library used in stactrace, will call pthread functions such as pthread_mutex_lock. As a result, after enabling the stack trace feature, you will trigger the following infinite call chain:
+
+...stacktrace()->pthread_mutex_lock()->stactrace()->pthread_mutex_lock()->...
+                    ^                                     ^
+                    L your pthread_mutex_lock function!   L your pthread_mutex_lock function again!
+To fix it, we suggest using a per-thread variable (e.g., __thread int x;) to track whether it is a nested invocation.

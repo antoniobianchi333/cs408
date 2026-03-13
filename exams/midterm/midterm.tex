@@ -1,0 +1,660 @@
+% Add "answers" option to print the answers
+\documentclass[addpoints]{exam}
+
+\input{../cmds}
+
+%\usepackage{listings}
+\usepackage{color}
+\usepackage{lastpage}
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{minted}
+
+\newcommand{\includecode}[2][c]{\lstinputlisting[caption=, escapechar=, language=#1]{#2}<!---->}
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
+
+\renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
+
+\definecolor{SolutionColor}{rgb}{0.8,0.9,1}
+
+\cfoot{Page \thepage\ of \pageref{LastPage}}
+
+\rhead{Initials: \rule{20mm}{0.4pt}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\fvset{numbers=left,numbersep=3pt}
+\thispagestyle{empty}
+
+\begin{center}
+	{\LARGE CS 408 Spring 2026 -- Midterm (A)\\}
+
+	\vspace{20mm}
+\fbox{\fbox{\parbox{5.5in}{\centering
+	\begin{itemize}
+          % \item Write your \textbf{name} in the first page and your \textbf{initials in every other page}.
+        \item The exam is closed notes, closed book.
+
+        \item The exam should be completed individually: any
+          communication with your fellow students is \textbf{strictly}
+          prohibited.
+
+	\item Please print or write legibly.
+
+        \item If you have a question, raise your hand and the
+          course staff will come to you.
+
+        \item Provide complete and clear but concise
+          answers. Any explanations should be thorough.
+
+        \item Answer the questions in the spaces provided. Your answer
+          does not need to take up all the space provided (hopefully
+          we've given you more than enough room!). If you do run out
+          of space, make a note and then use the empty pages at the
+          back of the exam to complete your answer.
+
+        \item Coding questions should be answered in Java, unless
+          stated otherwise.
+
+        \item Unless otherwise noted, CFG nodes represent basic blocks.
+          % or low-level pseudo-code.
+          % \item Unless otherwise noted, assume that questions refer to C code, AT\&T assembly syntax and the x86 architecture.
+
+        \item Please double check that your copy of the exam
+          is complete; you should have \pageref{LastPage}
+          pages.
+
+        \item You have 75 minutes to complete the exam.
+        \end{itemize}
+	}}}
+\end{center}
+
+
+\vspace{13mm}
+\begin{center}
+	\makebox[0.6\textwidth]{
+		\combinedgradetable[h][questions]
+	}
+\end{center}
+%\begin{center}\combinedgradetable[h][questions]\end{center}
+\vspace{20mm}
+
+\makebox[\textwidth]{\textbf{Name (please print)}: \rule{100mm}{0.8pt} }
+%\end{center}
+
+\vspace{10mm}
+%\begin{center}
+\makebox[\textwidth]{\textbf{PUID}: \rule{40mm}{0.8pt} \hspace{35mm}}
+% \end{center}
+
+\vspace{10mm}
+%\begin{center}
+\makebox[\textwidth]{\textbf{Ticket \#}: \rule{40mm}{0.8pt} \hspace{35mm}}
+%\end{center}
+
+\newpage
+\begin{center}
+  [PAGE DELIBERATELY LEFT BLANK]
+\end{center}
+
+\begin{questions}
+
+  \newpage
+  % \question State whether the following statements are true of false. \textbf{Explain the false statements.}
+  %   \begin{parts}
+  %   \part[2]
+  %     \truefalse
+  %     \answer{True.}
+  %
+  %   \end{parts}
+
+\question Consider the following control-flow graph:
+  \begin{figure}[ht]
+    \vspace{-.3cm}
+    \begin{center}
+      \includegraphics[width=.5\linewidth]{figures/midterm-cfg-1.pdf}
+    \end{center}
+  \end{figure}
+
+  \vspace{-1cm}
+  Please use the format [X, Y, Z] when writing paths. %
+\begin{parts}
+\part[3] If possible, provide 2 valid test paths through this
+  program. If this is not possible, explain why. %
+  \answerspace{11}%
+  \begin{solution}
+    Examples: [1, 3, 4, 5] and [1, 2, 4, 5].
+    The test paths start from node 1 and end at node 5. There can be many possibilities of test paths in the given cfg, out of which, one path can be [1, 3, 4, 5] and another can be [1, 2 , 4, 5].
+  \end{solution}
+
+\part[3] If possible, list 3 simple paths that (a) are not prime paths
+  and (b) start on node C1. If this is not possible, explain why. %
+  \answerspace{11}%
+  \begin{solution}
+    \begin{itemize}
+      \item[] [2],
+      \item[] [2, 4],
+        \item[] [2, 4, 5],
+        \item[] [2, 4, 1]
+        \end{itemize}
+        Any three of the above four simple paths are acceptable
+        answers.
+    \end{solution}
+
+  \part[5] If possible, list four prime paths that start on node
+    BB4. If this is not possible, explain why. %
+    \answerspace{11}%
+    \begin{solution}
+      There are only 2 prime paths that start on 4 (which are [4, 1, 2, 4] and [4, 1, 3, 4]);  in total there are only 6 simple paths starting on 4, out of which only these two are not the proper subsets of other simple paths.
+    \end{solution}
+
+\newpage
+\begin{center}
+  [PAGE DELIBERATELY LEFT BLANK]
+\end{center}
+\newpage
+
+\part[4] Write an example of a syntactically valid Java function that generates
+  this control-flow graph. If this is not possible,
+  explain why. %
+  \answerspace{25}%
+  \begin{solution}
+    This is the closest possible solution-
+    % \VerbatimInput{midterm-q7_d_answer.txt}
+  \end{solution}
+
+\part[3] Provide test case inputs that would generate
+  execution paths corresponding to the test paths you
+  gave in part (1a). If this is not possible,
+  explain why. %
+  \answerspace{25}%
+  \begin{solution} This is the
+    closest possible solution-
+    % \VerbatimInput{midterm-q7_d_answer.txt}
+  \end{solution}
+
+\end{parts}
+
+\newpage
+\begin{center}
+  [PAGE DELIBERATELY LEFT BLANK]
+\end{center}
+\newpage
+
+\question Consider the following Java program:
+  \vspace{-.3cm}
+  \begin{minted}{java}
+// Computes the square of x
+public static int square(int x) {
+  int y = Math.abs(x);
+  int z = 0;
+  do {
+    if (z <= x * x) {
+      z += Math.abs(x);
+    }
+    y--;
+  } while (0 < y);
+  return z;
+}
+\end{minted}
+
+
+\begin{parts}
+
+\part[4] Is it feasible to devise a set of test cases that achieve
+  100\% \textbf{node coverage} for \mintinline{java}{square}?  %
+  If your answer is yes, provide a minimal set of test cases that do
+  so. %
+  If your answer is no, (a) provide a \emph{simple} change to
+  \mintinline{java}{square} so that it becomes possible to satisfy
+  100\% \textbf{node coverage} and (b) provide a \emph{simple} and minimal
+  test case set that satisfies \textbf{node coverage} of this
+  function. %
+  \answerspace{15} %
+  \begin{solution}
+        % rubric:
+        % Case 1 - Yes:
+        %       - explain: 2
+        %       - test case: 1
+        % Case 2 - No:
+        %       - explain: 1
+        %       - change: 1
+        %       - test case: 1
+        No. Because within the while loop, \texttt{x} will never be less than zero due to \texttt{unsigned int} type.
+        Thus, the node, \texttt{line 7}, will never be covered. \\
+        Example change: To satisfy node coverage with a simple change, changing \texttt{unsigned int x} to \texttt{int x}, and adding \texttt{x -= 1;} after line $5$ in the while loop.
+        In this case, the test case, \texttt{\{x = 1\}}, will satisfy node coverage of this function.
+      	\end{solution}
+
+    \part[4] Is it feasible to devise a set of test cases that achieve
+      100\% \textbf{edge coverage} for \mintinline{java}{square}?  %
+      If your answer is yes, provide a minimal set of test cases that
+      do so. %
+      If your answer is no, (a) provide a \emph{simple} change to
+      \mintinline{java}{square} so that it becomes possible to
+      satisfy 100\% \textbf{edge coverage} and (b) provide a {simple}
+      and minimal test case set that satisfies \textbf{edge coverage}
+      of this function. %
+  \answerspace{15}%
+  \begin{solution}
+        % rubric:
+        % Case 1 - Yes:
+        %       - explain: 2
+        %       - test case: 1
+        % Case 2 - No:
+        %       - explain: 1
+        %       - change: 1
+        %       - test case: 1
+    No. Because within the while loop, \texttt{x} will never be less
+    than zero due to \texttt{unsigned int} type.
+    Thus, the node, \texttt{line 7}, will never be covered. \\
+    Example change: To satisfy node coverage with a simple change,
+    changing \texttt{unsigned int x} to \texttt{int x}, and adding
+    \texttt{x -= 1;} after line $5$ in the while loop.  In this case,
+    the test case, \texttt{\{x = 1\}}, will satisfy node coverage of
+    this function.
+  \end{solution}
+
+\newpage
+\begin{center}
+  [PAGE DELIBERATELY LEFT BLANK]
+\end{center}
+\newpage
+
+\part[4] Is it feasible for a set of test cases to achieve
+  \textbf{complete path coverage} for \mintinline{java}{square}? %
+  If your answer is yes, provide a minimal set of test cases that do
+  so. %
+  If your answer is no, explain why not.%
+  \answerspace{40}%
+  \begin{solution}
+        % rubric:
+        % Case 1 - Yes:
+        %       - explain: 2
+        %       - test case: 1
+        % Case 2 - No:
+        %       - explain: 1
+        %       - change: 1
+        %       - test case: 1
+    No. Because within the while loop, \texttt{x} will never be less
+    than zero due to \texttt{unsigned int} type.
+    Thus, the node, \texttt{line 7}, will never be covered. \\
+    Example change: To satisfy node coverage with a simple change,
+    changing \texttt{unsigned int x} to \texttt{int x}, and adding
+    \texttt{x -= 1;} after line $5$ in the while loop.  In this case,
+    the test case, \texttt{\{x = 1\}}, will satisfy node coverage of
+    this function.
+  \end{solution}
+  \end{parts}
+
+\newpage
+\begin{center}
+  [PAGE DELIBERATELY LEFT BLANK]
+\end{center}
+\newpage
+
+\question Consider the following faulty Java program:
+  \vspace{-.3cm}
+  \begin{minted}{java}
+// Sums all elements in a non-null list, assuming no integer under/overflow
+public static int sum(List<Integer> numbers) {
+  int total = 0;
+  for (int i = 0; i < numbers.size() - 1; i++) {
+    total += numbers.get(i);
+  }
+  return total;
+}
+\end{minted}
+
+\begin{parts}
+\part[3] State the location(s) of the program fault and explain how
+  you would rewrite the line(s) to fix the fault. Your fixes should be
+  as simple as possible -- do not completely rewrite the function! %
+  \answerspace{19}%
+  \begin{solution}
+        % rubric:
+        % location: 1
+        % explain: 1
+        % fix: 1
+        %% Comment says the null pointer case is handled in exception.
+        %One of the faults occurs in line 8, where the function does not check the a is null or not before the dereference. \\
+        %Fix this fault by adding null checking before the for loop. \\
+        Fault occurs in line 8, where the potentail out-of-bound access via the wrong condition in the for loop.
+        Fix this fault by modifying \texttt{"i <= a.length"} to \texttt{"i < a.length"}. \\
+      \end{solution}
+
+  \part[3] If possible, provide an example of a test input that does not cause the
+    fault to execute. If this is not possible, explain why.
+    \answerspace{19} %
+    \begin{solution}
+      % rubric:
+        % Case 1 - have an example:
+        %   - have: 1
+        %   - input: 2
+        % Case 2 - don't have an example:
+        %   - don't have: 1
+        %   - explain: 2
+        It is impossible to avoid the fault in line 8,
+        since there is no selection, jump, or iteration statements to let the program not to execute line 8.
+    	\end{solution}
+
+    \newpage
+    \begin{center}
+      [PAGE DELIBERATELY LEFT BLANK]
+    \end{center}
+    \newpage
+
+  \part[3] If possible, provide an example of a test input that causes
+    the fault to execute and triggers an error state, but does not
+    result in a failure. If this is not possible, explain why. %
+    \answerspace{35} %
+    \begin{solution}
+        % rubric:
+        % Case 1 - have an example:
+        %   - have: 1
+        %   - input satisfy requirement: 2
+        % Case 2 - don't have an example:
+        %   - don't have: 1
+        %   - explain: 2
+		% NOTE: Stating just the out-of-bounds or extra iteration is enough for full points on the justification.
+        %If \texttt{a = null}, the program will throw a \texttt{NullPointerException}, which is expected behavior. This will execute the fault but no error to occur.
+        %There is no possible way to have a test input that causes the fault to execute but no error to occur.
+        %The program will throw an out-of-bounds access exception or the program will always execute an extra iteration if the language runtime does not detect it. (Either justification is acceptable).
+    	\end{solution}
+
+\end{parts}
+
+\newpage
+\begin{center}
+  [PAGE DELIBERATELY LEFT BLANK]
+\end{center}
+\newpage
+
+\question Consider the following Java program:
+  \begin{minted}{java}
+public static void guessingGame() {
+  Scanner scanner = new Scanner(System.in);
+
+  int secretNumber = 42;
+  int guess;
+  int attempts = 1;
+
+  System.out.println("Try to guess the secret number between 1 and 100.");
+
+  do {
+    System.out.print("Enter your guess: ");
+    if (attempts == 5) {
+      int hint = secretNumber % 10;
+      System.out.println("Hint: The last digit of the secret number is " + hint);
+    }
+    guess = scanner.nextInt();
+    if (guess < secretNumber) {
+      System.out.println("Too low!");
+      attempts++;
+    } else if (guess > secretNumber) {
+      System.out.println("Too high!");
+      attempts++;
+    }
+   } while (guess != secretNumber);
+   System.out.println("Correct! You guessed it in " + attempts + " attempts.");
+   scanner.close();
+}
+\end{minted}
+
+\begin{parts}
+\part[3] List all the DU-pairs for the variable
+  \mintinline{java}{secretNumber}. Please use the format (Line \#X,
+  Line \#Y). %
+  \answerspace{22} %
+  \begin{solution}
+  \end{solution}
+
+\newpage
+\begin{center}
+  [PAGE DELIBERATELY LEFT BLANK]
+\end{center}
+\newpage
+
+\part[3] List all the DU-pairs for the variable
+  \mintinline{java}{guess}. Please use the format (Line\#X, Line\#Y). %
+  \answerspace{22} %
+  \begin{solution}
+  \end{solution}
+
+\part[3] List all the DU-pairs for the variable
+  \mintinline{java}{attempts}. Please use the format (Line\#X,
+  Line\#Y). %
+  \answerspace{28} %
+  \begin{solution}
+  \end{solution}
+\end{parts}
+
+\newpage
+\begin{center}
+  [PAGE DELIBERATELY LEFT BLANK]
+\end{center}
+\newpage
+
+\question Consider the following pair of Java threads:
+
+  \begin{tabular}{p{.45\linewidth}|cp{.45\linewidth}}
+  \begin{minted}{java}
+Thread t1 = new Thread(() -> {
+  A.lock();
+  B.lock();
+  sharedCounter++;
+  B.unlock();
+  A.unlock();
+
+  B.lock();
+  C.lock();
+  sharedCounter--;
+  C.unlock();
+  B.unlock();
+});
+\end{minted}
+    &
+\quad &
+\begin{minted}{java}
+Thread t2 = new Thread(() -> {
+  A.lock();
+  C.lock();
+  sharedCounter += 2;
+  C.unlock();
+  A.unlock();
+
+  A.lock();
+  B.lock();
+  sharedCounter += 3;
+  B.unlock();
+  A.unlock();
+});
+\end{minted}
+  \end{tabular}
+
+  And suppose these threads execute according to the following schedule:
+  \begin{enumerate}
+  \item \textbf{Step 1:} Thread T1, L1-L6
+  \item \textbf{Step 2:} Thread T2, L1-L12
+  \item \textbf{Step 3:} Thread T1, L7-L12
+  \end{enumerate}
+\textbf{Answer format:} When writing candidate locksets or held locks, always use curly braces
+(\texttt{\{\}}).
+For example: \texttt{\{\}} (empty set), \texttt{\{A\}}, \texttt{\{A, B\}}. Do not write \texttt{None}, \texttt{empty} or leave the text field empty.
+
+\begin{parts}
+
+\part[2] Candidate lockset for \mintinline{java}{sharedCounter} before
+  step 2: (Use the \textbf{answer format} specified above) %
+\answerspace{11} %
+\begin{solution}
+	\{\}
+      \end{solution}
+
+\part[2] Candidate lockset for \mintinline{java}{sharedCounter} between steps 2+3: (Use the \textbf{answer format} specified above)
+\answerspace{11}
+\begin{solution}
+	\{\}
+      \end{solution}
+      \newpage
+\begin{center}
+  [PAGE DELIBERATELY LEFT BLANK]
+\end{center}
+\newpage
+
+
+\part[2] Candidate lockset for \mintinline{java}{sharedCounter} after
+  step 3: (Use the \textbf{answer format} specified above) %
+\answerspace{14} %
+\begin{solution}
+	\{A\}
+	\end{solution}
+\part[2] Does the lockset data race algorithm flag this execution as
+  containing a potential data race? %
+\answerspace{14} %
+\begin{solution}
+
+	\end{solution}
+\part[3] Is this an actual data race and, if so, is it a benign data
+  race? Explain your answer. %
+\answerspace{14} %
+\begin{solution}
+	No.
+	\end{solution}
+\end{parts}
+
+\newpage
+\begin{center}
+  [PAGE DELIBERATELY LEFT BLANK]
+\end{center}
+\newpage
+
+\question Consider the following Java program:
+  \begin{minted}{java}
+public enum StudentCategory {
+  grad, honors, undergrad
+};
+
+double calculateCurve(StudentCategory cat, double origScore) {
+  case grad:
+    return origScore;
+  case honors:
+    return (origScore / 2) + 50;
+  default:
+    return (origScore / 2) + 53;
+}
+\end{minted}
+and the following set of blocks:
+\begin{tabular}{c|c|c}
+  \textbf{block} & \textbf{status} & \textbf{grade} \\
+  b1 & graduate & F ($\le 59$) \\
+  b2 & graduate & below C ($< 70$) \\
+  b3 & honors & below A ($< 90$) \\
+  b4 & undergrad & any \\
+\end{tabular}
+
+\begin{parts}
+\part[5] Is this a valid partitioning of the input space of
+  \mintinline{java}{calculateCurve}? Explain your answer. %
+\answerspace{14} %
+\begin{solution}
+
+	\end{solution}
+
+\part[5] If your answer was no, how would you modify and/or augment
+  this set of blocks to turn it into a valid partitioning? %
+\answerspace{14} %
+\begin{solution}
+
+	\end{solution}
+\end{parts}
+
+\newpage
+\begin{center}
+  [PAGE DELIBERATELY LEFT BLANK]
+\end{center}
+\newpage
+
+\question[4] In 1-2 sentences, explain the key difference between
+  black-box and white-box testing approaches. %
+
+  \answerspace{24} %
+  \begin{solution}
+    White-box approaches assume complete access to the source code of
+    the program under test, while black-box assumes you can only run
+    the program.
+  	\end{solution}
+
+\question[2] Provide one example of a white-box testing technique and
+  one example of a black-box testing technique we have discussed in
+  class. %
+
+  \answerspace{24} %
+  \begin{solution}
+    \begin{itemize}
+    \item[BB Pros:] Easy to deploy: works out of the box, regardless
+      of source language, hardware, etc. Assumes no expertise from the
+      user.
+    \item[BB Con:] Without access to the system under test, have to
+      rely on domain knowledge and luck to find bugs. Can easily miss
+      bugs that depend on very specific inputs.
+    \item[WB Pro:] Can leverage information about the system under
+      test to more intelligently search for faults. Can quantify how
+      much of the space we've explore and search deeper into the call
+      graph.
+    \item[WB Cons:] More heavy-weight technique, cannot be immediately
+      applied to all systems, may not have access to the system under
+      test. May require
+    \end{itemize}
+  	\end{solution}
+
+  \newpage
+\begin{center}
+  [PAGE DELIBERATELY LEFT BLANK]
+\end{center}
+\newpage
+
+\if 0 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\question[10]
+	\answerspace{30}
+	\begin{solution}
+          	\end{solution}
+
+	\question
+	\begin{parts}
+		\part[6]
+		\answerspace{20}
+		\begin{solution}
+                  	\end{solution}
+
+		\part[2]
+		\answerspace{10}
+		\begin{solution}
+                \end{solution}
+
+	\end{parts}
+\fi %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\newpage
+	\begin{center}
+		[EMPTY PAGE 1 -- Use as overflow to complete your
+                answers ]
+	\end{center}
+
+	\newpage
+	\begin{center}
+		[EMPTY PAGE 2 -- Use as overflow to complete your
+                answers ]
+              \end{center}
+
+\end{questions}
+
+
+
+
+
+\end{document}

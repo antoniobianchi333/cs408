@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 /*
- * The following functions must be implemented.
+ * The following functions must be implemennted.
  * Calls to these library functions will be intercepted with ld_preload
  * This header file should not get changed.
  */
