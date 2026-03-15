@@ -27,13 +27,13 @@
 \begin{center}
     {\LARGE{Lab 2: Greybox Mutation-based Testing (Fuzzing)}}\\
 	\vspace*{10pt}
-	{\Large{CS408, Fall 2025}}\\
+	{\Large{CS408, Spring 2026}}\\
     \vspace*{10pt}
 
-  {\large{\textbf{Group Project (150 points)\pf{Update points}\congyu{done}\\
-        Due date: November 21, 2025}}}\\
+  {\large{\textbf{Group Project (150 points)\\
+        Due date: March 23, 2026}}}\\
       \vspace*{15pt}
-      \textbf{Lead TA}: Congyu Liu
+      \textbf{Lead TA}: Ruixin Wang (\href{mailto:ruixinw@purdue.edu}{ruixinw@purdue.edu})
 \end{center}
 
 %\todo{Add an option to make the framework print the test case that causes a failure.}
@@ -46,17 +46,17 @@
 
 % \todo{Update github classroom link}
 
-\pf{Integrate the changes from the Ed FAQ mega-thread.}
+% \pf{Integrate the changes from the Ed FAQ mega-thread.}
 
-\pf{Change the targets.}
+% \pf{Change the targets.}
 
-\pf{Propose more improvements to the lab.}
+% \pf{Propose more improvements to the lab.}
 
-\pf{Make the handout consistent with the Lab 1 handout.}
+% \pf{Make the handout consistent with the Lab 1 handout.}
 
-\pf{Integrate the change log changes in Section 12.}
+% \pf{Integrate the change log changes in Section 12.}
 
-\pf{Check that the instruction in the setup section are correct}
+% \pf{Check that the instruction in the setup section are correct}
 
 
 \section{Project Description}
@@ -733,7 +733,7 @@ Follow the detailed instructions we provide in \texttt{project/README.md}.
 
 \subsection{Collecting Code Coverage (Fuzzer)}
 Initially, your fuzzer will create a 65536-byte shared memory in \texttt{/tmp} as the coverage map, which will be reused throughout all executions.
-When developing on data server, make sure you are using a different path (e.g., \texttt{/tmp/cs408_fall25_your\_group\_name_shm}) to avoid conflicts with other groups.
+When developing on data server, make sure you are using a different path (e.g., \texttt{/tmp/cs408_spring26_your\_group\_name_shm}) to avoid conflicts with other groups.
 Delete this file when your fuzzer exits.
 When spawning the harness, the fuzzer will set the environment variable \texttt{COV_SHM} to the path of the shared memory.
 After the harness exits, the fuzzer will get the code coverage by reading the shared coverage map.
@@ -1265,30 +1265,27 @@ Make sure your submission has all the required files.
 
 % \noindent\begin{minipage}{\linewidth}
 \begin{figure}[ht]
-\begin{verbbox}
+\begin{verbbox}[\footnotesize]
 .
-├── fuzzer.py                   # Required: entry point of your fuzzer
+├── fuzzer.py            # Required: fuzzer entry point
 ├── grammar.py
+├── sancov.c             # Required: instrumentation runtime
+├── report.pdf           # Required: report
 ├── LICENSE
+├── README.md
 ├── project
 │   ├── libfyaml
-│   │   ├── grammar             # Required: libfyaml grammar
-│   │   ├── harness.c           # Required: libfyaml harness code
-│   │   ├── afl_dictionary      # Required: libfyaml afl dictionary
-│   │   ├── run_afl.sh          # Required: script to run afl
-│   │   └── seeds               # Required: libfyaml seed directory
-│   │      ├── 1.txt            # Required: seed files, each file contains one seed; filename does not matter
-│   │      ├── 2.txt
-│   │      └── ...
-│   ├── parson                  # Requirements similar to libfyaml
-│   ├── README.md
-│   └── vulnerable
-│       ├── harness.c           # Required: harness code
-│   └── magic
-│       ├── harness.c           # Required: harness code
-├── README.md
-└── sancov.c                    # Required: instrumentation runtime
-└── report.pdf                  # Required: report
+│   │   ├── grammar      # Required: libfyaml grammar
+│   │   ├── harness.c    # Required: harness code
+│   │   ├── afl_dictionary
+│   │   ├── run_afl.sh   # Required: script to run afl
+│   │   └── seeds/       # Required: seed directory
+│   ├── parson           # Same requirements as libfyaml
+│   ├── vulnerable
+│   │   └── harness.c    # Required: harness code
+│   ├── magic
+│   │   └── harness.c    # Required: harness code
+│   └── README.md
 
 \end{verbbox}
 \theverbbox
@@ -1509,8 +1506,9 @@ Ed Discussion. Clicking on the setup link will bring you to the following page:
   \hspace{1cm}
   \includegraphics[height=5cm, frame]{img02}
 
+  % \todo{Update github classroom link}
 \item \textbf{Accept the assignment (Create a team).}
-  Use this link \url{https://classroom.github.com/a/_y7KmCvP} to accept the assignment on GitHub Classroom.
+  Use the link provided in the Ed announcement to accept the assignment on GitHub Classroom.
 
   % \textbf{[TODO: Replace the link after the assignment is set up on Github Classroom]}
 
@@ -1533,16 +1531,16 @@ Find your team and click join.
 \item \textbf{Get you repo URL.}
   As the image shows, your project repository will have the
   format:\\
-  \url{https://github.com/cs408-fall-2025/<projectName>-<yourTeamName>/}
+  \url{https://github.com/cs408-spring-2026/<projectName>-<yourTeamName>/}
 \end{enumerate}
 
 \subsection{Development workflow}
 \label{development-workflow}
 
 In case you forget the project repository name, you can go to
-\url{https://github.com/cs408-fall-2025} to find it. For illustration
+\url{https://github.com/cs408-spring-2026} to find it. For illustration
 purposes, we will \textbf{assume} that your project is under
-\emph{github.com/cs408-fall-2025/cs408-lab2-lab-2-group-1} and your team's name is
+\emph{github.com/cs408-spring-2026/cs408-lab2-lab-2-group-1} and your team's name is
 \textit{Lab 2 - Group 1}, so please adjust the links/directories accordingly.
 
 \begin{enumerate}
@@ -1554,7 +1552,7 @@ directory you should execute the following commands:
 
 \begin{verbatim}
 $ mkdir -p ~/myclass/; cd ~/myclass/;
-$ git clone https://github.com/cs408-fall-2025/cs408-lab2-lab-2-group-1.git
+$ git clone https://github.com/cs408-spring-2026/cs408-lab2-lab-2-group-1.git
 $ cd lab-2-group-1/
 \end{verbatim}
 
