@@ -5,5 +5,7 @@
     Image	Name	Username	Org Defined ID	Email	Role	Last Accessed
     XXX	XXX, XXX XXX XXX is online	XXX	XXX	xxx@purdue.edu	Learner	Jan 30, 2026 3:17 PM
     ```
-2. Copy the registration (existing groups). Need manually cleanup some comments.
-3. Run script.py.
+2. Copy the registration (existing groups from Google form). Need manually cleanup some comments.
+3. Run `script.py`, this will generate: `final_groups.csv`.
+4. Manually check the groups info is correct.
+5. Run `create_brightspace.py`, to create the brightspace format to automatically upload the group info.
