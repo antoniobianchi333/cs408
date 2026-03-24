@@ -30,8 +30,8 @@
 	{\Large{CS408, Spring 2026}}\\
     \vspace*{10pt}
 
-  {\large{\textbf{Group Project (150 points)\\
-        Due date: March 23, 2026}}}\\
+  {\large{\textbf{Group Project (100 points)\\
+        Due date: April 24, 2026}}}\\
       \vspace*{15pt}
       \textbf{Lead TA}: Ruixin Wang (\href{mailto:ruixinw@purdue.edu}{ruixinw@purdue.edu})
 \end{center}
@@ -43,8 +43,6 @@
 %\todo{Create a C version of the skeleton.}
 
 
-
-% \todo{Update github classroom link}
 
 % \pf{Integrate the changes from the Ed FAQ mega-thread.}
 
@@ -84,7 +82,7 @@ Please make sure you are always using the target code provided by us.
 Here is the breakdown of points for this lab assignment:
 
 \begin{itemize}
-    \item \textbf{Fuzzing framework implementation (130 points)}:  Points are awarded based on the framework's effectiveness. We will run several validation tests to check the basic functionality of your fuzzer.
+    \item \textbf{Fuzzing framework implementation (80 points)}:  Points are awarded based on the framework's effectiveness. We will run several validation tests to check the basic functionality of your fuzzer.
     
     \item \textbf{Using AFL (10 points)}: Points are awarded based on the environment (e.g., script) you provide for us to run AFL.
     
@@ -205,7 +203,7 @@ Your fuzzer should implement the following command line interface:
 
 \begin{verbatim}
 $ python fuzzer.py -o <output_dir> [-i <seed_dir>] [-g <grammar_file>]
-[--greybox] [--dict] [--competition] <harness>
+[--greybox] [--competition] <harness>
 \end{verbatim}
 
 
@@ -221,7 +219,6 @@ where:
     \item \textbf{\texttt{-i}}: an optional parameter that specifies the path to a seed directory. If the seed directory does not exist, the fuzzer reports an error and exits with code 1. This parameter has no effect when a grammar file is specified.
     \item \textbf{\texttt{-g}}: an optional parameter that specifies the path to an input grammar file (see \autoref{sec:grammar}).
     \item \textbf{\texttt{{-}{-}greybox}}: an optional parameter that switches the fuzzer to greybox fuzzing mode (see \autoref{sec:greybox}). The fuzzer operates in blackbox mode by default.
-    \item \textbf{\texttt{{-}{-}dict}}: an optional parameter that enables the dictionary feature (see \autoref{sec:dictionary}). This allows the fuzzer to use a predefined set of inputs to guide its exploration.
     \item \textbf{\texttt{{-}{-}competition}}: an optional parameter that will be passed when we test your fuzzer for bonus points. Your fuzzer should enable the enhanced features (if implemented) under this mode (\autoref{sec:fuzzercompetition}).
     % \pf{Need to explain this in a Section. Are they allowed to parallelize tests?} \congyu{added a section at the end. they can parallelize} \paul{Added ref to section}    \item \textbf{\texttt{<harness>}}: the path to a fuzzing harness.
     \item \textbf{\texttt{<harness>}}: the path to a fuzzing harness.
@@ -494,7 +491,7 @@ Answer the following questions in your report. Please use the exact labels provi
 
 % \pf{Make it explicit that the report should be in the git as well?} \congyu{added in the submission checklist}
 
-\section{Task 2: Greybox Fuzzing (40 Points)}
+\section{Task 2: Greybox Fuzzing (30 Points)}
 \label{sec:greybox}
 
 % \paul{Added task 2 text}
@@ -821,85 +818,7 @@ What is the code coverage? Please put a line graph plotting coverage against tim
 What seeds are you using and why?
 
 
-\section{Task 3: CMPLOG-Guided Dictionary Generation (30 Points)}
-\label{sec:dictionary}
-
-In previous tasks, your fuzzer used edge coverage to find new \textit{paths}. In this task, you will implement "CMPLOG," a technique to find new \textit{data}.
-
-This feature is essential for "magic byte" checks, like \texttt{if (*(uint32_t*)\&buf[5] == 0x35323032) // "2025"}. Your fuzzer will trace these comparisons, extract these "magic" constants, and save them to a dictionary.
-
-\subsection{Harness Instrumentation (sancov.c)}
-
-First, you must update your harness to trace comparisons.
-
-\begin{enumerate}
-    \item \textbf{Update Build Flags:} When building the harness, your instrumentation flag should now be \\
-    \texttt{-fsanitize-coverage=trace-pc-guard,trace-cmp}.
-    \item \textbf{Implement New Callbacks:} In your \texttt{sancov.c}, implement the new C-language hooks that LLVM will now call.
-\begin{verbatim}
-void __sanitizer_cov_trace_const_cmp1(uint8_t Arg1, uint8_t Arg2);
-void __sanitizer_cov_trace_const_cmp2(uint16_t Arg1, uint16_t Arg2);
-void __sanitizer_cov_trace_const_cmp4(uint32_t Arg1, uint32_t Arg2);
-void __sanitizer_cov_trace_const_cmp8(uint64_t Arg1, uint64_t Arg2);
-\end{verbatim}
-
-\textbf{Important:} In each callback, \texttt{Arg1} is the compile-time constant. Moreover, when extracting constants for your dictionary, strip trailing null bytes---for example, extract 0x00424143 as the three bytes 0x424143.
-\end{enumerate}
-
-\subsection{Fuzzer-Harness Communication (Shared Memory)}
-
-You must create a \textit{second} shared memory region to pass the comparison data from the harness back to the fuzzer. Using a file is too slow.
-
-\begin{enumerate}
-    \item \textbf{Fuzzer (\texttt{fuzzer.py}):}
-    \begin{itemize}
-        \item In addition to the 65536-byte \texttt{COV\_SHM}, create a \textit{new} shared memory region. A size of 65536 bytes is also fine for this.
-        \item When spawning the harness, set a \textit{new} environment variable, \textbf{\texttt{CMPLOG\_SHM}}, to the path of this new shared memory file.
-    \end{itemize}
-    \item \textbf{Harness (\texttt{sancov.c}):}
-    \begin{itemize}
-        \item In \texttt{\_\_sanitizer\_cov\_trace\_pc\_guard\_init}, read the \texttt{CMPLOG\_SHM} path and \texttt{mmap} this new shared memory region.
-        \item We don't enforce any specific format to log the comparison data. One way of doing this is to maintain a size variable that starts at 0, which indicates how many entries have been logged. Each entry consists of the data size and the actual data.
-        \item In your \texttt{\_\_sanitizer\_cov\_trace\_const\_cmp...} functions, write \texttt{Arg1} (the compile-time constant) to this shared memory region.
-    \end{itemize}
-\end{enumerate}
-
-\subsection{Fuzzer-Side Dictionary Logic (fuzzer.py)}
-
-This is the most important part. After \textit{every} execution, your fuzzer must read the \texttt{CMPLOG\_SHM} and process the data.
-
-\begin{enumerate}
-    \item \textbf{[CRITICAL] Create Dictionary File:} When the fuzzer starts in \texttt{{-}{-}greybox {-}{-}dict} mode, it must create a new file: \textbf{\texttt{[output\_dir]/found\_dictionary.txt}}, where each line contains a unique constant string found during fuzzing. \textbf{We will use this file to check the constants your fuzzer finds when grading.}
-    \item \textbf{Maintain a "Seen" Set:} Your fuzzer can keep an in-memory Python \texttt{set()} to track all constants it has already found and saved. This is for deduplication.
-    \item \textbf{Process the Log:} After the harness exits, your fuzzer will:
-    \begin{itemize}
-        \item Parse the data from the \texttt{CMPLOG\_SHM}.
-        \item For each constant, check if it is already in your "seen" \texttt{set()}.
-        \item If it is \textbf{new}, append it to \texttt{[output\_dir]/found\_dictionary.txt} and add it to your \texttt{set()}.
-        \item You must zero-out the \texttt{CMPLOG\_SHM} after every execution, just as you do for the coverage map.
-    \end{itemize}
-    \item \textbf{Using the Dictionary:} We suggest that fuzzer adds the below mutator that randomly inserts dictionary entries into inputs. However, you are free to add additional mutators for using the dictionary effectively.
-    \begin{itemize}
-        \item dict\_insert: Randomly select a constant from the set, and insert it at a random position in the input.
-        \item dict\_overwrite: Randomly select a constant from the set, and overwrite bytes at a random position in the input.
-    \end{itemize}
-
-\end{enumerate}
-
-\subsection{Evaluation}
-
-In the skeleton code, we provide you with a program that checks for nested magic bytes (\texttt{project/magic}).
-We intentionally provide weak seeds that do not contain the magic bytes to evaluate how effectively your dictionary feature helps discover them.
-Your fuzzer should be able to find the bug in this program using the dictionary.
-You are free to change this program to test your fuzzer.
-Please run your fuzzer to test the given program using the seed we provided. An example command would be:
-
-\begin{verbatim}
-$ python fuzzer.py -o ./magic_out -i project/magic/seeds
---greybox --dict project/magic/harness
-\end{verbatim}
-
-\section{Task 4: Grammar-Based Mutation (30 Points)}
+\section{Task 3: Grammar-Based Input Generation (20 Points)}
 \label{sec:grammar}
 
 A grammar defines the valid strings for a language.
@@ -1081,7 +1000,7 @@ If you are looking for more ideas, we recommend you read this paper~[7], which i
 We recommend that you \textbf{prioritize the other tasks over this task}. The competition is worth a few points only, and only the top performers will earn the bonus points. So, you should only worry about this task after you are sure that you have completed the other tasks well. 
 
 
-\section{Task 5: AFL (10 Points)}
+\section{Task 4: AFL (10 Points)}
 
 In this task, you will learn how to use AFL~[6], a state-of-the-art greybox fuzzer.
 You will fuzz the targets using AFL's dictionary feature.
@@ -1506,11 +1425,8 @@ Ed Discussion. Clicking on the setup link will bring you to the following page:
   \hspace{1cm}
   \includegraphics[height=5cm, frame]{img02}
 
-  % \todo{Update github classroom link}
 \item \textbf{Accept the assignment (Create a team).}
-  Use the link provided in the Ed announcement to accept the assignment on GitHub Classroom.
-
-  % \textbf{[TODO: Replace the link after the assignment is set up on Github Classroom]}
+  Use the following link to accept the assignment on GitHub Classroom: \url{https://classroom.github.com/a/orKvmMHC}
 
   The first person in a team accepting the assignment need to create a team. Please use your group name on Brightspace as your team name (e.g. Lab 2 - Group 1). Other team members should find and join the team. Please double-check the group name before you join.
 
