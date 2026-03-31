@@ -1,10 +1,10 @@
-
 % Add "answers" option to print the answers
-\documentclass[addpoints,answers]{exam}
+\documentclass[addpoints]{exam}
 
 \input{cmds}
 
 \usepackage{color}
+\usepackage{minted}
 \usepackage{lastpage}
 \usepackage{verbatim}
 \usepackage{fancyvrb}
@@ -35,9 +35,9 @@
 \thispagestyle{empty}
 
 \begin{center}
-	{\LARGE CS408 Fall 2025 -- Homework 4 (100 points)\\}
+	{\LARGE CS408 Spring 2026 -- Homework 4 (51 points)\\}
 
-	{\Large Deadline: November 14, Friday\\}
+	{\Large Deadline: Friday April 10, at \textbf{6pm}\\}
 
 	\vspace{20mm}
 \fbox{\fbox{\parbox{5.5in}{\centering
@@ -45,8 +45,6 @@
 		\item The Homework is open notes, open book.
 		\item No collaboration and no communication of any kind allowed.
 		\item Provide complete and clear but concise answers. Justify thoroughly statements where required.
-		\item Coding questions should be answered in C.
-		\item Use basic blocks for all CFG exercises.
 	\end{itemize}
 	}}}
 \end{center}
@@ -66,198 +64,307 @@
 
 \newpage
 \begin{questions}
-\question Given the following C program
-\lstinputlisting{hw4/q1.c}
+\question Consider the following C program:
 
-Please name your symbolic variables with the convention $s_0, s_1, s_2, ...$
+  \begin{minted}{C}
+void fun(int a, int b, int c) {
+  int x = 100;
+
+  if(a >= 0) {
+    x = 50;
+  }
+
+  if(b + c > 0) {
+    x += c;
+
+    if(x < 70) {
+      x += a;
+    }
+  }
+}
+\end{minted}
 
 \begin{parts}
-		\part[10] Please build an execution tree with nodes containing control flow instructions and edges containing non-control flow instructions.  Please label the paths out of nodes with $T$ or $F$. This should look like a binary tree.
-		Please upload your answer.  To draw a tree you can make use of tools such as \texttt{https://www.yworks.com/yed-live/} or \texttt{https://app.diagrams.net/}.  Hand drawn diagrams are also fine but please make sure they are legible.
-		If unreadable, points will be deducted. 
+\part[10] Provide the execution tree produced by symbolic execution
+  for this program. The nodes of this tree should be labelled with the
+  corresponding control flow point and the symbolic state\footnote{On
+    all of your answers for this question, please name symbolic
+    variables using the convention $s_0, s_1, s_2, ...$.} before that
+  basic block or condition is executed: using the format L2:
+  $[x\mapsto s_1; z \mapsto s_4; \ldots]$. The root of the tree should
+  appear at the top of the diagram. The outgoing edges of decision
+  nodes should be labelled with the corresponding path conditions, and
+  the labels on its left and right subtrees should correspond to the
+  true and false branches of the original \texttt{if} statement,
+  respectively. To draw a tree, you can either draw the diagram by
+  hand or use a tool like \texttt{https://www.yworks.com/yed-live/} or
+  \texttt{https://app.diagrams.net/}. If
+  you opt for the hand-drawn option, please make sure the image is
+  legible: we will deduct points if we can't decipher your
+  handwriting.
 
-		\textbf{Please make sure all the True branches are on the left and all the False branches are on the right. The top center node should represent the first state.}
-		
-		\answerspace{10}
-		\answer{
-			\begin{center}
-				\includegraphics[scale=0.40]{hw4/q1_graph_answer.png}
-			\end{center}
-		}
+  %
+  \answerspace{10} %
+  \answer{
+    \begin{center}
+      \includegraphics[scale=0.40]{hw4/q1_graph_answer.png}
+    \end{center}
+  }
 
-		\part[1] For the sequence of branch outcomes \textbf{True, True, True} through the program execution, please list the path condition. 
-		% \pf{Apply the changes I made here to the other relevant subquestions.} 
-		% \am{Applied the changes.}
-		\answerspace{10}
-		\answer{
-				($s_0 \geq 0) \wedge (s_1 + s_2 > 0) \wedge (50 + s_2 < 70)$
-		}
+  \newpage
 
-		\part[1] For the sequence of branch outcome \textbf{True, True, False} through the program, please list the path conditions.
-		\answerspace{10}
-		\answer{
-			$(s_0 \geq 0) \wedge (s_1 + s_2 > 0) \wedge \neg (50 + s_2 < 70)$
-			\textbf{OR}
-			$(s_0 \geq 0) \wedge (s_1 + s_2 > 0) \wedge (50 + s_2 \geq 70)$
-		}
+\part[2] Please list the path condition corresponding to an execution
+  in which the conditions of all three \texttt{if} statements are
+  \textbf{true}: (\textbf{true}, \textbf{true}, \textbf{true})
+  % \pf{Apply the changes I made here to the other relevant subquestions.}
+  % \am{Applied the changes.}
+  %
+  \answerspace{10} %
+  \answer{ %
+    ($s_0 \geq 0) \wedge (s_1 + s_2 > 0) \wedge (50 + s_2 < 70)$
+  }
 
-		\part[1] For the sequence of branch outcome \textbf{True, False} through the program, please list the path conditions.
-		\answerspace{10}
-		\answer{
-			($s_0 \geq 0) \wedge \neg (s_1 + s_2 > 0)$ 
-			\textbf{OR} 
-			($s_0 \geq 0) \wedge (s_1 + s_2 \leq 0)$
-		}
+\part[2] Please list the path condition corresponding to an execution
+  in which the conditions of the first two \texttt{if} statements are
+  \textbf{true}, and the last one is \textbf{false}: (\textbf{true},
+  \textbf{true}, \textbf{false})
+  %
+  \answerspace{10} %
+  \answer{ %
+    $(s_0 \geq 0) \wedge (s_1 + s_2 > 0) \wedge \neg (50 + s_2 < 70)$
+    \textbf{OR}
+    $(s_0 \geq 0) \wedge (s_1 + s_2 > 0) \wedge (50 + s_2 \geq 70)$
+  }
 
-		\part[1] For the sequence of branch outcome \textbf{False, True, True} through the program, please list the path conditions.
-		\answerspace{10}
-		\answer{
-			$\neg (s_0 \geq 0) \wedge (s_1 + s_2 > 0) \wedge (100 + s_2 < 70)$ 
-			\textbf{OR} 
-			$(s_0 < 0) \wedge (s_1 + s_2 > 0) \wedge (100 + s_2 < 70)$
-		}
+\part[2] Please list the path condition corresponding to an execution
+  in which the conditions of the first two \texttt{if} statements are
+  \textbf{true}, and the second is \textbf{false}: (\textbf{true}, \textbf{false})
 
-		\part[1] For the sequence of branch outcome \textbf{False, True, False} through the program, please list the path conditions.
-		\answerspace{10}
-		\answer{
-			$\neg (s_0 \geq 0) \wedge (s_1 + s_2 > 0) \wedge \neg (100 + s_2 < 70)$ 
-			\textbf{OR} 
-			$(s_0 < 0) \wedge (s_1 + s_2 > 0) \wedge (100 + s_2 \geq 70)$
-		}
+  %
+  \answerspace{10} %
+  \answer{ %
+    ($s_0 \geq 0) \wedge \neg (s_1 + s_2 > 0)$
+    \textbf{OR}
+    ($s_0 \geq 0) \wedge (s_1 + s_2 \leq 0)$
+  }
 
-		\part[1] For the sequence of branch outcome \textbf{False, False} through the program, please list the path conditions.
-		\answerspace{10}
-		\answer{
-			$\neg (s_0 \geq 0) \wedge \neg (s_1 + s_2 > 0)$ 
-			\textbf{OR} 
-			$(s_0 < 0) \wedge (s_1 + s_2 \leq 0)$
-		}
+\part[2] Please list the path condition corresponding to an execution
+  in which the conditions of the first \texttt{if} statement is
+  \textbf{false}, and those for the other two second are
+  \textbf{true}: (\textbf{false}, \textbf{true}, \textbf{true})
 
+  %
+  \answerspace{10} %
+  \answer{ %
+    $\neg (s_0 \geq 0) \wedge (s_1 + s_2 > 0) \wedge (100 + s_2 < 70)$
+    \textbf{OR}
+    $(s_0 < 0) \wedge (s_1 + s_2 > 0) \wedge (100 + s_2 < 70)$
+  }
 
+\part[2] Please list the path condition corresponding to an execution
+  in which the conditions of the first \texttt{if} statement is
+  \textbf{false}, the next is \textbf{true}, and the last is false:
+  (\textbf{false}, \textbf{true}, \textbf{false})
 
+  %
+  \answerspace{10} %
+  \answer{ %
+    $\neg (s_0 \geq 0) \wedge (s_1 + s_2 > 0) \wedge \neg (100 + s_2 < 70)$
+    \textbf{OR}
+    $(s_0 < 0) \wedge (s_1 + s_2 > 0) \wedge (100 + s_2 \geq 70)$
+  }
+
+\part[2] Please list the path condition corresponding to an execution
+  in which the conditions of the first two \texttt{if} statements are
+  both \textbf{false}: (\textbf{false}, \textbf{false})
+
+  %
+  \answerspace{10} %
+  \answer{ %
+    $\neg (s_0 \geq 0) \wedge \neg (s_1 + s_2 > 0)$
+    \textbf{OR}
+    $(s_0 < 0) \wedge (s_1 + s_2 \leq 0)$
+  }
 
 \end{parts}
 
-\question Given the following C program , answer the following questions by taking into consideration that the SMT solver understands the inbuilt max function: 
-% \am {Added the SMT solver comment here and added parantheses to line 7}
-\lstinputlisting{hw4/bar.c}
+\newpage
 
-For the following parts please use the following input values.
+\question Given the following C program:
+% \am {Added the SMT solver comment here and added parantheses to line
+% 7}
+  \begin{minted}{C}
+# include < stdio .h >
+# include < math .h >
+double bar ( double x , double y , double a , double b ) {
+   double result = 0;
+   // Program state [2a, 2b]?
+   if ( x == y && b > 0) {
+     result = (3 * x ) / ( b - a );
+   } else {
+     x = fmax( x, a );
+     a += b ;
+     if ( x <= 0) {
+       a = a * 3;
+      // Program state [2c, 2d, 2e]?
+     }
+     y = y / 5;
+     result = x + y + a + 1;
+     // Program state [2f, 2g, 2h]?
+   }
+   return result ;
+ }
+\end{minted}
 
-\begin{itemize}
-    \item $x = 0$
-    \item $y = 1$
-    \item $a = 2$
-    \item $b = 3$
-\end{itemize}
-
-Please name your symbolic variables with the convention $s_0, s_1, s_2, ...$ (please start with $x = s_0$). If the variable has not been assigned a value yet, please leave it as \texttt{undefined}.
+Answer the following questions about the concolic execution of
+concrete of \texttt{bar} with the concrete inputs
+$[x \mapsto 0, y \mapsto 1, a \mapsto 2, b \mapsto 3]$.
 
 \begin{parts}
-	\part[5] After the execution of line 4, what is the concrete program state? 
-	\answerspace{10}
-	\answer{
+\part[2] After the execution of line 4, what is the concrete program state?
+  %
+  \answerspace{10} %
+  \answer{ %
     The concrete program state after L4 is: $x = 0, y = 1, a = 2, b = 3, result=undefined$
-	}
+  }
 
-	\part[5] After the execution of line 4, write the symbolic program state. 
-	\answerspace{10}
-	\answer{
-		The symbolic program state after L4 is: $x = s_0, y = s_1, a = s_2, b = s_3, result=undefined$
-	}
+\part[2] After the execution of line 4, what is the symbolic program
+  state?\footnote{As before, on all of your answers for this question,
+    please name symbolic variables using the convention
+    $s_0, s_1, s_2, ...$.}  %
+  %
+  \answerspace{10} %
+  \answer{ %
+    The symbolic program state after L4 is:
+    $x = s_0, y = s_1, a = s_2, b = s_3, result=undefined$
+  }
 
-	% \part[2] Write the path condition after executing line 4. (Use symbolic variables with the naming convention for answering)
-	% \answerspace{10}
-	% \answer{
-	% 	The path condition after L4 is True (``empty'' or ``N/A'' is also accepted).
-	% }
+\part[2] After the execution of line 10, what is the concrete program
+  state?
+  %
+  \answerspace{10} %
+  \answer{ %
+    The concrete program state at L10 is:
+    $x = 2, y = 1, a = 5, b = 3, result=undefined$ }
+  \vfill
 
-	\part[5] After the execution of line 10, write the concrete program state. 
-	\answerspace{10}
-	\answer{
-    The concrete program state at L10 is: $x = 2, y = 1, a = 5, b = 3, result=undefined$  
-	}
-
-	\part[5] After the execution of line 10, write the symbolic program state. 
-	\answerspace{10}
-	\answer{
+\part[2] After the execution of line 10, what is the symbolic program
+  state?
+  %
+  \answerspace{10} %
+  \answer{ %
     To reach line 10 we need $\neg ((s_0 = s_1) \wedge (s_3 > 0))$.
     This gives us the following symbolic state
-	$x = max(s_0, s_2), y = s_1, a = s_2 + s_3, b = s_3, result = undefined$
-	}
+    $x = max(s_0, s_2), y = s_1, a = s_2 + s_3, b = s_3, result = undefined$
+  }
 
-	\part[2] After the execution of line 10, write the path condition. (Use symbolic variables with the naming convention for answering)
-	\answerspace{10}
-	\answer{
+\part[2] What is the path condition after executing line 10?
+  %
+  \answerspace{10} %
+  \answer{ %
     The path condition is $\neg ((s_0 = s_1) \wedge (s_3 > 0))$.
-	}
+  }
 
-	\part[5] After the execution of line 16, write the concrete program state. 
-	% \pf{Why are these next question using the "for", not "after the execution of line X"? Fix it?}
-	% \am {I have added "after the execution of line 16" in the question to be consistent with other parts.}
-	\answerspace{10}
-	\answer{
+\part[2] After the execution of line 16, what is the concrete program
+  state?
+  % \pf{Why are these next question using the "for", not "after the execution of line X"? Fix it?}
+  % \am {I have added "after the execution of line 16" in the question to be consistent with other parts.}
+  %
+  \answerspace{10} %
+  \answer{ %
     The concrete program state after L16 is: $x = 2, y = 0.2, a = 5, b = 3, result=8.2$
-	}
+  }
 
-	\part[5] After the execution of line 16, write the symbolic program state. 
-	\answerspace{10}
-	\answer{
+\part[2] After the execution of line 16, what is the symbolic program
+  state?
+  %
+  \answerspace{10} %
+  \answer{ %
     $x = max(s_0, s_2), y = s_1 / 5, a = s_2 + s_3 , b = s_3, result = max(s_0, s_2) + s_1 / 5 + s_2 + s_3 + 1$
-	}
+  }
 
-	\part[2] After the execution of line 16, write the path condition. (Use symbolic variables with the naming convention for answering)
-	\answerspace{10}
-	\answer{
-	The path condition is $\neg ((s_0 = s_1) \wedge (s_3 > 0))$.
-	}
+\part[2] After the execution of line 16, what is the path condition?
+  %
+  \answerspace{10} %
+  \answer{ %
+    The path condition is $\neg ((s_0 = s_1) \wedge (s_3 > 0))$.
+  }
+
+\part[5] Provide a possible concrete input that concolic execution
+  could try after this execution ends.\footnote{You can safely assume
+    that the SMT solver understands how \texttt{fmax} works.}  Justify
+  your answer in 1-2 sentences.
+  %
+  \answerspace{10} %
+  \answer{ %
+    The path condition is $\neg ((s_0 = s_1) \wedge (s_3 > 0))$.
+  }
 \end{parts}
 
-\question Given the following program: 
+% \question Given the following program:
 
-% \am{I have added the SMT solver comment in the question before this one where it should have been. I have also tried to change the program and make the questions more objective.}
-% \pf{Also, this example is not good, this is not that difficult for symbolic execution; use a link traversal example instead. } \pf{We also try to make the 2 next questions more objective.}
-\lstinputlisting{hw4/loop.c}
+% % \am{I have added the SMT solver comment in the question before this one where it should have been. I have also tried to change the program and make the questions more objective.}
+% % \pf{Also, this example is not good, this is not that difficult for symbolic execution; use a link traversal example instead. } \pf{We also try to make the 2 next questions more objective.}
+% \lstinputlisting{hw4/loop.c}
 
+% \begin{parts}
+% \part[5] What features of this program could cause scalability
+%   concerns for symbolic execution (if any)? Explain your answer in 1-2
+%   sentences.
+%   %
+%   \answerspace{10} %
+%   \answer	{
+%     The scalability concern arises from the loop with pointer traversal, since symbolic execution must repeatedly update and maintain the symbolic memory state for each pointer dereference across iterations.
+%   }
 
-\begin{parts}
-	\part[5] During symbolic execution, which program construct in this code primarily causes scalability concerns, if any? Explain your answer in short. 
-	\answerspace{10}
-	\answer	{
-		The scalability concern arises from the loop with pointer traversal, since symbolic execution must repeatedly update and maintain the symbolic memory state for each pointer dereference across iterations.
-	}
+% % \part[5] Does concolic execution scale better in this example. Explain why.
+% %   %
+% %   \answerspace{10} %
+% %   \answer{ %
+% %   Concolic execution scales better in this case because it executes
+% %   the program using concrete inputs alongside symbolic tracking. The
+% %   concrete values guide the loop and pointer traversal
+% %   deterministically, so only one path is explored per run instead of
+% %   symbolically expanding every possible heap state.  }
 
-	\part[5] Does concolic execution scale better in this example. Explain why.
-	\answerspace{10}
-	\answer{
-		Concolic execution scales better in this case because it executes the program using concrete inputs alongside symbolic tracking. The concrete values guide the loop and pointer traversal deterministically, so only one path is explored per run instead of symbolically expanding every possible heap state.
-	}
-
-\end{parts}
+% \end{parts}
 
 \question Please answer the following questions about symbolic/concolic execution.
-\begin{parts}
-	\part[2] Please provide 2 advantages of concolic testing over symbolic execution.
-	\answerspace{10}
-	\answer{
-		\begin{itemize}
-			\item Handles loops and recursions better - executes concretely, avoiding infinite symbolic paths.
-			\item Reduces path explosion - explores one concrete path at a time instead of all symbolically.
-			\item Improves coverage - systematically negates path predicates to explore deeper paths.
-		\end{itemize}
-	}
 
-	\part[2] Is the last branch condition of a patch condition in concolic testing negated? Explain your answer.
-	\answerspace{10}
-	\answer {
-		Yes, the last branch condition in concolic testing is typically negated in order to explore new program paths.
-		Negating arbitrarily other parts of the path conditions may not correspond to a path in the program.
-	}
+  \begin{parts}
+  \part[4] Please provide 2 advantages of concolic testing over symbolic execution.
+    %
+    \answerspace{10} %
+    \answer{ %
+      \begin{itemize}
+      \item Handles loops and recursions better by executing
+        concretely, avoiding infinite symbolic paths.
+      \item Reduces path explosion - explores one concrete path at a
+        time instead of all symbolically.
+      \item Better handles complex, heap allocated data structures.
+      \item Can be adapted to symbolic path conditions without
+      \end{itemize}
+    }
+
+  \part[4] When generating new concrete inputs during concolic
+    execution, what could go wrong if we negated a clause in the path
+    condition other than the last one generated? Explain your answer
+    in 1-2 sentences.
+
+    % Is the last branch condition of a patch condition in concolic
+    % testing negated? Explain your answer.
+    %
+    \answerspace{10} %
+    \answer { The last branch condition in concolic testing is
+      typically negated because it is guaranteed to explore a new
+      program path.  Negating arbitrarily other clauses in the path
+      conditions may not correspond to a path in the program.  }
 \end{parts}
 
 % \question[15] Please explain how SMT solvers make use of SAT to determine satisfiability before using theories.
-% \answerspace{10}
-% \answer{
+% %
+%  \answerspace{10} %
+% \answer{ %
 % 	Suppose we have a condition such as
 
 %   $$
@@ -270,7 +377,7 @@ Please name your symbolic variables with the convention $s_0, s_1, s_2, ...$ (pl
 %   A SMT solver is not able to make such an inference.
 %   What it does is to replace parts of this condition with symbolic boolean variables.
 %   This gives
-  
+
 %   $$
 %     \neg b_1 \wedge b_1 \wedge b_2
 %   $$
@@ -284,17 +391,18 @@ Please name your symbolic variables with the convention $s_0, s_1, s_2, ...$ (pl
 \if 0 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\question[10]
 	\answerspace{30}
-	\answer{}
+	\answer{ %}
 
 	\question
 	\begin{parts}
 		\part[6]
 		\answerspace{20}
-		\answer{}
+		\answer{ %}
 
 		\part[2]
-		\answerspace{10}
-		\answer{}
+		%
+  \answerspace{10} %
+		\answer{ %}
 
 	\end{parts}
 \fi %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
