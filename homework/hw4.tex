@@ -14,6 +14,7 @@
 \usepackage{listings}
 \usepackage{algpseudocode}
 \usepackage{tabularx}
+\usepackage{minted}
 
 \newcommand{\includecode}[2][c]{\lstinputlisting[caption=, escapechar=, language=#1]{#2}<!---->}
 \RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
@@ -137,8 +138,9 @@ void fun(int a, int b, int c) {
   }
 
 \part[2] Please list the path condition corresponding to an execution
-  in which the conditions of the first two \texttt{if} statements are
-  \textbf{true}, and the second is \textbf{false}: (\textbf{true}, \textbf{false})
+  in which the condition of the first \texttt{if} statement is
+  \textbf{true}, and the second is \textbf{false}: (\textbf{true},
+  \textbf{false})
 
   %
   \answerspace{10} %
@@ -150,8 +152,8 @@ void fun(int a, int b, int c) {
 
 \part[2] Please list the path condition corresponding to an execution
   in which the conditions of the first \texttt{if} statement is
-  \textbf{false}, and those for the other two second are
-  \textbf{true}: (\textbf{false}, \textbf{true}, \textbf{true})
+  \textbf{false}, and those for the other two are \textbf{true}:
+  (\textbf{false}, \textbf{true}, \textbf{true})
 
   %
   \answerspace{10} %
@@ -163,8 +165,8 @@ void fun(int a, int b, int c) {
 
 \part[2] Please list the path condition corresponding to an execution
   in which the conditions of the first \texttt{if} statement is
-  \textbf{false}, the next is \textbf{true}, and the last is false:
-  (\textbf{false}, \textbf{true}, \textbf{false})
+  \textbf{false}, the second is \textbf{true}, and the third is
+  \textbf{false}: (\textbf{false}, \textbf{true}, \textbf{false})
 
   %
   \answerspace{10} %
@@ -203,10 +205,10 @@ double bar ( double x , double y , double a , double b ) {
      result = (3 * x ) / ( b - a );
    } else {
      x = fmax( x, a );
-     a += b ;
+     a += b;
+      // Program state [2c, 2d, 2e]?
      if ( x <= 0) {
        a = a * 3;
-      // Program state [2c, 2d, 2e]?
      }
      y = y / 5;
      result = x + y + a + 1;
