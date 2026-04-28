@@ -1,5 +1,5 @@
 % Add "answers" option to print the answers
-\documentclass[addpoints]{exam}
+\documentclass[addpoints, answers]{exam}
 
 \input{cmds}
 
@@ -18,6 +18,16 @@
 
 \newcommand{\includecode}[2][c]{\lstinputlisting[caption=, escapechar=, language=#1]{#2}<!---->}
 \RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
+
+\newcommand{\Code}[1]{\mintinline{java}{#1}}
+\newcommand{\StateQ}[5]{[\Code{x}$\mapsto$\Code{#1},
+  \Code{y}$\mapsto$\Code{#2}, \Code{a}$\mapsto$\Code{#3},
+  \Code{b}$\mapsto$\Code{#4}, \Code{result}$\mapsto$\Code{#5}]}
+\newcommand{\StateS}[5]{[\Code{x}$\mapsto #1$, \Code{y}$\mapsto #2$,
+  \Code{a}$\mapsto #3$, \Code{b}$\mapsto #4$,
+  \Code{result}$\mapsto #5$]}
+
+
 
 \renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
 
@@ -220,14 +230,14 @@ double bar ( double x , double y , double a , double b ) {
 
 Answer the following questions about the concolic execution of
 concrete of \texttt{bar} with the concrete inputs
-$[x \mapsto 0, y \mapsto 1, a \mapsto 2, b \mapsto 3]$.
+[\Code{x} $\mapsto$ \Code{0}, \Code{y} $\mapsto$ \Code{1}, \Code{a} $\mapsto$ \Code{2}, \Code{b} $\mapsto$ \Code{3}].
 
 \begin{parts}
 \part[2] After the execution of line 4, what is the concrete program state?
   %
   \answerspace{10} %
   \answer{ %
-    The concrete program state after L4 is: $x = 0, y = 1, a = 2, b = 3, result=undefined$
+    \StateQ{0}{1}{2}{3}{0}
   }
 
 \part[2] After the execution of line 4, what is the symbolic program
@@ -237,8 +247,8 @@ $[x \mapsto 0, y \mapsto 1, a \mapsto 2, b \mapsto 3]$.
   %
   \answerspace{10} %
   \answer{ %
-    The symbolic program state after L4 is:
-    $x = s_0, y = s_1, a = s_2, b = s_3, result=undefined$
+    \StateS{s_0}{s_1}{s_2}{s_3}{0}
+    %The symbolic program state after L4 is:  $x = s_0, y = s_1, a = s_2, b = s_3, result=0$
   }
 
 \part[2] After the execution of line 10, what is the concrete program
@@ -246,18 +256,20 @@ $[x \mapsto 0, y \mapsto 1, a \mapsto 2, b \mapsto 3]$.
   %
   \answerspace{10} %
   \answer{ %
-    The concrete program state at L10 is:
-    $x = 2, y = 1, a = 5, b = 3, result=undefined$ }
-  \vfill
+    \StateQ{2}{1}{5}{3}{0}
+    % The concrete program state at L10 is:  $x = 2, y = 1, a = 5, b =
+    % 3, result=0$
+  }
 
 \part[2] After the execution of line 10, what is the symbolic program
   state?
   %
   \answerspace{10} %
   \answer{ %
-    To reach line 10 we need $\neg ((s_0 = s_1) \wedge (s_3 > 0))$.
-    This gives us the following symbolic state
-    $x = max(s_0, s_2), y = s_1, a = s_2 + s_3, b = s_3, result = undefined$
+    \StateS{max(s_0, s_2)}{s_1}{s_2+s_3}{s_3}{0}
+    % To reach line 10 we need $\neg ((s_0 = s_1) \wedge (s_3 > 0))$.
+    % This gives us the following symbolic state
+    % $x = max(s_0, s_2), y = s_1, a = s_2 + s_3, b = s_3, result = 0$
   }
 
 \part[2] What is the path condition after executing line 10?
@@ -269,12 +281,10 @@ $[x \mapsto 0, y \mapsto 1, a \mapsto 2, b \mapsto 3]$.
 
 \part[2] After the execution of line 16, what is the concrete program
   state?
-  % \pf{Why are these next question using the "for", not "after the execution of line X"? Fix it?}
-  % \am {I have added "after the execution of line 16" in the question to be consistent with other parts.}
-  %
   \answerspace{10} %
   \answer{ %
-    The concrete program state after L16 is: $x = 2, y = 0.2, a = 5, b = 3, result=8.2$
+    \StateQ{2}{0.2}{5}{3}{8.2}
+    % The concrete program state after L16 is: $x = 2, y = 0.2, a = 5, b = 3, result=8.2$
   }
 
 \part[2] After the execution of line 16, what is the symbolic program
@@ -282,14 +292,16 @@ $[x \mapsto 0, y \mapsto 1, a \mapsto 2, b \mapsto 3]$.
   %
   \answerspace{10} %
   \answer{ %
-    $x = max(s_0, s_2), y = s_1 / 5, a = s_2 + s_3 , b = s_3, result = max(s_0, s_2) + s_1 / 5 + s_2 + s_3 + 1$
+    \StateS{max(s_0, s_2)}{s_1}{s_2+s_3}{s_3}{max(s_0, s_2) + s_1/5 + s_2 + s_3 + 1}
+    % $x = fmax(s_0, s_2), y = s_1 / 5, a = s_2 + s_3 , b = s_3, result = max(s_0, s_2) + s_1 / 5 + s_2 + s_3 + 1$
   }
 
 \part[2] After the execution of line 16, what is the path condition?
   %
   \answerspace{10} %
   \answer{ %
-    The path condition is $\neg ((s_0 = s_1) \wedge (s_3 > 0))$.
+    The path condition is $\neg ((s_0 = s_1) \wedge (s_3 > 0)) \land
+    \neg (max(s_0, s_2) \leq 0)$.
   }
 
 \part[5] Provide a possible concrete input that concolic execution
@@ -299,7 +311,10 @@ $[x \mapsto 0, y \mapsto 1, a \mapsto 2, b \mapsto 3]$.
   %
   \answerspace{10} %
   \answer{ %
-    The path condition is $\neg ((s_0 = s_1) \wedge (s_3 > 0))$.
+    We just need to negate the last clause in the path condition at
+    this point and find values for the symbolic values that satisfy
+    this formula. The following set of arguments fits the bill: \\
+    \Code{x} $\mapsto$ \Code{0}, \Code{y} $\mapsto$ \Code{1}, \Code{a} $\mapsto$ \Code{-2}, \Code{b} $\mapsto$ \Code{3}.
   }
 \end{parts}
 
@@ -344,7 +359,7 @@ $[x \mapsto 0, y \mapsto 1, a \mapsto 2, b \mapsto 3]$.
       \item Reduces path explosion - explores one concrete path at a
         time instead of all symbolically.
       \item Better handles complex, heap allocated data structures.
-      \item Can be adapted to symbolic path conditions without
+      % \item Can be adapted to symbolic path conditions without
       \end{itemize}
     }
 
