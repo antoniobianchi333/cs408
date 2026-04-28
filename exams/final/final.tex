@@ -279,14 +279,20 @@ int bar(int[] a) {
   off-the-shelf blackbox fuzzer typically use? Explain your answer in
   1-2 sentences.
 
-  \answerspace{15} %
+  \answerspace{20} %
 
 \question[2] Describe an automated testing scenario where a blackbox
   fuzzer might use one of the different kinds of test oracles we
   discussed in class. Be sure to explicitly name the particular
   category of test oracle, and to justify your answer.
 
-  \answerspace{15} %
+  \answerspace{20} %
+
+\newpage
+\begin{center}
+  [PAGE DELIBERATELY LEFT BLANK]
+\end{center}
+\newpage
 
   % ## Delta Debugging:
 
@@ -307,24 +313,28 @@ int bar(int[] a) {
     \item[ ] Produced by \mintinline{java}{ddmin}: Yes \quad/\quad No %
       \hfill Valid Output of \mintinline{java}{ddmin}: Yes \quad/\quad No
     \end{itemize}
+    \vspace{12pt}
 
   \part[2] $[1, 3, 8, 10]$
     \begin{itemize}
     \item[ ] Produced by \mintinline{java}{ddmin}: Yes \quad/\quad No %
     \hfill Valid Output of \mintinline{java}{ddmin}: Yes \quad/\quad No
-    \end{itemize}
+  \end{itemize}
+  \vspace{12pt}
 
   \part[2] $[3, 7, 8]$
     \begin{itemize}
     \item[ ] Produced by \mintinline{java}{ddmin}: Yes \quad/\quad No %
     \hfill Valid Output of \mintinline{java}{ddmin}: Yes \quad/\quad No
-    \end{itemize}
+  \end{itemize}
+  \vspace{12pt}
 
   \part[2] $[5, 3]$
     \begin{itemize}
     \item[ ] Produced by \mintinline{java}{ddmin}: Yes \quad/\quad No %
     \hfill Valid Output of \mintinline{java}{ddmin}: Yes \quad/\quad No
   \end{itemize}
+  \vspace{12pt}
 
     \part[2] $[3, 6]$
     \begin{itemize}
@@ -332,53 +342,47 @@ int bar(int[] a) {
     \hfill Valid Output of \mintinline{java}{ddmin}: Yes \quad/\quad No
     \end{itemize}
   \end{parts}
+  \vspace{24pt}
 
+%   % ## Regression Testing
 
-\newpage
-\begin{center}
-  [PAGE DELIBERATELY LEFT BLANK]
-\end{center}
-\newpage
+% \question[3] Identify two challenges related to regression testing
+%   that were discussed in class. For each challenge, describe a
+%   concrete mitigation strategy and provide 1-2 sentences explaining
+%   how they address the issue.
 
-  % ## Regression Testing
+%   \begin{itemize}
+%   \item \textbf{Challenge \#1:}\\
+%     \fbox{
+%       \begin{minipage}{.95\linewidth}
+%         \hfill
+%         \\[24pt]
+%       \end{minipage}
+%     }
+%   \item \textbf{Mitigation Strategy \#1:} \\
+%     \fbox{
+%       \begin{minipage}{.95\linewidth}
+%         \hfill
+%         \\[84pt]
+%       \end{minipage}
+%     }
+%     \\
+%   \item \textbf{Challenge \#2:}\\
+%     \fbox{
+%       \begin{minipage}{.95\linewidth}
+%         \hfill
+%         \\[24pt]
+%       \end{minipage}
+%     }
 
-\question[3] Identify two challenges related to regression testing
-  that were discussed in class. For each challenge, describe a
-  concrete mitigation strategy and provide 1-2 sentences explaining
-  how they address the issue.
-
-  \begin{itemize}
-  \item \textbf{Challenge \#1:}\\
-    \fbox{
-      \begin{minipage}{.95\linewidth}
-        \hfill
-        \\[24pt]
-      \end{minipage}
-    }
-  \item \textbf{Mitigation Strategy \#1:} \\
-    \fbox{
-      \begin{minipage}{.95\linewidth}
-        \hfill
-        \\[84pt]
-      \end{minipage}
-    }
-    \\
-  \item \textbf{Challenge \#2:}\\
-    \fbox{
-      \begin{minipage}{.95\linewidth}
-        \hfill
-        \\[24pt]
-      \end{minipage}
-    }
-
-  \item \textbf{Mitigation Strategy \#2:} \\
-    \fbox{
-      \begin{minipage}{.95\linewidth}
-        \hfill
-        \\[84pt]
-      \end{minipage}
-    }
-  \end{itemize}
+%   \item \textbf{Mitigation Strategy \#2:} \\
+%     \fbox{
+%       \begin{minipage}{.95\linewidth}
+%         \hfill
+%         \\[84pt]
+%       \end{minipage}
+%     }
+%   \end{itemize}
 
   % ## Static versus Dynamic Analysis (Practice Exam):
 
