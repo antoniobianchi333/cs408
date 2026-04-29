@@ -1,6 +1,6 @@
 
 % Add "answers" option to print the answers
-\documentclass[addpoints]{exam}
+\documentclass[addpoints, answers]{exam}
 
 \input{cmds}
 
@@ -16,9 +16,12 @@
 \usepackage{tabularx}
 \usepackage{ulem}
 \usepackage{minted}
+\usepackage{amsfonts}
 
 \newcommand{\includecode}[2][c]{\lstinputlisting[caption=, escapechar=, language=#1]{#2}<!---->}
 \RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
+
+\newcommand{\Code}[1]{\mintinline{java}{#1}}
 
 \renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
 
@@ -82,23 +85,25 @@
     list. %
     \answerspace{8} %
     \answer{ %
-
+      b
     } %
 
   \part[2] The oracle checks if the function under test crashes. %
 
       \answerspace{8} %
       \answer{ %
+        a
       } %
 
 
   \part[2] The oracle applies some random noise to an input image and
-    then compares the rating provided by ``WeRateDogs'' application on
-    the original and perturbed image, checking whether the rating
+    then compares the ratings provided by a ``WeRateDogs'' application on
+    the original and perturbed images, checking whether the rating
     changes by no more than 1 after the perturbation. %
 
       \answerspace{8} %
       \answer{ %
+        e
       } %
 
 
@@ -107,6 +112,7 @@
 
       \answerspace{8} %
       \answer{ %
+        d
       } %
 
   \part[2] The test oracle compares the result of a query reported by
@@ -115,7 +121,8 @@
     between their outputs as potential bugs. %
 
       \answerspace{8} %
-\answer{ %
+      \answer{ %
+        c
       } %
 
   \end{parts}
@@ -124,13 +131,26 @@
 \question[10] Suppose that we have the test input ``Hello World!'',
   and a test that fails on any string that contains at least one 'o'
   and at least one 'd'.  Show the first 10 test inputs produced by the
-  delta debugging algorithm (\texttt{ddmin}) discussed in class,
+  delta debugging algorithm (\Code{ddmin}) discussed in class,
   noting whether each of those test inputs were successful or not, and
   then give the final input returned by the algorithm. Be sure to
   clearly indicate the final result, e.g., by drawing a box around
   it.  %
   \answerspace{10} %
   \answer{ %
+    \begin{enumerate}
+    \item ``Hello '' (success)
+    \item ``World!'' (fail)
+    \item ``Wor'' (pass)
+    \item ``ld!'' (pass)
+    \item ``Wo'' (pass)
+    \item ``rl'' (pass)
+    \item ``d'' (pass)
+    \item ``!'' (pass)
+    \item ``rld!'' (fail)
+    \item ``Wod!'' (fail)
+    \end{enumerate}
+    \fbox{Final result: ``od'' (fail)}
   }
 
   \newpage
@@ -143,21 +163,33 @@
     and the same input sometimes passes and sometimes fails? %
     \answerspace{18} %
     \answer{ %
-    } %
+      Consider a program under test that spawns several concurrent
+      processes which update a shared variable \Code{x} and which do
+      not use an appropriate locking discipline. In this scenario,
+      there is a data race on \Code{x}, and test oracle's answer may
+      depend on both the test input and the scheduler, e.g., if the
+      failure is only triggered by a specific final value of
+      \Code{x}. } %
 
   \part[5] Could the output of the delta debugging algorithm be
     affected in a meaningful way if it is equipped with a flaky test
     oracle? %
     \answerspace{18} %
     \answer{ %
-    } %
+      Indeed! Because \Code{ddmin} only minimizes failing test inputs,
+      a flaky test oracle can cause the algorithm to produce a
+      non-minimal failing input.  In the worst case scenario, a flaky
+      test oracle could cause \Code{ddmin} to return the original
+      input unchanged, even though a simpler version of the failing
+      input exists.} %
 
   \part[5] Propose one concrete strategy for dealing with flaky tests
     when using delta debugging, and briefly explain how it improves
     the reliability of the algorithm. %
     \answerspace{10} %
     \answer{ %
-    }
+      One simple solution is to run each test multiple times and
+      recursively minimizing if any of those tests fail.  }
   \end{parts}
 
   \newpage
@@ -190,26 +222,56 @@
       your ordering on this set.) %
       \answerspace{18}%
       \answer{%
+        The set of abstract values will be sets of natural numbers,
+        i.e. $\mathcal{P}(\mathbb{N})$. Intuitively, each value
+        represents all of the line numbers holding a definition that
+        \emph{may} reach the current program point. So, the abstract
+        state [\Code{q}$\mapsto${\Code{1, 5, 6}}] means there at this
+        program point, \Code{q} might hold the value that was assigned
+        at line \Code{1}, or the value that was assigned at line
+        \Code{5}, and the value that was assigned at line \Code{6},
+        \emph{and} cannot hold a value assigned at any other program
+        point. \\
+
+        The ordering relation on this set is simply subset inclusion:
+        $\subseteq$, $\top$ is simply $\mathbb{N}$, and $\bot$ is
+        $\emptyset$.
+
       }%
 
     \part[10]
       For the two categories of statements below, define the transfer
       function for this analysis:
       \begin{itemize}
-      \item \textbf{Assignment:} \mintinline{java}{n: x = e}
-      \item \textbf{Conditionals:} \mintinline{java}{n: if e1 {e2} else {e3}}
+      \item \textbf{Assignment:} \Code{n: x = e}
+      \item \textbf{Conditionals:} \Code{n: if e1 {s2} else {s3}}
       \end{itemize}
       (Note that we assume both kinds of statements are labelled with
       line numbers).  Define your transfer functions by showing how
       each statement transforms an abstract state containing three
       variables, $x$, $y$, and $z$, using the format:
       \begin{itemize}
-      \item transfer([x$\mapsto$a, y$\mapsto$b, z$\mapsto$c], m: x = e) $\equiv$ [x$\mapsto$d, y$\mapsto$e, z$\mapsto$f]
+      \item transfer([x$\mapsto$a, y$\mapsto$b, z$\mapsto$c], \Code{m: x = e}) $\equiv$ [x$\mapsto$d, y$\mapsto$e, z$\mapsto$f]
       \end{itemize}
       where a, b, c, etc. are drawn from the set of abstract values
       defined in part a.
       \answerspace{10}%
       \answer{%
+      \begin{itemize}
+      \item transfer([\Code{x}$\mapsto$ \Code{a},
+        \Code{y}$\mapsto$\Code{b}, \Code{z}$\mapsto$\Code{c}], m: x =
+        e) $\equiv$ [\Code{x}$\mapsto$\{m\},
+        \Code{y}$\mapsto$\Code{b}, \Code{z}$\mapsto$\Code{c}]\\
+        So: an assignment statement updates the variable being
+        assigned to the location of the current statement, and leaves
+        the other variables unchanged.
+      \item transfer($\sigma$, \Code{n: if e1 {s2} else {s3}})
+        $\equiv$ transfer($\sigma$, \Code{s2}) $\sqcup$
+        transfer($\sigma$, \Code{s3}) \\
+        So, the abstract state after conditional is simply the
+        combination of the abstraction states after each of its
+        branches.
+      \end{itemize}
       }%
       \newpage
 
@@ -222,6 +284,7 @@
       block / conditional identifier, and an output abstract state.
       \answerspace{10}%
       \answer{%
+        \includegraphics[width=.75\linewidth]{hw5+CFG.png}
       }%
 \end{parts}
 
