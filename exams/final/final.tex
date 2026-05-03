@@ -17,7 +17,7 @@
 \usepackage{tikz}
 \usetikzlibrary{positioning}
 
-\usepackage{hyperref}
+\usepackage[colorlinks=true, linkcolor=blue]{hyperref}
 
 \newcommand{\includecode}[2][c]{\lstinputlisting[caption=, escapechar=, language=#1]{#2}<!---->}
 \RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
@@ -152,10 +152,11 @@
   \answerspace{10} %
 
 \question[2] %
-  For any program, is it always possible to find a test set
-  that achieve 100\% node coverage? If your answer is ``yes'', explain
-  why in 2-3 sentences. If your answer is ``no'', provide a short
-  ($\leq$ 5 line) program for which 100\% node coverage is impossible.
+  For an arbitrary program, is it always possible to find a test set
+  that achieve 100\% node coverage for that program? If your answer is
+  ``yes'', explain why in 2-3 sentences. If your answer is ``no'',
+  provide a short ($\leq$ 5 line) program for which 100\% node
+  coverage is impossible.
 
   \answerspace{15} %
 
@@ -189,13 +190,13 @@ return out;
 \end{minted}
 \begin{parts}
 
-\part[3] Give a test set that achieves 100\% predicate coverage for
-  \mintinline{java}{foo}. If this is not possible, explain why. %
+\part[2] Give a test set that achieves 100\% predicate coverage for
+  \mintinline{java}{foo}. If this is not possible, explain why in 2-3 sentences. %
   \answerspace{17} %
 
-\part[3] Give a test set that achieves 100\% clause coverage but
+\part[2] Give a test set that achieves 100\% clause coverage but
   \textit{not} 100\% predicate coverage for \mintinline{java}{foo}. If
-  this is not possible, explain why. %
+  this is not possible, explain why in 2-3 sentences. %
   \answerspace{17} %
 
 \newpage
@@ -204,9 +205,9 @@ return out;
 \end{center}
 \newpage
 
-\part[3] Give a test set that achieves 100\% Generalized Active Clause
+\part[5] Give a test set that achieves 100\% Generalized Active Clause
   coverage (GACC) but \textit{not} 100\% predicate coverage for
-  \mintinline{java}{foo}. If this is not possible, explain why. %
+  \mintinline{java}{foo}. If this is not possible, explain why in 2-3 sentences. %
   \answerspace{20} %
 
 \end{parts}
@@ -232,7 +233,8 @@ return out;
   \begin{minted}{java}
 int bar(int[] a) {
   int s = 0;
-  for (int i = 0; i < a.length; i++) {
+  if (a.length < 3) return;
+  for (int i = 0; i < 3; i++) {
     if (a[i] >= i) {
       s = s + a[i];
     } else {
@@ -248,22 +250,25 @@ int bar(int[] a) {
 \end{minted}
 \begin{parts}
 
-\part[4]
+\part[6]
   List the final path constraint that concolic execution would produce
   for the program \mintinline{java}{bar} on the test input
-  $a = [1, 0, 3]$. Use $a = [x, y, z]$ as your initial symbolic input.  Give
-  your answer as a sequence of path conditions separated by $\land$,
-  e.g., for the path conditions $P$, $Q$, and $R$, write
-  $P \land Q \land R$ . Do \textbf{not} simplify the path constraint
-  in any way.
+  $a = [1, 0, 3]$. Give your answer as a sequence of path conditions
+  separated by $\land$, e.g., for the path conditions $P$, $Q$, and
+  $R$, write $P \land Q \land R$ . When writing your path condition,
+  assume the initial symbolic input has the form
+  $arr \mapsto [a , b, c]$, and write the symbolic value stored at
+  index $0$ as $a$, $1$ as $b$, and $2$ as $c$. You are allowed to
+  drop clauses that are always true, e.g., $3 < 5 + 1$ from the path
+  constraint, but otherwise you should not simplify it in any way.
+  \answerspace{18} %
 
-  \answerspace{15} %
-
-\part[5] List the next two new inputs that a concolic execution engine
+  \vspace{-.5cm}
+\part[3] List the next two new inputs that a concolic execution engine
   might generate after executing \mintinline{java}{bar} on the test
   input $[1, 0, 3]$.
 
-  \answerspace{15} %
+  \answerspace{12} %
 
 \end{parts}
 
@@ -277,14 +282,15 @@ int bar(int[] a) {
 
 \question[2] Which category of test oracle discussed in class would an
   off-the-shelf blackbox fuzzer typically use? Explain your answer in
-  1-2 sentences.
+  2-3 sentences.
 
   \answerspace{20} %
 
-\question[2] Describe an automated testing scenario where a blackbox
-  fuzzer might use one of the different kinds of test oracles we
-  discussed in class. Be sure to explicitly name the particular
-  category of test oracle, and to justify your answer.
+\question[2] In 2-4 sentences, describe an automated testing scenario
+  where a blackbox fuzzer might use a different kind of test oracle
+  discussed in class. Be sure to explicitly state which category of
+  test oracle is used, and to justify why it is reasonable to use in
+  this scenario.
 
   \answerspace{20} %
 
@@ -297,48 +303,48 @@ int bar(int[] a) {
   % ## Delta Debugging:
 
 \question Suppose that we have the test input
-  $[1, 2, 3, 5, 3, 8, 7, 10]$, and a sorting program that fails if and
-  only if it is given a list with at least two elements, one of which
-  is the number $3$, and which contains at least one pair of adjacent
-  elements where the left element is greater than the right
-  element. Identify which of the following test inputs would be
+  $[1, 2, 3, 5, 3, 8, 7, 10, 42, 11]$, and a sorting program that
+  fails if and only if it is given a list with at least two elements,
+  one of which is the number $3$, and which contains at least one pair
+  of adjacent elements where the first element is greater than the
+  second. Identify which of the following test inputs would be
   considered as a possible test case by the delta debugging algorithm
   (\mintinline{java}{ddmin}) discussed in class, noting whether or not
   each is a valid final output of \mintinline{java}{ddmin}. (Indicate
   your answer by circling your choice.)
 
   \begin{parts}
-  \part[2] $[1, 2, 3, 5, 3, 8]$
+  \part[2] $[1, 2, 3, 5, 3]$
     \begin{itemize}
-    \item[ ] Produced by \mintinline{java}{ddmin}: Yes \quad/\quad No %
+    \item[ ] Considered by \mintinline{java}{ddmin}: Yes \quad/\quad No %
       \hfill Valid Output of \mintinline{java}{ddmin}: Yes \quad/\quad No
     \end{itemize}
     \vspace{12pt}
 
   \part[2] $[1, 3, 8, 10]$
     \begin{itemize}
-    \item[ ] Produced by \mintinline{java}{ddmin}: Yes \quad/\quad No %
+    \item[ ] Considered by \mintinline{java}{ddmin}: Yes \quad/\quad No %
     \hfill Valid Output of \mintinline{java}{ddmin}: Yes \quad/\quad No
   \end{itemize}
   \vspace{12pt}
 
   \part[2] $[3, 7, 8]$
     \begin{itemize}
-    \item[ ] Produced by \mintinline{java}{ddmin}: Yes \quad/\quad No %
+    \item[ ] Considered by \mintinline{java}{ddmin}: Yes \quad/\quad No %
     \hfill Valid Output of \mintinline{java}{ddmin}: Yes \quad/\quad No
   \end{itemize}
   \vspace{12pt}
 
   \part[2] $[5, 3]$
     \begin{itemize}
-    \item[ ] Produced by \mintinline{java}{ddmin}: Yes \quad/\quad No %
+    \item[ ] Considered by \mintinline{java}{ddmin}: Yes \quad/\quad No %
     \hfill Valid Output of \mintinline{java}{ddmin}: Yes \quad/\quad No
   \end{itemize}
   \vspace{12pt}
 
     \part[2] $[3, 6]$
     \begin{itemize}
-    \item[ ] Produced by \mintinline{java}{ddmin}: Yes \quad/\quad No %
+    \item[ ] Considered by \mintinline{java}{ddmin}: Yes \quad/\quad No %
     \hfill Valid Output of \mintinline{java}{ddmin}: Yes \quad/\quad No
     \end{itemize}
   \end{parts}
@@ -410,16 +416,18 @@ int bar(int[] a) {
 \question[10] Show the annotated CFG that results from performing sign
   analysis on the function \mintinline{java}{baz} (\autoref{fig:baz})
   using the path-insensitive, forward data-flow analysis over the sign
-  domain, using the algorithm discussed in class.  For reference,
-  we've given the Hasse diagram for the sign domain you should use in
+  domain, using the algorithm discussed in class.For reference, we've
+  given the Hasse diagram for the sign domain you should use in
   \autoref{fig:sign+domain}. Your analysis should use
-  \mintinline{java}{[y }$\mapsto
-  \top, $\mintinline{java}{x }$\mapsto
-  \bot, $\mintinline{java}{z }$\mapsto \bot$\mintinline{java}{]} for the
+  \mintinline{java}{[y }$\mapsto \top, $%
+  \mintinline{java}{x }$\mapsto \bot, %
+  $\mintinline{java}{z }$\mapsto \bot$\mintinline{java}{]} for the
   input abstract state. Your answer should be given in the form of a
   CFG, where each node of the CFG is annotated with an input abstract
   state, basic block / conditional identifier, and an output abstract
-  state. %
+  state. In order to receive partial credit, an answer should at least
+  provide the correct CFG structure for \mintinline{java}{baz}, even
+  if its input and output state annotations are incorrect.%
   \begin{figure}[ht]
     \begin{subfigure}{.45\linewidth}
       \begin{center}
@@ -431,11 +439,11 @@ int baz(int y) {
     if (x >= 0) {
       x = x + 1;
     } else {
-      x = -x;
+      x = 1;
     }
     y = y - 1;
   }
-  if (x > 0) {
+  if (x >= 0) {
     z = 1;
   } else {
     z = -2;
@@ -449,12 +457,12 @@ int baz(int y) {
     \end{subfigure}
     \begin{subfigure}{.3\linewidth}
       \includegraphics[width=.75\linewidth]{SignLattice.png}
-      \caption{The sign domain}
+      \caption{The Hasse diagram for the sign domain}
       \label{fig:sign+domain}
     \end{subfigure}
 \end{figure}
 
-  \answerspace{10}%
+  \answerspace{26}%
   %   Problem: Do a simple static sign analysis on a program.
 
   %   Part a: draw the CFG of this program.
