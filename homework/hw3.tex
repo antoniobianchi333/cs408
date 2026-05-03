@@ -406,11 +406,8 @@
   by a list of the individual clauses in each predicate.
   Use the format ``predicate1: clause1, clause2, ...''
   \answerspace{12} \answer{
-	$(a \wedge b) \vee (c < d)$ \\
-	$a \wedge b$ \\
-	$a$ \\
-	$b$ \\
-	$c < d$
+    $(a \wedge b) \vee (c < d): a, b, c < d$ \\
+    $ d < c: d < c$
 }
 
 % One point for each in TR
@@ -447,14 +444,14 @@
 	\(p = (a \wedge b) \vee (c < d)\).
 
 	\[
-	TR_c = \{ (a = \bot, b = \bot, c < d = \bot),\; (a = \bot, b =
+	TR_{c < d} = \{ (a = \bot, b = \bot, c < d = \bot),\; (a = \bot, b =
         \bot, c < d = \top)\}
 	\]
 
 	This gives us
 
 	\[
-	TR = TR_a \cup TR_b \cup TR_{c < d}
+	TR = TR_a \cup TR_b \cup TR_{c < d} \cup TR_{d < c}
 	\]
 
 	\[
@@ -464,7 +461,9 @@
 	& (a = \bot, b = \top, c < d = \bot),\\
 	& (a = \top, b = \bot, c < d = \bot),\\
 	& (a = \bot, b = \bot, c < d = \bot),\\
-	& (a = \bot, b = \bot, c < d = \top)
+	& (a = \bot, b = \bot, c < d = \top) \\
+        & (d < c = \top) \\
+        & (d < c = \bot) \\
       \end{aligned}
     \right\}
   \]
