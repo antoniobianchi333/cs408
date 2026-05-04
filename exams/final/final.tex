@@ -22,6 +22,11 @@
 \newcommand{\includecode}[2][c]{\lstinputlisting[caption=, escapechar=, language=#1]{#2}<!---->}
 \RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
 
+\newcommand{\Code}[1]{\mintinline{java}{#1}}
+\newcommand{\ACC}[4]{\{\Code{x}$\mapsto$\Code{#1},
+  \Code{y}$\mapsto$\Code{#2}, \Code{z}$\mapsto$\Code{#3}\}}
+
+
 \renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
 
 \definecolor{SolutionColor}{rgb}{0.8,0.9,1}
@@ -190,14 +195,24 @@ return out;
 \end{minted}
 \begin{parts}
 
-\part[2] Give a test set that achieves 100\% predicate coverage for
-  \mintinline{java}{foo}. If this is not possible, explain why in 2-3 sentences. %
+\part[2] Give a minimal test set that achieves 100\% predicate
+  coverage for \Code{foo}. If this is not possible,
+  explain why in 2-3 sentences. %
   \answerspace{17} %
+  \begin{solution}
+    We only need two test cases, one in which the first clause is
+    \Code{true}, e.g. \ACC{0}{'0'}{1}, and another in which the first
+    clase is \Code{false}, e.g, \ACC{0}{'0'}{-1}.
+  \end{solution}
 
 \part[2] Give a test set that achieves 100\% clause coverage but
-  \textit{not} 100\% predicate coverage for \mintinline{java}{foo}. If
+  \textit{not} 100\% predicate coverage for \Code{foo}. If
   this is not possible, explain why in 2-3 sentences. %
   \answerspace{17} %
+  \begin{solution}
+    Here, we can acheive this with the following test set:
+    \ACC{0}{'0'}{1}, \ACC{-20}{'y'}{0}.
+  \end{solution}
 
 \newpage
 \begin{center}
@@ -207,20 +222,63 @@ return out;
 
 \part[5] Give a test set that achieves 100\% Generalized Active Clause
   coverage (GACC) but \textit{not} 100\% predicate coverage for
-  \mintinline{java}{foo}. If this is not possible, explain why in 2-3 sentences. %
+  \Code{foo}. If this is not possible, explain why in 2-3 sentences. %
   \answerspace{20} %
 
+  \begin{solution} This is not possible. To achieve 100\% GACC, we
+    need a pair of tests in which \Code{x < -10} is an
+    active clause; one of these needs to make the clause
+    \Code{true} and another needs to make it %
+    \Code{false}. We have no freedom to pick the truth
+    values for the other clauses, though: there is exactly one
+    scenario where the \Code{x < -10} clause determines
+    this predicate, i.e., when \Code{z > 0} is
+    \Code{false} and %
+    \Code{y == 'y'} is \Code{true} (a similar
+    argument applies to the \Code{y == 'y'} clause). Under
+    this assignment, the truth of the predicate is completely
+    determined by \Code{x < -10}: any test that makes
+    \Code{true} makes the predicate
+    \Code{true}, and any test that makes the clause
+    \Code{false} similarly makes the predicate
+    \Code{false}, thus guaranteeing 100\% predicate
+    coverage for \Code{foo}.
+    % \VerbatimInput{midterm-q7_d_answer.txt}
+  \end{solution}
 \end{parts}
 
 % ## Concolic Execution:
 
+\vspace{-.3cm}
 \question[1] Name one advantage that concolic execution has compared
   to coverage-guided greybox fuzzing. %
   \answerspace{12} %
+  \begin{solution}
+    A concolic execution engine typcially assumes complete access to
+    the program under test, so it can guarantee a new path will be
+    explored with each new test it generates. Coverage-guided fuzzers
+    offer no such guarantee. \\
+    In general, any answer that shows the student knows that concolic
+    execution is a white-box approach and that they are able to
+    compare and contrast grey- and white-box testing approaches works
+    here.
+  \end{solution}
 
+  \vspace{-.3cm}
 \question[1] Name one disadvantage that concolic execution has
   compared to coverage-guided greybox fuzzing. %
   \answerspace{12} %
+  \begin{solution}
+    A concolic execution engine requires access to the source code of
+    the system under test. It also requires a solver to find new
+    inputs, which can be slow and may not work if the system under
+    test uses complicated path conditions. \\ %
+    As with the previous question, any answer that shows the student
+    knows that concolic execution is a white-box approach and that
+    they are able to compare and contrast grey- and white-box testing
+    approaches works here.
+  \end{solution}
+
 
 \newpage
 \begin{center}
@@ -252,7 +310,7 @@ int bar(int[] a) {
 
 \part[6]
   List the final path constraint that concolic execution would produce
-  for the program \mintinline{java}{bar} on the test input
+  for the program \Code{bar} on the test input
   $a = [1, 0, 3]$. Give your answer as a sequence of path conditions
   separated by $\land$, e.g., for the path conditions $P$, $Q$, and
   $R$, write $P \land Q \land R$ . When writing your path condition,
@@ -261,17 +319,29 @@ int bar(int[] a) {
   index $0$ as $a$, $1$ as $b$, and $2$ as $c$. You are allowed to
   drop clauses that are always true, e.g., $3 < 5 + 1$ from the path
   constraint, but otherwise you should not simplify it in any way.
-  \answerspace{18} %
-
-  \vspace{-.5cm}
+  \answerspace{15} %
+  \begin{solution}
+    Final path constraint is: $\lnot$ \Code{a.length < 3} $\land$
+    \Code{a >= 0} $\land$ $\lnot$ \Code{b >= 1} $\land$ \Code{c >= 2} $\land$
+    \Code{(a - b + c)} \Code{\% 2 == 0}
+    \end{solution}
+  \vspace{-.7cm}
 \part[3] List the next two new inputs that a concolic execution engine
-  might generate after executing \mintinline{java}{bar} on the test
-  input $[1, 0, 3]$.
-
-  \answerspace{12} %
-
-\end{parts}
-
+  might generate after executing \Code{bar} on the test
+  input $[1, 0, 3]$. %
+  \answerspace{11} %
+  \begin{solution}
+    Anything that flips the last path constraint they had above will
+    work. Assuming they correctly generated the path condition in the
+    previous part, we need an array with three elements whose first
+    element is greater than -1, second element is less than 1, third
+    element is greater than 1, and whose first three elements sum up
+    to an odd number, e.g.,  $arr \mapsto$ \Code{[1, 0, 2]}. \\
+    For the second input, we need an array whose third element is less
+    than 2, e.g., $arr \mapsto$ \Code{[1, 0, 1]}.
+  \end{solution}
+\end{parts} %
+%
 \newpage
 \begin{center}
   [PAGE DELIBERATELY LEFT BLANK]
@@ -285,6 +355,11 @@ int bar(int[] a) {
   2-3 sentences.
 
   \answerspace{20} %
+  \begin{solution}
+    An implicit oracle is the standard, because it works 'out of the
+    box' on an arbitrary program, and greybox fuzzers are typically
+    designed to be as push-button as possible.
+  \end{solution}
 
 \question[2] In 2-4 sentences, describe an automated testing scenario
   where a blackbox fuzzer might use a different kind of test oracle
@@ -293,6 +368,16 @@ int bar(int[] a) {
   this scenario.
 
   \answerspace{20} %
+
+  \begin{solution}
+    There are many possible answers here. The key thing is that they
+    need to identify a particular application which enable us to use a
+    more intelligent test oracle: e.g. when fuzzing an image
+    processing algorithm we can use a metamorphic relation as an
+    oracle, or when fuzz testing a compiler optimization we can use a
+    reference implementation as an oracle.
+  \end{solution}
+
 
 \newpage
 \begin{center}
@@ -309,43 +394,43 @@ int bar(int[] a) {
   of adjacent elements where the first element is greater than the
   second. Identify which of the following test inputs would be
   considered as a possible test case by the delta debugging algorithm
-  (\mintinline{java}{ddmin}) discussed in class, noting whether or not
-  each is a valid final output of \mintinline{java}{ddmin}. (Indicate
+  (\Code{ddmin}) discussed in class, noting whether or not
+  each is a valid final output of \Code{ddmin}. (Indicate
   your answer by circling your choice.)
 
   \begin{parts}
   \part[2] $[1, 2, 3, 5, 3]$
     \begin{itemize}
-    \item[ ] Considered by \mintinline{java}{ddmin}: Yes \quad/\quad No %
-      \hfill Valid Output of \mintinline{java}{ddmin}: Yes \quad/\quad No
+    \item[ ] Considered by \Code{ddmin}: Yes \quad/\quad No %
+      \hfill Valid Output of \Code{ddmin}: Yes \quad/\quad No
     \end{itemize}
     \vspace{12pt}
 
   \part[2] $[1, 3, 8, 10]$
     \begin{itemize}
-    \item[ ] Considered by \mintinline{java}{ddmin}: Yes \quad/\quad No %
-    \hfill Valid Output of \mintinline{java}{ddmin}: Yes \quad/\quad No
+    \item[ ] Considered by \Code{ddmin}: Yes \quad/\quad No %
+    \hfill Valid Output of \Code{ddmin}: Yes \quad/\quad No
   \end{itemize}
   \vspace{12pt}
 
   \part[2] $[3, 7, 8]$
     \begin{itemize}
-    \item[ ] Considered by \mintinline{java}{ddmin}: Yes \quad/\quad No %
-    \hfill Valid Output of \mintinline{java}{ddmin}: Yes \quad/\quad No
+    \item[ ] Considered by \Code{ddmin}: Yes \quad/\quad No %
+    \hfill Valid Output of \Code{ddmin}: Yes \quad/\quad No
   \end{itemize}
   \vspace{12pt}
 
   \part[2] $[5, 3]$
     \begin{itemize}
-    \item[ ] Considered by \mintinline{java}{ddmin}: Yes \quad/\quad No %
-    \hfill Valid Output of \mintinline{java}{ddmin}: Yes \quad/\quad No
+    \item[ ] Considered by \Code{ddmin}: Yes \quad/\quad No %
+    \hfill Valid Output of \Code{ddmin}: Yes \quad/\quad No
   \end{itemize}
   \vspace{12pt}
 
     \part[2] $[3, 6]$
     \begin{itemize}
-    \item[ ] Considered by \mintinline{java}{ddmin}: Yes \quad/\quad No %
-    \hfill Valid Output of \mintinline{java}{ddmin}: Yes \quad/\quad No
+    \item[ ] Considered by \Code{ddmin}: Yes \quad/\quad No %
+    \hfill Valid Output of \Code{ddmin}: Yes \quad/\quad No
     \end{itemize}
   \end{parts}
   \vspace{24pt}
@@ -414,19 +499,19 @@ int bar(int[] a) {
   % ## Static Analysis:
 
 \question[10] Show the annotated CFG that results from performing sign
-  analysis on the function \mintinline{java}{baz} (\autoref{fig:baz})
+  analysis on the function \Code{baz} (\autoref{fig:baz})
   using the path-insensitive, forward data-flow analysis over the sign
   domain, using the algorithm discussed in class.For reference, we've
   given the Hasse diagram for the sign domain you should use in
   \autoref{fig:sign+domain}. Your analysis should use
-  \mintinline{java}{[y }$\mapsto \top, $%
-  \mintinline{java}{x }$\mapsto \bot, %
-  $\mintinline{java}{z }$\mapsto \bot$\mintinline{java}{]} for the
+  \Code{[y }$\mapsto \top, $%
+  \Code{x }$\mapsto \bot, %
+  $\Code{z }$\mapsto \bot$\Code{]} for the
   input abstract state. Your answer should be given in the form of a
   CFG, where each node of the CFG is annotated with an input abstract
   state, basic block / conditional identifier, and an output abstract
   state. In order to receive partial credit, an answer should at least
-  provide the correct CFG structure for \mintinline{java}{baz}, even
+  provide the correct CFG structure for \Code{baz}, even
   if its input and output state annotations are incorrect.%
   \begin{figure}[ht]
     \begin{subfigure}{.45\linewidth}
