@@ -151,14 +151,14 @@
   Order the following CFG-based coverage criteria using the
   subsumption relation: (A) edge coverage, (B) prime path coverage,
   (C) node coverage, (D) complete path coverage. Your answer should
-  have the form: A $\supseteq$ B $\supseteq$ C $\supseteq$ D, where A
-  subsumes B, B subsumes C, and C subsumes D.
+  have the form: A $\subseteq$ B $\subseteq$ C $\subseteq$ D, where A
+  is subsumed by B, B is subsumed by C, and C is subsumed by D.
 
   \answerspace{10} %
 
 \question[2] %
   For an arbitrary program, is it always possible to find a test set
-  that achieve 100\% node coverage for that program? If your answer is
+  that achieves 100\% node coverage for that program? If your answer is
   ``yes'', explain why in 2-3 sentences. If your answer is ``no'',
   provide a short ($\leq$ 5 line) program for which 100\% node
   coverage is impossible.
@@ -291,7 +291,7 @@ return out;
   \begin{minted}{java}
 int bar(int[] a) {
   int s = 0;
-  if (a.length < 3) return;
+  if (a.length < 3) return -1;
   for (int i = 0; i < 3; i++) {
     if (a[i] >= i) {
       s = s + a[i];
@@ -501,7 +501,7 @@ int bar(int[] a) {
 \question[10] Show the annotated CFG that results from performing sign
   analysis on the function \Code{baz} (\autoref{fig:baz})
   using the path-insensitive, forward data-flow analysis over the sign
-  domain, using the algorithm discussed in class.For reference, we've
+  domain, using the algorithm discussed in class. For reference, we've
   given the Hasse diagram for the sign domain you should use in
   \autoref{fig:sign+domain}. Your analysis should use
   \Code{[y }$\mapsto \top, $%
