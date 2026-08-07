@@ -272,6 +272,7 @@ will be covered in the lectures; we fully expect that it will be
 updated during the course of the semester. The calendar on Brightspace
 is the most up-to-date schedule for the course.
 
+% NOTE: \uline (breakable underline) requires \usepackage[normalem]{ulem} in your preamble.
 {   \small
 \begin{tabular}{l|cp{.25\textwidth}|cp{.25\textwidth}|p{.2\textwidth}}
   \textbf{Week}
@@ -279,61 +280,138 @@ is the most up-to-date schedule for the course.
   & & \textbf{Thursday Topic}
   & \textbf{Notes} \\ \hline\hline
   W1
-  & 	1/13 & Course Introduction + Administrivia
-  & 1/15 & \textbf{NO CLASS} &	\\ \hline %
+  & 8/25 & Intro + administrivia
+  & 8/27 & \underline{Beyond Bugs}: Faults, errors, and failures
+  & \\ \hline
   W2
-  & 1/20 & Fault, error, failure
-  & 1/22 & Structural coverage, CFG 	\\  \hline %
+  & 9/1 & \underline{Anatomy of a Test}: Unit / Integration, RIPR
+  & 9/3 & \underline{No Peeking}: Black-box test design (Input Space Partitioning, All-pairs testing)
+  & \\ \hline
   W3
-  & 1/27 & Structural coverage, CFG
-  & 1/29 & Structural coverage, CFG   & HW1 due Friday \\  \hline %
+  & 9/8 & \underline{Opening the Hood}: Control-flow graphs + Program paths
+  & 9/10 & Graph-based coverage
+  & Labor Day Mon 9/7 (Mon OH cancelled); HW1 due Fri 9/12 \\ \hline
   W4
-  & 2/3 & Project 1 Introduction; Concurrency
-  & 2/5 &	Concurrency  &	Project 1 released \\ \hline %
+  & 9/15 & Semantic Coverage I: data-flow
+  & 9/17 & Semantic Coverage II: Logic coverage
+  & \\ \hline
   W5
-  & 2/10 & Data-flow %
-  & 2/12 & Input-Based Partitioning &	 \\  \hline %
+  & 9/22 & \underline{Beyond Coverage}: Mutation testing
+  & 9/24 & \underline{Automating the Process}: Property-based testing
+  & HW2 due Fri 9/26 \\ \hline
   W6
-  & 2/17 & Randomized testing
-  & 2/19& Syntax-based testing  & 	HW2 due Friday \\  \hline %
+  & 9/29 & Test-case minimization + delta debugging
+  & 10/1 & \underline{Beyond Black and White}: Grey-box fuzzing
+  & \\ \hline
   W7
-  & 2/24 & Bug reports
-  & 2/26 & Bug reports & Project 1 due Friday  \\  \hline
+  & 10/6 & Grey-box fuzzing II + Midterm Review
+  & 10/8 & \textbf{MIDTERM 1} (in class), covers W1--W5
+  & Project 1 released \\ \hline
   W8
-  & 3/3 & Midterm Review
-  & 3/5& 	Midterm (in-class) & \\  \hline %
+  & 10/13 & \textbf{NO CLASS} (Fall Break, Mon--Tue)
+  & 10/15 & \underline{We can't Run (Tests) Forever}: Regression test selection \& prioritization
+  & HW3 due Fri 10/16 \\ \hline
   W9
-  & 3/10 & Logic coverage
-  & 3/12 & Logic coverage  & \\  \hline
+  & 10/20 & \underline{Fifty Shades of White (-box} \underline{Testing)}: Symbolic execution
+  & 10/22 & \underline{Fifty Shades Lighter}: White-box fuzzing, concolic / dynamic symbolic execution
+  & \\ \hline
   W10
-  & 3/17 & NO CLASS (Spring break)
-  & 3/19 & NO CLASS (Spring break) 	 \\  \hline %
+  & 10/27 & \underline{A Good Oracle is Hard to} \underline{Find}: The test oracle problem
+  & 10/29 & \underline{The Full Spec-trum}: Non-functional properties (performance, security, resource)
+  & Project 1 due Fri 10/30 \\ \hline
   W11
-  & 3/24 & Project 2 Introduction
-  & 3/26 & Symbolic execution & Project 2 released; HW3 due Friday \\
-  \hline %
+  & 11/3 & \underline{Blind Spots}: code inspection \& review
+  & 11/5 & Testing AI systems
+  & HW4 due Fri 11/6 \\ \hline
   W12
-  & 3/31 & Symbolic execution
-  & 4/2 & Testing LLM-based systems (intrinsic)
-  & 	 \\\hline
+  & 11/10 & Concurrency I: Races, atomicity violations, and deadlock, Oh My!
+  & 11/12 & Concurrency II: Dynamic data-race detection (lockset + happens-before) + Midterm Review
+  & Project 2 released \\ \hline
   W13
-  & 4/7 & Testing LLM-based systems (extrinsic)
-  & 4/9 & Static Analysis & HW4 due Friday \\\hline
+  & 11/17 & \textbf{MIDTERM 2} (in class), covers W6--W11
+  & 11/19 & \underline{Testing without Tests I}: Static analysis
+  & \\ \hline
   W14
-  & 4/14 & Static Analysis
-  & 4/16 & Regression + Integration testing & Project 2 due Friday \\  \hline %
+  & 11/24 & Static analysis II
+  & 11/26 & \textbf{NO CLASS} (Thanksgiving)
+  & \\ \hline
   W15
-  & 4/21 & Verification (Dafny Demo)
-  & 4/23 & Record + Replay
-  & HW5 due Friday	 \\  \hline
+  & 12/1 & \underline{The Full Monty}: Floyd's inductive assertion method
+  & 12/3 & Verification-aware programming in Dafny
+  & HW5 due Fri 12/4; Project 2 due Fri 12/4 \\ \hline
   W16
-  & 4/28 & Backup
-  & 4/30 & Course Recap + Review &	 \\  \hline
-  W17
-  & 5/5 & Finals Week
-  & 5/7& Finals Week & Final (TBD) \\ \hline
+  & 12/8 & Buffer Day
+  & 12/10 & Course Recap and Final review
+  & \\ \hline
+  Finals
+  & \multicolumn{4}{p{.5\textwidth}|}{Final exam (comprehensive with a focus on W12--16); Dec 14--19, slot TBD}
+  & \\ \hline
 \end{tabular}
 }
+
+% Spring 2026 Schedule
+% {   \small
+% \begin{tabular}{l|cp{.25\textwidth}|cp{.25\textwidth}|p{.2\textwidth}}
+%   \textbf{Week}
+%   & & \textbf{Tuesday Topic}
+%   & & \textbf{Thursday Topic}
+%   & \textbf{Notes} \\ \hline\hline
+%   W1
+%   & 	1/13 & Course Introduction + Administrivia
+%   & 1/15 & \textbf{NO CLASS} &	\\ \hline %
+%   W2
+%   & 1/20 & Beyond Bugs: Fault, error, failure
+%   & 1/22 & Coverage Criteria; Control Flow Graphs 	\\  \hline %
+%   W3
+%   & 1/27 & Graph-Based Coverage Criteria
+%   & 1/29 & Prime Path Coverage; Best Effort Touring using Sidetrips and Detours  & HW1 due Friday \\  \hline %
+%   W4
+%   & 2/3 & Project 1 Introduction; Concurrency Bugs
+%   & 2/5 &	Dynamic Data Race Detection  &	Project 1 released \\ \hline %
+%   W5
+%   & 2/10 & Data Flow-Based Coverage Criteria %
+%   & 2/12 & Input-Space Partitioning &	 \\  \hline %
+%   W6
+%   & 2/17 & Black-box Automated Testing
+%   & 2/19& White-box and Grey-box automated Testing (Mutation-Based; Fuzzing)  & 	HW2 due Friday \\  \hline %
+%   W7
+%   & 2/24 & Mutation Testing
+%   & 2/26 & Bug reports & Project 1 due Friday  \\  \hline
+%   W8
+%   & 3/3 & Midterm Review
+%   & 3/5& 	Midterm (in-class) & \\  \hline %
+%   W9
+%   & 3/10 & Logic coverage
+%   & 3/12 & Active Logic coverage  & \\  \hline
+%   W10
+%   & 3/17 & NO CLASS (Spring break)
+%   & 3/19 & NO CLASS (Spring break) 	 \\  \hline %
+%   W11
+%   & 3/24 & Project 2 Introduction
+%   & 3/26 & Symbolic execution & Project 2 released; HW3 due Friday \\
+%   \hline %
+%   W12
+%   & 3/31 & Concolic execution
+%   & 4/2 & Test Oracles
+%   & 	 \\\hline
+%   W13
+%   & 4/7 & Test Case Minimization
+%   & 4/9 & Regression Testing & HW4 due Friday \\\hline
+%   W14
+%   & 4/14 & Static Analysis
+%   & 4/16 & Regression + Integration testing & Project 2 due Friday \\  \hline %
+%   W15
+%   & 4/21 & Floyd's Inductive Assertion Method
+%   & 4/23 & Dafny Demo
+%   & HW5 due Friday	 \\  \hline
+%   W16
+%   & 4/28 & Backup
+%   & 4/30 & Course Recap + Review &	 \\  \hline
+%   W17
+%   & 5/5 & Finals Week
+%   & 5/7& Finals Week & Final (TBD) \\ \hline
+% \end{tabular}
+% }
 
 
 % \begin{itemize}
