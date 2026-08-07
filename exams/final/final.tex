@@ -1,5 +1,5 @@
 % Add "answers" option to print the answers
-\documentclass[addpoints]{exam}
+\documentclass[addpoints, answers]{exam}
 
 \input{../cmds}
 
@@ -321,9 +321,11 @@ int bar(int[] a) {
   constraint, but otherwise you should not simplify it in any way.
   \answerspace{15} %
   \begin{solution}
-    Final path constraint is: $\lnot$ \Code{a.length < 3} $\land$
+    The Final path constraint is:\\
+    $\lnot$ \Code{a.length < 3} $\land$
     \Code{a >= 0} $\land$ $\lnot$ \Code{b >= 1} $\land$ \Code{c >= 2} $\land$
-    \Code{(a - b + c)} \Code{\% 2 == 0}
+    \Code{(a - b + c)} \% \Code{2 == 0}
+    \vspace{.7cm}
     \end{solution}
   \vspace{-.7cm}
 \part[3] List the next two new inputs that a concolic execution engine
