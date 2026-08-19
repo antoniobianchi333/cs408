@@ -27,59 +27,57 @@
 	  \vspace*{10pt}
 	{\Large{CS 408: Software Testing}}\\
         \vspace*{5pt}
-	{\Large{Spring 2026}}\\
+	{\Large{Fall 2026}}\\
         \vspace*{5pt}
         Updated: \today \\
 
   \vspace*{10pt}
 \end{center}
 
-
-% Add regrade policy
-% Add group projects different grades
-
-% Add regrade policy
-% Add group projects different grades
-
-%% Syllabus examples: https://cs17-fall2022.github.io/resources
-%%
-
 \section*{\textcolor{BlueViolet}{Overview}}
 
-The software testing course introduces various testing concepts,
-principles, and methodologies that assist developers in the process of
-testing and validating software systems. To help students better
-understand the subject, the course uses a hands-on approach and is
-project based.
-
-The course covers the basic principles of software testing: the
-psychology and economics of software testing, development and use of
-test cases, design and code inspection, version control systems, black
-box testing, higher-order testing, white box testing, unit testing,
-incremental testing, regression testing, processes for debugging and
-fixing software defects, and testing techniques for concurrent and
-complex systems.
+This course is organized around a single motivating question: how can
+we rigorously and systematically validate that software behaves as
+intended? Importantly, there is no ``one-size-fits-all'' answer to
+this question, as any answer has to make fundamental trade-offs along
+two complementary axes: one between the level of assurance provided
+and the effort required, and another in the information available
+about the system under test, ranging from its specification alone
+(black-box) to full access to its source code and environment
+(white-box). To this end, we will survey a variety of techniques that
+span both axes and range from lightweight checks to mathematical
+proofs, along with specialized methods for particular categories of
+faults, e.g., concurrency and machine learning systems. The course
+also explores a secondary, related question: if we discover a defect
+in a software system, how can we help developers fix the problem and
+make sure it does not happen again? Here, we will explore how to
+minimize failing test cases, report failures well, and guard against
+regressions.
 
 By successfully completing this course, students will:
 
 \begin{itemize}
-
-\item \textbf{Become better testers.}
-Understand and be able to create high-quality tests at all testing levels.
-Learn practical ways to design and automate high-quality tests.
-Understand how to apply theory (test criteria) in practical ways.
-
-\item \textbf{Become better programmers.}
-Be aware of potential problems in software and able to create high-quality developer tests.
-
-\item \textbf{Become better engineers.}
-Understand and be able to build programs and test them in a unified manner.
-
-\item \textbf{Become better thinkers.}
-Understand and be able to approach software problem-solving in logical and analytical ways.
+\item Design and justify high-quality tests, taking into account the
+  intended behavior of the system under test and the amount of
+  information available.
+\item Evaluate the quality of a test suite using coverage criteria,
+  mutation testing, and other metrics, and explain the limitations and
+  trade-offs of each.
+\item Specify software behavior at different levels of rigor, using a
+  variety of mechanisms, and compare the benefits, assurance, and cost
+  of each.
+\item Implement and apply automated techniques for systematically
+  generating, executing, and evaluating tests.
+\item Analyze software using dynamic and static techniques to identify
+  potential defects.
+\item Compare different testing and analysis techniques in terms of
+  the assurance they provide, the information they require, and the
+  effort needed to apply them.
+\item Communicate software failures effectively, including minimizing
+  failure-inducing inputs and producing actionable defect reports.
 \end{itemize}
 
-\section*{\textcolor{BlueViolet}{Teaching staff}}
+\section*{\textcolor{BlueViolet}{Teaching Staff}}
 
 \begin{itemize}
 \item Benjamin Delaware (Instructor),
@@ -88,26 +86,20 @@ Understand and be able to approach software problem-solving in logical and analy
     preferred mode of communication with the course staff. I will do
     my best to respond to all emails within 24-48 hours. I do not
     check or respond to email before 9am EST or after 9pm EST.}
-\item[ ] \textbf{Weekly office hours:} Mondays, 1:30-2:45, LWSN 3154L
-  \\[-8pt]
-
-\item Chih-En Lin (GTA)
-\item[ ] \textbf{Email:} \texttt{lin1963 at purdue.edu}
-\item[ ] \textbf{Weekly office hours:} Thursdays, 2:30p-3:30p, DSAI B063
-\item[ ] \textbf{Project office hours:} Fridays, 9:00-10:00a, DSAI B061
+\item[ ] \textbf{Weekly office hours:} Mondays, 3:00-4:15, LWSN 3154L
   \\[-8pt]
 
   \item Rebekah Sowards (GTA)
 \item[ ] \textbf{Email:} \texttt{rsowards at purdue.edu}
-\item[ ] \textbf{Weekly office hours:} Tuesdays, 3:00-4:00, DSAI B063
-\item[ ] \textbf{Project office hours:} Wednesdays, 1:00-2:00, DSAI DSAI B063
+\item[ ] \textbf{Weekly office hours:} TBD
+\item[ ] \textbf{Project office hours:} TBD
   \\[-8pt]
 
 
 \item Ruixin Wang (GTA)
 \item[ ] \textbf{Email:} \texttt{ruixinw at purdue.edu}
-\item[ ] \textbf{Weekly office hours:} Fridays, 3:00-5:00p, Zoom (https://purdue-edu.zoom.us/my/ruixinw)
-\item[ ] \textbf{Project office hours:} Mondays, 3:30-4:30, DSAI B047
+\item[ ] \textbf{Weekly office hours:} TBD
+\item[ ] \textbf{Project office hours:} TBD
 
 \end{itemize}
 
@@ -122,23 +114,44 @@ order of preference:
 
 \section*{\textcolor{BlueViolet}{Course Logistics}}
 
-\subsection*{Lectures}
+\subsection*{Lectures + Attendance}
 
-In-person lectures will be held from 1:30p-2:45p every Tuesday and
-Thursday in SMTH 108, unless otherwise noted. Students are expected to
-attend the lectures, but attendance will not be tracked. Lecture
-materials will be made available on Brightspace after class.
+In-person lectures will be held from 3:00p-4:15p every Tuesday and
+Thursday in BHEE 170, unless otherwise noted. Lecture materials will
+be made available on Brightspace after class.
+
+This semester, we will be piloting an \emph{elective attendance
+  policy} whose goal is to encourage and reward attending lectures. By
+the second week of class, each student will choose whether they want
+to opt-in to this policy via a Brightspace poll.\footnote{After the
+  second week of class, students cannot switch their choice.} For
+those who do opt-in, attendance will count for 10\% of their grade,
+and we will track the attendance of these students, e.g., via a simple
+exit quiz. Starting the third week of class, each lecture will be
+worth 1 point; exams do not count as a lecture (although you should
+definitely attend those), so there will be roughly 24 possible
+attendance points. Each student automatically receives 3 bonus
+points,\footnote{Students who have a DRC-endorsed Attendance
+  Flexibility Plan will receive an additional 4 bonus points.} to
+account for life happening: e.g., getting sick, sleeping past our
+lectures' 3p starting, an impromptu trip to the Maldives, etc. Bonus
+points cannot raise the attendance score above 10\%.
+
+Students who elect not to adhere to the policy are still expected to
+attend the lectures, but their attendance will not be tracked, and we
+will increase the weights of in-class assessments, per the Grading
+section below.
 
 \subsection*{Office Hours}
 
-Office hours attendance is optional and are (mostly) in-person. Each
-Monday, the instructor will have office hours from 1:30-2:45p in LWSN
-3154L, and the TAs will hold weekly office hours according to the
-schedule listed above. During the weeks when students are working on
-group projects (weeks 4-7 and 10-13), each TA will hold an additional
-set of project office hours, also listed above.  In the event that
-students cannot attend scheduled office hours, they should contact the
-course staff via email to schedule a time to meet individually.
+Office hours are optional and (mostly) in-person. Each Monday, the
+instructor will have office hours from 3:00-4:15p in LWSN 3154L, and
+the TAs will hold weekly office hours according to the schedule listed
+above. During the weeks when students are working on group projects
+(weeks 7-10 and 12-15), each TA will hold an additional set of project
+office hours, also listed above.  In the event that students cannot
+attend scheduled office hours, they should contact the course staff
+via email to schedule a time to meet individually.
 
 \subsection*{Discussion Forum}
 
@@ -157,42 +170,44 @@ The main textbook for this course will be:
   Ammann and Jeff Offutt.
 \end{itemize}
 Supplementary material will be drawn from a variety of sources, and
-will be posted to Ed.
+will be posted to Brightspace.
 
 \section*{\textcolor{BlueViolet}{Assessment}}
 
 \subsection*{Homeworks}
-Homeworks assignments in this course have two goals:
+Homework assignments in this course have two goals:
 \begin{itemize}
-\item to encourage students to learn and practice for exams, and
+\item to encourage students to \emph{learn} and practice for exams, and
 \item to provide students with timely feedback on their progress and
   understanding.
 \end{itemize}
 To that end, \textbf{all homeworks are to be done individually},
-according to the policies listing in the academic honesty section
+according to the policies listed in the academic honesty section
 below. There will be five homeworks over the course of the semester,
 posted (roughly) every three weeks, according to the course
-schedule. Homeworks are to be submitted via Gradescope, and are due by
-6PM on their published due date.
+schedule. Note: To receive full credit, all homework submissions
+\textbf{must be handwritten}; we will assess a 50\% penalty for all
+typed solutions. Homeworks are to be submitted via Gradescope, and are
+due by midnight on their published due date.
 
-Each homework assignment will be worth 3 points in the gradebook,
+Each homework assignment will be worth 2 points in the gradebook,
 assigned according to the following scale:
 \begin{itemize}
-\item 50\% -- 100\%: 3 points
-\item 25\% -- 49\%: 2 points
-\item 1\% -- 25\%: 1 points
-\item 0\% (or not turned in): 0 points
+\item 40\% -- 100\%: 2 points
+\item 1\% -- 39\%: 1 point
+\item 0\% (or not turned in / submitted late): 0 points
 \end{itemize}
 In general, students who understand the material and seriously attempt
-to finish an assignment should receive full credit.
+to finish an assignment (and adhere to the handwriting policy) should
+receive full credit.
 
 \subsection*{Exams}
-There will be an in-class / in-person midterm roughly halfway through
-the semester. This midterm will count for cover similar material as
-the take-home homeworks that you have completed at that point in the
-semester. There will also be a in-person final during finals week;
-this exam will be comprehensive, but will mainly focus on material
-covered after the midterm.
+There will be two in-class / in-person midterms during the semester,
+at roughly one-third and two-third mark. Both midterms will cover
+similar material as the take-home homeworks that you have completed at
+that point in the semester. There will also be an in-person final
+during finals week; this exam will be comprehensive, but will be
+weighted towards material covered after the second midterm.
 
 \subsection*{Projects}
 
@@ -212,7 +227,7 @@ There is no partial credit for late assignments. Each student has
 \textbf{3 late days} to use on the project submissions during the
 semester.\footnote{Homework assignments and exams \textbf{do not have
     late days}.} Each day (or fraction of a day) that the student
-hands out a project late consumes one full late day. Students cannot
+hands in a project late consumes one full late day. Students cannot
 retroactively change the application of late days to different
 projects: i.e., reassigning late days to projects is \textbf{not
   allowed}.
@@ -239,19 +254,31 @@ will only consider the last submission of any given project.
 \end{itemize}
 
 \subsection*{Grading}
-The weighted contribution of each category of assessment to final
-grades will be:
+For students who have elected to adhere to the attendance policy, the
+weighted contribution of each category of assessment to final grades
+will be:
 
 \begin{itemize}
-\item Projects: 25\%
-\item Homework: 15\%
-\item Midterm (in-person): 30\%
+\item Attendance: 10\%
+\item Homework: 10\%
+\item Projects: 20\%
+\item Midterms (in-person): 35\%
+\item Final (in-person): 25\%
+\end{itemize}
+
+For those students who do not opt-in to the attendance policy, this
+breakdown is:
+
+\begin{itemize}
+\item Homework: 10\%
+\item Projects: 20\%
+\item Midterms (in-person): 40\%
 \item Final (in-person): 30\%
 \end{itemize}
 
 \emph{Note: All regrade requests must be submitted (via Gradescope
-  when possible) within one week of an assessment's grades being
-  released}.
+  when possible) within one week after the release of the assignment's
+  grade.}
 
 %If the assignement does not explicitly say that it is a group project, then it is an individual project.
 
@@ -265,7 +292,6 @@ grades will be:
 % points and project B 50 points, project A would weight twice as much as  B.
 
 \section*{\textcolor{BlueViolet}{Tentative Course Schedule}}
-
 
 The following is a \textit{tentative} schedule for the material that
 will be covered in the lectures; we fully expect that it will be
@@ -292,7 +318,7 @@ is the most up-to-date schedule for the course.
   & 9/10 & Graph-based coverage
   & Labor Day Mon 9/7 (Mon OH cancelled); HW1 due Fri 9/12 \\ \hline
   W4
-  & 9/15 & Semantic Coverage I: data-flow
+  & 9/15 & Semantic Coverage I: Data-flow
   & 9/17 & Semantic Coverage II: Logic coverage
   & \\ \hline
   W5
@@ -329,7 +355,7 @@ is the most up-to-date schedule for the course.
   & Project 2 released \\ \hline
   W13
   & 11/17 & \textbf{MIDTERM 2} (in class), covers W6--W11
-  & 11/19 & \underline{Testing without Tests I}: Static analysis
+  & 11/19 & \underline{Testing Without Tests I}: Static analysis
   & \\ \hline
   W14
   & 11/24 & Static analysis II
@@ -449,11 +475,11 @@ is the most up-to-date schedule for the course.
 % Integration testing (1 lecture)
 % \end{itemize}
 
-If time permits, 1 or 2 lectures will cover advanced topics at the end
-of the course or guest lectures. An up-to-date course schedule will be
+If time permits, we may use the final lectures to cover advanced
+topics or host guest lectures. An up-to-date course schedule will be
 maintained on Brightspace.
 
-\section{\textcolor{BlueViolet}{Ed Etiquette}}
+\section*{\textcolor{BlueViolet}{Ed Etiquette}}
 %\label{sec:ed}
 
 The following expectations for Ed are meant to help us build an inclusive
@@ -505,7 +531,6 @@ assignments publicly or share it outside your group. If you need to
 reference code in your question, please make your post private so that
 only the course staff can see it.
 
-
 % \section{Course Feedback}
 % \label{sec:feedback}
 
@@ -526,7 +551,9 @@ All work turned in must be that of the individual student unless stated otherwis
 \item Violations result in zero credit to all students concerned.
 \end{itemize}
 
-Student projects, homework, and exams must be the own work of the student - the course will have a zero tolerance policy towards cheating of any kind and any student who cheats will get:
+Student projects, homework, and exams must be the student's own
+work. The course has a zero tolerance policy towards cheating of any
+kind and any student who cheats will get:
 \begin{itemize}
 \item Zero grade for the project/homework/exam at first offense
 \item F grade for the course thereafter
@@ -538,9 +565,10 @@ If in doubt about this policy \textbf{ask the instructor beforehand}.
 
 \subsection*{Artificial intelligence (AI) and machine learning (ML) tools}
 
-The use of AI or ML tools that generate text or code is
-forbidden. This restriction applies to all work delivered, including
-quizzes, homework assignments, projects, and exams.
+The use of AI or ML tools that generate text or code is forbidden,
+unless the assignment \emph{explicitly} states otherwise. This
+restriction applies to all work delivered, including quizzes, homework
+assignments, projects, and exams.
 
 \subsection*{Other resources}
 For additional resources on academic honesty refer to the Purdue
@@ -568,29 +596,33 @@ disability, you are welcome to let your instructor know so that you can discuss
 options.
 
 You are also encouraged to contact the Disability Resource Center at:
-drc@purdue.edu or by phone: 765-494-1247. (The DRC weblink is \url{https://www.purdue.edu/drc/index.php})
+drc@purdue.edu or by phone: 765-494-1247. (The DRC weblink is
+\url{https://www.purdue.edu/drc/index.php})
 
 \paragraph{Testing accommodations}
 
-Students with disabilities whose DRC Course Accessibility Letter (CAL) includes
-test accommodations must first release their CAL to me and then schedule to take
+Students with disabilities whose DRC Course Accessibility Letter (CAL)
+includes test accommodations must first release their CAL to me and
+then schedule to take
 their exams with the DRC at:\\
 \url{http://olympic.accessiblelearning.com/Purdue}
 
-You must do this at least one week before the exam date listed on the syllabus. In the case
-of finals week, you must do this at least four weeks before the start of finals
-week (or insert the relevant date for the semester). I will provide the DRC with
-your exam, and they will administer it and provide the result to me for grade
-reporting. Students must inform me immediately of cases where the DRC does not
-have space so that I can make other arrangements. Students who fail to follow
-this process and these deadlines risk not being able to have their
-accommodations for that exam.
+\emph{Note: You must do this at least one week before the exam date
+  listed on the syllabus.} In the case of finals week, you must do
+this at least four weeks before the start of finals week (or insert
+the relevant date for the semester). I will provide the DRC with your
+exam, and they will administer it and provide the result to me for
+grade reporting. Students must inform me immediately of cases where
+the DRC does not have space so that I can make other
+arrangements. Students who fail to follow this process and these
+deadlines risk not being able to have their accommodations for that
+exam.
 
 \paragraph{Other accessibility concern}
 
-For accessibility concerns beyond this, the Office of Institutional Equity is
-responsible for ensuring Americans with Disability Act compliance, can be
-contacted with any accessibility concerns at:
+For accessibility concerns beyond this, the Office of Institutional
+Equity is responsible for ensuring Americans with Disabilities Act
+compliance, can be contacted with any accessibility concerns at:
 
 Phone: (765) 494-7253\\
 Email: equity@purdue.edu\\
