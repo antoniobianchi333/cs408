@@ -1,0 +1,237 @@
+% Add "answers" option to print the answers
+%\documentclass[addpoints,answers]{exam}
+\documentclass[addpoints]{exam}
+
+\input{../cmds}
+
+%\usepackage{listings}
+\usepackage{color}
+\usepackage{lastpage}
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+%\pagestyle{fancy}
+%\fancyfoot[C]{{\thepage} of \pageref{LastPage}}
+\newcommand{\includecode}[2][c]{\lstinputlisting[caption=, escapechar=, language=#1]{#2}<!---->}
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
+
+\renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
+\renewcommand{\pf}[1]{}
+
+\definecolor{SolutionColor}{rgb}{0.8,0.9,1}
+
+
+\cfoot{Page \thepage\ of \pageref{LastPage}}
+
+\rhead{Initials: \rule{20mm}{0.4pt}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\fvset{numbers=left,numbersep=3pt}
+\thispagestyle{empty}
+
+\begin{center}
+  {\LARGE CS408 Fall 2026 -- Homework 1\\}
+
+  {\Large Deadline: Friday, September 11th \textbf{at 6p} \\}
+
+  \vspace{20mm}
+  \fbox{
+    \fbox{\parbox{5.5in}{\centering
+        \begin{itemize}
+        \item The homework is open notes, open book.
+        \item No AI tools allowed.
+        \item No collaboration and no communication of any kind allowed.
+        \item Provide complete and clear but concise answers. Justify thoroughly statements where required.
+	\end{itemize}
+      }}}
+\end{center}
+
+\vspace{13mm}
+\begin{center}
+	\makebox[0.6\textwidth]{
+		\combinedgradetable[h][questions]
+	}
+\end{center}
+%\begin{center}\combinedgradetable[h][questions]\end{center}
+\vspace{28mm}
+
+\begin{center}
+\makebox[\textwidth]{\textbf{Name (please print)}: \rule{100mm}{0.8pt} }
+\end{center}
+
+\newpage
+\begin{questions}
+
+\question Consider this faulty program. %
+  \VerbatimInput{hw1/q2_copyarr.c}
+
+\begin{parts}
+\part[3] Identify a test case produces a failure, providing the test
+  input, expected behavior, and observed behavior of the program on
+  that input. The expected behavior should be consistent with the
+  comment at the top of the program.
+
+\answerspace{10}
+\answer {
+  \begin{itemize}
+  \item \textbf{Input:} \lstinline{x} $\mapsto$ 3
+  \item \textbf{Expected output}:  \lstinline{ret} $\mapsto$ false
+  \item \textbf{Observed output}:  \lstinline{ret} $\mapsto$ true
+  \end{itemize}
+}
+
+
+\part[3] Identify the fault, and fix the fault.
+\answerspace{10}
+\answer {
+    The fault is in line 7: \texttt{int mod\_2 = x\%3}. For positive even numbers, the check is done by taking modulus of the number with 3, which is a wrong way to find if a number is even.
+    Fix: \texttt{int mod\_2 = x\%2}
+}
+\part[3] If possible, identify a test case that does not execute the fault.
+\answerspace{10}
+\answer {
+    Test case: x = -1. If $x<0$, the function does not execute the faulty line.
+}
+
+\part[3] If possible, identify a test case that executes the fault,
+  but whose test path does not include an error state. %
+  \answerspace{10} %
+  \answer{
+    Test case: x = 6. If $x = 6$, the fault line executes but the program state remains correct.
+  }
+
+\part[3] In the case that an error state is triggered, identify when
+  this occurs and describe why that is the first error state.
+  \answerspace{10} %
+  \answer{ %
+    The error state is triggered at line 6: ``int mod\_2=x\%3''. This
+    is also the first error state. The issue is that mod\_2 is
+    calculated as x\%3, which does not correctly determine whether a
+    number is even.  }
+
+\end{parts}
+
+\newpage
+
+\question Answer the following questions about this pair of faulty and correct programs.
+
+Faulty Code (faulty lines are commented): \verbatiminput{hw1/q3_infected_division.c}
+
+Repaired Code: \verbatiminput{hw1/q3_division.c}
+
+\begin{parts}
+
+\part[4] For each faulty line, identify at least one test input that
+  makes the line reachable. Explain your reasoning.  %
+  \answerspace{10} %
+  \answer{
+    \begin{enumerate}
+    \item Reachable: The 1st faulty line is reachable and for a test
+      input of a$\mapsto$6 and b $\mapsto$ 2. With these values, the
+      function will return 0 and not the actual answer of the
+      division. The 2nd faulty line is also reachable for a test input
+      of a$\mapsto$6 and b$\mapsto$0. With these values, the function
+      will return an error since the division is being done with 0.
+\end{enumerate}
+}
+
+\part [3] For those inputs, explain whether the program state becomes
+  infected. Explain your reasoning. %
+\answerspace{10} %
+\answer{ %
+\begin{enumerate}
+\item Infection: The first fault infects the state for test input
+  a$\mapsto$6 and b$\mapsto$2. After executing ``if(b!=0)'' and
+  returning 0, the state of the program is incorrect as it shows wrong
+  result. The correct state should be the actual answer of the
+  division. So, there is infection.  The second fault infects the
+  state for test input a$\mapsto$6 and b$\mapsto$0 as it leads to an
+  error caused by division with 0.
+\end{enumerate}
+}
+
+\part [3] For the inputs you identified, explain whether the infection
+  is propagated to the program's output. %
+  \answerspace{10} %
+  \answer{
+    \begin{enumerate}
+    \item Propagation: For the first fault - With the test input of
+      a$\mapsto$6 and b$\mapsto$2, the error propagates to the output
+      since the return value is wrong .  For the second fault - With
+      the test input of a$\mapsto$6 and b$\mapsto$0, the error
+      propagates to an error.
+    \end{enumerate}
+  }
+
+\end{parts}
+
+\newpage
+
+\question[5] A tester defined three characteristics for the input
+  parameter car: \textbf{Where Made}, \textbf{Energy Source}, and
+  \textbf{Size}. The following partitioning for these characteristics
+  has (at least) two mistakes. How would you correct them?
+
+  \begin{center}
+  \begin{tabular}{|c|c|c|}
+    \hline
+    \multicolumn{3}{|c|}{\textbf{Where Made}} \\\hline
+    North America & Europe & Asia \\\hline
+    \multicolumn{3}{|c|}{\textbf{Energy Source}} \\\hline
+    gas & electric & hybrid \\\hline
+    \multicolumn{3}{|c|}{\textbf{Size}}\\\hline
+    2-door & 4-door & hatch back\\\hline
+  \end{tabular}
+\end{center}
+\answerspace{15}
+\begin{solution}
+  Some potential mistakes:
+  \begin{itemize}
+  \item The ``Size'' describes the number of doors, as opposed to
+    'compact', 'full-size', etc. and is thus arguably incomplete. More
+    importantly, the ``Size'' categories are not mutually exclusive:
+    it is possible to have a hatchback car with 4-doors, for
+    example. The solution is to divy this up into proper, distinct
+    size categories: [compact | mid-size | full-size | SUV/truck]
+  \item The ``Where Made'' category is similarly incomplete: Brazil is
+    a major car manufacturer, and Australia has been known to produce
+    cars. One solution is to add additional categories, e.g.,
+    [North America | Asia | Europe | South America | Other]
+  \end{itemize}
+\end{solution}
+
+\newpage
+
+\if 0 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\question[10]
+	\answerspace{30}
+	\answer{}
+
+	\question
+	\begin{parts}
+		\part[6]
+		\answerspace{20}
+		\answer{}
+
+		\part[2]
+		\answerspace{10}
+		\answer{}
+
+	\end{parts}
+\fi %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	%\newpage
+	\begin{center}
+		[EMPTY PAGE]
+	\end{center}
+
+\end{questions}
+
+\end{document}
