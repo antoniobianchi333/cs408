@@ -18,12 +18,12 @@
 \begin{center}
     {\LARGE{Project 1: Dynamic testing}}\\
   \vspace*{10pt}
-  {\Large{CS408, Spring 2026}}\\
+  {\Large{CS408, Fall 2026}}\\
     \vspace*{10pt}
 
   {\large{\textbf{Group Project (140 points)\\
         \vspace*{3pt}
-        Due date: February 27, 2026}}}\\
+        Due date: Friday, October 30, 2026}}}\\
       \vspace*{15pt}
 \end{center}
 
@@ -68,6 +68,7 @@ This component will allow the framework to detect crashes, performance bugs, mem
 Read the assignment entirely before starting any work on it.
 
 This project is a group project -- collaboration is only allowed between members of the same group. Check the course academic integrity rules for additional details.
+The policy on the use of AI tools for this project, which \textbf{replaces} the default syllabus rule, is described in \autoref{sec:aipolicy}; read it \emph{before} you start working.
 Groups have to be registered according to the instructions provided in Ed.
 
 
@@ -88,11 +89,94 @@ Groups have to be registered according to the instructions provided in Ed.
 % stating this so that they can paired with other students by the course staff.
 
 
+\section{AI tool policy}
+\label{sec:aipolicy}
+
+The course syllabus forbids the use of AI or ML tools that generate text or
+code \emph{unless the assignment explicitly states otherwise}. This section is
+that explicit statement for Project 1, and it \textbf{supersedes} the default
+syllabus rule for this project only.
+
+Each group must choose \textbf{exactly one} of the two tracks below and
+\textbf{declare} that choice at submission time (see \autoref{sec:submission}).
+The choice is made \textbf{per group}, not per student: all members of a group
+are bound by the same track. A submission that does not include a declaration
+will be treated as \textbf{Track A (No AI)}.
+
+\subsection{Track A: No AI}
+
+No AI or ML tool that generates text or code may be used at any point while
+working on this project. This includes, but is not limited to, web-based chat
+assistants, IDE code completion and chat features, and command-line coding
+agents.
+
+The entire project grade is determined by the quality of the submitted code and
+documentation, as described in \autoref{sec:grading}. Group members are
+\textbf{not} required to take the in-class assessment described in
+\autoref{sec:aiassessment}.
+
+\textbf{If the course staff determines that AI tools were used by a group that
+declared Track A, the \emph{entire group} will receive a grade of zero for this
+project and the case will be handled as a violation of the course academic
+integrity policy.} Declaring Track B is always available and carries no
+penalty; declaring Track A while using AI tools does.
+
+\subsection{Track B: AI, disclosed}
+
+AI and ML tools may be used, subject to full disclosure. A group on this track
+must submit a \textbf{complete record of all AI usage} over the whole course of
+the project, including:
+\squishlist
+ \item transcripts of \textbf{every} web-based chat session (e.g., exported
+ conversation logs);
+ \item complete session logs of \textbf{every} command-line or IDE-based coding
+ agent;
+ \item the \textbf{model name and version} used in each case (e.g.,
+ \textit{claude-opus-5}, \textit{gpt-5.1}), and which group member used it.
+\squishend
+Partial, summarized, or reconstructed records do not satisfy this requirement.
+An incomplete disclosure is treated as an undeclared use of AI, i.e., under the
+Track A penalty above.
+
+On this track, the project grade is composed as follows:
+\squishlist
+ \item \textbf{50\%} -- the quality of the submitted code and documentation,
+ assessed exactly as in Track A.
+ \item \textbf{50\%} -- an individual, closed-book, in-class assessment
+ (\autoref{sec:aiassessment}).
+\squishend
+
+\subsection{In-class assessment (Track B)}
+\label{sec:aiassessment}
+
+The assessment will be held \textbf{in class on Tuesday, November 3, 2026},
+during the \textbf{last part} of the regular lecture slot; the rest of that
+lecture proceeds as scheduled. This is the first lecture following the latest
+possible Project 1 deadline: the project is due Friday, October 30, and a group
+using all three of its late days submits at the latest on Monday, November
+2. The date does \emph{not} move for groups that submit earlier or that have
+fewer late days available. It is \textbf{closed book}: no notes, no devices, no
+network access, and no AI tools.
+
+The assessment covers the content of Project 1 comprehensively and in depth,
+including design decisions, implementation details, and the behavior of the
+framework your group submitted. Its purpose is to assess how well each student
+understands the project their group delivered while using AI tools.
+
+\textbf{Every member of a Track B group must take the assessment.} It is graded
+individually, so members of the same group may receive different final grades
+for this project. The absence policy for this assessment is the \textbf{same as
+for course exams}; students who anticipate a conflict must contact the
+instructor \emph{in advance}, following the procedure described in the
+syllabus. An unexcused absence results in zero points for the assessment
+component, i.e., a maximum of 50\% for the project.
+
+
 \section{Project setup and development workflow}
 
 Please follow the instructions in \autoref{sec:appx:setup} to \textbf{clone}, \textbf{setup}, and regularly \textbf{update} your Github classroom private repository.
 
-Use this link \url{https://classroom.github.com/a/ot2qUSFv} to accept the assignment on GitHub classroom.
+Use this link \todo{insert the Fall 2026 GitHub Classroom invitation link} to accept the assignment on GitHub classroom.
 
 
 \vspace*{10pt}
@@ -702,15 +786,26 @@ will be allowed.
  resources are: the standard libraries included with C, the libunwind library
  included in the skeleton, and the fragments of code in this project assignment.
  \item Include a report in pdf format named \textit{report.pdf}. You could also include some other notes for your implementation.
- \item Your submission must only include code of the group members. Do not
- consult or use any other code. Refer to the course policy on plagiarism for
- additional details about the course policy.
+ \item Include a file named \textit{ai\_declaration.txt} at the top of the
+ submission, whose first line is exactly \textbf{\texttt{TRACK A}} or
+ \textbf{\texttt{TRACK B}}, followed by the full name and Purdue username of
+ every group member. See \autoref{sec:aipolicy}. A submission without this file
+ is graded as Track A.
+ \item \textbf{Track B submissions only}: include a directory named
+ \textit{ai\_logs/} containing the complete AI usage record required by
+ \autoref{sec:aipolicy} (all chat transcripts, all agent session logs, and the
+ model name and version for each). This directory does not count towards the
+ size limit below.
+ \item Apart from AI tools used under Track B, your submission must only
+ include code of the group members. Do not consult or use any other code. Refer
+ to the course policy on plagiarism for additional details about the course
+ policy.
 
 \squishend
 
 The submitted package size needs to be reasonable (e.g., less than 2 MB uncompressed). The framework and all tests must: run in reasonable time (less than 10 min for the entire test set), use only reasonable resources, and run correctly on \textit{data.cs.purdue.edu}.
 
-Projects delivered 5 full days ahead (February 22, 2026) of the official project due date receive 5 bonus points, as long as they score at least 50\% of the regular points.
+Projects delivered 5 full days ahead (October 25, 2026) of the official project due date receive 5 bonus points, as long as they score at least 50\% of the regular points.
 
 
 
@@ -722,6 +817,7 @@ Reminder: In accordance with the course policy, the number of late days availabl
 % have 2 late days available for the second part.
 
 \section{Grading and group member contributions}
+\label{sec:grading}
 
 All students are expected to \textbf{contribute equally} to the project and be \textbf{familiar
 with all components of the project}. Furthermore, every group member must participate
@@ -733,6 +829,9 @@ classroom participation, interviewing students, and using other evidence.
 Furthermore, we may decide to conduct an oral exam to all group members to
 assess their knowledge on the project. The results of the exam and investigation
 may lead to different grades, including grade zero, for different group members.
+The same applies if the staff has reason to doubt that a group's members
+understand the work they submitted, or that a group's declared track under
+\autoref{sec:aipolicy} matches how the work was actually produced.
 
 Please report any problems with your group as \textit{early} as possible (i.e.,
 ideally well before the due date) so that we can more easily address the problem.
@@ -742,7 +841,7 @@ and received before the third day past the project assignment deadline date.
 \section{Updates and clarifications}
 \label{sec:updates}
 
-Students are responsible for following Piazza discussions and lecture announcements
+Students are responsible for following Ed Discussion and lecture announcements
 regarding project clarifications. If the need arises to provide additional
 clarification on the project, this document will be updated, and the changes will also
 be summarized in this section and/or identified and described in the relevant sections if appropriate.
@@ -799,7 +898,7 @@ Ed Discussion. Clicking on the setup link will bring you to the following page:
   \includegraphics[height=5cm]{figures/github/img02}
 
 \item \textbf{Accept the assignment (Create a team).}
-  Use this link \url{https://classroom.github.com/a/ot2qUSFv} to accept the assignment on github classroom.
+  Use this link \todo{insert the Fall 2026 GitHub Classroom invitation link} to accept the assignment on github classroom.
 
   The first person in a team accepting the assignment need to create a team. Please use your group name on Brightspace as your team name (e.g. group1). Other team members should find and join the team.
 
@@ -820,16 +919,16 @@ Find your team and click join.
 \item \textbf{Get you repo URL.}
   As the image shows, your project repository will have the
   format:\\
-  \url{https://github.com/cs408-spring-2026/<projectName>-<yourTeamName>/}
+  \url{https://github.com/cs408-fall-2026/<projectName>-<yourTeamName>/}
 \end{enumerate}
 
 \subsection{Development workflow}
 \label{development-workflow}
 
 In case you forget the project repository name, you can go to
-\url{https://github.com/cs408-spring-2026} to find it. For illustration
+\url{https://github.com/cs408-fall-2026} to find it. For illustration
 purposes, we will \textbf{assume} that your project is under
-\emph{https://github.com/cs408-spring-2026/Lab-1-Group-123} and your team's name is
+\emph{https://github.com/cs408-fall-2026/Lab-1-Group-123} and your team's name is
 \textit{Lab 1 - Group 123}, so please adjust the links/directories accordingly.
 
 \begin{enumerate}
@@ -841,7 +940,7 @@ directory you should execute the following commands:
 
 \begin{verbatim}
 $ mkdir -p ~/myclass/; cd ~/myclass/;
-$ git clone git@github.com:cs408-spring-2026/Lab-1-Group-123.git
+$ git clone git@github.com:cs408-fall-2026/Lab-1-Group-123.git
 $ cd Lab-1-Group-123/
 \end{verbatim}
 
