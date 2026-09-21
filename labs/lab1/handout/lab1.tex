@@ -88,7 +88,7 @@ Here is the breakdown of points for this project:
     
     \item \textbf{Report (10 points)}: Points are awarded based on whether your report contains the required analysis and results. \textit{You must answer all the questions listed in the handout.}
     
-    \item \textbf{Fuzzer competition (5 bonus points)}: Bonus points are awarded based on your fuzzer performance relative to your peers, particularly in terms of bug-finding efficiency and effectiveness. Only the top performing projects will be awarded full or partial bonus points. 
+    \item \textbf{Fuzzer competition (5 bonus points)}: Bonus points are awarded based on your fuzzer performance relative to your peers, particularly in terms of bug-finding efficiency and effectiveness. The final scheme for awarding these bonus points will be determined once the actual distribution of track choices is known, and will be announced on Ed. \textbf{Open to Track A (No AI) groups only}; see \autoref{sec:aipolicy}. 
     % \pf{Need to have a section talking about this? How should they design their tools to increase their chances (i.e., what is performance in this case)?}
     % \congyu{I added a section at the end}
 \end{itemize}
@@ -152,8 +152,15 @@ syllabus rule for this project only.
  (\autoref{sec:aiassessment}). \textbf{Every student takes this assessment},
  on either track.
 \squishend
-The two tracks therefore do \emph{not} differ in how they are graded. They
-differ only in whether AI tools may be used and in what must be disclosed.
+This 50/50 split of the 100 regular points is the same on both tracks. The
+tracks differ in three respects: whether AI tools may be used, what must be
+disclosed, and whether the group is eligible for bonus points.
+
+\textbf{Bonus points are available to Track A groups only.} Both of this
+project's bonus opportunities -- the fuzzer competition
+(\autoref{sec:fuzzercompetition}) and the early-submission bonus
+(\autoref{sec:submission}) -- are restricted to groups that declare Track A. A
+Track B group is graded out of the 100 regular points, with no bonus available.
 
 Each group must choose \textbf{exactly one} of the two tracks and
 \textbf{declare} that choice at submission time (see \autoref{sec:submission}).
@@ -171,8 +178,13 @@ agents.
 \textbf{If the course staff determines that AI tools were used by a group that
 declared Track A, the \emph{entire group} will receive a grade of zero for this
 project and the case will be handled as a violation of the course academic
-integrity policy.} Declaring Track B is always available and carries no grading
-penalty; declaring Track A while using AI tools does.
+integrity policy.} The only cost of declaring Track B is the loss of
+eligibility for bonus points; the cost of declaring Track A while using AI
+tools is a zero for the project.
+
+Track A groups are eligible for both bonus opportunities in this project: the
+fuzzer competition (\autoref{sec:fuzzercompetition}) and the early-submission
+bonus (\autoref{sec:submission}), for a maximum of 110 points.
 
 \subsection{Track B: AI, disclosed}
 
@@ -190,6 +202,12 @@ the project, including:
 Partial, summarized, or reconstructed records do not satisfy this requirement.
 An incomplete disclosure is treated as an undeclared use of AI, i.e., under the
 Track A penalty above.
+
+Track B groups are \textbf{not eligible for bonus points}. They do not take
+part in the fuzzer competition (\autoref{sec:fuzzercompetition}) and do not
+receive the early-submission bonus (\autoref{sec:submission}); their maximum is
+the 100 regular points. Nothing else about how they are graded differs from
+Track A.
 
 \subsection{In-class assessment}
 \label{sec:aiassessment}
@@ -299,7 +317,7 @@ where:
     \item \textbf{\texttt{-i}}: an optional parameter that specifies the path to a seed directory. If the seed directory does not exist, the fuzzer reports an error and exits with code 1. This parameter has no effect when a grammar file is specified.
     \item \textbf{\texttt{-g}}: an optional parameter that specifies the path to an input grammar file (see \autoref{sec:grammar}).
     \item \textbf{\texttt{{-}{-}greybox}}: an optional parameter that switches the fuzzer to greybox fuzzing mode (see \autoref{sec:greybox}). The fuzzer operates in blackbox mode by default.
-    \item \textbf{\texttt{{-}{-}competition}}: an optional parameter that will be passed when we test your fuzzer for bonus points. Your fuzzer should enable the enhanced features (if implemented) under this mode (\autoref{sec:fuzzercompetition}).
+    \item \textbf{\texttt{{-}{-}competition}}: an optional parameter that will be passed when we test your fuzzer for bonus points. Your fuzzer should enable the enhanced features (if implemented) under this mode (\autoref{sec:fuzzercompetition}). Your fuzzer must accept this flag without error in all cases, but since the competition is open to Track A groups only, this flag is never passed to a Track B submission: Track B groups are not expected to implement any enhanced features and lose no points for leaving this mode identical to the normal one.
     % \pf{Need to explain this in a Section. Are they allowed to parallelize tests?} \congyu{added a section at the end. they can parallelize} \paul{Added ref to section}    \item \textbf{\texttt{<harness>}}: the path to a fuzzing harness.
     \item \textbf{\texttt{<harness>}}: the path to a fuzzing harness.
 \end{itemize}
@@ -1056,6 +1074,12 @@ What grammar are you using? How does it help make fuzzing more effective?
 \label{sec:fuzzercompetition}
 
 
+\textbf{The competition is open to Track A (No AI) groups only}
+(\autoref{sec:aipolicy}). Groups that declare Track B are not entered, are not
+ranked, and receive no bonus points from this section; they may skip this
+section entirely. A group later found to have violated its declared track is
+removed from the competition, and the ranking is recomputed without it.
+
 We will run your fuzzer to test several binaries and evaluate the code coverage and the number of unique bugs it identifies within a given amount of time.
 You will receive bonus points if your fuzzer ranks high among your peers.
 Your fuzzer must correctly report the bugs and new edges found by each corpus input according to the requirements listed in previous sections (e.g., \autoref{subsec:bug}, \autoref{subsec:corpus}), so we can collect evaluation results;
@@ -1077,7 +1101,7 @@ Here are some ideas:
 
 If you are looking for more ideas, we recommend you read this paper~[7], which introduces and provides evaluations for different approaches.
 
-We recommend that you \textbf{prioritize the other tasks over this task}. The competition is worth a few points only, and only the top performers will earn the bonus points. So, you should only worry about this task after you are sure that you have completed the other tasks well. 
+We recommend that you \textbf{prioritize the other tasks over this task}. The competition is worth a few points only, and the scheme for awarding them will not be fixed until we know how many groups enter. So, you should only worry about this task after you are sure that you have completed the other tasks well. If your group is on Track B, this task does not apply to you at all. 
 
 
 \section{Task 4: AFL (10 Points)}
@@ -1319,8 +1343,9 @@ will be allowed.
  \item Include a file named \textit{ai\_declaration.txt} at the top of the
  submission, whose first line is exactly \textbf{\texttt{TRACK A}} or
  \textbf{\texttt{TRACK B}}, followed by the full name and Purdue username of
- every group member. See \autoref{sec:aipolicy}. A submission without this file
- is graded as Track A.
+ every group member. See \autoref{sec:aipolicy}. This declaration also
+ determines whether your group is eligible for bonus points. A submission
+ without this file is graded as Track A.
  \item \textbf{Track B submissions only}: include a directory named
  \textit{ai\_logs/} containing the complete AI usage record required by
  \autoref{sec:aipolicy} (all chat transcripts, all agent session logs, and the
@@ -1339,7 +1364,7 @@ will be allowed.
 % min for the entire test set for one binary), (b) use only reasonable resources and (c) run
 % correctly on \textit{data.cs.purdue.edu}.
 
-Projects that are delivered 5 full days ahead of the official project due date receive 5 bonus points, as long as they score at least 50\% of the regular points.
+Projects that are delivered 5 full days ahead of the official project due date receive 5 bonus points, as long as they score at least 50\% of the regular points. Like the fuzzer competition, this bonus is available to \textbf{Track A (No AI) groups only} (\autoref{sec:aipolicy}).
 
 Reminder: In accordance with the course policy, the number of late days
 available for the group project is the \textbf{minimum} number of late days that
