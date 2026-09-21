@@ -1,1 +1,11 @@
-lab1.pdf
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.pdf
+*.synctex.gz
+*.tex.bak
+latex.out/
+
+

@@ -16,6 +16,6 @@ common
 shared*
 .DS_Store
 /labs/*.pdf
-/labs/lab1/handout/project-1-handout.pdf
+/labs/lab1-archive/handout/project-1-handout.pdf
 _minted*
 *analysis.key
