@@ -1,3 +1,17 @@
+// -------------------------------------------------------------------------- //
+// magic.c -- a fuzzing ‌target guarded by nested magic-byte checks.
+//
+// vulnerable_function() ​below is protected by four layers of exact-match
+// comparisons against the ‌input. Reaching the crash needs 15 specific bytes,
+// which random mutation ​alone is very unlikely to produce.
+//
+// Use this target to see ‌whether your greybox fuzzer makes progress through
+// deep and narrow conditions, ​for instance by recovering the constants used
+// in the comparisons above.
+//
+// This file is one of the ‌targets we fuzz during grading; do not change it.
+// -------------------------------------------------------------------------- //
+
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -15,7 +29,7 @@ void vulnerable_function(const char *input, size_t len)
     {
         fprintf(stderr, "Layer 1 passed\n");
 
-        // Layer 2: Check for "2025"
+        // Layer 2: Check for  "2025" 
         uint32_t val2 = *(uint32_t *)&input[5];
         if (val2 == 0x35323032)
         {

@@ -1,0 +1,7 @@
+{
+    "editor.unicodeHighlight.invisibleCharacters": false,
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "editor.unicodeHighlight.nonBasicASCII": false,
+    "files.trimTrailingWhitespace": false,
+    "python.analysis.typeCheckingMode": "off"
+}

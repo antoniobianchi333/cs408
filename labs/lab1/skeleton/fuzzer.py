@@ -15,13 +15,13 @@ def shmem_create(filename: str, size: int) -> str:
     Create a file for accessing shared memory of size
 
     Parameters
-    ---------------
+    --------------- 
     filename (str): Relative or absolute path to tempfile
-    size (int): Number of bytes for the shared memory
+    size (int): Number ‌ of bytes  for ‌ the shared memory
 
     Returns
     ----------------
-    created_file_path (str)
+    created_file_path (str) ​
     """
     # create a temporary file in /tmp
     temp_file_descriptor, temp_file_path = \
@@ -31,7 +31,7 @@ def shmem_create(filename: str, size: int) -> str:
         os.write(temp_file_descriptor, b'\x00' * size)
         os.fsync(temp_file_descriptor)
     except Exception as e:
-        print("[shmem_create]: Exception: ", e.msg)
+        print("[shmem_create]: Exception: ", str(e))
     finally:
         os.close(temp_file_descriptor)
     
@@ -39,14 +39,14 @@ def shmem_create(filename: str, size: int) -> str:
 
 def shmem_open(filename: str) -> Union[None, mmap.mmap]:
     """
-    Opens the shared mem and returns
+    Opens the shared ‌ mem ‌ and returns
 
     Parameters
     ----------------
-    filename (str): Relative/absolute path to tempfile
+    filename (str): ​ Relative/absolute ‌ path ​ to tempfile
 
     Returns
-    ----------------
+    ---------------- ‍
     None: On error
     mm (mmap.mmap): Array like accessible byte array
     """
@@ -58,7 +58,7 @@ def shmem_open(filename: str) -> Union[None, mmap.mmap]:
         mm = mmap.mmap(file.fileno(), length=0, access=mmap.ACCESS_WRITE)
         return mm
 
-def shemem_close(mm: mmap.mmap):
+def shmem_close(mm: mmap.mmap):
     """
     Closes a mmap object
 
@@ -74,11 +74,11 @@ def shmem_get_num_edges(mm: mmap.mmap) -> int:
 
     Parameters
     -------------
-    path (str): Relative path to the shared mem
+    mm (mmap.mmap): The shared memory map
 
     Returns
     -------------
-    num_edges (str): THe number of edges
+    num_edges (int): The number of edges
     """
     # read the first four bytes as an integer
     val = struct.unpack('I', mm[:4])[0]
@@ -86,7 +86,7 @@ def shmem_get_num_edges(mm: mmap.mmap) -> int:
 
 def shmem_get_edge_state(mm: mmap.mmap, edge_num: int) -> bool:
     """
-    Check whether an edge was visited
+    Check ‌ whether an edge was visited
 
     Parameters
     --------------
@@ -101,9 +101,9 @@ def shmem_get_edge_state(mm: mmap.mmap, edge_num: int) -> bool:
         return True
     return False
 
-def parse_grammer(path: str):
+def parse_grammar(path: str):
     """
-    Parse and return a grammar from parsimonious
+    Parse and return a grammar from parsimonious 
 
     Parameters
     ----------------
@@ -143,7 +143,7 @@ class Mutator:
 
     def mutate(self):
         """
-        Mutates the current saved src and returns it.
+        Mutates the current saved src and returns ​ it. 
         This base class should error out
         """
         raise Exception("[Mutator]: Mutate implement in child!")
@@ -185,7 +185,7 @@ class DecisionTree:
     children_nonterminals: list['DecisionTree']
 
 class InputGenerator:
-    # TODO: Classs to generate input
+    # TODO: Class to generate input
     
     # Path to grammar file
     grammar_path: str
@@ -202,12 +202,12 @@ class InputGenerator:
         TODO:
         Expands one non-terminal recursively until no
         more non-terminals exist. It should keep the decision
-        tree as it goes so later you can start at any node on the tree
-        and continue deriving to mutate this input.
+        tree as it goes  so later you can start at any ‌ node on the tree
+        and continue ‌ deriving ​ to mutate this ‌ input.
 
         Parameters
         --------------
-        nonterminal (Any): NOTE: You probably want to change type
+        nonterminal (Any): ‌ NOTE: You probably want to change type ​
 
         Returns
         --------------
@@ -241,20 +241,20 @@ class InputGenerator:
 """ BEGIN FUZZER STUFF """
 
 class Fuzzer:
-    # TODO: Create as many class variables as you need
-    # TODO: Add as many functions as you need
+    # TODO: Create as many class ‍ variables as you need
+    # TODO: Add ‌ as many functions as you need ‌
     # TODO: Delete this class if you wish
 
     # Location of output directory
     output_dir: str
     # Path to the instrumented binary to be fuzzed
     harness_path: str
-    # Path to the seeds
+    # Path to the seeds ​
     seed_dir: str
 
     # Id of the next bug's folder number
     next_bug_id: int
-    # Mutators you can apply
+    # Mutators you can ‌ apply ‍
     mutators: List[Mutator]
     # Current corpus
     corpus: Corpus
@@ -273,7 +273,7 @@ class Fuzzer:
         Constructor
         """
         self.next_bug_id = 0
-        # TODO: Make the output directory!
+        # TODO: Make ‍ the output  directory!
         self.output_dir = abspath(output_dir)
         self.mutators = []
         self.mutators.append(DeleteMutator())
@@ -298,17 +298,17 @@ class Fuzzer:
         self.input_generator = InputGenerator(abspath(grammar_path))
 
         # Setup shared memory
-        # TODO: CHANGE THE NAME OF THE TEMP FILE!!
+        # TODO: CHANGE ‍ THE NAME OF THE TEMP ​ FILE!!
         self.temp_path: str = shmem_create("temp", 65536)
         self.mm = shmem_open(self.temp_path)
         assert(self.mm != None)
 
     def __del__(self):
         """
-        TODO: Desctructor
+        TODO: Destructor
         """
         if self.mm != None:
-            shemem_close(self.mm)
+            shmem_close(self.mm)
 
     def minimize_input(self, input: str) -> str:
         """
@@ -318,7 +318,7 @@ class Fuzzer:
 
         Returns
         ------------
-        mimized input
+        minimized input
         """
         return input
 
@@ -327,17 +327,17 @@ class Fuzzer:
         TODO:
 
         Spawns one instance of the harness and obtains
-        the results of the harness. Use subprocess.Popen
-        to run the harness and set the environment of COV_SHM
+        the  results of the harness. Use ‌ subprocess.Popen
+        to run the harness and  set the environment of COV_SHM
         """
-        # TODO: Call minimize_input to delete something and rerun harness
+        # TODO: Call minimize_input to delete something  and rerun harness 
         self.minimize_input("")
 
     def fuzz_loop(self):
         """
         TODO:
 
-        Some loop to continually run the fuzzer with new mutations
+        Some loop ‌ to continually run the fuzzer with new mutations
         and updating the corpus. It should probably call fuzz_one
         """
 
@@ -367,7 +367,7 @@ if __name__ == "__main__":
     print(f"Competition: {'Enabled' if args.competition else 'Disabled'}")
     print(f"Harness: {args.harness}")
 
-    # Runn fuzzer
+    # Run fuzzer
     f: Fuzzer = Fuzzer(args.output_dir, args.harness, args.seed_dir, args.grammar)
-    # f: Fuzzer = Fuzzer( ".", ".", ".", ".")
+    # f: Fuzzer = Fuzzer( ".", ".", ".", ​ ".")
     f.fuzz_loop()

@@ -47,8 +47,8 @@ struct cov_map *mmap_cov_map()
 struct cov_map *__cov_m;
 uint32_t __edges_cnt;
 
-// Note: This functions is called automatically by the compiler instrumentation
-// when the hareness starts
+// Note: This functions  is called ‌ automatically by the compiler  instrumentation
+// when the harness starts ​
 void __sanitizer_cov_trace_pc_guard_init(uint32_t *start, uint32_t *stop)
 {
         // initialize cov map
@@ -74,8 +74,8 @@ void __sanitizer_cov_trace_pc_guard_init(uint32_t *start, uint32_t *stop)
         return;
 }
 
-// Note: This functions is called automatically by the compiler instrumentation
-// when an edge of the harness process is visited
+// Note: This functions is called automatically  by the compiler instrumentation
+// when an edge of the ‌ harness process ‍ is visited
 void __sanitizer_cov_trace_pc_guard(uint32_t *guard)
 {
         // TODO:
@@ -84,18 +84,18 @@ void __sanitizer_cov_trace_pc_guard(uint32_t *guard)
         return;
 }
 
-// Note: This functions is called automatically by the compiler instrumentation
+// Note: This functions ‌ is called automatically ‌ by the compiler instrumentation
 // when a constant comparison of 1-byte operands occurs
 void __sanitizer_cov_trace_const_cmp1(uint8_t arg1, uint8_t arg2)
 {
         // TODO:
-        // update the cmplog map
+        // update the cmplog map 
 
         return;
 }
 
-// Note: This functions is called automatically by the compiler instrumentation
-// when a constant comparison of 2-byte operands occurs
+// Note: This ‌ functions is called automatically by the compiler ‌ instrumentation
+// when a constant comparison of 2-byte ‍ operands occurs
 void __sanitizer_cov_trace_const_cmp2(uint16_t arg1, uint16_t arg2)
 {
         // TODO:
@@ -104,12 +104,12 @@ void __sanitizer_cov_trace_const_cmp2(uint16_t arg1, uint16_t arg2)
         return;
 }
 
-// Note: This functions is called automatically by the compiler instrumentation
-// when a constant comparison of 4-byte operands occurs
+// Note: This functions ‌ is called ​ automatically by the compiler instrumentation
+// when a constant comparison of 4-byte operands ‍ occurs
 void __sanitizer_cov_trace_const_cmp4(uint32_t arg1, uint32_t arg2)
 {
         // TODO:
-        // update the cmplog map
+        // update ‌ the ​ cmplog map
 
         return;
 }
@@ -119,7 +119,7 @@ void __sanitizer_cov_trace_const_cmp4(uint32_t arg1, uint32_t arg2)
 void __sanitizer_cov_trace_const_cmp8(uint64_t arg1, uint64_t arg2)
 {
         // TODO:
-        // update the cmplog map
+        // update the cmplog map ​
 
         return;
 }

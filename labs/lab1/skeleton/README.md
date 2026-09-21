@@ -13,7 +13,7 @@ $ source .venv/bin/activate
 $ pip install -r requirements.txt
 ```
 
-⚠️ **NOTE:** Make sure you have activated the virtual environment before running your fuzzer. Do NOT install additional packages. All of your fuzzer code should be in fuzzer.py. Do NOT create additional python files.
+**NOTE:** Make sure you have activated the virtual environment before running your fuzzer. Do NOT install additional packages. All of your fuzzer code should be in fuzzer.py. Do NOT create additional python files.
 
 ## Project Structure
 
