@@ -1,7 +1,7 @@
-Copyright (c) 2020 CS408 Fall, Purdue University 
+Copyright (c) 2025 CS408 Fall, Purdue University
 
-This software and associated documentation files (the "Software") and any 
-derivative version cannot be distributed and/or published, in any form, 
+This software and associated documentation files (the "Software") and any
+derivative version cannot be distributed and/or published, in any form,
 without explicit written permission by the original course instructor.
 
 The copyright notice and this permission notice shall be included in all
@@ -14,8 +14,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
---
-
-Libunwind has its own license.
-FIXME: we should state this as a comment in the beginning of testlib.c

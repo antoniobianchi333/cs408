@@ -1,5 +1,6 @@
 \usepackage{epsfig,endnotes}
 \usepackage[T1]{fontenc}
+
 \usepackage{times}
 \usepackage[square,comma,numbers,sort&compress]{natbib}
 \usepackage[breaklinks,colorlinks]{hyperref}
@@ -11,17 +12,32 @@
 \usepackage{underscore}
 \usepackage{amssymb}
 \usepackage{tikz}
+\usepackage{listing}
+\usepackage{xspace}
+
 \usetikzlibrary{shapes,arrows,shadows,matrix,positioning,fit}
 
+\def\Snospace~{\S{}}
+\renewcommand*\sectionautorefname{\Snospace}
+\def\sectionautorefname{\Snospace}
+\def\subsectionautorefname{\Snospace}
+\def\subsubsectionautorefname{\Snospace}
 
 \newcommand\todo[1]{\textcolor{red}{TODO: #1}}
 \newcommand\note[1]{\textcolor{red}{NOTE: #1}}
+\newcommand\modified[1]{\textcolor{cyan}{MODIFIED: #1}}
+\newcommand\removed[1]{\textcolor{red}{REMOVED: #1}}
 
-\newcommand\ic[1]{\texttt{#1}}
-\newcommand\red[1]{\textcolor{red}{#1}}
+%\newcommand\pf[1]{{}}
+\newcommand\pf[1]{\textcolor{red}{PF: #1}}
 
 \newcommand\para[1]{\vspace*{5pt} \noindent \textbf{#1}}
-\newcommand\TODO{\textcolor{red}{TODO}}
+\newcommand\ttit[1]{\item \textit{#1}}
+
+\newcommand\pthread[0]{\texttt{pthread}\xspace}
+
+\newcommand\ldp[0]{LD\_PRELOAD\xspace}
+
 
 \newenvironment{code}
 {\begin{center}
@@ -68,19 +84,3 @@
 
 \newcommand{\squishend}{
     \end{list}  }
-    
-
-\newcommand{\enablecomments}{0}
-
-\ifnum\enablecomments=1
-  \newcommand{\congyu}[1]{\textcolor{blue}{\textbf{CL: #1}}}
-  \newcommand{\paul}[1]{\textcolor{purple}{\textbf{PN: #1}}}
-  \newcommand{\yi}[1]{\textcolor{orange}{\textbf{YS: #1}}}
-  \newcommand\pf[1]{\textcolor{red}{PF: #1}}
-\else
-  \newcommand{\congyu}[1]{}
-  \newcommand{\paul}[1]{}
-  \newcommand{\yi}[1]{}
-  \newcommand\pf[1]{}
-\fi
- 

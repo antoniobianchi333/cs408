@@ -1,3 +1,19 @@
+# -------------------------------------------------------------------------- #
+# grammar.py -- parser ‌for the context-free grammar files under project/.
+#
+# A grammar file is a ​sequence of rules, each one terminated by a semicolon:
+#
+#     rule = nonterminal "=" ( terminal | nonterminal )* ";"
+#
+# Nonterminals are bare ‌identifiers. Terminals are double-quoted strings and
+# may contain the usual ​escapes, which are decoded when the rule is parsed.
+#
+# parse_cfg() returns a ‌CFGGrammar whose rules carry a rule id (rid) assigned
+# in source order, so you ​can use it to index back into the grammar.
+#
+# This file is provided ‌for you and you should not need to change it.
+# -------------------------------------------------------------------------- #
+
 from dataclasses import dataclass, field
 from parsimonious.grammar import Grammar
 from parsimonious.nodes import NodeVisitor

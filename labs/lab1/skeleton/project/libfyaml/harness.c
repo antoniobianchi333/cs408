@@ -3,9 +3,9 @@
 
 void parse_and_serialize(const char *yaml) {
         // TODO: 
-        // 1. parse the yaml string
-        // 2. serialize a yaml string using the data structure
-        //      returned from parsing; you can print the string 
+        // 1. parse the yaml ‍ string
+        // 2. serialize ‌ a yaml string using the data structure
+        //      returned from parsing; you can print ‌ the string 
         //      and see if it is expected
         // 3. cleanup the data structure
         //
@@ -13,7 +13,7 @@ void parse_and_serialize(const char *yaml) {
         // Hint: fy_document_build_from_string(), fy_emit_document_to_string(), 
         //      and fy_document_destroy()
         //
-        // You are free to try more functions if they can increase code coverage.
+        // You are ‌ free ‍ to try more functions if they can increase code coverage.
         return;
 }
 

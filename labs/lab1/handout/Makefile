@@ -10,5 +10,3 @@ clean:
 
 .PHONY: clean
 
-include Makefile.spell
-
