@@ -1,0 +1,85 @@
+% Add "answers" option to print the answers
+\documentclass[addpoints]{exam}
+
+\input{cmds}
+
+%\usepackage{listings}
+\usepackage{color}
+\usepackage{lastpage}
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{minted}
+\usepackage{multicol}
+
+\newcommand{\includecode}[2][c]{\lstinputlisting[caption=, escapechar=, language=#1]{#2}<!---->}
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
+
+\renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
+
+\definecolor{SolutionColor}{rgb}{0.8,0.9,1}
+
+\cfoot{Page \thepage\ of \pageref{LastPage}}
+
+\rhead{Initials: \rule{20mm}{0.4pt}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\fvset{numbers=left,numbersep=3pt}
+\thispagestyle{empty}
+
+\begin{center}
+	{\LARGE CS 408 Spring 2026 -- CFG Quiz \\}
+\fbox{\fbox{\parbox{5.5in}{\centering
+	\begin{itemize}
+        \item Try to come up with a solution on your own first, but
+          after that talk to your friends and neighbors.
+
+        \item Full points will be rewarded for \textbf{any} (reasonable)
+          attempt.
+        \end{itemize}
+	}}}
+\end{center}
+
+\makebox[\textwidth]{\textbf{Name (please print)}: \rule{100mm}{0.8pt} }
+%\end{center}
+
+\vspace{10mm}
+%\begin{center}
+\makebox[\textwidth]{\textbf{PUID}: \rule{100mm}{0.8pt} \hspace{35mm}}
+%\end{center}
+
+
+\begin{questions}
+
+\question How many nodes does the CFG corresponding to this program
+  have? How many edges?
+  \begin{minted}{c}
+void bubbleSort(int arr[], int n) {
+   int i, j;
+   bool swapped;
+   for (i = 0; i < n-1; i++)
+   {
+     swapped = false;
+     for (j = 0; j < n-i-1; j++) {
+        if (arr[j] > arr[j+1]) {
+           swap(&arr[j], &arr[j+1]);
+           swapped = true;
+        }
+     }
+     // IF no two elements were swapped by inner loop, then break
+     if (swapped == false) break;
+   }
+ return;
+}
+\end{minted}
+  \answerspace{20} %
+  \begin{solution} %
+  \end{solution}
+
+\end{questions}
+
+\end{document}

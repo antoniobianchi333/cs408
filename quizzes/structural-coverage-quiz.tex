@@ -1,0 +1,174 @@
+% Add "answers" option to print the answers
+\documentclass[addpoints]{exam}
+
+\input{cmds}
+
+%\usepackage{listings}
+\usepackage{color}
+\usepackage{lastpage}
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{minted}
+\usepackage{multicol}
+
+\newcommand{\includecode}[2][c]{\lstinputlisting[caption=, escapechar=, language=#1]{#2}}
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
+
+\renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
+
+\definecolor{SolutionColor}{rgb}{0.8,0.9,1}
+
+\cfoot{Page \thepage\ of \pageref{LastPage}}
+
+\rhead{Initials: \rule{20mm}{0.4pt}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\fvset{numbers=left,numbersep=3pt}
+\thispagestyle{empty}
+
+\begin{center}
+	{\LARGE CS 408 Fall 2026 -- Structural Coverage Quiz \\}
+\fbox{\fbox{\parbox{5.5in}{\centering
+	\begin{itemize}
+        \item Try to come up with a solution on your own first, but
+          after that talk to your friends and neighbors.
+
+        \item Full points will be rewarded for \textbf{any} (reasonable)
+          attempt.
+        \end{itemize}
+	}}}
+\end{center}
+
+\makebox[\textwidth]{\textbf{Name (please print)}: \rule{100mm}{0.8pt} }
+%\end{center}
+
+\vspace{10mm}
+%\begin{center}
+\makebox[\textwidth]{\textbf{PUID}: \rule{100mm}{0.8pt} \hspace{35mm}}
+%\end{center}
+
+
+\begin{questions}
+
+\question Each program below contains a fault. For each one, name the
+  \textbf{weakest} criterion we saw today (i.e., the lowest one in the
+  subsumption chain) whose test requirements \emph{force} a test suite
+  to execute the fault, and give a test case that reveals it. If no
+  criterion does, say so and explain what you would use instead.
+
+  \begin{parts}
+
+  \part The specification is given in the comment.
+  \begin{minted}{c}
+// Effects: returns 1 if x > 0, and -1 otherwise
+int sign(int x) {
+  int s = 0;
+  if (x > 0) {
+    s = 1;
+  }
+  return s;
+}
+  \end{minted}
+  \answerspace{8} %
+  \begin{solution} %
+    \textbf{Edge coverage.} The CFG has four nodes (\texttt{BB3},
+    \texttt{C4}, \texttt{BB5}, \texttt{BB7}) and four edges. The single
+    test \texttt{sign(5)} visits all four nodes and returns 1, which is
+    correct -- so node coverage is satisfied by a suite that misses the
+    fault entirely. Edge coverage additionally requires the false edge
+    \texttt{(C4, BB7)}, which forces a test with $x \leq 0$; every such
+    test returns 0 instead of $-1$. E.g.\ \texttt{sign(-3)}.
+
+    This is the ``missing case'' shape: the bug is that \emph{nothing
+    happened}, so there is no node to visit.
+  \end{solution}
+
+%   \part Assume the suite already contains \texttt{compute(1, -1)} and
+%   \texttt{compute(-1, 1)}.
+%   \begin{minted}{c}
+% int compute(int x, int y) {
+%   int z = 1;
+%   if (x > 0) {
+%     z = 0;
+%   }
+%   if (y > 0) {
+%     z = x / z;
+%   }
+%   return z;
+% }
+%   \end{minted}
+%   \answerspace{10} %
+%   \begin{solution} %
+%     \textbf{Edge-pair coverage.} The two given tests between them tour
+%     every node and all seven edges, and neither divides by zero. Neither
+%     decision is wrong on its own: the fault lives in the
+%     \emph{interaction}, since the first branch establishes $z = 0$ and
+%     the second then divides by it. Edge-pair coverage requires the
+%     length-2 path \texttt{[BB4, C6, BB7]}, which can only be toured when
+%     $x > 0$ and $y > 0$. E.g.\ \texttt{compute(1, 1)}, which throws.
+%   \end{solution}
+
+  \part The specification is given in the comment.
+  \begin{minted}{c}
+// Effects: returns the average (rounded down) of the elements of a.
+//          Returns 0 if n == 0.
+int average(int a[], int n) {
+  int total = 0;
+  for (int i = 0; i < n; i++) {
+    total += a[i];
+  }
+  return total / n;
+}
+  \end{minted}
+  \answerspace{8} %
+  \begin{solution} %
+    \textbf{Edge-pair coverage} -- not prime-path coverage, which is the
+    tempting answer.
+
+    Any single test with $n \geq 1$ tours every node and every edge,
+    including the loop-exit edge, because a test that enters the loop
+    must eventually leave it. So node and edge coverage are both
+    satisfied without ever skipping the body.
+
+    What forces the skip is the length-2 path
+    \texttt{[FL1I, FL1C, BB7]} -- initialize, test, fall straight out --
+    which is reachable only when $n = 0$. E.g.\ \texttt{average(\{\}, 0)},
+    which divides by zero. Prime-path coverage also requires it (that
+    path is prime), but it is not the \emph{weakest} criterion that does.
+  \end{solution}
+
+%   \part The specification is given in the comment.
+%   \begin{minted}{c}
+% // Effects: returns the average of a and b, rounded toward zero
+% int midpoint(int a, int b) {
+%   return (a + b) / 2;
+% }
+%   \end{minted}
+%   \answerspace{10} %
+%   \begin{solution} %
+%     \textbf{No criterion helps.} The CFG is a single node with no edges,
+%     so \emph{every} criterion we saw today -- up to and including
+%     complete path coverage -- is satisfied by one arbitrary test case.
+%     A suite can be 100\% covered under all of them, have a perfectly
+%     good oracle, and still pass: \texttt{midpoint(2, 4)} returns 3 and
+%     is correct.
+
+%     The fault needs particular \emph{values}, not a particular path:
+%     \texttt{a + b} overflows, so \texttt{midpoint(INT\_MAX, INT\_MAX)}
+%     returns a negative number. Finding it is a job for input space
+%     partitioning with boundary values on \texttt{a} and \texttt{b}.
+
+%     The moral: structural criteria assume faults are visible in control
+%     flow, and assume any two tests touring the same path are equivalent.
+%     Both assumptions fail here.
+%   \end{solution}
+  \end{parts}
+
+\end{questions}
+
+\end{document}

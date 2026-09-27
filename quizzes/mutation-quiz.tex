@@ -1,0 +1,149 @@
+% Add "answers" option to print the answers
+\documentclass[addpoints]{exam}
+
+\input{cmds}
+
+%\usepackage{listings}
+\usepackage{color}
+\usepackage{lastpage}
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{minted}
+\usepackage{multicol}
+
+\newcommand{\includecode}[2][c]{\lstinputlisting[caption=, escapechar=, language=#1]{#2}}
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
+
+\renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
+
+\definecolor{SolutionColor}{rgb}{0.8,0.9,1}
+
+\cfoot{Page \thepage\ of \pageref{LastPage}}
+
+\rhead{Initials: \rule{20mm}{0.4pt}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\fvset{numbers=left,numbersep=3pt}
+\thispagestyle{empty}
+
+\begin{center}
+	{\LARGE CS 408 Fall 2026 -- Mutation Testing Quiz \\}
+\fbox{\fbox{\parbox{5.5in}{\centering
+	\begin{itemize}
+        \item Try to come up with a solution on your own first, but
+          after that talk to your friends and neighbors.
+
+        \item Full points will be rewarded for \textbf{any} (reasonable)
+          attempt.
+        \end{itemize}
+	}}}
+\end{center}
+
+\vspace{5mm}
+\makebox[\textwidth]{\textbf{Name (please print)}: \rule{100mm}{0.8pt} \hfill}
+
+\vspace{10mm}
+\makebox[\textwidth]{\textbf{PUID}: \rule{100mm}{0.8pt} \hfill}
+
+
+\begin{questions}
+
+\question The method below charges \texttt{days} $\times$
+  \texttt{rate}, less a \$10 discount for rentals longer than a week.
+  The fee is never negative.
+
+\begin{minted}{java}
+static int rentalFee(int days, int rate) {
+  int total = days * rate;
+  if (days > 7) {
+    total = total - 10;
+  }
+  if (total < 0) {
+    total = 0;
+  }
+  return total;
+}
+\end{minted}
+
+  Here are three mutation operators:
+
+  \begin{description}
+  \item[Conditionals Boundary] replace a relational operator with its
+    boundary variant: \texttt{>} $\leftrightarrow$ \texttt{>=},
+    \texttt{<} $\leftrightarrow$ \texttt{<=}
+  \item[Math] replace one arithmetic operator with another:
+    \texttt{*} $\rightarrow$ \texttt{+}, \texttt{-} $\rightarrow$
+    \texttt{+}, and so on
+  \item[Inline Constant] replace a numeric literal with a different one
+  \end{description}
+
+  Using any one of the three operators, write down a first-order
+    mutant\footnote{ A \textbf{first-order} mutant applies exactly one
+      such change.} of \mintinline{java}{rentalFee()}. Say which
+    operator you used and which line you changed. Then give a test
+    case that \textbf{kills} it, along with both results.
+    \answerspace{14} %
+    \begin{solution} %
+      Many correct answers. For instance, \textbf{Math} on line 2,
+      changing \mintinline{java}{days * rate} to
+      \mintinline{java}{days + rate}:
+      \mintinline{java}{rentalFee(3, 4)} returns 12 in the original and
+      7 in the mutant.
+
+      Other killable mutants:
+
+      \begin{tabular}{lll}
+        \textbf{operator} & \textbf{change} & \textbf{killed by} \\
+        \hline
+        Boundary & line 3: \texttt{days > 7} $\to$ \texttt{days >= 7}
+          & \texttt{(7, 10)}: 70 vs.\ 60 \\
+        Math & line 2: \texttt{days * rate} $\to$ \texttt{days + rate}
+          & \texttt{(3, 4)}: 12 vs.\ 7 \\
+        Math & line 4: \texttt{total - 10} $\to$ \texttt{total + 10}
+          & \texttt{(8, 10)}: 70 vs.\ 90 \\
+        Constant & line 3: \texttt{7} $\to$ \texttt{1}
+          & \texttt{(2, 10)}: 20 vs.\ 10 \\
+        Constant & line 4: \texttt{10} $\to$ \texttt{1}
+          & \texttt{(8, 10)}: 70 vs.\ 79 \\
+      \end{tabular}
+    \end{solution}
+
+  % \part Now write down a \emph{different} first-order mutant, using a
+  %   \textbf{different} operator than in part (a), and give a test case
+  %   that kills it.
+  %   \answerspace{14} %
+  %   \begin{solution} %
+  %     Any other row of the table above. The point is that each operator
+  %     is a rule that can be applied at several places in the program ---
+  %     a real tool applies all of them everywhere, which is where the
+  %     thousands of mutants come from.
+  %   \end{solution}
+
+  % \part There is one mutant you can build with the \textbf{Conditionals
+  %   Boundary} operator that \emph{no} test case can kill. Which is it,
+  %   and why?
+  %   \answerspace{12} %
+  %   \begin{solution} %
+  %     Line 6: \mintinline{java}{total < 0} $\to$
+  %     \mintinline{java}{total <= 0}. The two versions behave
+  %     differently only when \texttt{total} is exactly 0, and in that
+  %     case the mutant executes \mintinline{java}{total = 0;}, which
+  %     changes nothing. The mutant is \textbf{equivalent} to the
+  %     original.
+
+  %     We cannot detect this automatically --- deciding whether two
+  %     programs are equivalent is undecidable --- so a kill rate of
+  %     100\% is not achievable here, and surviving mutants have to be
+  %     triaged by hand.
+  %   \end{solution}
+
+  % \end{parts}
+
+\end{questions}
+
+\end{document}

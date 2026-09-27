@@ -1,0 +1,95 @@
+% Add "answers" option to print the answers
+\documentclass[addpoints]{exam}
+
+\input{cmds}
+
+%\usepackage{listings}
+\usepackage{color}
+\usepackage{lastpage}
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{minted}
+\usepackage{multicol}
+
+\newcommand{\includecode}[2][c]{\lstinputlisting[caption=, escapechar=, language=#1]{#2}}
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
+
+\renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
+
+\definecolor{SolutionColor}{rgb}{0.8,0.9,1}
+
+\cfoot{Page \thepage\ of \pageref{LastPage}}
+
+\rhead{Initials: \rule{20mm}{0.4pt}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\fvset{numbers=left,numbersep=3pt}
+\thispagestyle{empty}
+
+\begin{center}
+	{\LARGE CS 408 Fall 2026 -- Data-Flow Coverage Quiz 2.0 \\}
+\fbox{\fbox{\parbox{5.5in}{\centering
+	\begin{itemize}
+        \item Try to come up with a solution on your own first, but
+          after that talk to your friends and neighbors.
+
+        \item Full points will be rewarded for \textbf{any} (reasonable)
+          attempt.
+        \end{itemize}
+	}}}
+\end{center}
+
+\vspace{5mm}
+\makebox[\textwidth]{\textbf{Name (please print)}: \rule{100mm}{0.8pt} }
+
+\vspace{10mm}
+\makebox[\textwidth]{\textbf{PUID}: \rule{100mm}{0.8pt} \hspace{35mm}}
+
+
+\begin{questions}
+
+\begin{minted}{java}
+static int compare(int a,
+                   int b) {
+  int x = 0;   // L3
+  if (a > 0) { // C4
+    x = 1;     // L5
+  }
+  if (b > 0) { // C7
+    x = 2;     // L8
+  }
+ return x;     // L10
+}
+\end{minted}
+
+\question Write down a modified version of the
+  \mintinline{java}{compare} function shown above, whre satisfying
+  100\% all-uses coverage requires strictly more tests than satisfying
+  100\% all-defs coverage. Try to keep your edits as small as
+  possible.
+
+    \answerspace{26} %
+    \begin{solution} %
+      $def(\texttt{L2}) = \{y\}$, \;
+      $def(\texttt{L4}) = \{y\}$, \;
+      $def(\texttt{L6}) = \{y\}$, \;
+      $def(\texttt{C3}) = \emptyset$, \;
+      $def(\texttt{L7}) = \emptyset$.
+
+      $use(\texttt{L7}) = \{y\}$ (a c-use); every other node has an
+      empty use set.
+
+      $use((\texttt{C3},\texttt{BB4})) =
+       use((\texttt{C3},\texttt{BB6})) = \{x\}$ --- the p-use of
+      \mintinline{python}{x} sits on \emph{both} edges out of the
+      decision, not on \texttt{C3} itself.
+    \end{solution}
+
+\end{questions}
+
+\end{document}
