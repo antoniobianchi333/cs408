@@ -26,7 +26,7 @@ ASPELL_CMDS=\
 	--add-tex-command='VerbatimInput p' \
 
 spell:
-	@ for i in *.tex; do aspell -t $(ASPELL_CMDS) -p ./aspell.words -c $$i; done
+	@ for i in *.tex latex.out/*.bbl; do aspell -t $(ASPELL_CMDS) -p ./aspell.words -c $$i; done
 	@ for i in *.tex; do bin/double.pl $$i; done
 	@ for i in *.tex; do bin/abbrv.pl  $$i; done
 	@ bash bin/hyphens.sh *.tex
