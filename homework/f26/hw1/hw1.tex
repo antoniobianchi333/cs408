@@ -1,6 +1,6 @@
 % Add "answers" option to print the answers
 %\documentclass[addpoints,answers]{exam}
-\documentclass[addpoints]{exam}
+\documentclass[addpoints, answers]{exam}
 
 \input{../../cmds}
 
@@ -17,8 +17,10 @@
 
 %\pagestyle{fancy}
 %\fancyfoot[C]{{\thepage} of \pageref{LastPage}}
-\newcommand{\includecode}[2][c]{\lstinputlisting[caption=, escapechar=, language=#1]{#2}<!---->}
+
 \RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
+
+\newcommand{\Code}[1]{\mintinline{python}{#1}}
 
 \renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
 \renewcommand{\pf}[1]{}
@@ -40,7 +42,7 @@
 \thispagestyle{empty}
 
 \begin{center}
-  {\LARGE CS408 Fall 2026 -- Homework 1\\}
+  {\LARGE CS 408 Fall 2026 -- Homework 1\\}
 
   {\Large Deadline: Friday, September 11th \textbf{at 6p} \\}
 
@@ -80,8 +82,8 @@
 \question Consider this faulty program. %
 
   \begin{minted}{python}
-# A function that returns true if the input integer is a positive
-# even number, and false otherwise.
+# A function that returns True if the input integer is a positive
+# even number, and False otherwise.
 def is_positive_even(x: int) -> bool:
     if x < 0:
         return False
@@ -96,42 +98,59 @@ def is_positive_even(x: int) -> bool:
   input, expected behavior, and observed behavior of the program on
   that input. The expected behavior should be consistent with the
   comment at the top of the program.
+  \begin{solutionorbox}[1.5in]
+    There are two faults, leading to two distinct failures. The first:
+    \begin{itemize}
+    \item \textbf{Input:} \Code{is_positive_even(0)}
+    \item \textbf{Expected output}:  \Code{is_positive_even(0) == False}
+    \item \textbf{Observed output}:  \Code{is_positive_even(0) == True}
+    \end{itemize}
+    The second:
+    \begin{itemize}
+    \item \textbf{Input:} \Code{is_positive_even(3)}
+    \item \textbf{Expected output}:  \Code{is_positive_even(3) == False}
+    \item \textbf{Observed output}:  \Code{is_positive_even(3) == True}
+    \end{itemize}
+  \end{solutionorbox}
 
-\boxedanswer{1.5in}{
-  \begin{itemize}
-  \item \textbf{Input:} \lstinline{x} $\mapsto$ 3
-  \item \textbf{Expected output}:  \lstinline{ret} $\mapsto$ false
-  \item \textbf{Observed output}:  \lstinline{ret} $\mapsto$ true
-  \end{itemize}
-}
+\part[3] Identify a fault, and fix the fault. %
+  \begin{solutionorbox}[2in] %
+    The first fault is on line 4: \Code{if x < 0:}. Since 0 is
+    (usually) not treated as a positive number, the function should
+    return \Code{False} when \Code{x} is \Code{0}. The fix: %
+    \Code{if x <= 0:} \\   %
 
-\part[3] Identify the fault, and fix the fault. %
-  \boxedanswer{2in}{ %
-    The fault is in line 6: \texttt{mod\_2 = x\%3}. For positive even
-    numbers, the check is done by taking modulus of the number with 3,
-    which is a wrong way to find if a number is even.  Fix:
-    \texttt{mod\_2 = x\%2} }
-\part[3] If possible, identify a test case that does not execute the
-  fault. %
-  \boxedanswer{1.75in}{ %
-    Test case: x = -1. If $x<0$, the function does not execute the
-    faulty line.  }
+    The second fault is in line 6: \texttt{mod\_2 = x \% 3}. %
+    For positive even numbers, the check is done by taking modulus of
+    the number with \Code{3}, which is a wrong way to find if a number
+    is even.  The fix: \texttt{mod\_2 = x \% 2}
+  \end{solutionorbox}
+
+  \part[3] If possible, provide a test case that does not execute
+    the identified fault. %
+    \begin{solutionorbox}[1.75in] %
+      The first fault is always executed. The second fault is not
+      executed on negative arguments, so the test case
+      \Code{is_positive_even(-1)} does not execute the faulty line.
+    \end{solutionorbox}
 
   \newpage
 
 \part[3] If possible, identify a test case that executes the fault,
   but whose test path does not include an error state. %
-  \boxedanswer{2in}{ %
-    Test case: x = 6. If $x = 6$, the fault line executes but the program state remains correct.
-  }
+  \begin{solutionorbox}[2in] %
+    For both faults, the test case \Code{is_positive_even(6)} executes
+    the fault, but does not trigger an error state.
+  \end{solutionorbox}
 
-\part[3] In the case that an error state is triggered, identify when
-  this occurs and describe why that is the first error state.
-  \boxedanswer{2in}{ %
-    The infection is triggered at line 6:
-    \mintinline{python}{mod_2=x\%3}; by definition, the state
-    immediately after this fault is executed and infection occurs is
-    the first error state.  }
+  \part[3] In the case that an error state is triggered, identify when
+    this occurs and describe why that is the first error state.
+    \begin{solutionorbox}[2in] %
+      For the failing test cases identified above, the infection is
+      triggered on lines 4 and 6, respectively. By definition, the
+      state immediately after either fault is executed and infection
+      occurs is the first error state.
+    \end{solutionorbox}
 
 \end{parts}
 
@@ -167,34 +186,36 @@ def divide(a: int, b: int) -> int:
 
 \part[4] For each faulty line, identify at least one test input that
   makes the line reachable. Explain your reasoning.  %
-  \boxedanswer{2in}{%
+  \begin{solutionorbox}[2in]%
     The first fault is reachable by \textit{every} test case,
-    including, e.g., a test input of a$\mapsto$0 and b $\mapsto$ 2.
-      This test input also reaches the second fault.
-}
+    including, e.g., a test input of \Code{divide(0, 2)}.  This test
+    input also reaches the second fault.
+  \end{solutionorbox}
 
 \part [3] For those inputs, explain whether the program state becomes
   infected. Explain your reasoning. %
-  \boxedanswer{2in}{%
-Indeed, the program state becomes infected for this input, since
-  the wrong branch is taken, which manifests as a wrong value for the
-  program counter.
-}
+  \begin{solutionorbox}[2in]%
+    Indeed, the program state becomes infected for this input, since
+    the wrong branch is taken, which manifests as a wrong value for
+    the program counter.
+  \end{solutionorbox}
 
 \part [3] For the inputs you identified, explain whether the infection
   is propagated to the program's output. %
-  \boxedanswer{2in}{%
-    For this input, the error does not propagate to the
-    program's output, since \mintinline{python}{divide} will return
-    0, as expected. Note that we got unlucky here, as any other
-    value of \mintinline{python}{a} would have lead to a failure.
-  }
+  \begin{solutionorbox}[2in]%
+    For this input, the error does not propagate to the program's
+    output, since \Code{divide} will return 0, as expected. Note that
+    we got a bit unlucky here, as when \Code{b} is 2, the only values
+    of \Code{a} that do not trigger a failure are \Code{a = 1} and
+    \Code{a = 0}.
+  \end{solutionorbox}
 
 \end{parts}
+\newpage
 
-\question Consider the python class and one of its tests. You can
-  assume any missing code, e.g., \mintinline{python}{Cart},
-  \mintinline{python}{Receipt}, behaves as its name suggests.
+\question Consider the following python class and one of its
+  tests. You can assume any missing code, e.g., \Code{Cart},
+  \Code{Receipt}, behaves as its name suggests.
   \begin{minted}{python}
 class PaymentGateway(Protocol):
     # The real gateway honors this contract:
@@ -225,70 +246,78 @@ def test_declined_is_reported() -> None:
     receipt  = checkout.purchase(Cart(card=BAD_CARD, total_cents=1500))
     assert receipt.status == "DECLINED"
   \end{minted}
-\newpage
+
 \begin{parts}
 \part[2] Identify the system under test above, and give the line
   numbers for the Arrange / Act / Assert parts of the test. %
-  \boxedanswer{1.75in}{
+  \begin{solutionorbox}[1.75in]
     The system under test is
-    \mintinline{python}{checkout.purchase}. Line 26 is the Arrange
+    \Code{checkout.purchase}. Line 26 is the Arrange
     part of the test, line 27 is the Act portion, and line 28 is the
     Assert part.
-  }
+    \end{solutionorbox}
+
+\ifprintanswers \vfill \else \newpage \fi
 
 \part[2] What are the test doubles, and what are regular input values
   in this test? %
-  \boxedanswer{1.75in}{
-    Here, the test doubles are \mintinline{python}{InMemoryInventory}
-    and \mintinline{python}{StubGateway}, and the input value is
-    \mintinline{python}{Cart(card=BAD_CARD, total_cents=1500)} }
+  \begin{solutionorbox}[1.75in]
+    Here, the test doubles are \Code{InMemoryInventory}
+    and \Code{StubGateway}, and the input value is
+    \Code{Cart(card=BAD_CARD, total_cents=1500)}
+  \end{solutionorbox}
 
-\part[2] Describe the assumption that \mintinline{python}{StubGateway}
+\part[2] Describe the assumption that \Code{StubGateway}
   encodes about the gateway that is inconsistent with the contract for
-  \mintinline{python}{PaymentGateway} described in the code comment
+  \Code{PaymentGateway} described in the code comment
   above. %
-  \boxedanswer{3.5in}{ %
-    \mintinline{python}{StubGateway} assumes a declined card is
-    reported by \emph{returning} \mintinline{python}{Charge(ok=False)}
-    and that \mintinline{python}{charge} never raises an
-    exception. The \mintinline{python}{PaymentGateway} contract says
-    the opposite: a decline is reported by \emph{raising}
-    \mintinline{python}{PaymentDeclined}, and it \emph{never} returns
-    \mintinline{python}{ok=False}. The stub therefore encodes a wrong
-    assumption about how a declined payment is signaled.  }
+  \begin{solutionorbox}[3.5in] %
+    \Code{StubGateway} assumes a declined card is
+    reported by \\ %
+    \emph{returning} \Code{Charge(ok=False)} and that
+    \Code{charge} never raises an exception. The
+    \Code{PaymentGateway} contract says the opposite: a
+    decline is reported by \emph{raising}
+    \Code{PaymentDeclined}, and it \emph{never} returns
+    \Code{Charge(ok=False)}. The stub therefore encodes
+    a wrong assumption about how a declined payment is signaled.
+  \end{solutionorbox}
 
-  \newpage
+  \ifprintanswers \vfill \else \newpage \fi
+
 \part[4] Would these inconsistencies lead to a failure when the code
-  under test is deployed against \mintinline{python}{PaymentGateway}?
+  under test is deployed against \Code{PaymentGateway}?
   If so, give the smallest change to the stub that would make
-  \mintinline{python}{test_declined_is_reported} catch the fault.
-  \boxedanswer{6in}{ %
-    Yes. Against \mintinline{python}{PaymentGateway}, a declined card
-    makes \mintinline{python}{self.gateway.charge(...)}  \emph{raise}
-    \mintinline{python}{PaymentDeclined}. \mintinline{python}{purchase}
+  \Code{test_declined_is_reported} catch the fault.
+  \begin{solutionorbox}[6in] %
+    Yes. Against \Code{PaymentGateway}, a declined card
+    makes \\ %
+    \Code{self.gateway.charge(...)}  \emph{raise}
+    \Code{PaymentDeclined}. \Code{purchase}
     has no handler for it, so the exception propagates out of
-    \mintinline{python}{purchase} instead of returning
-    \mintinline{python}{Receipt(status="DECLINED")}, and declined
+    \Code{purchase} instead of returning
+    \Code{Receipt(status="DECLINED")}, and declined
     purchases will fail in production. The unit test misses this
-    because the stub returns \mintinline{python}{ok=False} instead of
+    because the stub returns \Code{ok=False} instead of
     raising an exception, so the test never exercises the exception
-    path.
+    path. \\ %
 
     The smallest fix is to simply make the stub honor the contract, by
-    raising \mintinline{python}{PaymentDeclined} when
-    \mintinline{python}{approves} is \mintinline{python}{False}
-    instead of returning \mintinline{python}{Charge(ok=False)}:
-% \begin{Verbatim}
-% def charge(self, card: Card, amount_cents: int) -> Charge:
-%     if not self._approves:
-%         raise PaymentDeclined()
-%     return Charge(id="stub", ok=True)
-% \end{Verbatim}
-  With this stub, \mintinline{python}{test_declined_is_reported}
-  manifests the exception, \mintinline{python}{purchase} lets the
+    raising \Code{PaymentDeclined} when \Code{approves} is
+    \Code{False} instead of returning \Code{Charge(ok=False)}:
+  \begin{minted}{python}
+def charge(self, card: Card, amount_cents: int) -> Charge:
+  if not self._approves:
+    raise PaymentDeclined()
+  return Charge(id="stub", ok=True)
+\end{minted}
+
+  With this stub, \Code{test_declined_is_reported}
+  manifests the exception, \Code{purchase} lets the
   exception escape, and the test fails, signalling that
-  \mintinline{python}{Checkout} is missing a
-  \mintinline{python}{try/except}.  }
+  \Code{Checkout} is missing a
+  \Code{try/except}.
+\end{solutionorbox}
 
 \end{parts}
 
@@ -309,7 +338,7 @@ def test_declined_is_reported() -> None:
     2-door & 4-door & hatchback\\\hline
   \end{tabular}
 \end{center}
-\boxedanswer{4in}{ %
+\begin{solutionorbox}[4in] %
   Some potential mistakes:
   \begin{itemize}
   \item The ``Size'' describes the number of doors, as opposed to
@@ -323,7 +352,9 @@ def test_declined_is_reported() -> None:
     cars. One solution is to add additional categories, e.g.,
     [North America | Asia | Europe | South America | Other]
   \end{itemize}
-}
+\end{solutionorbox}
+
+\ifprintanswers \vfill \else \newpage \fi
 
 \question
   Consider the following specification:
@@ -336,68 +367,68 @@ def test_declined_is_reported() -> None:
 def calculate_discount(cust: CustomerType, price_cents: int) -> int:
     ...
   \end{minted}
-  where \mintinline{python}{CustomerType} is
-  \mintinline{python}{Enum("CustomerType", "Regular Member VIP")}.
+  where \Code{CustomerType} is
+  \Code{Enum("CustomerType", "Regular Member VIP")}.
 \begin{parts}
 \part[3] Define an input-domain model for this
-  \mintinline{python}{calculate_discount} by listing a characteristic
+  \Code{calculate_discount} by listing a characteristic
   and its blocks for each of its parameters. Your characteristics
   should define a valid partitioning, and should leverage the expected
   behaviors described in the comment above, as opposed to relying only
   on the types of the parameters.
-  \boxedanswer{3in}{ %
+  \begin{solutionorbox}[3in] %
   \smallskip
-  \begin{tabular}{|l|l|l|l|}
+  \begin{tabular}{|l|l|l|}
     \hline
-    \multicolumn{4}{|l|}{\textbf{\mintinline{python}{cust}} --- customer type}\\\hline
-    Regular & Member & VIP & \\\hline
-    \multicolumn{4}{|l|}{\textbf{\mintinline{python}{price_cents}} --- price relative to the discount thresholds}\\\hline
-    $\le 5000$ & $5000 < p \le 10000$ & $p > 10000$ & \\
-    ($\le\$50$) & ($\$50$--$\$100$) & ($>\$100$) & \\\hline
+    \multicolumn{3}{|l|}{\textbf{\Code{cust}}: Customer Type}\\\hline
+    Regular & Member & VIP \\\hline
+    \multicolumn{3}{|l|}{\textbf{\Code{price_cents}}: price relative to the discount thresholds}\\\hline
+    $\le 5000$ & $5000 < p \le 10000$ & $p > 10000$ \\
+    ($\le\$50$) & ($\$50$--$\$100$) & ($>\$100$) \\\hline
   \end{tabular}
-}
+  \end{solutionorbox}
+
+  \ifprintanswers \vfill \else \newpage \fi
 
 \part[2] Based on the price thresholds described in the comment, give
   the specific \textbf{boundary values} you would test, and state
   which fault each is meant to expose. %
-  \boxedanswer{3.5in}{ %
+  \begin{solutionorbox}[3.5in] %
     The thresholds are $5000$ (VIP, ``more than \$50'') and $10000$ (Member,
   ``more than \$100''). Both are strict, test on-boundary and just-above:
   \begin{itemize}
-  \item \textbf{VIP threshold:} \mintinline{python}{price_cents =
-      5000} (expect \emph{no} discount, since $5000 \not> 5000$) and
-    \mintinline{python}{5001} (expect the 20\% discount). These are
-    meant to expose an off-by-one / wrong-operator fault at the VIP
-    threshold, e.g., using \mintinline{python}{>=} instead of
-    \mintinline{python}{>}, which would wrongly discount at exactly
-    \$50.
-  \item \textbf{Member threshold:} \mintinline{python}{price_cents =
-      10000} (expect \emph{no} discount) and
-    \mintinline{python}{10001} (expect the 10\% discount). These
-    expose the same \mintinline{python}{>=}-vs-\mintinline{python}{>}
+  \item \textbf{VIP threshold:} \Code{price_cents = 5000} (should be
+    \emph{no} discount, since $5000 \not> 5000$) and \Code{5001}, (the
+    20\% discount should apply). These are meant to expose an
+    off-by-one / wrong-operator fault at the VIP threshold, e.g.,
+    using \Code{>=} instead of \Code{>}, which would wrongly discount
+    at exactly \$50.
+  \item \textbf{Member threshold:} \Code{price_cents = 10000} (should
+    be \emph{no} discount) and \Code{10001} (we expect the 10\%
+    discount to apply). These expose the same \Code{>=}-vs-\Code{>}
     fault at the Member threshold.
-  \item \textbf{Domain minimum:} \mintinline{python}{price_cents = 0}:
-    this special value is meant to expose mishandling at the low end,
-    e.g., a discount or rounding error applied to 0.
+  \item \textbf{Domain minimum:} \Code{price_cents = 0}: this special
+    value is meant to expose faults at the low end, e.g., a discount
+    or rounding error applied to 0.
   \end{itemize}
-  }
+\end{solutionorbox}
 
-  \newpage
+\ifprintanswers \vfill \else \newpage \fi
 
-\part[2] A colleague partitions \mintinline{python}{cust} and
-  \mintinline{python}{price_cents} independently and tests each block
+\part[2] A colleague partitions \Code{cust} and
+  \Code{price_cents} independently and tests each block
   only once using the Each-Choice strategy. What assumptions does that
   testing strategy make, and how could it miss a real bug in
-  \mintinline{python}{calculate_discount}? %
-  \boxedanswer{4in}{ %
+  \Code{calculate_discount}? %
+  \begin{solutionorbox}[4in] %
     Each-Choice requires only that \emph{each block of each parameter
       appear in some test}. It therefore assumes the two parameters do
     not interact, i.e., that a block of one behaves the same no matter
     which block of the other it is paired with.
 
-    \smallskip But in \mintinline{python}{calculate_discount} these
-    parameters can interact: the correct behavior at a given price
-    depends on the customer type! A valid ECC set such as
+    \smallskip But in \Code{calculate_discount}, these parameters can
+    interact, since the correct behavior at a given price depends on
+    the customer type! A valid ECC set such as
   \[
     (\texttt{Regular},\ \le\$50),\quad
     (\texttt{Member},\ \$50\texttt{--}\$100),\quad
@@ -405,41 +436,44 @@ def calculate_discount(cust: CustomerType, price_cents: int) -> int:
   \]
   covers every block once, yet only ever tests \textbf{Member in the
     \$50--\$100 band, where the correct answer is ``no discount''
-    anyway.} A bug where Member's 10\% discount never fires would pass
-  all three tests, because Member is never tested above \$100, exactly
-  where its discount is supposed to apply. A stronger criteria that
-  pairs each customer type with the price bands around \emph{its own}
-  threshold, e.g.\ Pair-Wise or Base-Choice coverage, would catch such
-  an error.  }
+    anyway.} A bug where Member's 10\% discount is never applied would
+  pass all three tests, because Member is never tested above \$100,
+  i.e., exactly where its discount is supposed to apply. A stronger
+  criteria that pairs each customer type with the price bands around
+  \emph{its own} threshold, e.g.\ Pair-Wise or Base-Choice coverage,
+  would catch such an error.
+\end{solutionorbox}
 \end{parts}
 
-\newpage
+\ifprintanswers \vfill \else \newpage \fi
 
 \question Suppose we are testing a function that takes three
   parameters, which we have partitioned into the following blocks:
-  \mintinline{python}{p1} $\in \{A, B\}$,\ \ \mintinline{python}{p2}
-  $\in \{1, 2, 3\}$,\ \ \mintinline{python}{p3} $\in \{x, y\}$. Assume
-  every combination of blocks is a valid input.
+  \Code{p1} $\in \{A, B\}$,\ \ \Code{p2} $\in \{1, 2, 3\}$,\ \
+  \Code{p3} $\in \{x, y\}$. Assume every combination of blocks is a
+  valid input.
 \begin{parts}
 \part[3] How many tests are required to satisfy
   \textbf{All-Combinations (ACoC)}, \textbf{Each-Choice (ECC)}, and
   \textbf{Base-Choice (BCC)} coverage?  %
-  \boxedanswer{2.25in}{ %
+  \begin{solutionorbox}[2.25in] %
     \textbf{ACoC} $= |B_1|\cdot|B_2|\cdot|B_3| = 2\cdot 3\cdot 2 = 12$.\\
     \textbf{ECC} $= \max(2,3,2) = 3$ (one test per block of the
     largest partition,
     reusing values from the others).\\
     \textbf{BCC} $= 1 + \sum_i (|B_i|-1) = 1 + (1+2+1) = 5$: base test
     $(A,1,x)$ plus one variation per non-base block --- $(B,1,x)$,
-    $(A,2,x)$, $(A,3,x)$, $(A,1,y)$.  }
+    $(A,2,x)$, $(A,3,x)$, $(A,1,y)$.
+  \end{solutionorbox}
 \part[1] What is the minimum number of tests needed to have complete
   \textbf{Pair-Wise (PWC)} coverage for these parameters? %
-  \boxedanswer{2.25in}{ %
+  \begin{solutionorbox}[2.25in] %
     $6$, i.e., the product of the two largest block counts
     ($3\cdot 2$). The following set of tests achieves this:
     e.g. $(A,1,x),(A,2,y),(A,3,x),(B,1,y),(B,2,x), (B,3,y)$. Note
     that, unlike the other criteria, PWC has no closed-form solution;
-    it is the size of a minimal covering test set. }
+    it is the size of a minimal covering test set.
+  \end{solutionorbox}
 \end{parts}
 
 \end{questions}
