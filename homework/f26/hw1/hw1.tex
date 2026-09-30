@@ -22,8 +22,7 @@
 
 \newcommand{\Code}[1]{\mintinline{python}{#1}}
 
-\renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
-\renewcommand{\pf}[1]{}
+\newcommand{\nonAnswerNewPage}{\ifprintanswers \vfill \else \newpage \fi}
 
 \newcommand{\boxedanswer}[2]{\ifprintanswers\answer{#2}\else\makeemptybox{#1}\fi}
 
@@ -42,11 +41,12 @@
 \thispagestyle{empty}
 
 \begin{center}
-  {\LARGE CS 408 Fall 2026 -- Homework 1\\}
+  {\LARGE CS 408 Fall 2026 -- Homework 1 \\}
+  \vspace{2mm}
 
   {\Large Deadline: Friday, September 11th \textbf{at 6p} \\}
+  \vspace{10mm}
 
-  \vspace{20mm}
   \fbox{
     \fbox{\parbox{5.5in}{\centering
         \begin{itemize}
@@ -245,7 +245,7 @@ def test_declined_is_reported() -> None:
     checkout = Checkout(StubGateway(approves=False), InMemoryInventory())
     receipt  = checkout.purchase(Cart(card=BAD_CARD, total_cents=1500))
     assert receipt.status == "DECLINED"
-  \end{minted}
+\end{minted}
 
 \begin{parts}
 \part[2] Identify the system under test above, and give the line

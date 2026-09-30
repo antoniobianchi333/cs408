@@ -1,41 +1,33 @@
-Q=@
+Q = @
 
+# Directory that holds THIS file (with trailing slash).  Evaluated at
+# include time, so bin/ and cmds.tex are found no matter which
+# subdirectory make was run from.
+TOP := $(dir $(lastword $(MAKEFILE_LIST)))
 
-ALL=hw1.pdf hw2.pdf
+# Documents are the .tex files in the CURRENT directory only.
+EXCLUDE ?=
+SRCS = $(filter-out $(EXCLUDE),$(wildcard *.tex))
+ALL  = $(SRCS:.tex=.pdf)
+
+LATEXRUN ?= $(TOP)bin/latexrun
 
 all: $(ALL)
 
-PLOTS_DATA = $(wildcard plots/*.dat)
-PLOTS_SRCS = $(wildcard plots/*.plot)
-PLOTS_PNGS = $(PLOTS_SRCS:.plot=.png)
+%.pdf: %.tex FORCE
+	@echo $*
+	$(Q)$(LATEXRUN) --latex-args="--shell-escape" -Wall \
+	    --bibtex-args=-min-crossrefs=100 $*
 
-ALL_TEX=$(ALL:.pdf=.tex)
+# Shared preamble: touching it rebuilds everything here.
+$(ALL): $(TOP)cmds.tex
 
-
-$(ALL): $(wildcard *.tex) $(wildcard figs/*.tex) $(wildcard code/*) $(wildcard *.bib)  $(wildcard sections/*.tex) $(wildcard figs/*.pdf) $(PLOTS_PNGS) $(PLOTS_SRCS)
-	echo $(subst .pdf,,$@)
-	$(Q)bin/latexrun --latex-args="--shell-escape" -Wall --bibtex-args=-min-crossrefs=100 $(subst .pdf,,$@)
-
-
-SYS = $(shell sed -n -e 's/\\newcommand{\\sys}{\(.*\)}/\1/p' cmds.tex | sed -e 's/\\xspace//g' -e 's/\\textsc//g' -e 's/\\mbox//g')
-abstr.txt: abstr.tex
-	@cat $< | \
-          sed -e 's/\\sys/${SYS}/g' | \
-          sed -e 's/\\emph//g' | \
-          sed -e 's/{//g' | \
-          sed -e 's/}//g' | \
-	  sed -e /^[%].*/d | \
-          fmt -w72 > $@
-
-%.png: %.plot  $(PLOTS_DATA)
-	cd plots && gnuplot ../$<
-
-code:
-	gcc -o bug1 bug1.c
+list:
+	@echo $(ALL)
 
 clean:
-	rm -rf *.pdf final.pdf midterm.pdf latex.out
+	rm -rf $(ALL) latex.out _minted-* *.aux *.log *.out
 
-.PHONY: abstr.txt clean
+FORCE:
 
-include Makefile.spell
+.PHONY: all clean list FORCE

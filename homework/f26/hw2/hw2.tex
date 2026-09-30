@@ -1,6 +1,6 @@
 % Add "answers" option to print the answers
 %\documentclass[addpoints,answers]{exam}
-\documentclass[addpoints]{exam}
+\documentclass[addpoints, answers]{exam}
 
 \input{../../cmds}
 
@@ -17,20 +17,14 @@
 
 %\pagestyle{fancy}
 %\fancyfoot[C]{{\thepage} of \pageref{LastPage}}
-\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
 
-\renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
-\renewcommand{\pf}[1]{}
+\newcommand{\Code}[1]{\mintinline{python}{#1}}
 
-\newcommand{\boxedanswer}[2]{\ifprintanswers\answer{#2}\else\makeemptybox{#1}\fi}
-
-\definecolor{SolutionColor}{rgb}{0.8,0.9,1}
-
+\newcommand{\nonAnswerNewPage}{\ifprintanswers \vfill \else \newpage \fi}
 
 \cfoot{Page \thepage\ of \pageref{LastPage}}
 
 \rhead{Initials: \rule{20mm}{0.4pt}}
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -40,10 +34,11 @@
 
 \begin{center}
   {\LARGE CS 408 Fall 2026 -- Homework 2\\}
+  \vspace{2mm}
 
   {\Large Deadline: Friday, September 25th \textbf{at 6p} \\}
+  \vspace{10mm}
 
-  \vspace{20mm}
   \fbox{
     \fbox{\parbox{5.5in}{\centering
         \begin{itemize}
@@ -91,44 +86,102 @@
   program. Do not define any auxiliary functions, unless absolutely
   necessary. Label the source code statements with comments
   corresponding to the CFG node names. %
-  \boxedanswer{5in}{ %
-    FILL IN HERE.  }
-\newpage
+  \begin{solutionorbox}[5in] %
+    Many correct answers; one is:
+\begin{minted}{python}
+def f(n: int, flag: bool) -> int:
+  total = 0                  # Q
+  while n > 0:               # R
+    if flag:                 # S
+      total = total + n      # T
+    n = n - 1                # U
+  return total               # V
+\end{minted}
+    Every edge is feasible here, so a test set can achieve both 100\%
+    node and 100\% edge coverage.
+  \end{solutionorbox}
+
+  \nonAnswerNewPage{}
+
 \part[1] How many test requirements are needed by node coverage?
-  \boxedanswer{1.5in}{ %
-  }
+  \begin{solutionorbox}[1.5in] %
+    Six: one per node.
+    \begin{enumerate}
+    \item A test must visit line 2, i.e., Node Q
+    \item A test must visit line 3, i.e., Node R
+    \item \ldots
+    \end{enumerate}
+  \end{solutionorbox}
 
 \part[2] Provide a set of tests that achieve 100\% node coverage.
-  \boxedanswer{1.5in}{ %
-  }
+  \begin{solutionorbox}[1.5in] %
+    A single test suffices here, e.g. \Code{f(1, True)}, whose
+    execution trace corresponds to a test path \Code{[Q, R, S, T, U,
+      R, V]} which visits every node.
+  \end{solutionorbox}
 
 \part[1] How many test requirements are needed by edge coverage?
-  \boxedanswer{1.5in}{ %
-  }
+  \begin{solutionorbox}[1.5in] %
+    There are seven, one per edge in the CFG:
+    \begin{itemize}
+    \item A test must execute line 2 followed by line 3, i.e.,
+      \textsf{(Q, R)}
+    \item A test must execute line 3 followed by line 4, i.e.,
+      \textsf{(R, S)}
+    \item \ldots
+    \end{itemize}
+    \end{solutionorbox}
 
 \part[2] Provide a set of tests that achieve 100\% edge coverage.
-  \boxedanswer{1.5in}{ %
-  }
+  \begin{solutionorbox}[1.5in] %
+    Two tests: \Code{f(1, True)} and \Code{f(1, False)}. The first
+    tours \Code{[Q, R, S, T, U, R, V]} and the second \Code{[Q, R, S,
+      U, R, V]}; between the two of these test paths, every edge is
+    taken. Observe that one test is not enough, since visiting both
+    \Code{(S, T)} and \Code{(S, U)} requires different values of
+    \Code{flag}.
+  \end{solutionorbox}
 
-  \newpage
+  \nonAnswerNewPage
 
 \part[2] How many test requirements are needed by edge pair coverage?
-  \boxedanswer{1.5in}{ %
-  }
+   \begin{solutionorbox}[1.5in] %
+     Nine. Multiplying indegree by outdegree of each node:
+     \begin{itemize}
+     \item \Code{R} contributes 4 requirements,
+     \item \Code{S} contributes 2,
+     \item \Code{T} contributes 1,
+     \item and \Code{U} contributes 2.
+     \end{itemize} The initial node, \Code{Q}, has no predecessor
+     nodes, while the terminal node, \Code{V}, has no successor nodes,
+     so neither imposes any test requirements.
+  \end{solutionorbox}
 
 \part[3] Provide a set of tests that achieve 100\% edge pair coverage.
-  \boxedanswer{1.5in}{ %
-  }
+  \begin{solutionorbox}[1.5in] %
+    Three tests: \Code{f(2, True)}, \Code{f(1, False)} and
+    \Code{f(0, True)}. The first goes round the loop twice, supplying
+    \Code{[U, R, S]}; the second supplies \Code{[R, S, U]} and
+    \Code{[S, U, R]}; the third supplies \Code{[Q, R, V]}, which needs
+    the loop to be skipped entirely.
+  \end{solutionorbox}
 
-  \part[2] List all the test paths with length up to 7,
-    inclusive. Each path should be listed on its own line. %
-  \boxedanswer{2.5in}{ %
-      % [1,2,3,4,8,2,9] %
-      % [ 1,2,9] %
-    }
+\part[2] List all the test paths with length up to 7,
+  inclusive. Each path should be listed on its own line. %
+  \begin{solutionorbox}[2.5in] %
+    Three, taking the length of a path to be its number of edges:
+    \begin{itemize}
+    \item \Code{[Q, R, V]} (2 edges)
+    \item \Code{[Q, R, S, U, R, V]} (5 edges)
+    \item \Code{[Q, R, S, T, U, R, V]} (6 edges)
+    \end{itemize}
+    Any further trip round the loop costs at least three more edges,
+    so the next shortest test path has 8.
+  \end{solutionorbox}
 \end{parts}
 
-  \newpage
+\nonAnswerNewPage
+
 \question Consider the following CFG. \\
 \includegraphics[width=0.8\textwidth]{figs/CFG-2.pdf}
 
@@ -140,25 +193,49 @@
   define any auxiliary functions, unless absolutely necessary. Label
   the source code statements with comments corresponding to the CFG
   node names. %
-  \boxedanswer{5in}{ %
-  }
+  \begin{solutionorbox}[5in] %
+ Many correct answers; one is:
+\begin{minted}{python}
+def g(x: int) -> int:
+  total = 0             # A
+  while x > 0:          # B
+    y = x               # C
+    while y > 5:        # D
+      if y > 0:         # E
+        y = y - 1       # F
+      y = y - 2         # G
+    total = total + y   # H
+    x = x - 1           # H
+  return total          # I
+\end{minted}
+ The guard on line \Code{E} is only reached when \Code{y > 5} is
+ already true, and it thus never evaluates to \Code{False}. Note that
+ \Code{G} always executes after \Code{F}, because it is not included
+ in an \Code{else} branch, so every statement can be executed.
+  \end{solutionorbox}
 
-  \newpage
+  \nonAnswerNewPage
 
 \part[2] Provide a set of tests that achieve 100\% node coverage.
-  \boxedanswer{1.5in}{ %
-  FILL IN HERE
-}
+  \begin{solutionorbox}[1.5in] %
+    A single test suffices: the execution trace for \Code{g(6)}, for
+    example, generates a test path that visits all nine nodes: the
+    loop on B-H runs several times, while the inner loop only runs on
+    the first iteration of the outer loop.
+  \end{solutionorbox}
 
 \part[2] List an infeasible test requirement needed by edge
   coverage.
-  \boxedanswer{1.5in}{ %
-    FILL IN HERE
-  }
+  \begin{solutionorbox}[1.5in] %
+    A test set with 100\% edge coverage requires a test whose
+    execution trace executes \Code{G} immediately after \Code{E}, but
+    the guard of the \Code{if} statement on \Code{E} is always true,
+    so this can never happen.
+  \end{solutionorbox}
 
   \end{parts}
 
-  \newpage
+  \nonAnswerNewPage
 
 \question Given the following control flow graph, annotated with
   def-use information:\footnote{Unless otherwise noted, assume
@@ -175,20 +252,22 @@ And the following test paths:
   \end{description}
 
 \begin{parts}
-\part[5] List all the DU-paths with respect to
-  \mintinline{python}{x}. (Note: Include \textbf{all} DU-paths, even
-  those that are subpaths of other DU-paths).
+\part[5] List all the DU-paths with respect to \Code{x}. (Note:
+  Include \textbf{all} DU-paths, even those that are subpaths of other
+  DU-paths).
 
 Please use the format:
-
 \begin{center}
-	du (A, G, \mintinline{python}{y}): [A, B, C, ...]
+  du(A, G, \Code{y}): [A, B, C, ...]
 \end{center}
-  \boxedanswer{1.5in}{ %
-  du (1, 6, $X$): [1, 2, 6] \\
-  du (4, 6, $X$): [ ] \\
-  du (5, 6, $X$): [5, 2, 6], [5, 6] \\
-}
+
+\begin{solutionorbox}[1.5in] %
+  \begin{itemize}
+  \item du(Q, V, \Code{x}): [Q, R, V]
+  \item du(T, V, \Code{x}): None
+  \item du(U, V, \Code{x}): [U, R, V], [U, V]
+  \end{itemize}
+\end{solutionorbox}
 
 \part[4] Which DU-paths do each of the TP$_i$ tour?
 Please format your answer as
@@ -196,41 +275,34 @@ Please format your answer as
   TP$_1$ tours \{[A, B, C, ...], …\}
   TP$_2$ tours \{[A, B, C, ...], …\}
 \end{center}
-\boxedanswer{1.5in}{ %
-  T1 tours [5, 6] \\
-}
+\begin{solutionorbox}[1.5in] %
+  \begin{itemize}
+  \item TP$_1$ tours [U, V]
+  \item TP$_2$ tours [U, V]
+  \item TP$_3$ tours [U, R, V]
+  \item TP$_4$ tours [Q, R, V]
+  \end{itemize}
+\end{solutionorbox}
 
 \newpage
 \part[2] List a minimal subset of \{TP$_1$, TP$_2$, TP$_3$, TP$_4$\}
   that satisfies all-defs coverage with respect to \mintinline{python}{x}.
-  \boxedanswer{1.5in}{ %
-    \{t1, t4\}
-    Answer can also be {t2 , t4}
-  }
+  \begin{solutionorbox}[1.5in] %
+    Either \{TP$_1$, TP$_4$\} or \{TP$_2$, TP$_4$\} or \{TP$_3$, TP$_4$\}
+  \end{solutionorbox}
 
 \part[2] List a minimal subset of \{TP$_1$, TP$_2$, TP$_3$, TP$_4$\}
   that satisfies all-uses coverage with respect to \mintinline{python}{x}.
-  \boxedanswer{1.5in}{ %
-    \{t2,t4\} Answer can
-    also be {t1, t4} and {t3, t4} }
+  \begin{solutionorbox}[1.5in] %
+      Either \{TP$_1$, TP$_4$\} or \{TP$_2$, TP$_4$\} or \{TP$_3$, TP$_4$\}
+    \end{solutionorbox}
 
 \part[3] List a minimal subset of \{TP$_1$, TP$_2$, TP$_3$, TP$_4$\}
   that satisfies all-du-paths coverage with respect to
-  \mintinline{python}{x}.%
-  \boxedanswer{1.5in}{ %
-    % d1 -> u8: t2
-    % d1 -> u7: t4
-    % d2 -> u8: t1
-    % d5 -> u7: t3
-    % d5 -> u8: t3
-    % \{t1, t2, t3, t4\}
-
-    % OR
-
-    \{t1, t3, t4\}
-    or
-    \{t2, t3, t4\}
-  }
+  \Code{x}.%
+  \begin{solutionorbox}[1.5in] %
+    Either \{TP$_1$, TP$_3$, TP$_4$\}  or \{TP$_2$, TP$_3$, TP$_4$\}
+  \end{solutionorbox}
 \end{parts}
 
 \end{questions}
