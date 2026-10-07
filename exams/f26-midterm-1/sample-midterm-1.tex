@@ -1,5 +1,5 @@
 % add the answers flag to print the solutions.
-\documentclass[addpoints]{exam}
+\documentclass[addpoints, answers]{exam}
 
 \input{../cmds}
 
@@ -304,8 +304,8 @@ def index_even(x: list[int], n: int) -> int:
   cause the fault to execute. If this is not possible, explain why. %
   \answerspace{10} %
   \begin{solution} %
-    \Code{index_even(None, 1)} returns on line 6 without ever
-    executing line 7. %
+    \Code{index_even(None, 1)} returns on line 7 without ever
+    executing line 8. %
   \end{solution}
 
 \part[3] If possible, provide an example of a test input that causes
@@ -314,7 +314,7 @@ def index_even(x: list[int], n: int) -> int:
   \answerspace{10} %
   \begin{solution} %
     Not possible. The initial value of \Code{count} in the correct
-    implementation is always 1, so executing line 7 always puts the
+    implementation is always 1, so executing line 8 always puts the
     program into a state the correct version would never be in. %
   \end{solution}
 
@@ -603,7 +603,7 @@ def silly_and_also_fun(a: int) -> int:
 \part[1] Provide a minimal set of test inputs to \Code{x}, \Code{a},
   \Code{b}, and \Code{y} that satisfy predicate coverage for $\phi$.
   If this is not possible, explain why. Write your test cases in the
-  form \ACC{x}{a}{b}{c}. %
+  form \ACC{x}{a}{b}{y}. %
   \answerspace{6} %
   \begin{solution}
     Example: \\
@@ -648,7 +648,7 @@ def silly_and_also_fun(a: int) -> int:
 
 \part[4] Provide a minimal set of test inputs that satisfy Restricted
   Active Clause Coverage (RACC) for $\phi$. If this is not possible,
-  explain why. Write your test cases in the form \ACC{x}{a}{b}{c}. %
+  explain why. Write your test cases in the form \ACC{x}{a}{b}{y}. %
   \answerspace{11} %
   \begin{solution}
     Example: \{ \\
@@ -665,24 +665,25 @@ def silly_and_also_fun(a: int) -> int:
 
 \part[4] Provide a minimal set of test inputs that satisfy Correlated
   Active Clause Coverage (CACC) for $\phi$. Write your test cases in
-  the form \ACC{x}{a}{b}{c}. If this is not possible, explain why. %
+  the form \ACC{x}{a}{b}{y}. If this is not possible, explain why. %
   \answerspace{11} %
   \begin{solution}
     Example: \{ \\
     \ACC{0}{[1,2]}{False}{0}, \ACC{2}{[3,5,6]}{True}{2}, \\
-    \ACC{3}{[1,2]}{False}{3}, \ACC{3}{[1,2,3,4]}{True}{4} \\
+    \ACC{5}{[1,2,6]}{True}{3}, \ACC{5}{[1,2,3]}{False}{5} \\
     \}
 
     \textbf{Note 1:} this set does \emph{not} satisfy RACC, because
-    the two tests in which \Code{x != y} determines $\phi$ do not
-    agree on the other clauses. \\
+    \Code{x != y} only determines $\phi$ in the last three tests, and
+    none of the three agrees with any of the others on the truth value
+    of the two other clauses. \\
     \textbf{Note 2:} the answer to the previous part would also work
     here. Why?
   \end{solution}
 
 \part[4] Provide a minimal set of test inputs that satisfy General
   Active Clause Coverage (GACC) for $\phi$. Write your test cases in
-  the form \ACC{x}{a}{b}{c}.  If this is not possible, explain why. %
+  the form \ACC{x}{a}{b}{y}.  If this is not possible, explain why. %
   \answerspace{11} %
   \begin{solution}
     The RACC set above also works, since RACC subsumes GACC.

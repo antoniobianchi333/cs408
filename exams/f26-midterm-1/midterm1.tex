@@ -201,13 +201,12 @@ def f(x):
 \question Consider the following Python program:
   \begin{minted}{python}
 def calculate_curve(cat: str, grade: float) -> float:
-    # cat is one of "grad", "honors", or "undergrad"
-    if cat == "grad":
-        return grade
-    elif cat == "honors":
-        return (grade / 2) + 50
-    else:
-        return (grade / 2) + 53
+   """ cat is one of "grad", "honors", or "undergrad",
+       and grade is a score between 0 and 100. Returns the curved
+       grade; graduate students get no curve, honors
+       students get a slight curve, and everyone else gets a
+       larger curve."""
+   ...
 \end{minted}
 and the following set of blocks:
 \begin{center}
@@ -476,12 +475,18 @@ def square(x: int) -> int:
 % ========================================================
 
 \question Consider the following Python implementation of a simple
-  guessing game:
+  guessing game and its corresponding CFG, partially annotated with
+  def-use information:\footnote{The CFG abbreviates the variables
+    \mintinline{python}{secret_number} and
+    \mintinline{python}{attempts} as \mintinline{python}{sn} and
+    \mintinline{python}{att}, respectively. } \\
+  \begin{tabular}{c|c}
+    \begin{minipage}{.52\linewidth}
   \begin{minted}{python}
 def guessing_game():
   secret_number = 42
   attempts = 1
-  print("Try to guess the secret number between 1 and 100.")
+  print("Try to guess the secret number.")
   while True:
     if attempts == 5:
       hint = secret_number % 10
@@ -489,17 +494,30 @@ def guessing_game():
     guess = int(input("Enter your guess: "))
     if guess < secret_number:
       print("Too low!")
-      attempts += 1
+      attempts = attempts + 1
     elif guess > secret_number:
       print("Too high!")
-      attempts += 1
+      attempts = attempts + 1
     else:
       break
-  print("Correct! You guessed it in", attempts, "attempts.")
+  print("Correct in only", attempts, "tries!")
 \end{minted}
+    \end{minipage}
+    &
+      \begin{minipage}{.44\linewidth}
+        \includegraphics[width=.95\linewidth]{figures/du-cfg-1.pdf}
+      \end{minipage}
+  \end{tabular}
 
-\begin{parts}
-\part[3] List all the DU-pairs for the variable \Code{secret_number}.
+  \begin{parts}
+  \part[2] Annotate the nodes of the above CFG with any missing
+    def-use information. Feel free to abbreviate the variables
+    \mintinline{python}{secret_number} as \mintinline{python}{sn} and
+    \mintinline{python}{attempts} as \mintinline{python}{att}. %
+
+    \phantom{foo} \\
+
+  \part[2] List all the DU-pairs for the variable \Code{secret_number}.
   Please use the format (Line \#X, Line \#Y). %
   \answerspace{18} %
   \begin{solution}
@@ -519,8 +537,9 @@ def guessing_game():
   \answerspace{26} %
   \begin{solution}
     Definitions are on lines 3, 12 and 15; uses are on lines 6, 12, 15
-    and 18 (note that \Code{attempts += 1} both uses and defines
-    \Code{attempts}). Every definition reaches every use along some
+    and 18.%  (note that \Code{attempts += 1} both uses and defines
+    % \Code{attempts})
+     Every definition reaches every use along some
     def-clear path, giving twelve pairs:
 
     (3, 6), (3, 12), (3, 15), (3, 18), \\
