@@ -1,0 +1,137 @@
+% Add "answers" option to print the answers
+\documentclass[addpoints]{exam}
+
+\input{cmds}
+
+%\usepackage{listings}
+\usepackage{color}
+\usepackage{lastpage}
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{minted}
+\usepackage{multicol}
+\usepackage{enumitem}
+
+\newcommand{\includecode}[2][c]{\lstinputlisting[caption=, escapechar=, language=#1]{#2}}
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
+
+\newcommand{\Code}[1]{\mintinline{python}{#1}}
+
+\renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
+
+\definecolor{SolutionColor}{rgb}{0.8,0.9,1}
+
+\cfoot{Page \thepage\ of \pageref{LastPage}}
+
+\rhead{Initials: \rule{20mm}{0.4pt}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\fvset{numbers=left,numbersep=3pt}
+\thispagestyle{empty}
+
+\begin{center}
+	{\LARGE CS 408 Fall 2026 -- Input Generators Quiz \\}
+\fbox{\fbox{\parbox{5.5in}{\centering
+	\begin{itemize}
+        \item Try to come up with a solution on your own first, but
+          after that talk to your friends and neighbors.
+
+        \item Full points will be rewarded for \textbf{any} (reasonable)
+          attempt.
+        \end{itemize}
+	}}}
+\end{center}
+
+\makebox[\textwidth]{\textbf{Name (please print)}: \rule{100mm}{0.8pt} }
+
+\vspace{10mm}
+\makebox[\textwidth]{\textbf{PUID}: \rule{100mm}{0.8pt} \hspace{35mm}}
+
+\begin{questions}
+
+\question We want to test an implementation of binary search trees, so we
+  need a supply of them. Represent a tree as either \Code{None}, for an
+  empty tree, or a triple \Code{(left, value, right)}. Recall that in a
+  \textit{binary search tree} (BST) every value in the left subtree is smaller
+  than the node's value, and every value in the right subtree is larger.
+
+  Here is a generator that produces binary trees, but does not
+  guarantee they are valid BSTs:
+
+\begin{minted}{python}
+@st.composite
+def trees(draw, lo=-1000, hi=1000, max_depth=5):
+    if max_depth <= 0 or draw(st.integers(0, 2)) == 0:
+        return None
+    return (draw(trees(lo, hi, max_depth - 1)),
+            draw(st.integers(min_value=lo, max_value=hi)),
+            draw(trees(lo, hi, max_depth - 1)))
+\end{minted}
+
+\begin{parts}
+
+\part Why would it be a bad idea to generate trees using \Code{trees}
+  and then filter out any that are not valid BSTs? %
+  \answerspace{16} %
+  \begin{solution} %
+    Almost none of them are. Sampling 3000 trees from a generator like
+    this one turns up search trees with three or more nodes about
+    \textbf{2\%} of the time, and the rate collapses as the trees grow
+    --- a tree of $n$ distinct values has $n!$ possible arrangements and
+    only a handful of them are ordered correctly.
+
+    So filtering wastes almost all of the work, and worse, it
+    \emph{biases} what survives: the trees that get through are
+    overwhelmingly the tiny ones, because those are the only ones with a
+    decent chance of being ordered by accident. The tests would pass
+    while hardly ever exercising a tree of interesting size.
+
+    (This is the same trap as \Code{assume(is_sorted(xs))} from earlier:
+    the health check fires, or --- worse --- it does not, and you are
+    quietly testing almost nothing.)
+  \end{solution}
+
+\newpage
+
+\part Modify \Code{trees} so that it produces \emph{only} valid
+  BSTs. You do not need to get the Hypothesis syntax exactly right,
+  but try to be precise about what each recursive call produces, and
+  why that guarantees the correctness of the modified generator. %
+  \answerspace{30} %
+  \begin{solution} %
+    Draw the node's value first, then \textbf{narrow the bounds} handed
+    to each subtree so that the ordering invariant cannot be broken:
+
+\begin{minted}{python}
+@st.composite
+def bsts(draw, lo=-1000, hi=1000, max_depth=5):
+    if max_depth <= 0 or lo > hi or draw(st.integers(0, 2)) == 0:
+        return None
+    v = draw(st.integers(min_value=lo, max_value=hi))
+    return (draw(bsts(lo, v - 1, max_depth - 1)),
+            v,
+            draw(bsts(v + 1, hi, max_depth - 1)))
+\end{minted}
+
+    Everything in the left subtree is drawn from $[lo, v-1]$ and
+    everything in the right from $[v+1, hi]$, so no comparison can come
+    out wrong. Nothing is ever rejected.
+
+    The \Code{lo > hi} test matters: once the interval is empty there is
+    no value left to draw, so the subtree must be \Code{None}.
+
+    Another correct answer: generate a sorted list of distinct values and
+    build a tree from it. That works, but think about which shapes of
+    tree it can produce --- if it always splits at the midpoint, it will
+    only ever hand you balanced trees.
+  \end{solution}
+
+\end{parts}
+
+\end{questions}
+
+\end{document}
