@@ -239,12 +239,12 @@ component, i.e., a maximum of 50\% for the project.
 
 \section{Project Setup and Development Workflow}
 
-Please follow the instructions in \autoref{sec:appx:setup} to \textbf{clone}, \textbf{setup}, and regularly \textbf{update} your GitHub classroom private repository.
+Please follow the instructions in \autoref{sec:appx:setup} to \textbf{clone}, \textbf{setup}, and regularly \textbf{update} your group's private GitHub repository.
 
 \fbox{
 \begin{minipage}{\textwidth}
-\textbf{REQUIREMENT:} Your private GitHub classroom repository is going to be used to: (a) help staff provide support to students when there are questions about their project, (b) help students backup and cooperate within the group, (c) investigate cases of plagiarism, and (d) investigate cases of uneven contributions among group members.
-Hence, in this course, students are \textbf{required} to use GitHub Classroom and regularly commit and push their updates (e.g., approximately every 2 hours of work). Not following this requirement will lead to \textbf{partial or total loss of points} in the final grade of the project.
+\textbf{REQUIREMENT:} Your group's private GitHub repository (created through Classroom 50) is going to be used to: (a) help staff provide support to students when there are questions about their project, (b) help students backup and cooperate within the group, (c) investigate cases of plagiarism, and (d) investigate cases of uneven contributions among group members.
+Hence, in this course, students are \textbf{required} to use this repository and regularly commit and push their updates (e.g., approximately every 2 hours of work). Not following this requirement will lead to \textbf{partial or total loss of points} in the final grade of the project.
 \end{minipage}
 }
 
@@ -1379,8 +1379,8 @@ each group member still has available.
 All students are expected to \textbf{contribute equally} to the project and be \textbf{familiar
 with all components of the project}. If the staff suspects or otherwise receives
 reports from group members of significantly unequal contributions to the project,
-we may investigate the contribution of each student by analyzing the GitHub
-classroom participation, interviewing students, and using other evidence.
+we may investigate the contribution of each student by analyzing the commit
+history of the group repository, interviewing students, and using other evidence.
 Furthermore, we may decide to conduct an oral exam to all group members to
 assess their knowledge of the project. The results of the exam and investigation
 may lead to different grades for different group members. The same applies if
@@ -1501,7 +1501,7 @@ and described in the relevant sections if appropriate.
 % \end{itemize}
 
 \appendix
-\section{Setup and Workflow: GitHub Classroom}
+\section{Setup and Workflow: Classroom 50}
 \label{sec:appx:setup}
 
 
@@ -1529,45 +1529,42 @@ environment and downloading the skeleton code for the project:
 
 \subsection{Setup project on private GitHub repository}
 
-
-We will announce and release the project setup link through
-Ed Discussion. Clicking on the setup link will bring you to the following page:
+This course uses Classroom 50 (\url{https://classroom50.org}) to manage the
+project repositories. You cannot join the classroom by yourself: the course staff
+has invited every enrolled student by their Purdue email address.
 
 \begin{enumerate}
-\item \textbf{Setup GitHub Classroom.}
-  If it is your first time using GitHub Classroom, you need to
-  grant the access of \emph{GitHub Classroom} and choose your classroom
-  ID.
+\item \textbf{Accept the invitation email.}
+  Look for the invitation email sent to your Purdue email address and follow
+  its link. Sign in with your GitHub account (\textbf{Sign in with GitHub}) and
+  authorize Classroom 50. This also accepts the invitation to the
+  \emph{cs408-fall-2026} GitHub organization. If you cannot find the email,
+  check your spam folder, then contact the course staff on Ed Discussion.
 
-  You should see screens similar to these:
+\item \textbf{Open the assignment.}
+  Go to \url{https://classroom50.org/cs408-fall-2026/lab-1}. The page shows that
+  Project 1 is a \emph{group assignment}.
 
-  \includegraphics[height=5cm, frame]{img01}
-  \hspace{1cm}
-  \includegraphics[height=5cm, frame]{img02}
+\item \textbf{Create or join your group.}
+  Form your group as required in the group announcement on Ed Discussion
+  (group size and naming).
+  \begin{itemize}
+  \item \textbf{One member} of each group fills in the group name and clicks
+    \textbf{Create group}. This creates your group's private repository.
+  \item \textbf{The other members} find their group in the list and click
+    \textbf{Ask to join}. The member who created the group approves the
+    requests (or adds the teammates by GitHub username) under
+    \textbf{Manage my group}.
+  \end{itemize}
+  Please double-check the group before you join. Do not create a second group for
+  the same team; if you joined the wrong group, use \textbf{Leave group} and
+  join the correct one.
 
-\item \textbf{Accept the assignment (Create a team).}
-  Use the following link to accept the assignment on GitHub Classroom: \todo{insert the Fall 2026 GitHub Classroom invitation link}
-
-  The first person in a team accepting the assignment need to create a team. Please use your group name on Brightspace as your team name (e.g. Lab 1 - Group 1). Other team members should find and join the team. Please double-check the group name before you join.
-
-  You should see screens similar to these:
-
-  \includegraphics[height=5cm, frame]{img05}
-  \hspace{1cm}
-  \includegraphics[height=5cm, frame]{img06}
-
-\item \textbf{Accept the assignment (Join a team).}
-
-You should see screens similar to these:
-
-  \includegraphics[height=5cm, frame]{img07}
-
-Find your team and click join.
-
-\item \textbf{Get you repo URL.}
-  As the image shows, your project repository will have the
-  format:\\
-  \url{https://github.com/cs408-fall-2026/<projectName>-<yourTeamName>/}
+\item \textbf{Get your repo URL.}
+  Your group repository is named after the classroom, the assignment, and your
+  group, for example\\
+  \url{https://github.com/cs408-fall-2026/cs408-fall-2026-lab-1-group-1/}\\
+  The exact name is shown on the assignment page after you accept it.
 \end{enumerate}
 
 \subsection{Development workflow}
@@ -1576,8 +1573,7 @@ Find your team and click join.
 In case you forget the project repository name, you can go to
 \url{https://github.com/cs408-fall-2026} to find it. For illustration
 purposes, we will \textbf{assume} that your project is under
-\emph{github.com/cs408-fall-2026/cs408-lab1-lab-1-group-1} and your team's name is
-\textit{Lab 1 - Group 1}, so please adjust the links/directories accordingly.
+\emph{github.com/cs408-fall-2026/cs408-fall-2026-lab-1-group-1}, so please adjust the links/directories accordingly.
 
 \begin{enumerate}
 
@@ -1588,11 +1584,11 @@ directory you should execute the following commands:
 
 \begin{verbatim}
 $ mkdir -p ~/myclass/; cd ~/myclass/;
-$ git clone https://github.com/cs408-fall-2026/cs408-lab1-lab-1-group-1.git
-$ cd lab-1-group-1/
+$ git clone https://github.com/cs408-fall-2026/cs408-fall-2026-lab-1-group-1.git
+$ cd cs408-fall-2026-lab-1-group-1/
 \end{verbatim}
 
-This project folder, \emph{lab-1-group-1}, would be your
+This project folder, \emph{cs408-fall-2026-lab-1-group-1}, would be your
 project's \textbf{root directory}.
 
 \item \textbf{Modify the source code as needed.}
@@ -1604,8 +1600,8 @@ project's \textbf{root directory}.
 
 \item \textbf{Commit and push changes to the private GitHub server repo regularly.}
 
-Note that you are required to regularly commit and push your changes to the private git
-in GitHub Classrooms.
+Note that you are required to regularly commit and push your changes to your group's private
+GitHub repository.
 
 \begin{verbatim}
 $ git commit
