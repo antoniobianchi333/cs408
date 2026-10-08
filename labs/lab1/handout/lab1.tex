@@ -18,9 +18,11 @@
 \input{cmds}
 \graphicspath{ {./imgs/} }
 \usepackage[export]{adjustbox}
-\usepackage{caption} 
+\usepackage{caption}
 \captionsetup[table]{skip=2pt}
 
+\def\sectionautorefname{Section}%
+\def\subsectionautorefname{Section}%
 
 \begin{document}
 
@@ -31,7 +33,7 @@
     \vspace*{10pt}
 
   {\large{\textbf{Group Project (100 points)\\
-        Due date: Friday, October 30, 2026}}}\\
+        Due date: Sunday, November 1, 2026}}}\\
       \vspace*{15pt}
       \textbf{Lead TA}: Ruixin Wang (\href{mailto:ruixinw@purdue.edu}{ruixinw@purdue.edu})
 \end{center}
@@ -83,12 +85,12 @@ Here is the breakdown of points for this project:
 
 \begin{itemize}
     \item \textbf{Fuzzing framework implementation (80 points)}:  Points are awarded based on the framework's effectiveness. We will run several validation tests to check the basic functionality of your fuzzer.
-    
+
     \item \textbf{Using AFL (10 points)}: Points are awarded based on the environment (e.g., script) you provide for us to run AFL.
-    
+
     \item \textbf{Report (10 points)}: Points are awarded based on whether your report contains the required analysis and results. \textit{You must answer all the questions listed in the handout.}
-    
-    \item \textbf{Fuzzer competition (5 bonus points)}: Bonus points are awarded based on your fuzzer performance relative to your peers, particularly in terms of bug-finding efficiency and effectiveness. The final scheme for awarding these bonus points will be determined once the actual distribution of track choices is known, and will be announced on Ed. \textbf{Open to Track A (No AI) groups only}; see \autoref{sec:aipolicy}. 
+
+    \item \textbf{Fuzzer competition (5 bonus points)}: Bonus points are awarded based on your fuzzer performance relative to your peers, particularly in terms of bug-finding efficiency and effectiveness. The final scheme for awarding these bonus points will be determined once the actual distribution of track choices is known, and will be announced on Ed. \textbf{Open to Track A (No AI) groups only}; see \autoref{sec:aipolicy}.
     % \pf{Need to have a section talking about this? How should they design their tools to increase their chances (i.e., what is performance in this case)?}
     % \congyu{I added a section at the end}
 \end{itemize}
@@ -102,10 +104,10 @@ Here is the breakdown of points for this project:
 % Blackbox fuzzing functionality worth 30 points, which includes implementing the  fuzzer-harness IPC interfacae (15 points) and the ability to mutate from given seeds (15 points).
 % greybox fuzzing functionality worth 30 points, which includes the ability to correctly report the code coverage of each input in the corpus (15 points), the fuzzer-harness IPC interface with coverage support (5 points), the ability to minimize the input (10 points).
 % Grammar-based generation functionality worth 30 points. The mutation and generation fucntionality worth 15 points.
-% The remaining 10 points are assigned based on the report you will submit. 
+% The remaining 10 points are assigned based on the report you will submit.
 % We will run several tests to validate the functionality of your fuzzer.
-% We will also evaluate your fuzzer on several secret vulnerable binaries. 
-% \pf{Can we make it more than one secrete binary, it becomes too luck-dependent with just one binary} 
+% We will also evaluate your fuzzer on several secret vulnerable binaries.
+% \pf{Can we make it more than one secrete binary, it becomes too luck-dependent with just one binary}
 % \congyu{Yes. We can.}
 % 5 extra bonus points will be assigned based on how effective your fuzzer is on the secrect vulnerable binary (e.g., how many bugs your fuzzer can discover).
 % You can earn a total of 5 bonus points based upon your class ranking (e.g., bug finding efficiency/effectiveness).
@@ -331,7 +333,7 @@ Your fuzzer should be able to be terminated using Ctrl-C.
 Your fuzzer needs to print a line of its state every 5 seconds in the following format:
 
 \begin{verbatim}
-duration=[hour]h[minute]m[second]s, exec=[#executions], 
+duration=[hour]h[minute]m[second]s, exec=[#executions],
 corpus=[#corpus], coverage=[covered]([total]),
 bugs=[#unique]([#total])
 \end{verbatim}
@@ -386,7 +388,7 @@ Furthermore, the mutations applied are on a small scale to maximize the chance o
 % Fuzzers typically require a set of \textit{seeds} as input. Seeds are initial test inputs.
 % The seeds are usually inputs that can exercise code paths that are difficult for a fuzzer to generate on its own.
 % For example, imagine a JSON parser library that takes a string as input and returns a parsed data structure.
-% The library would reject the input at a very early stage if the input is not syntactically correct (e.g., parentheses do not match). 
+% The library would reject the input at a very early stage if the input is not syntactically correct (e.g., parentheses do not match).
 % If a fuzzer simply generates random bytes as input, it cannot exercise enough code paths in a short time since most of them will get rejected easily.
 % Given initial seeds, a fuzzer can generate new input by mutating them and creating diverse input that can potentially reach deeper into the code.
 
@@ -402,17 +404,17 @@ You need to implement the following mutators:
     \item \textbf{insert:} insert a random byte at a random place
     \item \textbf{delete:} delete a random byte at a random place
     \item \textbf{flip:} randomly pick a byte to change it to another random byte
-    % \item \textbf{arith:} randomly pick a byte and randomly add or subtract it by a random number in the $[1, 8]$ range. This range is a heuristic used in AFL to transmute a character of one type into another (eg. number -> number or capital letter -> capital letter). Make sure that the mutation always produces printable ASCII characters. \pf{how should they make sure this happens?} However, one should refrain   from creating a null character as it truncates the seed and is likely to make it invalid. 
+    % \item \textbf{arith:} randomly pick a byte and randomly add or subtract it by a random number in the $[1, 8]$ range. This range is a heuristic used in AFL to transmute a character of one type into another (eg. number -> number or capital letter -> capital letter). Make sure that the mutation always produces printable ASCII characters. \pf{how should they make sure this happens?} However, one should refrain   from creating a null character as it truncates the seed and is likely to make it invalid.
     % \pf{Last sentence is also unclear what is the algorithm they should implement?}
     % \congyu{I remove this mutator. It would involve so many corner cases}
-    % \item \textbf{arith:} randomly pick a byte and randomly add or subtract it by a random number in $[1, 8]$. 
+    % \item \textbf{arith:} randomly pick a byte and randomly add or subtract it by a random number in $[1, 8]$.
     % % This range is a heuristic used in AFL to transmute a character of one type into another (eg. number -> number or capital letter -> capital letter).
 \end{enumerate}
 
-Your fuzzer should pick between 1 to 16 random mutators, out of the list of 3 mutator types, to apply to a randomly picked seed. 
+Your fuzzer should pick between 1 to 16 random mutators, out of the list of 3 mutator types, to apply to a randomly picked seed.
 % You are welcome to implement more different mutators!
 
-% \pf{They should be required to print information about which mutations they are applying on each mutation. I.e., we should specify their algorithm fully 
+% \pf{They should be required to print information about which mutations they are applying on each mutation. I.e., we should specify their algorithm fully
 % (except for the competition mode).}
 % \congyu{Ask them to save more information in 5.4.}
 % \congyu{Hmmm I think we have specified the algorithm?}
@@ -488,14 +490,14 @@ Spawn harness            &      \\
 Write input               &  Wait on \texttt{stdin}    \\
 Wait for the harness to exit          & Read input from \texttt{stdin}   \\
                     & Execute the input    \\
-                     &  Exit                    \\ 
-Timeout/Check exit status                      &                     \\ 
+                     &  Exit                    \\
+Timeout/Check exit status                      &                     \\
 \bottomrule
 
 \end{tabular}
 \end{table}
 
-% \pf{Need to be more specific about what they need to do here. Are we providing some code? We need to explain how what they are requested 
+% \pf{Need to be more specific about what they need to do here. Are we providing some code? We need to explain how what they are requested
 % to do related wot the code provided.}
 % \congyu{Add a table. Simplify the process. No code is provided since this part is easy.}
 % [TODO: more details on how harness setup pipes, e.g., using dup2()...]
@@ -511,12 +513,12 @@ Upon detecting a bug, the fuzzer should collect the combined standard output (\t
 Then the fuzzer might need to generate a bug report.
  Here are the requirements:
 \begin{itemize}
-    \item \textbf{Deduplicate Based on Output:} To minimize duplicate bug reports, your fuzzer should deduplicate bugs based on the harness output. If two bugs generate the same output, they should be considered duplicates and not reported separately. Every failed execution that produces no output is considered a distinct bug. 
+    \item \textbf{Deduplicate Based on Output:} To minimize duplicate bug reports, your fuzzer should deduplicate bugs based on the harness output. If two bugs generate the same output, they should be considered duplicates and not reported separately. Every failed execution that produces no output is considered a distinct bug.
     %\pf{Consider saying something like: Every failed execution that produces no output is considered a distinct bug.} \congyu{done}
     \item \textbf{Assign Unique Bug IDs:} Each bug is assigned a unique ID, starting from 0. This ID is monotonically increasing as more bugs are found by your fuzzer. Note, this value should be set to 0 every time your fuzzer starts.
     %\pf{Does this counter reset every time the fuzzer process restarts. Or is this a persistent counter?} \congyu{we don't support checkpoint, i.e., every time the fuzzer starts freshly. so it always starts 0} \paul{done. added clarification.}
 
-    \item \textbf{Bug Report Naming:} For bug $\#i$, the bug reports are saved into a directory named \texttt{i} within the \texttt{[output\_dir]/bugs} directory. Each bug directory contains the following files: 
+    \item \textbf{Bug Report Naming:} For bug $\#i$, the bug reports are saved into a directory named \texttt{i} within the \texttt{[output\_dir]/bugs} directory. Each bug directory contains the following files:
     \begin{itemize}
         \item \textbf{input:} The input that caused the bug. For instance a JSON file's contents.
         \item \textbf{out:} The output from the harness.
@@ -529,7 +531,7 @@ Then the fuzzer might need to generate a bug report.
  The following is an example of a valid folder structure used to store output:
 
  \VerbatimInput{outputdir.c}
- 
+
 % \yi{suggested changes. mut: The sequence of mutators used to generate this input. List each name (e.g., "insert") at a seperate line.}
 % \congyu{done}
 
@@ -665,9 +667,9 @@ Spawn harness \textbf{\textcolor{red}{(set \texttt{COV_SHM})}}            &  \te
 Write input               &  Wait on \texttt{stdin}   \\
 Wait for the harness to exit          & Read input from \texttt{stdin}   \\
                     & Execute the input   \\
-                     &  Exit                    \\ 
-Timeout/Check exit status                      &                     \\ 
-\textbf{\textcolor{red}{Collect coverage; zero shm.}}                     &                     \\ 
+                     &  Exit                    \\
+Timeout/Check exit status                      &                     \\
+\textbf{\textcolor{red}{Collect coverage; zero shm.}}                     &                     \\
 \bottomrule
 
 \end{tabular}
@@ -724,7 +726,7 @@ Timeout/Check exit status                      &                     \\
 The LLVM Sanitizer coverage (Sancov)~[4] Trace PCGuard is a built-in coverage instrumentation feature in LLVM.
 This feature is enabled when building applications with the LLVM command line argument \texttt{-fsanitize-coverage=trace-pc-guard}.
 
-Follow the instructions we provide in \texttt{project/README.md} to build the fuzzing targets (not the harness) using clang and specific compiling Sancov PCGuard flags. 
+Follow the instructions we provide in \texttt{project/README.md} to build the fuzzing targets (not the harness) using clang and specific compiling Sancov PCGuard flags.
 %\pf{Where exactly / which file? List.} \congyu{done}
 
 
@@ -737,7 +739,7 @@ Follow the instructions we provide in \texttt{project/README.md} to build the fu
 \textbf{Background.} In the SanCov PCGuard mode, LLVM will instrument the program by calling, during runtime, a developer-provided callback function (\texttt{__sanitizer_cov_trace_pc_guard}) when an edge is visited.
 You will implement this function to update the coverage map.
 Similarly, LLVM also add instrumentation that invokes a user-provided initialization function (\texttt{__sanitizer_cov_trace_pc_guard_init}). This function is automatically called once before the harness \texttt{main} function executes.
-You will implement this function to initialize coverage map, assign edge IDs, etc. 
+You will implement this function to initialize coverage map, assign edge IDs, etc.
 Below is the definition of the callback functions that you must implement.
 You need to modify the \texttt{sancov.c} in the skeleton code following the instructions below.
 
@@ -745,12 +747,12 @@ You need to modify the \texttt{sancov.c} in the skeleton code following the inst
 \begin{code}
 void __sanitizer_cov_trace_pc_guard_init(uint32_t *start,
                                                     uint32_t *stop);
-                                                    
+
 void __sanitizer_cov_trace_pc_guard(uint32_t *guard);
 \end{code}
 
 \textbf{Coverage map memory layout.}
-A coverage map contains 65536 bytes. 
+A coverage map contains 65536 bytes.
 The first four bytes are an unsigned integer, which is the total number of edges.
 The bytes after the fourth byte are used to record whether edges are visited during an execution.
 Each byte corresponds to an edge.
@@ -814,7 +816,7 @@ To mark an edge visited, you need to set the $(4+id-1)$-th byte of coverage map 
 
 % [TODO: show compile flags and what need to do for different build systems]
 
-% You can check the Sancov document via the link in the reference for more information. 
+% You can check the Sancov document via the link in the reference for more information.
 % \pf{Make it more explicit the information there that could be useful? Also, put the citation here?}
 % \congyu{The information we provide is sufficient enough. removed}
 
@@ -856,7 +858,7 @@ Otherwise, the fuzzer keeps that byte.
 % \todo{need to ask them report the total code coverage}
 
 
-If an input covers new edges, the fuzzer will add this input to the corpus. 
+If an input covers new edges, the fuzzer will add this input to the corpus.
 Thus, the fuzzer needs to keep track of all edges that have been visited so far.
 When generating input, the fuzzer mutates a randomly chosen input from the corpus.
 You must reuse the mutators in Task 1.
@@ -867,7 +869,7 @@ You must reuse the mutators in Task 1.
     \item \textbf{Corpus Directory:} For the corpus input $\#i$, your fuzzer needs to create a directory named \texttt{i} within the \texttt{[output\_dir]/corpus} directory. Each corpus input directory contains the following files:
         \begin{itemize}
             \item \textbf{prev:} The ID of the corpus input that it mutated from. If this input is a seed, then this ID is $-1$.
-            \item \textbf{mut:} The sequence of mutators used to generate this input. List each name (e.g., "insert") on a separate line. 
+            \item \textbf{mut:} The sequence of mutators used to generate this input. List each name (e.g., "insert") on a separate line.
             \item \textbf{input:} The minimized input.
             \item \textbf{orig_input:} The input before minimization.
             \item \textbf{new_edges:} One new edge ID for each line.
@@ -944,7 +946,7 @@ You can derive a string $true \; || \; false$ by applying production rules in th
      &\Rightarrow true \; || \; false \\
 \end{align*}
 
-In this task, you will implement a context-free grammar-based input generator. 
+In this task, you will implement a context-free grammar-based input generator.
 Your fuzzer will enable this grammar-based mutation feature when \texttt{{-}{-}grammar <grammar_file>} is passed.
 Under this mode, your fuzzer does not use seeds.
 Instead, it generates input by deriving from the 'start' nonterminal or mutating an existing corpus input.
@@ -979,9 +981,9 @@ You can read the paper if you are interested in this topic.
 
 % To help you start, we provide you with a grammar file parser in the \textit{grammar.py} of the skeleton code.
 % \pf{You need to identify the skeleton code/function that you are referring to. This a recurring problem that needs to be fixed everywhere in te handout.} \congyu{done}
-% It takes the grammar file path as input and returns an Abstract Syntax Tree (AST), a structure that represents original input grammar in a tree format. 
+% It takes the grammar file path as input and returns an Abstract Syntax Tree (AST), a structure that represents original input grammar in a tree format.
 % \pf{Spell out and explain what is an AST.} \congyu{done}
-% It assigns a unique ID for each rule, which you will use in \autoref{sec:grammarmut}. 
+% It assigns a unique ID for each rule, which you will use in \autoref{sec:grammarmut}.
 % \pf{"later" where? Give a section name?} \congyu{done}
 
 % \pf{Again, it's not clear what are the tasks that students have to perform and what is just background information.}
@@ -1015,7 +1017,7 @@ This decision tree is sufficient enough to encode all information of this input,
 Your \textit{mutate} function will operate on the decision tree.
 It recursively traverses the tree.
 At every node, it randomly decides whether or not to mutate the current rule decision.
-If it decides to mutate, it will replace the nonterminal using another randomly chosen rule. 
+If it decides to mutate, it will replace the nonterminal using another randomly chosen rule.
 You might need to implement another helper function that looks similar to \textit{generate} which allows you to avoid reusing the same rule.
 
 % \paul{ By persist you mean save on disk? }
@@ -1101,7 +1103,7 @@ Here are some ideas:
 
 If you are looking for more ideas, we recommend you read this paper~[7], which introduces and provides evaluations for different approaches.
 
-We recommend that you \textbf{prioritize the other tasks over this task}. The competition is worth a few points only, and the scheme for awarding them will not be fixed until we know how many groups enter. So, you should only worry about this task after you are sure that you have completed the other tasks well. If your group is on Track B, this task does not apply to you at all. 
+We recommend that you \textbf{prioritize the other tasks over this task}. The competition is worth a few points only, and the scheme for awarding them will not be fixed until we know how many groups enter. So, you should only worry about this task after you are sure that you have completed the other tasks well. If your group is on Track B, this task does not apply to you at all.
 
 
 \section{Task 4: AFL (10 Points)}
@@ -1111,19 +1113,19 @@ You will fuzz the targets using AFL's dictionary feature.
 For details on how to use AFL, you should check its document using the link in the reference. Some notes before you start:
 
 \begin{itemize}
-    \item We have built the AFL utilities for you. You can find them in the \texttt{aflpp} directory of the skeleton code. 
+    \item We have built the AFL utilities for you. You can find them in the \texttt{aflpp} directory of the skeleton code.
 
     \item AFL provides a convenient way to instrument the fuzzing target. When building the fuzzing target or harness, you simply replace the compiler (e.g., \texttt{clang}) with \texttt{afl-cc}. \textbf{You don't need to manually specify the instrumentation flags or implement the runtime (e.g., the one we implemented) on your own.} \texttt{afl-cc} performs similar tasks automatically behind the curtain.
     \begin{itemize}
         \item  If the targets use Makefile, you need to enable the following environment variables \\ \texttt{CC=/path/to/afl-cc} before running \texttt{make} or \texttt{./configure}. For example, the following shell command will tell \texttt{configure} to use \texttt{afl-cc} as the default C compiler:
-        
-        \texttt{\$ CC=/path/to/afl-cc ./configure} 
+
+        \texttt{\$ CC=/path/to/afl-cc ./configure}
     \end{itemize}
-    
+
     \item When running the AFL fuzzer \texttt{afl-fuzz} on the "data" server, please set the environment variable \texttt{AFL_SKIP_CPUFREQ} to 1 as follows otherwise the fuzzer will complain and abort:
-    
+
     \texttt{\$ AFL_SKIP_CPUFREQ=1 ./afl-fuzz ...}
-    
+
     % \pf{explain why we ask for this. also, they may not know how to do this.} \congyu{added}
 
 \end{itemize}
@@ -1134,7 +1136,7 @@ You must provide the following files in each fuzzing target directory (\texttt{p
         \item \texttt{run_afl.sh}: a script to run \texttt{afl-fuzz} to fuzz the target. This script must be executed while its parent directory is set as the current working directory. Ensure to use a relative path for \texttt{afl-fuzz}.
         \item \texttt{afl_dictionary}: the afl dictionary file.
         \item \texttt{afl_harness}: the afl harness binary.
-        
+
     \end{itemize}
 % For the AFL harness, you will simply implement a program that takes input from stdin.
 % Then, build the harness with the following commands.
@@ -1149,24 +1151,24 @@ You must provide the following files in each fuzzing target directory (\texttt{p
 
 % \begin{code}
 %  AFL_SKIP_CPUFREQ=1 ./path/to/afl-fuzz -i seeds_dir -o output_dir \texttt{-}\texttt{-} \textbackslash \\
-% /path/to/tested/program 
+% /path/to/tested/program
 % \end{code}
 
-% Next, try out the dictionary 
+% Next, try out the dictionary
 
 \subsection{Evaluation}
 
 You need to test AFL with Parson and Libfyaml using dictionaries.
-For each fuzzing target, run the AFL fuzzer on the \texttt{data} server for an hour. 
+For each fuzzing target, run the AFL fuzzer on the \texttt{data} server for an hour.
 You can reuse the fuzzing harness code and seeds that you created in the previous tasks.
-You should come up with your own dictionaries. 
+You should come up with your own dictionaries.
 
 Answer the following questions in your report. Please refer to the exact labels (e.g., Question 1) in your report.
 
 \textbf{Question 7:}
 What is the code coverage?
 Please put a line graph plotting coverage against time in your report.
-You can use the \texttt{afl-plot} tool (it is also included in the \texttt{aflpp} directory) to plot diagrams. You can run \texttt{./afl-plot {-}{-}help} to see the instructions. 
+You can use the \texttt{afl-plot} tool (it is also included in the \texttt{aflpp} directory) to plot diagrams. You can run \texttt{./afl-plot {-}{-}help} to see the instructions.
 % \pf{Need to provide instructions on how to use this tool or at least where to find them.} \congyu{added.}
 
 \textbf{Question 8:}
@@ -1175,7 +1177,7 @@ What are the differences between the AFL dictionary and the context free grammar
 
 
 % \textbf{Question:}
-% Briefly summarize how does \texttt{afl-cc} work. 
+% Briefly summarize how does \texttt{afl-cc} work.
 % \pf{regarding what? What level of detail are we expecting?}
 % \congyu{this might be too hard for them. I remove it.}
 
@@ -1357,7 +1359,7 @@ will be allowed.
 
 \squishend
 
-% The submitted package size needs to be reasonable (less than 5 MB uncompressed) 
+% The submitted package size needs to be reasonable (less than 5 MB uncompressed)
 % \pf{Is this limit reasonable in this case?}
 % \congyu{remove this paragraph}
 % and the framework and all tests must: (a) run in a reasonable time (less than 5
@@ -1420,12 +1422,12 @@ and received before the third day past the project assignment deadline date.
 %     }
 
 %     // map is the starting address of shared memory
-%     void* map = mmap(NULL, size, PROT_READ | PROT_WRITE, 
+%     void* map = mmap(NULL, size, PROT_READ | PROT_WRITE,
 %                             MAP_SHARED, fd, 0);
 %     if (map == MAP_FAILED) {
 %       // TODO: handle failure
 %     }
-    
+
 %     // cleanup
 %     munmap(map, size);
 %     close(fd);
@@ -1489,10 +1491,10 @@ and described in the relevant sections if appropriate.
 
 % Change log:
 % \begin{itemize}
-%     \item 03/18/2024: 
+%     \item 03/18/2024:
 %         \begin{itemize}
 %             \item \autoref{sec:implruntime}: change descriptions to align with the skeleton code
-%             \item submission checklist: remove some files          
+%             \item submission checklist: remove some files
 %             \item \autoref{sec:grammar}: make descriptions clearer
 %             \item fix grammars
 %         \end{itemize}
