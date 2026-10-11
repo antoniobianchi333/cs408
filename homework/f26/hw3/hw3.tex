@@ -19,6 +19,11 @@
 %\pagestyle{fancy}
 %\fancyfoot[C]{{\thepage} of \pageref{LastPage}}
 
+% For those sweet, sweet acmart fonts.
+\usepackage[T1]{fontenc}
+\usepackage[tt=false, type1=true]{libertine}
+\usepackage[varqu]{zi4}                  % Inconsolata for \ttfamily
+
 \newcommand{\Code}[1]{\mintinline{python}{#1}}
 
 \newcommand{\nonAnswerNewPage}{\ifprintanswers \vfill \else \newpage \fi}
