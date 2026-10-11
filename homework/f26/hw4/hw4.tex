@@ -1,0 +1,462 @@
+% Add "answers" option to print the answers
+\documentclass[addpoints]{exam}
+
+\input{../cmds}
+
+\usepackage{color}
+\usepackage{lastpage}
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{minted}
+\usepackage{multicol}
+\usepackage{amsmath}
+
+\usepackage[svgnames]{xcolor}
+\usepackage[colorlinks=true, allcolors=MidnightBlue]{hyperref}
+
+% For those sweet, sweet acmart fonts.
+\usepackage[T1]{fontenc}
+\usepackage[tt=false, type1=true]{libertine}
+\usepackage[varqu]{zi4}                  % Inconsolata for \ttfamily
+
+% Eliminate extraneous spacing on itemize, description, etc.
+\usepackage{enumitem}
+\setlist{nosep}
+
+\newcommand{\Code}[1]{\mintinline{python}{#1}}
+\newcommand{\nonAnswerNewPage}{\ifprintanswers \vfill \else \newpage \fi}
+
+\renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
+\definecolor{SolutionColor}{rgb}{0.8,0.9,1}
+
+\cfoot{Page \thepage\ of \pageref{LastPage}}
+\rhead{Initials: \rule{20mm}{0.4pt}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\fvset{numbers=left,numbersep=3pt}
+\thispagestyle{empty}
+
+\begin{center}
+  {\LARGE{\textbf{CS 408: Homework 4}}}\\
+  \vspace*{5pt}
+  {\Large Deadline: Friday, October 16th \textbf{at 6PM}}\\
+  \vspace*{10pt}
+
+  \fbox{
+    \fbox{\parbox{6in}{\centering
+        \begin{itemize}
+        \item The homework is open notes, open book.
+        \item Please upload an annotated version of this pdf, ensuring
+          that each answer fits in the box following each question.
+        \item All solutions must be \textbf{handwritten}; typed work
+          will not receive any credit. You may annotate the pdf
+          directly, no need to print out and rescan.
+        \item No AI tools allowed.
+        \item If a question asks for code, you do not need to
+          reproduce Hypothesis's syntax exactly, but make sure that we
+          can clearly identify what each strategy produces and what
+          each property is testing.
+        \item No collaboration with your peers of any kind allowed on
+          this homework.
+        \item Homeworks are due at \textbf{6PM}. Anything submitted
+          after \textbf{6PM} will not be accepted.
+        \item Provide complete and clear but concise answers. Clearly
+          explain your answers where required.
+	\end{itemize}
+      }}}
+\end{center}
+
+\begin{center}
+	\makebox[0.6\textwidth]{
+		\combinedgradetable[h][questions]
+	}
+\end{center}
+%\begin{center}\combinedgradetable[h][questions]\end{center}
+
+\begin{center}
+\makebox[\textwidth]{\textbf{Name (please print)}: \rule{100mm}{0.8pt} }
+\end{center}
+
+\vspace{10mm}
+
+\begin{questions}
+
+%% =====================================================================
+%% Q1 -- test oracles
+%% =====================================================================
+
+\question
+  A team is building a \Code{spell-checker} function that
+  takes as input a word, and returns a list of suggested corrections,
+  drawn from the \href{https://www.oed.com}{Oxford English Dictionary}
+  (OED), ordered from ``best'' to ``worst''. The team wants to test
+  \Code{spell-checker} automatically.
+
+  Explain in 1--2 sentences why each of the following three test
+  oracles is not a good fit for this testing scenario.
+  %
+  \begin{parts}
+\part[2] An \textbf{implicit} test oracle that checks a) whether the
+  program crashed and b) whether the words in the output list are
+  included in the OED.
+  \begin{solutionorbox}[2in]
+    Returning \emph{a} list of suggestions without crashing says
+    nothing about the quality of those suggestions, and almost every
+    bad answer will be a well-formed list of words.
+  \end{solutionorbox}
+  \nonAnswerNewPage
+\part[2] Asking two junior engineers to act as \textbf{human} oracles.
+  \begin{solutionorbox}[2in]
+    A person can only judge a handful of suggestions, and they are
+    unlikely to scan the entirety of the OED when checking the
+    word. Moreover, people will rank the same suggestions
+    differently, and we have no way of adjudicating disagreements.
+  \end{solutionorbox}
+\part[2] Implementing and using a \textbf{reference} implementation.
+  \begin{solutionorbox}[2in]
+    This requires us to implement a second spell-checker function that
+    we trust to be correct. Unlike sorting, however, there is no
+    slow-but-obviously-correct algorithm to use as ground truth,
+    especially since the quality of solutions is a judgement call.
+\end{solutionorbox}
+\end{parts}
+
+\question[6] Give \textbf{three properties} you could check about
+  \Code{spell-checker}'s output that do not require knowing the
+  correct answer. At least one should relate the outputs of two
+  \emph{different} inputs. %
+  \begin{solutionorbox}[3.2in]
+    There are many correct answers here:
+    \begin{itemize}
+    \item every suggestion is a word in the dictionary;
+    \item no suggestion appears twice;
+    \item a word already in the dictionary is suggested first (or the
+      list is empty);
+    \item all the output words are within some edit distance of the
+      input word.
+    \end{itemize}
+    Relations between two answers (metamorphic):
+    \begin{itemize}
+    \item changing the case of the input does not change the
+      suggestions;
+    \item adding an unrelated word to the dictionary does not change
+      the relative order of the existing suggestions;
+    \item the same query twice returns the same list.
+    \end{itemize}
+  \end{solutionorbox}
+
+  \nonAnswerNewPage
+\question[1] None of your answers to the second question establishes
+  that a suggestion is \emph{fully correct}. Why is this an acceptable
+  tradeoff here? %
+  \begin{solutionorbox}[2in]
+    As the answer to 1c explains, there is no obvious definition of
+    correct here. Using weaker properties that any reasonable
+    implementation should satisfy catches some faults, and using
+    relations allows us to ensure the program is internally
+    consistent. In short: an imperfect oracle that runs is better than
+    a hypothetical perfect one.
+  \end{solutionorbox}
+
+%% =====================================================================
+%% Q2 -- properties in Hypothesis
+%% =====================================================================
+
+\question Consider a function \Code{merge(xs, ys)} that merges two
+  \textbf{sorted} lists of integers into a single sorted list, keeping
+  duplicates.
+
+\begin{parts}
+
+\part[6] Write \textbf{three} Hypothesis properties for \Code{merge}.
+  Each should be a separate test that is annotated with a
+  \Code{@given} which explicitly states the input generation
+  strategy. If necessary, you can define your own custom strategy,
+  e.g.,
+\begin{minted}[linenos=false]{python}
+ nonzero_gen = st.integers().filter(lambda x: x != 0)
+\end{minted}
+%
+  \begin{solutionorbox}[4.5in]
+    Many correct answers. Note that the inputs must already be sorted,
+    so the strategy should either only produce sorted lists, or use
+    \Code{assume} to filter them somehow.
+\begin{minted}{python}
+sorted_lists = st.lists(st.integers()).map(sorted)
+
+@given(sorted_lists, sorted_lists)
+def test_output_is_sorted(xs, ys):
+    assert is_sorted(merge(xs, ys))
+
+@given(sorted_lists, sorted_lists)
+def test_length_is_preserved(xs, ys):
+    assert len(merge(xs, ys)) == len(xs) + len(ys)
+
+@given(sorted_lists, sorted_lists)
+def test_same_elements(xs, ys):
+    assert Counter(merge(xs, ys)) == Counter(xs) + Counter(ys)
+
+@given(sorted_lists, sorted_lists)
+def test_merge_is_commutative(xs, ys):
+    assert merge(xs, ys) == merge(ys, xs)
+
+@given(sorted_lists)
+def test_merging_with_empty(xs):
+    assert merge(xs, []) == xs
+\end{minted}
+  \end{solutionorbox}
+
+\nonAnswerNewPage
+
+\part[3] Which of your properties are \textbf{metamorphic relations},
+  and which are not? Explain what distinguishes the two categories. %
+  \begin{solutionorbox}[3in]
+    A metamorphic relation constrains how the outputs of \emph{two
+    related inputs} relate to one another; the others constrain a
+    single output on its own.
+
+    \textbf{Metamorphic:} \Code{test_merge_is_commutative} relates
+    \Code{merge(xs, ys)} to \Code{merge(ys, xs)}. \\
+    \Code{test_merging_with_empty} is a borderline case --- it relates
+    the output to the input rather than to another output, so it is
+    better described as an identity.
+
+    \textbf{Not metamorphic:} sortedness, length, and the multiset of
+    elements are all properties of one output.
+
+    Note that none of these computes the correct answer. A reference
+    implementation would, but then we would be testing \Code{merge}
+    against something we already have.
+  \end{solutionorbox}
+
+\end{parts}
+
+\nonAnswerNewPage
+
+%% =====================================================================
+%% Q3 -- a custom generator
+%% =====================================================================
+
+\question In Python, suppose we represent a color as one of the
+  strings \Code{"red"}, \Code{"green"}, or \Code{"blue"}, and an
+  \emph{optional} color as either such a string or \Code{None}.
+
+\begin{parts}
+
+\part[8] Write a Hypothesis generator for optional colors that
+  produces \Code{None} (roughly) ten percent of the time, and produces
+  \Code{"red"} (roughly) three times as often as either of the other
+  two colors. %
+  \begin{solutionorbox}[4in]
+    Unlike some other PBT frameworks, e.g., QuickCheck, Hypothesis has
+    no built-in weighted choice, so we have to be explicit about how
+    values are weighted. One way to do this is by branching on a
+    randomly \Code{draw}n number, or by sampling from a pool with
+    repeated entries.
+\begin{minted}{python}
+@st.composite
+def optional_color(draw):
+    if draw(st.integers(min_value=1, max_value=10)) == 1:
+        return None
+    return draw(st.sampled_from(
+        ["red", "red", "red", "green", "blue"]))
+\end{minted}
+    The first draw gives \Code{None} with probability $1/10$. The
+    remaining $9/10$ is split by the pool: \Code{"red"} occupies three
+    of its five slots, so it appears with probability
+    $\frac{9}{10}\cdot\frac{3}{5} = \frac{27}{50}$, and each other
+    color with $\frac{9}{10}\cdot\frac{1}{5} = \frac{9}{50}$ ---
+    three times less, as required.
+  \end{solutionorbox}
+
+\part[4] How does the following generator differ from the one you
+  wrote?
+  \begin{minted}[linenos=false]{python}
+  st.one_of(st.none(), st.sampled_from(["red","green","blue"]))
+\end{minted}
+  \begin{solutionorbox}[2.5in]
+    \Code{st.one_of} returns one of each of its arguments with equal
+    probability, so it would thus produce \Code{None} roughly half the
+    time. In addition, \Code{st.sampled_from} returns one of the color
+    with equal likelihood, and will return \Code{red} about the same
+    number of times as the other colors, which is not what the
+    question asks for.
+
+    In general, a generator is a probability distribution on inputs to
+    the system under test, and we may have to explicitly construct
+    that distribution.
+  \end{solutionorbox}
+
+% \part[3] Suppose you ran your generator 1000 times and counted how
+%   often each value appeared. Would you expect the counts to match the
+%   proportions above? Explain. %
+%   \begin{solutionorbox}[2.5in]
+%     Not if you count them through Hypothesis. There are only four
+%     distinct values, and Hypothesis does not keep generating examples
+%     it has already tried --- so a 1000-example run will produce only a
+%     handful of actual draws, and the observed counts say nothing about
+%     the distribution.
+
+%     To check the distribution you would call the underlying random
+%     choices directly, outside Hypothesis.
+%   \end{solutionorbox}
+
+\end{parts}
+
+\nonAnswerNewPage
+
+%% =====================================================================
+%% Q4 -- mutation-based fuzzing
+%% =====================================================================
+
+\question Consider the \Code{cgi_decode} function below, which decodes
+  a CGI-encoded string: \Code{"+"} becomes a space, \Code{"\%XX"}
+  becomes the character with hex code \Code{XX}, and anything else is
+  copied through.
+
+\begin{minted}{python}
+def cgi_decode(s):
+  hex_values = {'0': 0, '1': 1, ..., 'e': 14, 'f': 15, 'A': 10, 'B': 11, ..., 'F': 15}
+  t = ""
+  i = 0
+  while i < len(s):
+    c = s[i]
+    if c == '+':
+      t += ' '                                 # line A
+    elif c == '%':
+      digit_high, digit_low = s[i+1], s[i+2]
+      i += 2
+      if digit_high in hex_values and digit_low in hex_values:
+        t += chr(hex_values[digit_high] * 16 + hex_values[digit_low])   # line B
+      else:
+        raise ValueError("Invalid encoding")   # line C
+    else:
+      t += c                                   # line D
+    i += 1
+  return t
+\end{minted}
+
+  A mutation-based fuzzer starts from the seed population
+  \{\ \Code{"keep"},\ \Code{"snore"},\ \Code{"unwise"},\ \Code{"quip"}\ \}
+  and repeatedly picks a string from its pool, applies \textbf{one}
+  mutation, and adds the result back to the pool. The three mutations
+  are equally likely:
+  \begin{description}
+  \item[delete] remove the character at a uniformly chosen position;
+  \item[insert] insert a uniformly chosen printable character
+    (\Code{chr(32)}--\Code{chr(126)}, so 95 possibilities) at a
+    uniformly chosen position;
+  \item[flip] at a uniformly chosen position, replace the character
+    \Code{c} with \Code{chr(ord(c) ^ (1 << b))} for a uniformly chosen
+    bit $b \in \{0,\ldots,6\}$.
+  \end{description}
+
+  \noindent To illustrate how the last mutation works, observe that
+  flipping the second bit of \Code{'u'} in \Code{"unwise"} gives
+  \Code{"wnwise"}: \Code{'u'} is \Code{1110101} in binary, and
+  flipping the second bit gives \Code{1110111}, which is
+  \Code{'w'}. Importantly, this means that not every character is
+  reachable from every other in a single flip. If you're aiming for a
+  particular test input, it may be helpful to write the source and
+  target character in binary.
+
+\begin{parts}
+
+\part[4] Which of lines A--D does each seed cover? Is this set of
+  seeds a good starting point when fuzzing \Code{cgi_decode}? %
+  \begin{solutionorbox}[2.25in]
+    Every seed covers \textbf{line D only}, since they are all plain
+    text, and do not contain either \Code{'+'} or \Code{'\%'}. From a
+    coverage point of view, each of these starting points is
+    equivalent.
+  \end{solutionorbox}
+
+\nonAnswerNewPage
+
+\part[8] Give a set of inputs that achieves 100\% line coverage of
+  \Code{cgi_decode}, and for each one give a \emph{sequence} of
+  mutations that produces it from one of the seeds. Be specific about
+  the position and the bit. %
+  \begin{solutionorbox}[4.5in]
+    One answer, all starting from \Code{"keep"}:
+    \begin{description}
+    \item[line A] \Code{"+eep"} --- flip position 0:
+      \Code{'k'} is \Code{0x6B} and \Code{'+'} is \Code{0x2B}, which
+      differ in bit 6. \textbf{(1 mutation)}
+    \item[line C] \Code{"k\%ep"} --- flip position 1:
+      \Code{'e'} is \Code{0x65} and \Code{'\%'} is \Code{0x25}, again
+      bit 6. The escape \Code{\%ep} is invalid, since \Code{'p'} is not
+      a hex digit. \textbf{(1 mutation)}
+    \item[line B] \Code{"k\%e0"} --- from \Code{"k\%ep"}, flip
+      position 3: \Code{'p'} is \Code{0x70} and \Code{'0'} is
+      \Code{0x30}, bit 6 again. Now \Code{\%e0} is a valid escape.
+      \textbf{(2 mutations)}
+    \end{description}
+    Line D is already covered by every seed. Note that line B needs
+    \emph{two} mutations: the \Code{'\%'} has to appear first, and
+    there is no single bit flip that turns \Code{"keep"} into a string
+    with a valid escape.
+  \end{solutionorbox}
+
+\nonAnswerNewPage
+
+\part[6] For each of the inputs you included in your test set, what is
+  the probability that a fuzzer would produce that input in a minimal
+  number of runs? Assume that a mutant replaces its parent in each
+  run, so that the seed pool always contains four elements. Explain
+  your reasoning for each. You can treat each input separately,
+  starting from the original pool. %
+  \begin{solutionorbox}[4in]
+    Take the chain \Code{"keep"} $\to$ \Code{"k\%ep"} $\to$
+    \Code{"k\%e0"}.
+
+    \textbf{First step.} The fuzzer picks \Code{"keep"} from four seeds
+    ($\frac14$), picks \emph{flip} from three mutations ($\frac13$),
+    picks position 1 of 4 ($\frac14$), and picks bit 6 of 7
+    ($\frac17$):
+    \[
+      \tfrac14 \cdot \tfrac13 \cdot \tfrac14 \cdot \tfrac17
+      = \tfrac{1}{336}
+    \]
+
+    \textbf{Second step.} The pool now holds five strings, so picking
+    \Code{"k\%ep"} is $\frac15$; then flip ($\frac13$), position 3 of 4
+    ($\frac14$), bit 6 ($\frac17$):
+    \[
+      \tfrac15 \cdot \tfrac13 \cdot \tfrac14 \cdot \tfrac17
+      = \tfrac{1}{420}
+    \]
+
+    \textbf{Together:}
+    $\frac{1}{336} \cdot \frac{1}{420} = \frac{1}{141{,}120}$,
+    or about $7 \times 10^{-6}$.
+
+    Assumptions: the fuzzer keeps every mutant, picks uniformly from
+    the pool, and we require \emph{exactly} this chain. Dropping the
+    requirement that these be the first two attempts, the per-mutation
+    probability $\frac{1}{84}$ each gives an upper bound of
+    $\frac{1}{7056}$ --- roughly one in seven thousand --- for the two
+    specific mutations occurring in order, whenever they occur.
+  \end{solutionorbox}
+
+\part[1] For a real-world fuzzer, why is it not a problem if the
+  probability of generating a particular test input is small? %
+  \begin{solutionorbox}[2.5in]
+    Two things. First, real world fuzzers iterate millions of times,
+    so even a one-in-a-million event is likely to occur at least once.
+
+    Second, and more importantly, a \emph{coverage-guided} fuzzer does
+    not need this exact chain. When \Code{"k\%ep"} turns up it covers
+    a new line, so the fuzzer keeps it and preferentially mutates it
+    further. The search is not a blind sequence of independent draws;
+    each useful mutation is retained and built upon.
+  \end{solutionorbox}
+
+\end{parts}
+
+\end{questions}
+
+\end{document}
