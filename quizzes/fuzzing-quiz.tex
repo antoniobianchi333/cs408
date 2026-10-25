@@ -1,0 +1,144 @@
+% Add "answers" option to print the answers
+\documentclass[addpoints]{exam}
+
+\input{cmds}
+
+%\usepackage{listings}
+\usepackage{color}
+\usepackage{lastpage}
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{minted}
+\usepackage{multicol}
+
+\newcommand{\includecode}[2][c]{\lstinputlisting[caption=, escapechar=, language=#1]{#2}}
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
+
+\newcommand{\Code}[1]{\mintinline{python}{#1}}
+
+\renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
+
+\definecolor{SolutionColor}{rgb}{0.8,0.9,1}
+
+\cfoot{Page \thepage\ of \pageref{LastPage}}
+
+\rhead{Initials: \rule{20mm}{0.4pt}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\fvset{numbers=left,numbersep=3pt}
+\thispagestyle{empty}
+
+\begin{center}
+	{\LARGE CS 408 Fall 2026 -- Mutation-Based Fuzzing Quiz \\}
+\fbox{\fbox{\parbox{5.5in}{\centering
+	\begin{itemize}
+        \item For this quiz, think of a solution to each question on
+          your own, then discuss with your friends and neighbors, and
+          then write down the answers you collaboratively came up
+          with.
+
+        \item Full points will be rewarded for \textbf{any} (reasonable)
+          attempt.
+        \end{itemize}
+	}}}
+\end{center}
+
+\vspace{5mm}
+\makebox[\textwidth]{\textbf{Name (please print)}: \rule{100mm}{0.8pt} }
+
+\vspace{10mm}
+\makebox[\textwidth]{\textbf{PUID}: \rule{100mm}{0.8pt} \hspace{35mm}}
+
+\begin{questions}
+
+\question A mutation-based fuzzer is testing a web browser. Its seed is
+  a single valid URL:
+  \begin{center}
+    \Code{http://cs.purdue.edu/index.html}
+  \end{center}
+  Recall the three mutation operators: \textbf{delete} a character at a
+  random position, \textbf{insert} a random printable character at a
+  random position, and \textbf{flip} one bit of the character at a
+  random position.
+
+\begin{parts}
+
+\part What is the name of one classmate you discussed your answers
+  with?
+  \answerspace{5} %
+  \begin{solution}
+    No wrong answers here!
+  \end{solution}
+
+\part Give one single mutation that leaves the URL \textbf{still
+  valid}, and one that \textbf{breaks it immediately}. Be specific about
+  the position and the operator. %
+  \answerspace{24} %
+  \begin{solution} %
+    Many correct answers. For example:
+
+    \textbf{Still valid:} delete the \Code{'c'} of \Code{cs},
+    giving \Code{http://s.purdue.edu/index.html}. Or flip bit 5 of the
+    leading \Code{'h'}, giving
+    \Code{Http://cs.purdue.edu/index.html} --- schemes are
+    case-insensitive.
+
+    \textbf{Breaks it:} delete the \Code{':'}, giving
+    \Code{http//cs.purdue.edu/index.html}, which has no scheme
+    separator. Or delete any character of \Code{http}.
+
+    For the record: of the 29 possible single deletions, 24 leave a
+    valid URL, and of the 217 possible single bit flips, 171 do. Most
+    single mutations \emph{do} preserve validity --- which is the whole
+    bet behind mutating a seed rather than generating from scratch.
+  \end{solution}
+
+\part Now suppose the fuzzer applies \textbf{ten} mutations in a row
+  rather than one. Would you expect the result to still be a valid URL?
+  What does your answer say about how a fuzzer should spend its budget? %
+  \answerspace{24} %
+  \begin{solution} %
+    Much less likely. Each mutation is roughly an 80\% chance of
+    staying valid, so ten in a row is around $0.8^{10} \approx 11\%$
+    --- and in practice worse, since damage accumulates in the parts
+    of the URL that matter.
+
+    So a fuzzer should not simply mutate a seed many times. It should
+    mutate \emph{once}, keep the result if it is worth keeping, and
+    mutate \emph{that}. Which raises the question of part (c).
+  \end{solution}
+
+% \newpage
+
+% \part Of the mutations that keep the URL valid, most are not
+%   interesting: they explore the same code the seed already did. What
+%   could the fuzzer \textbf{measure} to tell an interesting mutant from
+%   a boring one? How would it use that measurement? %
+%   \answerspace{20} %
+%   \begin{solution} %
+%     Measure \textbf{coverage}: run the program on the mutant and record
+%     which lines or branches it executed. If the mutant reaches
+%     something none of the kept inputs reached, it is worth keeping;
+%     otherwise throw it away.
+
+%     This is the same measurement we used in week 3 to \emph{grade} a
+%     test suite. Here it is used to \emph{steer} the search --- to
+%     decide what to do next, rather than to score what we already did.
+
+%     Concretely, on this URL: flipping \Code{'h'} to \Code{'H'} is valid
+%     but covers nothing new, while deleting the \Code{':'} is
+%     \emph{invalid} and yet reaches four locations the seed never did
+%     --- the error-handling code. Both facts matter: a fuzzer guided by
+%     coverage will keep inputs that a fuzzer guided by validity would
+%     throw away.
+%   \end{solution}
+
+\end{parts}
+
+\end{questions}
+
+\end{document}

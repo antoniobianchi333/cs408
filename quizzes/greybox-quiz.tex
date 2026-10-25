@@ -1,0 +1,213 @@
+% Add "answers" option to print the answers
+\documentclass[addpoints]{exam}
+
+\input{cmds}
+
+\usepackage{color}
+\usepackage{lastpage}
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{minted}
+\usepackage{multicol}
+
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
+
+\newcommand{\Code}[1]{\mintinline{python}{#1}}
+
+\renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
+
+\definecolor{SolutionColor}{rgb}{0.8,0.9,1}
+
+\cfoot{Page \thepage\ of \pageref{LastPage}}
+
+\rhead{Initials: \rule{20mm}{0.4pt}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\fvset{numbers=left,numbersep=3pt}
+\thispagestyle{empty}
+
+\begin{center}
+	{\LARGE CS 408 Fall 2026 -- Grey-Box Fuzzing Quiz \\}
+\fbox{\fbox{\parbox{5.5in}{\centering
+	\begin{itemize}
+        \item Try to come up with a solution on your own first, but
+          after that talk to your friends and neighbors.
+
+        \item Full points will be rewarded for \textbf{any} (reasonable)
+          attempt.
+        \end{itemize}
+	}}}
+\end{center}
+
+\vspace{5mm}
+\makebox[\textwidth]{\textbf{Name (please print)}: \rule{100mm}{0.8pt} }
+
+\vspace{10mm}
+\makebox[\textwidth]{\textbf{PUID}: \rule{100mm}{0.8pt} \hspace{35mm}}
+
+\begin{questions}
+
+\question The following function crashes when its input contains the
+  substring \Code{"fuzz"}. We've labelled each branch for reference:
+
+\begin{minted}{python}
+def scan(s: str) -> None:
+    matched = 0
+    for c in s:
+        if c == "fuzz"[matched]:
+            matched += 1             # Match: (C4, BB5)
+            if matched == 4:
+                crash()              # Bad: (C6, BB7)
+        else:
+            matched = 0              # Reset: (C4, BB9)
+\end{minted}
+
+  Suppose that our sole seed input is a random string of 4 characters,
+  each of which was uniformly drawn from the set of 95 printable ASCII
+  characters.
+
+\begin{parts}
+
+\part What is the likelihood that a \textbf{black-box} fuzzer whose
+  sole mutation is swapping on the seed's characters with a randomly
+  chosen printable ASCII character triggers the failure? Roughly how
+  many attempts would it need to find the bug? %
+  \answerspace{6} %
+  \begin{solution} %
+    All four characters must be right, each with probability $1/95$:
+    \[
+      P = \frac{1}{95^4} = \frac{1}{81{,}450{,}625}
+    \]
+    so about \textbf{81 million} attempts on average. Nothing is learned
+    from a failure --- \Code{"fuzy"} and \Code{"qqqq"} look equally bad,
+    because neither crashed.
+  \end{solution}
+
+\part Now suppose the fuzzer records a snapshot of the \textbf{test
+    path} that each input induces, in the form of the sequence of
+  branches it executes, in order, and adds any newly mutated input to
+  the seed set when its path differs from all the other snapshots seen
+  so far.
+
+  For each input below, in this order, say whether it is kept or
+  discarded. %
+
+  \begin{center}
+    \begin{tabular}{llll}
+      1. \Code{"x"} \quad & 2. \Code{"f"} \quad & 3. \Code{"fu"} \quad \\[2pt]
+      4. \Code{"xf"} \quad & 5. \Code{"fx"} \quad & 6. \Code{"fuz"} \\
+    \end{tabular}
+  \end{center}
+  \answerspace{8} %
+  \begin{solution} %
+    \textbf{Every single one is kept.} The paths are all different:
+
+    \begin{center}\small
+      \begin{tabular}{ll}
+        \Code{"x"}   & Reset \\
+        \Code{"f"}   & Match \\
+        \Code{"fu"}  & Match, Match \\
+        \Code{"xf"}  & Reset, Match \\
+        \Code{"fx"}  & Match, Reset \\
+        \Code{"fuz"} & Match, Match, Match \\
+      \end{tabular}
+    \end{center}
+
+    Note what happened with \Code{"xf"} and \Code{"fx"}: they take the
+    same branches the same number of times, differing \emph{only} in
+    the order, and neither gets further into \Code{"fuzz"} than
+    \Code{"f"} already did. The criterion keeps them both anyway.
+  \end{solution}
+
+%\newpage
+
+\part Recall that AFL does not record the test path. Instead it
+  records, for each branch (i.e., edge out of a conditional node in
+  the CFG), \textbf{how many times} that branch ran, bucketed into
+  ranges, and keeps an input when some branch lands in a bucket it has
+  not seen before. How does that change your answer to (b)? %
+  \answerspace{20} %
+  \begin{solution} %
+    First, the counts. Only the three labelled edges are recorded, and
+    \Code{Bad} is never taken, since none of these inputs is a complete
+    \Code{"fuzz"}:
+
+    \begin{center}\small
+      \begin{tabular}{lccc}
+        & Match & Bad & Reset \\ \hline
+        \Code{"x"}   & 0 & 0 & 1 \\
+        \Code{"f"}   & 1 & 0 & 0 \\
+        \Code{"fu"}  & 2 & 0 & 0 \\
+        \Code{"xf"}  & 1 & 0 & 1 \\
+        \Code{"fx"}  & 1 & 0 & 1 \\
+        \Code{"fuz"} & 3 & 0 & 0 \\
+      \end{tabular}
+    \end{center}
+
+    What happens next depends on exactly what ``a bucket it has not
+    seen'' is compared against. Both readings are reasonable, and both
+    were accepted.
+
+    \medskip
+    \textbf{Reading 1 --- compare the whole vector of counts.} An input
+    is kept when its triple of counts differs from every triple seen so
+    far. Then \Code{"xf"} is \textbf{kept}: $(1,0,1)$ is a combination
+    neither \Code{"x"} $(0,0,1)$ nor \Code{"f"} $(1,0,0)$ produced.
+    \Code{"fx"} is then \textbf{discarded}, because its counts are
+    identical to \Code{"xf"}'s --- the two differ only in the order of
+    the branches, and order is precisely what counting throws away.
+
+    \medskip
+    \textbf{Reading 2 --- compare each (edge, bucket) pair separately},
+    which is what AFL actually does: it keeps one global table of every
+    pair it has ever seen, and an input survives only if it contributes
+    a pair that is not already in it. Then \textbf{both} \Code{"xf"}
+    and \Code{"fx"} are discarded: \Code{Match} at 1 came from
+    \Code{"f"}, \Code{Reset} at 1 came from \Code{"x"}, and neither
+    input adds anything beyond those two.
+
+    \medskip
+    Either way, the ladder survives: \Code{Match} running 1, 2 and 3
+    times falls in three different buckets, so \Code{"f"},
+    \Code{"fu"} and \Code{"fuz"} are kept under both readings. And
+    either way the fuzzer discards at least one input that the test-path
+    criterion in (b) kept --- an input that made no progress at all.
+  \end{solution}
+
+\part Why do you think AFL uses bucketed hit counts rather than the
+  full test path? %
+  \answerspace{20} %
+  \begin{solution} %
+    Because the set of test paths is effectively unbounded, while the
+    set of hit-count signatures is not.
+
+    Every distinct length and every distinct ordering of branches is a
+    new path, so ``keep anything with a new path'' keeps almost
+    \emph{everything}: a 500-byte input has a 500-iteration path that
+    nothing else will match. The queue grows without limit, and most of
+    what is in it --- like \Code{"xf"} and \Code{"fx"} --- represents no
+    progress at all. The fuzzer would spend its budget re-mutating
+    noise.
+
+    Hit counts throw away the ordering and squash the magnitudes into
+    eight buckets. That keeps the signal (looping once, twice or three
+    times usually \emph{does} mean the input got structurally further)
+    and discards the noise (94 versus 95 iterations almost never does).
+    The result is a bounded signature that can be stored as a fixed-size
+    bitmap and compared in constant time, which is what makes it
+    affordable to do on every single execution.
+
+    This is the same trade as everywhere else in this course: a coarser
+    criterion is cheaper and less precise. Here the imprecision is the
+    whole point.
+  \end{solution}
+
+\end{parts}
+
+\end{questions}
+
+\end{document}

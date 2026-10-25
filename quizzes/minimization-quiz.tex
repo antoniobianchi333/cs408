@@ -1,0 +1,163 @@
+% Add "answers" option to print the answers
+\documentclass[addpoints]{exam}
+
+\input{cmds}
+
+\usepackage{color}
+\usepackage{lastpage}
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{minted}
+\usepackage{multicol}
+
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
+
+\newcommand{\Code}[1]{\mintinline{python}{#1}}
+
+\renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
+\definecolor{SolutionColor}{rgb}{0.8,0.9,1}
+
+\cfoot{Page \thepage\ of \pageref{LastPage}}
+\rhead{Initials: \rule{20mm}{0.4pt}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\fvset{numbers=left,numbersep=3pt}
+\thispagestyle{empty}
+
+\begin{center}
+	{\LARGE CS 408 Fall 2026 -- Test Case Minimization Quiz \\}
+\fbox{\fbox{\parbox{5.5in}{\centering
+	\begin{itemize}
+        \item Try to come up with a solution on your own first, but
+          after that talk to your friends and neighbors.
+
+        \item Full points will be rewarded for \textbf{any} (reasonable)
+          attempt.
+        \end{itemize}
+	}}}
+\end{center}
+
+\vspace{5mm}
+\makebox[\textwidth]{\textbf{Name (please print)}: \rule{100mm}{0.8pt} }
+
+\vspace{10mm}
+\makebox[\textwidth]{\textbf{PUID}: \rule{100mm}{0.8pt} \hspace{35mm}}
+
+\begin{questions}
+
+\question A fuzzer has handed us an input file of \textbf{eight lines}
+  that makes the program crash. Our goal is to find a smaller subset
+  of those lines that cause a crash.
+
+\begin{parts}
+
+\part Suppose the crash is caused by \textbf{line 6 alone}. List the
+  candidates \Code{ddmin} tests, in order, and say how many tests it
+  takes. Write the candidates as lists of line numbers, e.g.,
+  \Code{[1,2,3]} %
+  \answerspace{10} %
+  \begin{solution} %
+    Five tests.
+
+    \begin{center}\small
+      \begin{tabular}{llll}
+        & candidate & & outcome \\ \hline
+        1 & \Code{[1,2,3,4]} & subset     & passes \\
+        2 & \Code{[5,6,7,8]} & subset     & \textbf{crashes} --- keep it \\
+        3 & \Code{[5,6]}     & subset     & \textbf{crashes} --- keep it \\
+        4 & \Code{[5]}       & subset     & passes \\
+        5 & \Code{[6]}       & subset     & \textbf{crashes} --- keep it \\
+      \end{tabular}
+    \end{center}
+
+    Only step 2 of the algorithm ever fires. This is plain binary
+    search, and it costs about $\log_2 n$ tests.
+  \end{solution}
+
+\part Now suppose the crash needs to include \textbf{both} lines 2 and
+  7 \textbf{together}. What are the first four candidates \Code{ddmin}
+  tests in this scenario, ignoring duplicates? (%
+  \answerspace{20} %
+  \begin{solution} %
+    The first round makes no progress at all:
+
+    \begin{center}\small
+      \begin{tabular}{llll}
+        & candidate & & outcome \\ \hline
+        1 & \Code{[1,2,3,4]} & subset     & passes \\
+        2 & \Code{[5,6,7,8]} & subset     & passes \\
+        3 & \Code{[3,4,5,6,7,8]} & complement & passes \\
+        4 & \Code{[1,2,5,6,7,8]} & complement & fails \\
+      \end{tabular}
+    \end{center}
+
+    The two culprits are in different halves, so cutting anywhere in the
+    middle destroys the crash. A pure binary search would stop here and
+    report all eight lines.
+
+    \textbf{Step 4 rescues it:} double the granularity to $n = 4$ and try
+    again. Now the complements remove only a quarter at a time, and
+    \Code{[1,2,5,6,7,8]} (dropping lines 3 and 4) still crashes --- real
+    progress. The search eventually reaches \Code{[2,7]}.
+
+    It is much more expensive: \textbf{34 tests} rather than 5.
+  \end{solution}
+
+\newpage
+
+\part \Code{ddmin} guarantees its answer is \textbf{1-minimal}:
+  removing any single remaining line makes the crash go away. Suppose
+  the program crashes if lines 1 and 2 are \textbf{both} present,
+  \emph{or} if line 3 is present, and our starting input is
+  \Code{[1,2,3,4]}.
+
+  What does \Code{ddmin} return, and why? %
+  \answerspace{20} %
+  \begin{solution} %
+    It returns \Code{[1,2]}.
+
+    \begin{center}\small
+      \begin{tabular}{llll}
+        & candidate & & outcome \\ \hline
+        1 & \Code{[1,2]} & subset & \textbf{crashes} --- keep it, discard line 3 \\
+        2 & \Code{[1]}   & subset & passes \\
+        3 & \Code{[2]}   & subset & passes \\
+        4 & \Code{[2]}   & complement & passes \\
+        5 & \Code{[1]}   & complement & passes \\
+      \end{tabular}
+    \end{center}
+
+    \Code{[1,2]} really is 1-minimal: drop either line and the crash
+    goes away. But \Code{[3]} is \emph{smaller} and also crashes --- and
+    \Code{ddmin} threw it away in its very first step and never looked
+    back.
+
+    \textbf{1-minimal means locally irreducible, not smallest.} When an
+    input has two independent causes, delta debugging finds one of them
+    and loses the other.
+  \end{solution}
+
+\part Why does \Code{ddmin} only guarantee 1-minimality, as opposed to
+  the smallest failing example? %
+  \answerspace{16} %
+  \begin{solution} %
+    Because finding the true smallest subset means searching the
+    powerset: $2^n$ candidates for $n$ lines. For the eight-line file in
+    part (a) that is 256 tests --- annoying but possible. For a
+    4{,}000-byte input from a fuzzer it is $2^{4000}$, which is not
+    ``slow'' but ``never''.
+
+    1-minimality is reachable in $O(n^2)$ tests in the worst case, and
+    far fewer in practice --- five tests in part (a). It is the price of
+    an algorithm that terminates.
+  \end{solution}
+
+\end{parts}
+
+\end{questions}
+
+\end{document}
