@@ -1,0 +1,13 @@
+type: TW
+language: go
+prompt: prompt.md
+test_paths:
+- lib
+editable: []
+architecture: aarch64
+image_digest: sha256:3e4b7c4faf362221083447bff1b4b1acb2b430cbe8ee35d63539cfa6445ae1ae
+environment:
+  environment_class: adapter.environment.UdockerEnvironment
+  image: ghcr.io/ailen-wrx/cs408-lab2-k6:arm64-20261023
+  cwd: /app
+prepare: go test -run "^$" ./lib

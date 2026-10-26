@@ -1,0 +1,13 @@
+type: TW
+language: go
+prompt: prompt.md
+test_paths:
+- internal/etag
+editable: []
+architecture: aarch64
+image_digest: sha256:9b08b788fe33d420a94a9bc99e6a2557170938f8e8497c08ff03844dcefec96d
+environment:
+  environment_class: adapter.environment.UdockerEnvironment
+  image: ghcr.io/ailen-wrx/cs408-lab2-minio:arm64-20261023
+  cwd: /app
+prepare: go test -run "^$" ./internal/etag

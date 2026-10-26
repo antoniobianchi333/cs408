@@ -1,0 +1,13 @@
+type: TW
+language: go
+prompt: prompt.md
+test_paths:
+- internal/msgpipeline
+editable: []
+architecture: aarch64
+image_digest: sha256:05d802cb645caa2ea1b25cf0dcbd11ebe8eced76d2d31a5e77489fadd0456412
+environment:
+  environment_class: adapter.environment.UdockerEnvironment
+  image: ghcr.io/ailen-wrx/cs408-lab2-maddy:arm64-20261023
+  cwd: /app
+prepare: go test -run "^$" ./internal/msgpipeline

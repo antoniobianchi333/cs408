@@ -1,0 +1,19 @@
+type: IR
+language: python
+prompt: prompt.md
+test_paths:
+- tests/psd_tools/api
+- tests/psd_tools/psd
+- tests/psd_tools/composite
+editable: []
+architecture: aarch64
+image_digest: sha256:1f4cb679d12abfe5d60fba00c911df91c66af8d113e20dab8df394a5b73a820a
+environment:
+  environment_class: adapter.environment.UdockerEnvironment
+  image: ghcr.io/ailen-wrx/cs408-lab2-psd-tools:arm64-20261023
+  cwd: /app
+  env:
+    PYTHONDONTWRITEBYTECODE: '1'
+    PYTEST_ADDOPTS: ''
+    OMP_NUM_THREADS: '4'
+    OPENBLAS_NUM_THREADS: '4'

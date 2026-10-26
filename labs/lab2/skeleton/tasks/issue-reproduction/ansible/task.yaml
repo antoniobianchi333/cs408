@@ -1,0 +1,17 @@
+type: IR
+language: python
+prompt: prompt.md
+test_paths:
+- test/units/galaxy
+editable: []
+architecture: aarch64
+image_digest: sha256:d04587aa023f7f33a607dd28cb216003124d5823440c7aca54cb7b0adcf158fe
+environment:
+  environment_class: adapter.environment.UdockerEnvironment
+  image: ghcr.io/ailen-wrx/cs408-lab2-ansible:arm64-20261023
+  cwd: /app
+  env:
+    PYTHONDONTWRITEBYTECODE: '1'
+    PYTEST_ADDOPTS: ''
+    OMP_NUM_THREADS: '4'
+    OPENBLAS_NUM_THREADS: '4'

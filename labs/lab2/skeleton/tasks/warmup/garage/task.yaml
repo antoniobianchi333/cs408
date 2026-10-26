@@ -1,0 +1,10 @@
+type: TW
+language: python
+prompt: prompt.md
+project: project
+test_paths:
+- .
+editable:
+- test_garage.py
+environment:
+  environment_class: minisweagent.environments.local.LocalEnvironment

@@ -1,0 +1,14 @@
+type: IR
+language: go
+prompt: prompt.md
+test_paths:
+- evaluator
+- parser
+editable: []
+architecture: aarch64
+image_digest: sha256:d74b8cda7f8b578fde1bfe5d613b1b852158db55eed60770b85340e9100dcea3
+environment:
+  environment_class: adapter.environment.UdockerEnvironment
+  image: ghcr.io/ailen-wrx/cs408-lab2-abs:arm64-20261023
+  cwd: /app
+prepare: go test -run "^$" ./evaluator ./parser
