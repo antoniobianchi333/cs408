@@ -1,0 +1,828 @@
+% add the answers flag to print the solutions.
+\documentclass[addpoints]{exam}
+
+\input{../cmds}
+
+% For those sweet, sweet acmart fonts.
+\usepackage[T1]{fontenc}
+\usepackage[tt=false, type1=true]{libertine}
+\usepackage[varqu]{zi4}                  % Inconsolata for \ttfamily
+
+%\usepackage{listings}
+\usepackage{color}
+\usepackage{lastpage}
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{minted}
+\usepackage{multicol}
+
+\newcommand{\includecode}[2][c]{\lstinputlisting[caption=, escapechar=, language=#1]{#2}}
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
+
+\newcommand{\Code}[1]{\mintinline{python}{#1}}
+
+\renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
+
+\definecolor{SolutionColor}{rgb}{0.8,0.9,1}
+
+\cfoot{Page \thepage\ of \pageref{LastPage}}
+
+\rhead{Initials: \rule{20mm}{0.4pt}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\fvset{numbers=left,numbersep=3pt}
+\thispagestyle{empty}
+
+\begin{center}
+	{\LARGE CS 408 Fall 2026 -- Practice Midterm 2 \\}
+\vspace{.5in}
+
+
+\fbox{\fbox{\parbox{5.5in}{\centering
+	\begin{itemize}
+        \item We have deliberately made this practice midterm harder,
+          more open-ended, and longer than the actual midterm, since
+          there are no time constraints (and the course staff is not
+          on the hook for grading your answers :)). \textbf{The goal
+            here is to help you study}: if you can ace the practice
+          midterm, you should have no problem with the real
+          deal. Thus, while we will provide you with solutions next
+          week, you should try to answer all these questions on your
+          own, before consulting our answers.
+
+        \item Try to be concise: when a question asks for an
+          explanation, a few sentences should suffice. Aim for
+          quality, not quantity!
+
+        \item Show enough of your reasoning so that we can award
+          partial credit for a correct approach.
+
+        \item Answer the questions in the spaces provided. Your answer
+          does not need to take up all the space provided (hopefully
+          we've given you more than enough room!). If you do run out
+          of space, make a note and then use the empty pages at the
+          back of the exam to complete your answer. Be sure to clearly
+          label any answers on those pages with the corresponding
+          question.
+
+        \item Several questions ask you to provide something ``if
+          possible.'' If it is not possible, you should plainly say so
+          and then explain why that is the case.
+
+        \item Coding questions should be answered in Python, unless
+          stated otherwise.
+
+        \item Unless otherwise noted, CFG nodes represent basic
+          blocks. When necessary, refer to nodes using the labels
+          given in the figure.
+
+        \item Please double check that your copy of the exam
+          is complete; you should have \pageref{LastPage}
+          pages.
+
+        \item You have 75 minutes to complete the exam.
+        \end{itemize}
+	}}}
+\end{center}
+
+\vspace{5mm}
+\begin{center}
+	\makebox[0.6\textwidth]{
+		\combinedgradetable[h][questions]
+	}
+\end{center}
+
+\begin{questions}
+
+\newpage
+
+\question Short answers.
+\begin{parts}
+
+% --- from the oracles / PBT material ---------------------
+\part[2] You test the property \Code{reverse(reverse(xs)) == xs} on a
+  thousand generated lists and it passes every time. Can you conclude
+  that \Code{reverse} is correct? Explain briefly. %
+  \begin{solutionorbox}[1.5in]
+    No. An implementation that returns its argument unchanged
+    satisfies the round-trip property perfectly, as does one that
+    rotates the list. The property only captures part of
+    \Code{reverse}'s functionality.
+  \end{solutionorbox}
+
+% --- synthesis across the whole term ---------------------
+\part[2] Order the following by how much information about the program
+  under test they require, from least to most: (A) symbolic execution,
+  (B) black-box fuzzing, (C) coverage-guided grey-box fuzzing. %
+  \begin{solutionorbox}[1.5in]
+    B $<$ C $<$ A. Black-box fuzzing needs only the ability to run the
+    program; grey-box adds lightweight coverage instrumentation;
+    symbolic execution needs the source (or bytecode) in order to build
+    path conditions at all.
+  \end{solutionorbox}
+\end{parts}
+
+% ========================================================
+% Test Oracles
+% ========================================================
+
+\question[3] Identify three categories of test oracles that we have
+  discussed in class, and list the relative strengths and weaknesses of
+  each.
+  \answerspace{24} %
+  \begin{solution} %
+    \begin{description}
+    \item[Implicit oracles] \emph{Pros:} broadly applicable, require no
+      extra input from the user, easy to automate. \emph{Cons:} weak
+      correctness guarantees --- they only catch crashes and the like.
+    \item[Human oracles] \emph{Pros:} very flexible; applicable when
+      correctness is hard to specify (think UI). \emph{Cons:} expensive
+      and slow; does not scale.
+    \item[Reference oracles] \emph{Pros:} strong correctness
+      guarantees, fully automatable, ideal for regression testing.
+      \emph{Cons:} requires a trusted reference implementation, which
+      may not exist.
+    \item[Property-based oracles] \emph{Pros:} apply to every input,
+      no reference needed. \emph{Cons:} properties may be too weak to
+      pin down correctness.
+    \end{description}
+  \end{solution}
+
+  \newpage
+% ========================================================
+% Meta-morphic relations
+% ========================================================
+
+\question Consider an image classifier that reports \textbf{the number
+    of cats in an image}.
+
+\begin{parts}
+
+\part[3] Give two metamorphic relations for this classifier that could
+  reveal a fault. At least one should explore a way the output of the
+  classifier should \emph{change}, rather than requiring it to stay
+  the same. %
+  \answerspace{16} %
+  \begin{solution} %
+    Many correct answers. Two of different kinds:
+
+    \textbf{Invariance:} rotate the image, or brighten it slightly
+    $\longrightarrow$ the reported count is unchanged.
+
+    \textbf{Change:} paste a second copy of the image beside the first
+    $\longrightarrow$ the count doubles. Or: paste in a picture of one
+    more cat $\longrightarrow$ the count goes up by exactly one.
+  \end{solution}
+
+\part[3] Give an example of a faulty classifier that satisfies one of
+  the relations you gave above but is still obviously wrong, and
+  explain why the fault evaded detection. %
+  \answerspace{14} %
+  \begin{solution} %
+    A classifier that always returns a constant, e.g., \Code{0}
+    satisfies every invariance relation: rotating the image does not
+    change the answer, because nothing changes the answer.
+
+    This is the general trap with invariance relations. They constrain
+    only how outputs relate, so a function that ignores its input
+    entirely is maximally consistent. The relations that pin down how
+    the output must \emph{change} are much harder to satisfy by
+    accident, which is why the previous part asked for one of each.
+  \end{solution}
+
+\part[2] In one or two sentences, explain what this tells us about the
+  pitfualls of using metamorphic relations as the \emph{only} test
+  oracle? %
+  \answerspace{14} %
+  \begin{solution} %
+    A metamorphic relation never establishes that an answer is
+    correct, only that the behavior of the SUT is internally
+    consistent, and even a faulty system can give answers that are
+    perfectly consistent.
+  \end{solution}
+
+\end{parts}
+
+% ========================================================
+% Test Input Generators
+% ========================================================
+
+Here is a Hypothesis strategy that produces binary trees, where a tree
+is represented as either \Code{None}, for an empty tree, or a triple
+\Code{(left, value, right)}.:
+
+\begin{minted}{python}
+@st.composite
+def trees(draw, lo=-1000, hi=1000, max_depth=5):
+    if max_depth <= 0 or draw(st.integers(0, 2)) == 0:
+        return None
+    return (draw(trees(lo, hi, max_depth - 1)),
+            draw(st.integers(min_value=lo, max_value=hi)),
+            draw(trees(lo, hi, max_depth - 1)))
+\end{minted}
+
+\begin{parts}
+
+\part[3] Suppose that we want to use this strategy to test a function,
+  \Code{is_member(t, v)}, that searches a binary search tree for a
+  particular element. One way to do so would be to use \Code{trees} as
+  is, filtering out any randomly generated trees that are not valid
+  BSTs, e.g., using \Code{.filter(is_bst)}, and then generating a
+  random element to look for. In 3-4 sentences, explain why this is or
+  is not an effective input generation strategy for testing
+  \Code{is_member}.%
+  \answerspace{14} %
+  \begin{solution} %
+    Almost none of the outputs produced by \Code{trees} will pass this
+    filter: sampling 5000 trees using this strategy will produce about
+    2800 with three or more nodes, and fewer than \textbf{1\%} of
+    those are valid binary search trees.
+
+    Moreover, among the trees that do get through, roughly
+    \textbf{95\%} have one node or none, i.e., they are ordered by
+    accident. So, the tests would pass while hardly ever exercising a
+    tree of interesting size, and nothing in the output would tell us
+    that.
+  \end{solution}
+
+\part[4] Modify \Code{trees} so that it produces \emph{only} binary
+  search trees, with nothing rejected. You need not get the Hypothesis
+  syntax exactly right, but be precise about what values each
+  recursive call is allowed to produce. %
+  \answerspace{18} %
+  \begin{solution} %
+    Draw the node's value first, then \textbf{narrow the bounds} handed
+    to each subtree so the ordering invariant cannot be broken:
+
+\begin{minted}{python}
+@st.composite
+def bsts(draw, lo=-1000, hi=1000, max_depth=5):
+    if max_depth <= 0 or lo > hi or draw(st.integers(0, 2)) == 0:
+        return None
+    v = draw(st.integers(min_value=lo, max_value=hi))
+    return (draw(bsts(lo, v - 1, max_depth - 1)),
+            v,
+            draw(bsts(v + 1, hi, max_depth - 1)))
+\end{minted}
+
+    Everything in the left subtree is drawn from $[lo, v-1]$ and
+    everything in the right from $[v+1, hi]$, so every comparison in
+    the \Code{is_bst} predicate would succeed.
+
+    The \Code{lo > hi} test matters: once the interval is empty there is
+    no value left to draw, so the subtree must be \Code{None}.
+
+    Another acceptable answer is to generate a sorted list of distinct
+    values and build a tree from it. Note that if you're not careful
+    in how you build the tree, this could only ever produce
+    \emph{balanced} binary search trees, which is its own kind of
+    bias.
+  \end{solution}
+\end{parts}
+\newpage
+% ========================================================
+% Fuzzing
+% ========================================================
+
+\question[5] Explain how the coverage-guided fuzzers discussed in class
+  work.
+  \answerspace{20} %
+  \begin{solution} %
+    A grey-box fuzzer tests a program by repeatedly mutating inputs
+    drawn from a corpus (``population'') of test inputs, seeded with an
+    initial set. It adds lightweight instrumentation to the program so
+    that each execution reports which branches were covered. If a
+    generated input covers something new, it is added to the corpus and
+    becomes a starting point for further mutation; otherwise it is
+    discarded. The coverage feedback is what lets the fuzzer make
+    progress into deeper code rather than re-testing the same shallow
+    paths.
+  \end{solution}
+
+\question Suppose that a grey-box fuzzer is testing the following
+  function, using the input \Code{"ab"} as its sole initial seed:
+
+\begin{minted}{python}
+def parse(s: str) -> int:
+    if len(s) < 2:
+        return 0
+    if s[0] == '<':
+        if s[-1] == '>':
+            if 'x' in s:
+                raise ValueError("boom")
+            return 3
+        return 2
+    return 1
+\end{minted}
+
+  The fuzzer is equipped with the following mutation operations:
+  \begin{itemize}
+  \item delete a character at random,
+  \item replace a character with another randomly chosen character, or
+  \item insert a character at random.
+  \end{itemize}
+
+  At each iteration the fuzzer may apply either \textbf{one or two} of
+  these mutations. For each of the following inputs, indicate whether
+  the fuzzer could \textbf{produce} it from its initial seed; if so,
+  indicate whether it would then \textbf{include} it in the population.
+  (Indicate your answer by circling your choice.)
+
+\begin{parts}
+
+\part[2] \Code{"<b"}
+  \begin{itemize}
+  \item[ ] Produced from \Code{"ab"}: Yes \quad/\quad No %
+    \hfill Added to the population: Yes \quad/\quad No
+  \end{itemize}
+
+\part[2] \Code{"xb"}
+  \begin{itemize}
+  \item[ ] Produced from \Code{"ab"}: Yes \quad/\quad No %
+    \hfill Added to the population: Yes \quad/\quad No
+  \end{itemize}
+
+\part[2] \Code{"a"}
+  \begin{itemize}
+  \item[ ] Produced from \Code{"ab"}: Yes \quad/\quad No %
+    \hfill Added to the population: Yes \quad/\quad No
+  \end{itemize}
+
+\part[2] \Code{"<>"}
+  \begin{itemize}
+  \item[ ] Produced from \Code{"ab"}: Yes \quad/\quad No %
+    \hfill Added to the population: Yes \quad/\quad No
+  \end{itemize}
+
+\part[2] \Code{"<x>"}
+  \begin{itemize}
+  \item[ ] Produced from \Code{"ab"}: Yes \quad/\quad No %
+    \hfill Added to the population: Yes \quad/\quad No
+  \end{itemize}
+
+\end{parts}
+
+  % \begin{solutionorbox}[3in]
+  %   The seed \Code{"ab"} takes the \Code{return 1} path, covering the
+  %   two guards and that return. An input is added when it covers
+  %   something the population has not covered before.
+
+  %   \begin{center}\small
+  %     \begin{tabular}{llll}
+  %       & produced? & added? & \\ \hline
+  %       \Code{"<b"}  & yes, 1 edit  & \textbf{yes} & \Code{a}$\to$\Code{<}; now enters the second \Code{if} and returns 2 \\
+  %       \Code{"xb"}  & yes, 1 edit  & no           & \Code{a}$\to$\Code{x}; still returns 1, nothing new \\
+  %       \Code{"a"}   & yes, 1 edit  & \textbf{yes} & delete \Code{b}; now trips the length guard and returns 0 \\
+  %       \Code{"<>"}  & yes, 2 edits & \textbf{yes} & \Code{a}$\to$\Code{<}, \Code{b}$\to$\Code{>}; returns 3 \\
+  %       \Code{"<x>"} & \textbf{no}  & ---          & three characters from a two-character seed needs more than two edits \\
+  %     \end{tabular}
+  %   \end{center}
+
+  %   Note \Code{"a"}: it is \emph{shorter} than the seed, and it covers
+  %   something new anyway. ``New coverage'' means reaching a line the
+  %   population has not reached, not getting deeper into the program.
+  % \end{solutionorbox}
+
+\question
+% --- from the grey-box quiz, part (c) --------------------
+This function crashes when its input contains the substring
+  \Code{"fuzz"}:
+
+\begin{minted}{python}
+def scan(s: str) -> None:
+    matched = 0
+    for c in s:
+        if c == "fuzz"[matched]:
+            matched += 1
+            if matched == 4:
+                crash()
+        else:
+            matched = 0
+\end{minted}
+
+  \begin{parts}
+  \part[2] Suppose we have a grey-box fuzzer that keeps any input that
+    covers a line none of its kept inputs covered. Would it keep
+    \Code{"fu"} after already keeping \Code{"f"}? Explain in one or
+    two sentences. %
+  \begin{solutionorbox}[1.5in]
+    No. The loop body is the same code on every iteration, so
+    \Code{"fu"} executes exactly the same lines as \Code{"f"}, it just
+    does so more times. Line coverage cannot tell that the input got
+    further into the match.
+  \end{solutionorbox}
+
+% --- follow-on, from the same quiz -----------------------
+\part[2] Given your answer above, why does AFL record a \emph{count}
+  for each branch rather than a single bit saying whether the branch
+  was taken? %
+  \begin{solutionorbox}[1.5in]
+    Because the count distinguishes looping once from looping twice,
+    allowing the fuzzer to ``see'' that \Code{"fu"} exercises a
+    different execution trace than \Code{"f"}.
+  \end{solutionorbox}
+\end{parts}
+
+\newpage
+% ========================================================
+% Grammar-Based Fuzzing
+% ========================================================
+
+\question Consider the following grammar for arithmetic expressions:
+
+\begin{center}
+  \begin{tabular}{lcl}
+    \texttt{<expr>}   & ::= & \texttt{<term> + <expr>}
+                      $\mid$ \texttt{<term> - <expr>}
+                      $\mid$ \texttt{<term>} \\
+    \texttt{<term>}   & ::= & \texttt{<factor> * <term>}
+                      $\mid$ \texttt{<factor> / <term>}
+                      $\mid$ \texttt{<factor>} \\
+    \texttt{<factor>} & ::= & \texttt{(<expr>)} $\mid$ \texttt{<digit>} \\
+    \texttt{<digit>}  & ::= & \texttt{0} $\mid$ \texttt{1} $\mid$ \ldots
+                      $\mid$ \texttt{9} \\
+  \end{tabular}
+\end{center}
+
+\begin{parts}
+
+\part[4] Give a derivation of the string \Code{2 * (3 + 4)} starting
+  from \texttt{<expr>}. At each step, state which production you used.
+  You may abbreviate runs of steps that only expand a
+  \texttt{<factor>} into a single digit. %
+  \answerspace{20} %
+  \begin{solution} %
+    One derivation (expansions of \texttt{<factor>} to a digit
+    collapsed):
+
+    \begin{center}\small
+      \begin{tabular}{ll}
+        \texttt{<expr>} & \\
+        \texttt{<term>} & \texttt{<expr> ::= <term>} \\
+        \texttt{<factor> * <term>} & \texttt{<term> ::= <factor> * <term>} \\
+        \texttt{2 * <term>} & \texttt{<factor> ::= <digit> ::= 2} \\
+        \texttt{2 * <factor>} & \texttt{<term> ::= <factor>} \\
+        \texttt{2 * (<expr>)} & \texttt{<factor> ::= (<expr>)} \\
+        \texttt{2 * (<term> + <expr>)} & \texttt{<expr> ::= <term> + <expr>} \\
+        \texttt{2 * (3 + <expr>)} & \texttt{<term> ::= <factor> ::= <digit> ::= 3} \\
+        \texttt{2 * (3 + <term>)} & \texttt{<expr> ::= <term>} \\
+        \texttt{2 * (3 + 4)} & \texttt{<term> ::= <factor> ::= <digit> ::= 4} \\
+      \end{tabular}
+    \end{center}
+
+  \end{solution}
+
+\part[3] Suppose we instead have a grammar for URLs, and we use it to
+  fuzz a program that fetches web pages. Even though every string the
+  grammar produces is a syntactically valid URL, it turns out the
+  program under test rejects almost half of them!  Can you think of a
+  plausible explanation for why this might have happened? %
+  \answerspace{10} %
+  \begin{solution} %
+    The grammar and the program disagree about what counts as a valid
+    input. A typical URL grammar emits several schemes, e.g.,
+    \Code{http}, \Code{https}, \Code{ftp}, \Code{ftps}, while a
+    program that fetches web pages may only handle HTTP.
+
+    The general takeaway is that a grammar is a \textbf{model} of the
+    input format, and the model can be wrong: grammar-based generation
+    buys validity \emph{with respect to the grammar we use}, which is
+    only as good as our understanding of the format.
+  \end{solution}
+
+\end{parts}
+
+\newpage
+% ========================================================
+% Minimization
+% ========================================================
+
+\question[5] Suppose we are fuzz testing a program and discover that the
+  input string \Code{"axbxcxd"} causes the system under test to crash.
+  Suppose that the delta debugging algorithm outputs the string
+  \Code{"xx"}.
+
+  Can you hypothesize what sorts of input strings trigger the failure?
+  Using that hypothesis, explain how \Code{ddmin} went from the initial
+  input to its final output by giving four intermediate inputs it might
+  test, two of which induce the failure and two of which do not. List
+  them in the order \Code{ddmin} would generate them.
+  \answerspace{20} %
+  \begin{solution} %
+    A reasonable hypothesis is that the failure is triggered by any
+    input containing at least two \Code{"x"}s, which is consistent with
+    the minimal failing input \Code{"xx"}.
+
+    Running \Code{ddmin} under that hypothesis, the first candidates it
+    tests are:
+
+    \begin{center}
+      \begin{tabular}{ll}
+        \Code{"axbx"} & \textcolor{red}{fails} \\
+        \Code{"ax"}   & \textcolor{green}{passes} \\
+        \Code{"bx"}   & \textcolor{green}{passes} \\
+        \Code{"xbx"}  & \textcolor{red}{fails} \\
+        \Code{"xx"}   & \textcolor{red}{fails} \\
+      \end{tabular}
+    \end{center}
+
+    Any four inputs consistent with the hypothesis and with
+    \Code{ddmin}'s subset/complement structure are acceptable.
+  \end{solution}
+
+% ========================================================
+% Minimality
+% ========================================================
+
+\question Recall that \Code{ddmin} guarantees its output is
+  \textbf{1-minimal}: removing any single remaining element makes the
+  failure go away.
+
+  Suppose a program reads a configuration file and crashes if
+  \textbf{both} \Code{debug} and \Code{verbose} are enabled, \emph{or}
+  if \Code{legacy} is enabled on its own. We run \Code{ddmin} on a
+  configuration containing all three lines:
+
+  \begin{center}
+    \Code{["debug", "verbose", "legacy"]}
+  \end{center}
+
+\begin{parts}
+
+\part[4] What does \Code{ddmin} return on this input? %
+  \answerspace{22} %
+  \begin{solution} %
+    It returns \Code{["debug", "verbose"]}.
+
+    \begin{center}\small
+      \begin{tabular}{lll}
+        & candidate & outcome \\ \hline
+        subset     & \Code{["debug", "verbose"]} & \textbf{crashes} --- keep it, discard \Code{"legacy"} \\
+        subset     & \Code{["debug"]}            & passes \\
+        subset     & \Code{["verbose"]}          & passes \\
+        complement & \Code{["verbose"]}          & passes \\
+        complement & \Code{["debug"]}            & passes \\
+      \end{tabular}
+    \end{center}
+
+    The answer \emph{is} 1-minimal: dropping either line stops the
+    crash, so nothing can be removed.
+  \end{solution}
+
+\part[4] Would any of the other minimization strategies we have seen in
+  class return a smaller result than \Code{ddmin} here? If so, why
+  don't we always use that strategy to shrink failing inputs? %
+  \answerspace{24} %
+  \begin{solution} %
+    Yes. The element-by-element shrinker that deletes one element at a
+    time returns \Code{["legacy"]}, which is half the size of
+    \Code{ddmin}'s output, in only three tests. Of course, we got
+    lucky here: deleting left to right happens to remove
+    \Code{"debug"} first on this example, but \Code{ddmin}'s
+    partitioning never tries to do this.
+
+    \textbf{Why we do not always use it:} its cost is linear in the
+    size of the input, while \Code{ddmin} is logarithmic when the
+    failure is localized.
+  \end{solution}
+
+\part[3] Can you think of a scenario where an input does \emph{not}
+  cause the system under test to fail, but where we would still want to
+  minimize it? %
+  \answerspace{20} %
+  \begin{solution} %
+    The coverage-guided fuzzer from the project is a prime
+    example. When an input is added to the population because it
+    covered something new, the fuzzer trims it before spending
+    mutations on it, because a smaller input has fewer positions to
+    mutate.
+
+    Other reasonable answers: minimizing a test case before adding it
+    to a regression suite, or minimizing a reproducer for a
+    performance problem rather than a crash.
+  \end{solution}
+
+\end{parts}
+
+\newpage
+% ========================================================
+% Symbolic and Concolic Execution
+% ========================================================
+
+\question Consider the following function, which applies an adjustment
+  to a test score, but caps the point total at 100 points:
+
+\begin{minted}{python}
+def grade(score: int, bonus: int) -> int:
+    total: int = score
+    if bonus > 0:
+        total = total + bonus
+    if total > 100:
+        total = 100
+    if total < 0:
+        total = 0
+    return total
+\end{minted}
+
+\begin{parts}
+
+\part[6] Draw the symbolic execution tree that an engine would produce
+  for \Code{grade}. Mark any unreachable nodes with an X; there is no
+  need to expand the execution tree beneath that node. Assume the
+  symbolic inputs are \Code{score} $\mapsto s$ and \Code{bonus}
+  $\mapsto b$. %
+  \answerspace{30} %
+  \begin{solution} %
+    Three \emph{sequential} conditionals, so the tree branches three
+    times on every path and has $2^3 = 8$ leaves. Reading each path as
+    a conjunction of its edge conditions:
+
+    \begin{center}\small
+      \begin{tabular}{cl}
+        leaf & path condition \\ \hline
+        1 & $b > 0 \wedge s + b > 100 \wedge 100 < 0$ \\
+        2 & $b > 0 \wedge s + b > 100 \wedge \lnot(100 < 0)$ \\
+        3 & $b > 0 \wedge \lnot(s + b > 100) \wedge s + b < 0$ \\
+        4 & $b > 0 \wedge \lnot(s + b > 100) \wedge \lnot(s + b < 0)$ \\
+        5 & $\lnot(b > 0) \wedge s > 100 \wedge 100 < 0$ \\
+        6 & $\lnot(b > 0) \wedge s > 100 \wedge \lnot(100 < 0)$ \\
+        7 & $\lnot(b > 0) \wedge \lnot(s > 100) \wedge s < 0$ \\
+        8 & $\lnot(b > 0) \wedge \lnot(s > 100) \wedge \lnot(s < 0)$ \\
+      \end{tabular}
+    \end{center}
+
+    Note the third condition: on any path that took the \Code{total >
+      100} branch, \Code{total} has been \emph{reassigned} to
+    \Code{100}, so the test \Code{total < 0} is really $100 <
+    0$. Tracking that reassignment is the whole point of carrying a
+    symbolic state.
+  \end{solution}
+
+\newpage
+
+\part[4] How many test paths does this tree represent? %
+  \answerspace{22} %
+  \begin{solution} %
+
+    Witnesses for each test path:
+
+    \begin{center}\small
+      \begin{tabular}{cll}
+        leaf & input & returns \\ \hline
+        2 & \Code{score=100, bonus=1} & 100 \\
+        3 & \Code{score=-2, bonus=1}  & 0 \\
+        4 & \Code{score=99, bonus=1}  & 100 \\
+        6 & \Code{score=101, bonus=0} & 100 \\
+        7 & \Code{score=-1, bonus=0}  & 0 \\
+        8 & \Code{score=2, bonus=0}   & 2 \\
+      \end{tabular}
+    \end{center}
+  \end{solution}
+
+\part[3] Suppose we rewrite \Code{grade} so that the second
+  conditional is \emph{nested} inside the first:
+
+\begin{minted}{python}
+    if bonus > 0:
+        total = total + bonus
+        if total > 100:
+            total = 100
+    if total < 0:
+        total = 0
+\end{minted}
+
+  How many leaves does the tree have now? %
+  \answerspace{20} %
+  \begin{solution} %
+    \textbf{Six} leaves, of which \textbf{five} are feasible.
+
+    The \Code{total > 100} test is now only reached when \Code{bonus >
+      0}; the \Code{bonus <= 0} side goes straight to the final
+    conditional. That side now contributes 2 leaves rather than 4, and
+    only one infeasible path survives (the one that clamps to 100 and
+    then asks whether $100 < 0$).
+
+    The lesson: $2^n$ is an \textbf{upper bound} on the number of paths
+    through $n$ conditionals, reached only when the conditionals are
+    independent. Nesting reduces the count --- and infeasibility
+    reduces it further. Both work in our favour, but neither is enough
+    to stop the number growing exponentially in a real program.
+  \end{solution}
+
+\end{parts}
+
+\newpage
+
+\question The following function sorts the first three elements of its
+  argument in place:
+
+\begin{minted}{python}
+def bubble_sort3(arr: list) -> None:
+    if len(arr) < 3:
+        return
+    for i in range(2):
+        for j in range(2 - i):
+            if arr[j] > arr[j + 1]:
+                tmp: int = arr[j]
+                arr[j] = arr[j + 1]
+                arr[j + 1] = tmp
+\end{minted}
+
+\begin{parts}
+\part[6] Provide three concrete test inputs for \Code{bubble_sort3}
+  that induce distinct test paths. For each, give the final path
+  constraint that concolic execution would produce. Write your answer
+  as a sequence of conditions separated by $\land$. Assume the initial
+  symbolic input has the form $arr \mapsto [a]$ or
+  $arr \mapsto [a, b, c]$, i.e., use $a, b,$ and $c$ for the symbolic
+  values stored at the first, second, and third indices. You may drop
+  clauses from the path condition that are always true.
+  \answerspace{26} %
+  \begin{solution} %
+    Many correct answers. One set:
+
+    \begin{itemize}
+    \item \Code{[1]}: \quad $\texttt{len(arr)} < 3$
+    \item \Code{[1, 2, 3]}: \quad $\lnot(\texttt{len(arr)} < 3) \land
+      \lnot(a > b) \land \lnot(b > c) \land \lnot(a > b)$
+    \item  \Code{[3, 2, 1]}: \quad $\lnot(\texttt{len(arr)} < 3) \land
+      (a > b) \land (a > c) \land (b > c)$
+    \end{itemize}
+
+    The key point: each comparison in the nested loops contributes one
+    clause, in the order the loops execute them, and the swap changes
+    which symbolic value sits at each index for later comparisons.
+
+    On \Code{[3, 2, 1]} the array starts as $[a, b, c]$. The first
+    comparison $a > b$ holds, so after the swap the array holds
+    $[b, a, c]$. The second comparison is therefore \textbf{$a > c$},
+    not $b > c$; it holds too, leaving $[b, c, a]$. The third
+    comparison is then \textbf{$b > c$}.
+
+  \end{solution}
+
+\newpage
+
+\part[4] For each of your three test inputs, give a next test input
+  that a concolic execution engine might generate from it, or explain
+  why it cannot generate anything. State the strategy you used.
+  \answerspace{22} %
+  \begin{solution} %
+ The strategy is to negate the \textbf{last} clause of the path
+    constraint and ask a solver for an input satisfying the result.
+
+    \medskip
+    From \Code{[1]}: negating $\texttt{len(arr)} < 3$ requires any
+    array of length at least three --- e.g. \Code{[0, 0, 0]}.
+
+    \medskip
+    From \Code{[3, 2, 1]}: negating the final $b > c$ gives
+    $(a > b) \land (a > c) \land \lnot(b > c)$ --- e.g.
+    \Code{[-1, -2, -2]}.
+
+    \medskip
+    From \Code{[1, 2, 3]}: \textbf{there is no such input.} That path
+    constraint ends with $\lnot(a > b)$, which is the same clause it
+    began with, so negating it yields
+    $\lnot(a > b) \land \lnot(b > c) \land (a > b)$ --- a
+    contradiction. The solver returns \Code{UNSAT} and the engine must
+    pick a different clause to negate; flipping the \emph{middle}
+    clause instead gives \Code{[1, 3, 2]}.
+
+    We'd give full credit for any answer that applies the
+    negate-the-last-clause strategy correctly and recognises when it
+    yields an unsatisfiable constraint.
+  \end{solution}
+\end{parts}
+
+\question[1] Name one advantage that concolic execution has compared to
+  coverage-guided grey-box fuzzing.
+  \answerspace{12} %
+  \begin{solution} %
+    A concolic engine assumes complete access to the program under
+    test, so it can \emph{guarantee} that each new test it generates
+    explores a new path. A coverage-guided fuzzer offers no such
+    guarantee --- it mutates at random and hopes.
+
+    Any answer showing the student knows concolic execution is a
+    white-box approach, and can contrast grey- and white-box testing,
+    works here.
+  \end{solution}
+
+\question[1] Name one disadvantage that concolic execution has compared
+  to coverage-guided grey-box fuzzing.
+  \answerspace{12} %
+  \begin{solution} %
+    It requires access to the source code of the system under test, and
+    it requires a solver to find new inputs --- which is slow, and
+    which may fail outright when the path conditions are complicated
+    (nonlinear arithmetic, hashes, and so on).
+  \end{solution}
+
+\end{questions}
+
+\end{document}
