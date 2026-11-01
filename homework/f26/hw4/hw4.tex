@@ -1,5 +1,5 @@
 % Add "answers" option to print the answers
-\documentclass[addpoints]{exam}
+\documentclass[addpoints, answers]{exam}
 
 \input{../cmds}
 
@@ -12,6 +12,7 @@
 \usepackage{minted}
 \usepackage{multicol}
 \usepackage{amsmath}
+\usepackage[normalem]{ulem}
 
 \usepackage[svgnames]{xcolor}
 \usepackage[colorlinks=true, allcolors=MidnightBlue]{hyperref}
@@ -104,8 +105,8 @@
   included in the OED.
   \begin{solutionorbox}[2in]
     Returning \emph{a} list of suggestions without crashing says
-    nothing about the quality of those suggestions, and almost every
-    bad answer will be a well-formed list of words.
+    nothing about the quality of those suggestions: even a bad answer
+    is likely to be a well-formed list of words.
   \end{solutionorbox}
   \nonAnswerNewPage
 \part[2] Asking two junior engineers to act as \textbf{human} oracles.
@@ -131,20 +132,21 @@
   \begin{solutionorbox}[3.2in]
     There are many correct answers here:
     \begin{itemize}
-    \item every suggestion is a word in the dictionary;
+    \item every suggestion is a word that actually appears in the OED;
     \item no suggestion appears twice;
-    \item a word already in the dictionary is suggested first (or the
-      list is empty);
+    \item if the word already appears as-is in the dictionary, it is
+      suggested first, as it (likely) spelled correctly;
     \item all the output words are within some edit distance of the
       input word.
     \end{itemize}
-    Relations between two answers (metamorphic):
+    Relations between two answers, i.e., metamorphic relations:
     \begin{itemize}
-    \item changing the case of the input does not change the
+    \item changing the case of the misspelled word does not change the
       suggestions;
-    \item adding an unrelated word to the dictionary does not change
-      the relative order of the existing suggestions;
-    \item the same query twice returns the same list.
+    \item adding an unrelated word to the OED does not change the
+      relative order of the existing suggestions;
+    \item running the same query twice returns the same list, i.e.,
+      the function is deterministic.
     \end{itemize}
   \end{solutionorbox}
 
@@ -155,10 +157,12 @@
   \begin{solutionorbox}[2in]
     As the answer to 1c explains, there is no obvious definition of
     correct here. Using weaker properties that any reasonable
-    implementation should satisfy catches some faults, and using
-    relations allows us to ensure the program is internally
-    consistent. In short: an imperfect oracle that runs is better than
-    a hypothetical perfect one.
+    implementation should satisfy will (hopefully) catch some faults,
+    and using relations in particular allows us to ensure that
+    \Code{spell-checker} is internally consistent. In short: an
+    imperfect oracle that we can actually use is better than a perfect
+    one that we either do not have time or do not know how to
+    implement.
   \end{solutionorbox}
 
 %% =====================================================================
@@ -181,9 +185,11 @@
 \end{minted}
 %
   \begin{solutionorbox}[4.5in]
-    Many correct answers. Note that the inputs must already be sorted,
-    so the strategy should either only produce sorted lists, or use
-    \Code{assume} to filter them somehow.
+    Many correct answers. Note that since the inputs to \Code{merge}
+    are assumed to be sorted, the properties need to either use an
+    input generation strategy that always produces sorted lists (see
+    line 1 for an example), or use \Code{assume} to filter them
+    somehow.
 \begin{minted}{python}
 sorted_lists = st.lists(st.integers()).map(sorted)
 
@@ -220,16 +226,17 @@ def test_merging_with_empty(xs):
 
     \textbf{Metamorphic:} \Code{test_merge_is_commutative} relates
     \Code{merge(xs, ys)} to \Code{merge(ys, xs)}. \\
-    \Code{test_merging_with_empty} is a borderline case --- it relates
-    the output to the input rather than to another output, so it is
-    better described as an identity.
+    \Code{test_merging_with_empty} is a borderline case, since it
+    relates the output to the input rather than to another output. It
+    is better described as an identity.
 
     \textbf{Not metamorphic:} sortedness, length, and the multiset of
-    elements are all properties of one output.
+    elements are all properties of one output produce by a single pair
+    of inputs.
 
-    Note that none of these computes the correct answer. A reference
-    implementation would, but then we would be testing \Code{merge}
-    against something we already have.
+    Note that none of the properties computes the correct answer. A
+    reference implementation would, but then we would be testing
+    \Code{merge} against something we already have.
   \end{solutionorbox}
 
 \end{parts}
@@ -254,8 +261,8 @@ def test_merging_with_empty(xs):
     Unlike some other PBT frameworks, e.g., QuickCheck, Hypothesis has
     no built-in weighted choice, so we have to be explicit about how
     values are weighted. One way to do this is by branching on a
-    randomly \Code{draw}n number, or by sampling from a pool with
-    repeated entries.
+    randomly \Code{draw}n number; another is to sample from a pool
+    with repeated entries.
 \begin{minted}{python}
 @st.composite
 def optional_color(draw):
@@ -264,12 +271,14 @@ def optional_color(draw):
     return draw(st.sampled_from(
         ["red", "red", "red", "green", "blue"]))
 \end{minted}
-    The first draw gives \Code{None} with probability $1/10$. The
-    remaining $9/10$ is split by the pool: \Code{"red"} occupies three
-    of its five slots, so it appears with probability
-    $\frac{9}{10}\cdot\frac{3}{5} = \frac{27}{50}$, and each other
-    color with $\frac{9}{10}\cdot\frac{1}{5} = \frac{9}{50}$ ---
-    three times less, as required.
+    The first draw gives \Code{None} with probability
+    $\frac{1}{10}$. The remaining $\frac{9}{10}$ is divided among a
+    pool of options that contains three copies of \Code{"red"}, and
+    thus will be chosen with probability
+    $\frac{9}{10}\cdot\frac{3}{5} = \frac{27}{50}$, while the other
+    two colors will be picked with probability
+    $\frac{9}{10}\cdot\frac{1}{5} = \frac{9}{50}$, i.e., three times
+    less than \Code{"red"}, as required.
   \end{solutionorbox}
 
 \part[4] How does the following generator differ from the one you
@@ -280,14 +289,15 @@ def optional_color(draw):
   \begin{solutionorbox}[2.5in]
     \Code{st.one_of} returns one of each of its arguments with equal
     probability, so it would thus produce \Code{None} roughly half the
-    time. In addition, \Code{st.sampled_from} returns one of the color
-    with equal likelihood, and will return \Code{red} about the same
-    number of times as the other colors, which is not what the
+    time. \Code{st.sampled_from} similarly returns one of the three
+    colors with equal likelihood, producing \Code{red} about the same
+    number of times as the other two colors, which is not what the
     question asks for.
 
-    In general, a generator is a probability distribution on inputs to
-    the system under test, and we may have to explicitly construct
-    that distribution.
+    In general, a generator encodes a probability distribution on
+    inputs to the system under test, and we may have to explicitly
+    construct that distribution to ensure we're effectively sampling
+    from that distribution.
   \end{solutionorbox}
 
 % \part[3] Suppose you ran your generator 1000 times and counted how
@@ -370,7 +380,7 @@ def cgi_decode(s):
   \begin{solutionorbox}[2.25in]
     Every seed covers \textbf{line D only}, since they are all plain
     text, and do not contain either \Code{'+'} or \Code{'\%'}. From a
-    coverage point of view, each of these starting points is
+    coverage point of view, each of these starting seeds is
     equivalent.
   \end{solutionorbox}
 
@@ -381,7 +391,8 @@ def cgi_decode(s):
   mutations that produces it from one of the seeds. Be specific about
   the position and the bit. %
   \begin{solutionorbox}[4.5in]
-    One answer, all starting from \Code{"keep"}:
+    Here is one possible set of inputs, each starting from the
+    \Code{"keep"} seed:
     \begin{description}
     \item[line A] \Code{"+eep"} --- flip position 0:
       \Code{'k'} is \Code{0x6B} and \Code{'+'} is \Code{0x2B}, which
@@ -405,54 +416,66 @@ def cgi_decode(s):
 
 \part[6] For each of the inputs you included in your test set, what is
   the probability that a fuzzer would produce that input in a minimal
-  number of runs? Assume that a mutant replaces its parent in each
-  run, so that the seed pool always contains four elements. Explain
-  your reasoning for each. You can treat each input separately,
-  starting from the original pool. %
+  number of runs? \sout{Assume that a mutant replaces its parent in
+    each run, so that the seed pool always contains four elements.}
+  Explain your reasoning for each. \sout{You can treat each input
+    separately, starting from the original pool.}  %
   \begin{solutionorbox}[4in]
-    Take the chain \Code{"keep"} $\to$ \Code{"k\%ep"} $\to$
-    \Code{"k\%e0"}.
-
-    \textbf{First step.} The fuzzer picks \Code{"keep"} from four seeds
-    ($\frac14$), picks \emph{flip} from three mutations ($\frac13$),
-    picks position 1 of 4 ($\frac14$), and picks bit 6 of 7
-    ($\frac17$):
+    \begin{itemize}
+    \item \textbf{\Code{"+eep"} (line A)} --- one mutation from
+      \Code{"keep"}: flip bit 6 at position 0. The probability is:
     \[
-      \tfrac14 \cdot \tfrac13 \cdot \tfrac14 \cdot \tfrac17
-      = \tfrac{1}{336}
+      \underbrace{\tfrac14}_{\text{pick the parent}} \cdot
+      \underbrace{\tfrac13}_{\text{choose \emph{flip}}} \cdot
+      \underbrace{\tfrac14}_{\text{choose the position}} \cdot
+      \underbrace{\tfrac17}_{\text{choose the bit}} \;=\;
+      \tfrac{1}{336}
     \]
 
-    \textbf{Second step.} The pool now holds five strings, so picking
-    \Code{"k\%ep"} is $\frac15$; then flip ($\frac13$), position 3 of 4
-    ($\frac14$), bit 6 ($\frac17$):
+  \item \textbf{\Code{"k\%ep"} (line C)} --- one mutation from
+    \Code{"keep"}: flip bit 6 at position 1. The pool has one extra
+    element now, so the probability is slightly less than the
+    previous:
+    $\tfrac15 \cdot \tfrac13 \cdot \tfrac14 \cdot \tfrac17 \;=\;
+    \tfrac{1}{420}$
+
+  \item \textbf{\Code{"k\%e0"} (line B)} --- one mutation using
+    \Code{"k\%ep"}, which is now included in our pool of six seed
+    strings:
     \[
-      \tfrac15 \cdot \tfrac13 \cdot \tfrac14 \cdot \tfrac17
-      = \tfrac{1}{420}
+      \tfrac16 \cdot \tfrac13 \cdot \tfrac14 \cdot \tfrac17
+      \;=\; \tfrac{1}{504}
+    \]
+    flipping bit 6 at position 3 of \Code{"k\%ep"}.
+  \end{itemize}
+
+  \textbf{An aside:} Taking these all together, the likelihood of
+  generating these inputs in exactly this sequence is:
+    \[
+      \tfrac{1}{336} \cdot \tfrac{1}{420} \cdot \tfrac{1}{504} \;=\;
+      \tfrac{1}{71124480} \;\approx\; 1.4 \times 10^{-8}
     \]
 
-    \textbf{Together:}
-    $\frac{1}{336} \cdot \frac{1}{420} = \frac{1}{141{,}120}$,
-    or about $7 \times 10^{-6}$.
-
-    Assumptions: the fuzzer keeps every mutant, picks uniformly from
-    the pool, and we require \emph{exactly} this chain. Dropping the
-    requirement that these be the first two attempts, the per-mutation
-    probability $\frac{1}{84}$ each gives an upper bound of
-    $\frac{1}{7056}$ --- roughly one in seven thousand --- for the two
-    specific mutations occurring in order, whenever they occur.
+    This assumes the fuzzer picks uniformly among the seeds when
+    choosing the next one to mutate, and only considers this exact
+    sequence of choices. If we only require that the chain happens
+    \textit{eventually}, rather than immediately, the probability of
+    generating these inputs is much higher.
   \end{solutionorbox}
 
 \part[1] For a real-world fuzzer, why is it not a problem if the
   probability of generating a particular test input is small? %
   \begin{solutionorbox}[2.5in]
-    Two things. First, real world fuzzers iterate millions of times,
-    so even a one-in-a-million event is likely to occur at least once.
+    On the one hand, real world fuzzers run for millions of
+    iterations, so even a one-in-a-million event is likely to occur at
+    least once.
 
-    Second, and more importantly, a \emph{coverage-guided} fuzzer does
-    not need this exact chain. When \Code{"k\%ep"} turns up it covers
-    a new line, so the fuzzer keeps it and preferentially mutates it
-    further. The search is not a blind sequence of independent draws;
-    each useful mutation is retained and built upon.
+    More importantly, a \emph{coverage-guided} fuzzer does not need
+    this exact chain. When \Code{"k\%ep"} turns up it covers a new
+    line, and the fuzzer keeps it and (potentially preferentially)
+    mutates it further. Thus, a grey-box fuzzer does not blindly
+    search the input space, starting from scratch at each iteration:
+    useful mutations are kept and reused as the fuzzer keeps going.
   \end{solutionorbox}
 
 \end{parts}
