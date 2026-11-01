@@ -1,0 +1,152 @@
+% Add "answers" option to print the answers
+\documentclass[addpoints]{exam}
+
+\input{cmds}
+
+\usepackage{color}
+\usepackage{lastpage}
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{minted}
+\usepackage{multicol}
+\usepackage{amsmath}
+
+% For those sweet, sweet acmart fonts.
+\usepackage[T1]{fontenc}
+\usepackage[tt=false, type1=true]{libertine}
+\usepackage[varqu]{zi4}                  % Inconsolata for \ttfamily
+
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
+
+\newcommand{\Code}[1]{\mintinline{python}{#1}}
+
+\renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
+\definecolor{SolutionColor}{rgb}{0.8,0.9,1}
+
+\cfoot{Page \thepage\ of \pageref{LastPage}}
+\rhead{Initials: \rule{20mm}{0.4pt}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\fvset{numbers=left,numbersep=3pt}
+\thispagestyle{empty}
+
+\begin{center}
+  {\LARGE CS 408 Fall 2026 -- Concolic Execution Quiz \\}
+    \vspace*{5pt}
+\fbox{\fbox{\parbox{5.5in}{\centering
+	\begin{itemize}
+        \item Try to come up with a solution on your own first, but
+          after that talk to your friends and neighbors.
+
+        \item Full points will be rewarded for \textbf{any} (reasonable)
+          attempt.
+        \end{itemize}
+	}}}
+\end{center}
+
+\vspace{5mm}
+\makebox[\textwidth]{\textbf{Name (please print)}: \rule{100mm}{0.8pt} }
+
+\begin{questions}
+
+\question Here is the \Code{factorial} function from Tuesday's code demo:
+
+\begin{minted}{python}
+def factorial(n: int) -> int:
+    v = 1
+    while n != 0:
+        v = v * n
+        n = n - 1
+    return v
+\end{minted}
+
+  Running it concolically on \Code{n = 2} produces the following path
+  constraints, where \Code{a} is a symbolic value:
+  \begin{center}
+    $a \neq 0 \;\wedge\; a - 1 \neq 0 \;\wedge\; \neg(a - 1 - 1 \neq 0)$
+  \end{center}
+
+\begin{parts}
+
+\part How does the size of the path condition change as \Code{n} gets
+  larger?  Roughly how many constraints would \Code{factorial(10)}
+  produce? %
+  \answerspace{14} %
+  \begin{solution} %
+    Each trip through the loop tests \Code{n != 0} once, and that test
+    contributes one constraint. Running on \Code{n = 10} executes the
+    test eleven times --- ten that succeed and one that fails --- so the
+    path condition has \textbf{11} constraints.
+
+    Every distinct trip count is a distinct path. A loop whose bound is
+    an input has as many paths as the input has possible values, which
+    is why loops are the hard case for both symbolic and concolic
+    execution.
+  \end{solution}
+
+%\newpage
+
+\part To reach a new path, the CE engine takes a \textbf{prefix} of
+  the path condition and negates its last constraint. What is one
+  possible input that an SMT solver could return if we used a prefix
+  of the above path condition containing just the first constraint? %
+  \answerspace{9} %
+  \begin{solution} %
+    The only solution is \Code{n = 0}. The loop body never runs,
+    \Code{factorial(0)} returns 1, and the resulting path condition is
+    the single constraint $\neg(N \neq 0)$.
+
+    That is the other side of the very first branch --- one new path for
+    one solver query, which is exactly what concolic execution is for.
+  \end{solution}
+
+\newpage
+
+\part Suppose that the CE engine used the first two constraints as the
+  prefix instead. What are 2-3 possible inputs that the solver might
+  generate using this this prefix? Could any of these trigger a
+  (potential) failure in \Code{factorial}? %
+  \answerspace{18} %
+  \begin{solution} %
+    The input is \textbf{correct}: $-1 \neq 0$ holds, and
+    $-1 - 1 = -2 \neq 0$ holds. The solver did its job.
+
+    But \Code{factorial(-1)} \textbf{never terminates}. The loop
+    decrements: $-1, -2, -3, \ldots$ and never reaches 0, so the guard
+    \Code{n != 0} is true forever.
+
+    (This really happens --- it is what hung the demo in class.)
+  \end{solution}
+
+% \newpage
+
+% \part The solver produced an input that satisfies every constraint it
+%   was given, and the program still misbehaved. What did the path
+%   condition fail to capture, and what does a real tool do about it? %
+%   \answerspace{20} %
+%   \begin{solution} %
+%     A path condition records only the branches that were \emph{actually
+%     taken on the observed run}. On \Code{n = 2} the loop always counted
+%     down toward zero, so nothing in the program ever tested whether
+%     \Code{n} was positive --- and so no constraint says so. The prefix
+%     ``the loop runs at least twice'' is satisfied by $n = -1$ even
+%     though the real program can never leave the loop from there.
+
+%     This is \textbf{divergence}: the input solves for one path, and the
+%     execution goes somewhere else entirely.
+
+%     Real tools cope by bounding execution --- a timeout, or a cap on
+%     loop iterations --- and discarding inputs that exceed it. Notice
+%     what the bound costs: non-termination is not a crash and not a
+%     failed assertion, so \emph{no oracle we have seen this semester
+%     detects it}. We are reduced to guessing how long is too long.
+%   \end{solution}
+
+\end{parts}
+
+\end{questions}
+
+\end{document}
