@@ -30,10 +30,10 @@
 
 % Macros for the symbolic and concolic execution questions
 \newcommand{\StateQ}[5]{[\Code{x}$\mapsto$\Code{#1},
-  \Code{y}$\mapsto$\Code{#2}, \Code{a}$\mapsto$\Code{#3},
-  \Code{b}$\mapsto$\Code{#4}, \Code{result}$\mapsto$\Code{#5}]}
+  \Code{y}$\mapsto$\Code{#2}, \Code{z}$\mapsto$\Code{#3},
+  \Code{w}$\mapsto$\Code{#4}, \Code{result}$\mapsto$\Code{#5}]}
 \newcommand{\StateS}[5]{[\Code{x}$\mapsto #1$, \Code{y}$\mapsto #2$,
-  \Code{a}$\mapsto #3$, \Code{b}$\mapsto #4$,
+  \Code{z}$\mapsto #3$, \Code{w}$\mapsto #4$,
   \Code{result}$\mapsto #5$]}
 
 \renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
@@ -151,11 +151,11 @@
       we've seen be affected in a meaningful way if they use a flaky
       test oracle? Which ones, and how? %
     \begin{solutionorbox}[2.5in]
-      Indeed! \textbf{All} of the algorithms we've seen before make
-      decisions based on whether a candidate input triggers a failure:
-      the straightforward algorithm from the project only deletes a
-      byte from a test input if the SUT still fails after doing so,
-      while \Code{ddmin} only recurses on a modified input when it
+      Indeed! \textbf{All} of the algorithms we've seen make decisions
+      based on whether a candidate input triggers a failure: the
+      straightforward algorithm from the project only deletes a byte
+      from a test input if the SUT still fails after doing so, while
+      \Code{ddmin} only recurses on a modified input when it
       fails. For all of these algorithms, a flaky test oracle can
       cause the algorithm to produce a non-minimal failing input.  In
       the worst case scenario, a flaky test oracle could cause the
@@ -183,14 +183,14 @@
 \question Consider the following program:
 
   \begin{minted}{python}
-def fun(a: int, b: int, c: int) -> None:
-    x = 100
-    if a >= 0:
-        x = 50
-    if b + c > 0:
-        x += c
-        if x < 70:
-            x += a
+def fun(x: int, y: int, z: int) -> None:
+    w = 100
+    if x >= 0:
+        w = 50
+    if y + z > 0:
+        w += z
+        if w < 70:
+            w += x
     return
 \end{minted}
 
@@ -199,9 +199,9 @@ def fun(a: int, b: int, c: int) -> None:
   execution for this program. The nodes of this tree should be
   labelled with the corresponding control flow point and the symbolic
   state\footnote{On all of your answers for this question, please name
-    symbolic variables using the convention $s_0, s_1, s_2, ...$.}
+    symbolic variables using the convention $a, b, c, ...$.}
   before that basic block or condition is executed: using the format
-  L2: $[x\mapsto s_1; z \mapsto s_4; \ldots]$. The root of the tree
+  L2: $[x\mapsto b; z \mapsto e; \ldots]$. The root of the tree
   should appear at the top of the diagram. The outgoing edges of
   decision nodes should be labelled with the corresponding path
   conditions, and the labels on its left and right subtrees should
@@ -213,7 +213,7 @@ def fun(a: int, b: int, c: int) -> None:
   %
   \begin{solutionorbox}[5in] %
     \begin{center}
-      \includegraphics[scale=0.40]{q1_graph_answer.png}
+      \includegraphics[width=0.9\linewidth]{q1_graph_answer_new.png}
     \end{center}
   \end{solutionorbox}
 
@@ -226,7 +226,7 @@ def fun(a: int, b: int, c: int) -> None:
   % \am{Applied the changes.}
   %
   \begin{solutionorbox}[1in]
-    ($s_0 \geq 0) \wedge (s_1 + s_2 > 0) \wedge (50 + s_2 < 70)$
+    ($a \geq 0) \wedge (b + c > 0) \wedge (50 + c < 70)$
   \end{solutionorbox}
 
 \part[2] Please list the path condition corresponding to an execution
@@ -235,9 +235,9 @@ def fun(a: int, b: int, c: int) -> None:
   \textbf{true}, \textbf{false})
   %
   \begin{solutionorbox}[1in]
-    $(s_0 \geq 0) \wedge (s_1 + s_2 > 0) \wedge \neg (50 + s_2 < 70)$
+    $(a \geq 0) \wedge (b + c > 0) \wedge \neg (50 + c < 70)$
     \textbf{OR}
-    $(s_0 \geq 0) \wedge (s_1 + s_2 > 0) \wedge (50 + s_2 \geq 70)$
+    $(a \geq 0) \wedge (b + c > 0) \wedge (50 + c \geq 70)$
     \end{solutionorbox}
 
 \part[2] Please list the path condition corresponding to an execution
@@ -246,9 +246,9 @@ def fun(a: int, b: int, c: int) -> None:
   \textbf{false})
   %
   \begin{solutionorbox}[1in]
-    ($s_0 \geq 0) \wedge \neg (s_1 + s_2 > 0)$
+    ($a \geq 0) \wedge \neg (b + c > 0)$
     \textbf{OR}
-    ($s_0 \geq 0) \wedge (s_1 + s_2 \leq 0)$
+    ($a \geq 0) \wedge (b + c \leq 0)$
 \end{solutionorbox}
 
 \part[2] Please list the path condition corresponding to an execution
@@ -257,9 +257,9 @@ def fun(a: int, b: int, c: int) -> None:
   (\textbf{false}, \textbf{true}, \textbf{true})
   %
   \begin{solutionorbox}[1.5in]
-    $\neg (s_0 \geq 0) \wedge (s_1 + s_2 > 0) \wedge (100 + s_2 < 70)$
+    $\neg (a \geq 0) \wedge (b + c > 0) \wedge (100 + c < 70)$
     \textbf{OR}
-    $(s_0 < 0) \wedge (s_1 + s_2 > 0) \wedge (100 + s_2 < 70)$
+    $(a < 0) \wedge (b + c > 0) \wedge (100 + c < 70)$
 \end{solutionorbox}
 
 \part[2] Please list the path condition corresponding to an execution
@@ -269,9 +269,9 @@ def fun(a: int, b: int, c: int) -> None:
 
   %
   \begin{solutionorbox}[1.5in]
-    $\neg (s_0 \geq 0) \wedge (s_1 + s_2 > 0) \wedge \neg (100 + s_2 < 70)$
+    $\neg (a \geq 0) \wedge (b + c > 0) \wedge \neg (100 + c < 70)$
     \textbf{OR}
-    $(s_0 < 0) \wedge (s_1 + s_2 > 0) \wedge (100 + s_2 \geq 70)$
+    $(a < 0) \wedge (b + c > 0) \wedge (100 + c \geq 70)$
 \end{solutionorbox}
 
 \part[2] Please list the path condition corresponding to an execution
@@ -280,9 +280,9 @@ def fun(a: int, b: int, c: int) -> None:
 
   %
   \begin{solutionorbox}[1.5in]
-    $\neg (s_0 \geq 0) \wedge \neg (s_1 + s_2 > 0)$
+    $\neg (a \geq 0) \wedge \neg (b + c > 0)$
     \textbf{OR}
-    $(s_0 < 0) \wedge (s_1 + s_2 \leq 0)$
+    $(a < 0) \wedge (b + c \leq 0)$
 \end{solutionorbox}
 \end{parts}
 
@@ -294,19 +294,19 @@ def fun(a: int, b: int, c: int) -> None:
 
 \question Given the following python program:
 \begin{minted}{python}
-def bar(x: float, y: float, a: float, b: float) -> float:
+def bar(x: float, y: float, z: float, w: float) -> float:
     result = 0
     # Program state [2a, 2b]?
-    if x == y and b > 0:
-        result = (3 * x) / (b - a)
+    if x == y and w > 0:
+        result = (3 * x) / (w - z)
     else:
-        x = max(x, a)
-        a += b
+        x = max(x, z)
+        z += w
         # Program state [2c, 2d, 2e]?
         if x <= 0:
-            a = a * 3
+            z = z * 3
         y = y / 5
-        result = x + y + a + 1
+        result = x + y + z + 1
         # Program state [2f, 2g, 2h]?
     return result
 \end{minted}
@@ -324,11 +324,11 @@ def bar(x: float, y: float, a: float, b: float) -> float:
 \part[2] After the execution of line 2, what is the symbolic program
   state?\footnote{As before, on all of your answers for this question,
     please name symbolic variables using the convention
-    $s_0, s_1, s_2, ...$.}  %
+    $a, b, c, ...$.}  %
   %
   \begin{solutionorbox}[.75in]
-    \StateS{s_0}{s_1}{s_2}{s_3}{0}
-    %The symbolic program state after L2 is:  $x = s_0, y = s_1, a = s_2, b = s_3, result=0$
+    \StateS{a}{b}{c}{d}{0}
+    %The symbolic program state after L2 is:  $x = a, y = b, a = c, b = d, result=0$
 \end{solutionorbox}
 
 \part[2] After the execution of line 8, what is the concrete program
@@ -344,16 +344,16 @@ def bar(x: float, y: float, a: float, b: float) -> float:
   state?
   %
   \begin{solutionorbox}[.75in]
-    \StateS{max(s_0, s_2)}{s_1}{s_2+s_3}{s_3}{0}
-    % To reach line 8 we need $\neg ((s_0 = s_1) \wedge (s_3 > 0))$.
+    \StateS{max(a, c)}{b}{c+d}{d}{0}
+    % To reach line 8 we need $\neg ((a = b) \wedge (d > 0))$.
     % This gives us the following symbolic state
-    % $x = max(s_0, s_2), y = s_1, a = s_2 + s_3, b = s_3, result = 0$
+    % $x = max(a, c), y = b, a = c + d, b = d, result = 0$
 \end{solutionorbox}
 
 \part[2] What is the path condition after executing line 8?
   %
   \begin{solutionorbox}[.75in]
-    The path condition is $\neg ((s_0 = s_1) \wedge (s_3 > 0))$.
+    The path condition is $\neg ((a = b) \wedge (d > 0))$.
 \end{solutionorbox}
 
 \part[2] After the execution of line 13, what is the concrete program
@@ -367,15 +367,15 @@ def bar(x: float, y: float, a: float, b: float) -> float:
   state?
   %
   \begin{solutionorbox}[.75in]
-    \StateS{max(s_0, s_2)}{s_1 / 5}{s_2+s_3}{s_3}{max(s_0, s_2) + s_1/5 + s_2 + s_3 + 1}
-    % $x = fmax(s_0, s_2), y = s_1 / 5, a = s_2 + s_3 , b = s_3, result = max(s_0, s_2) + s_1 / 5 + s_2 + s_3 + 1$
+    \StateS{max(a, c)}{b / 5}{c+d}{d}{max(a, c) + b/5 + c + d + 1}
+    % $x = fmax(a, c), y = b / 5, a = c + d , b = d, result = max(a, c) + b / 5 + c + d + 1$
 \end{solutionorbox}
 
 \part[2] After the execution of line 13, what is the path condition?
   %
   \begin{solutionorbox}[.75in]
-    The path condition is $\neg ((s_0 = s_1) \wedge (s_3 > 0)) \land
-    \neg (max(s_0, s_2) \leq 0)$.
+    The path condition is $\neg ((a = b) \wedge (d > 0)) \land
+    \neg (max(a, c) \leq 0)$.
 \end{solutionorbox}
 
 \part[5] Provide a possible concrete input that concolic execution
