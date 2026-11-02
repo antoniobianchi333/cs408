@@ -1,0 +1,246 @@
+% Add "answers" option to print the answers
+\documentclass[addpoints]{exam}
+
+\input{cmds}
+
+\usepackage{color}
+\usepackage{lastpage}
+\usepackage{verbatim}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{minted}
+\usepackage{multicol}
+
+% For those sweet, sweet acmart fonts.
+\usepackage[T1]{fontenc}
+\usepackage[tt=false, type1=true]{libertine}
+\usepackage[varqu]{zi4}                  % Inconsolata for \ttfamily
+
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}{}
+
+\newcommand{\Code}[1]{\mintinline{python}{#1}}
+
+\renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
+\definecolor{SolutionColor}{rgb}{0.8,0.9,1}
+
+\cfoot{Page \thepage\ of \pageref{LastPage}}
+\rhead{Initials: \rule{20mm}{0.4pt}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\fvset{numbers=left,numbersep=3pt}
+\thispagestyle{empty}
+
+\begin{center}
+	{\LARGE CS 408 Fall 2026 -- Project 1 Quiz \\}
+\fbox{\fbox{\parbox{5.5in}{\centering
+      \begin{itemize}
+        \item This quiz is closed notes, closed book.
+
+        \item This quiz should be \textbf{completed individually}: any
+          communication with your fellow students is \textbf{strictly}
+          prohibited.
+
+        \item If you have a question, raise your hand and the
+          course staff will come to you.
+
+        \item On multiple choice questions, draw a clear
+          \textsf{circle} around your chosen answer.
+
+        \item On open-ended questions, please print or write legibly.
+
+        \end{itemize}
+	}}}
+\end{center}
+
+\vspace{10mm}
+\makebox[\textwidth]{\textbf{Name (please print)}: \rule{100mm}{0.8pt}\hfill}
+
+ \vspace{10mm}
+\makebox[\textwidth]{\textbf{PUID}: \rule{100mm}{0.8pt} \hfill}
+
+\begin{questions}
+
+  \vspace{12pt}
+%% ------------------------------------------------------------
+\question[1] Why do we need a harness to fuzz a library such as
+  \Code{parson}?
+  \begin{choices}
+  \item The harness makes the library run faster.
+    \CorrectChoice The harness takes the input from the fuzzer and feeds
+    it to the fuzzing target.
+  \item The harness decides which inputs to keep.
+  \item The harness mutates the inputs for the fuzzer.
+  \end{choices}
+  \begin{solution}
+    The harness is a bridge between the fuzzer and the target. The
+    fuzzer creates the inputs and checks the results.
+  \end{solution}
+
+  \vspace{12pt}
+%% ------------------------------------------------------------
+\question[1] Suppose there are the following three branches in our
+  fuzzing target \Code{project/vulnerable/vulnerable.c}:
+  \begin{itemize}
+  \item If the input does not start with \Code{"head "}, it prints
+    \texttt{Input does not start with 'head '.} and returns.
+  \item If the string length is greater than 8, it prints
+    \texttt{Crash: string length greater than 8.} and crashes.
+  \item If the number is greater than the string length, it prints
+    \texttt{Hung: number is greater than string length.} and sleeps.
+  \end{itemize}
+
+  You start your fuzzer, which runs the target program on exactly
+  these four inputs:
+
+  \begin{center}
+    \Code{"hello"} \quad\quad \Code{"head abcdefghij 1"} \quad\quad
+    \Code{"head abcdefghijkl 2"} \quad\quad \Code{"head abc 9"}
+  \end{center}
+
+  What does the \Code{bugs=} field show in the line that your fuzzer
+  prints every 5 seconds?
+  \begin{choices}
+  \item \Code{bugs=3(4)}
+  \item \Code{bugs=1(3)}
+  \CorrectChoice \Code{bugs=2(3)}
+  \item \Code{bugs=3(3)}
+  \end{choices}
+  \begin{solution}
+    For \Code{hello}, the target prints an error message but returns
+    normally; the handout says this is not a bug. The two long strings
+    crash with the same output, so they are \emph{one} unique bug.
+    \Code{head abc 9} runs for more than 5 seconds, so it is a hang,
+    and its output is different, so it is a second unique bug. Three
+    bugs in total, two of them unique.
+  \end{solution}
+
+  \vspace{12pt}
+%% ------------------------------------------------------------
+\question[1] In Task 2, you ran your fuzzer with the \Code{--greybox}
+  flag. Suppose your fuzzer runs the target program on a seed that
+  covers no new edges. What happens?
+  \begin{choices}
+  \CorrectChoice The seed is not added to the corpus.
+  \item The seed is added to the corpus, and its \Code{prev} is
+    \Code{-1}.
+  \item The seed is added to the corpus, and its \Code{prev} is
+    \Code{0}.
+  \item The fuzzer stops with an error.
+  \end{choices}
+  \begin{solution}
+    The fuzzer runs each seed first, and adds it to the corpus only if
+    it triggers new edge coverage. A seed in the corpus has
+    \Code{prev} set to \Code{-1}.
+  \end{solution}
+
+\newpage
+
+%% ------------------------------------------------------------
+\question[1] Coverage collection has three parts: the compiler
+  instrumentation, the instrumentation runtime (\Code{sancov.c}), and
+  the fuzzer. What does each part do?
+  \begin{choices}
+  \item Instrumentation records the visited edges. The runtime decides
+    which inputs to keep. The fuzzer adds the callbacks.
+    \CorrectChoice Instrumentation inserts a callback when an edge is
+    visited. The runtime updates the coverage map. The fuzzer reads
+    the map and checks for new edges.
+  \item The fuzzer adds the callbacks at runtime. The runtime mutates
+    the inputs. Instrumentation reads the map.
+  \item Instrumentation adds the callbacks. The runtime checks for new
+    edges. The fuzzer only counts executions.
+  \end{choices}
+  \begin{solution}
+    The harness sees only one execution. The fuzzer keeps track of all
+    edges visited so far, so only the fuzzer can tell whether an edge
+    is new.
+  \end{solution}
+
+  \vspace{12pt}
+%% ------------------------------------------------------------
+\question[1] In Task 2, you implemented
+  \Code{__sanitizer_cov_trace_pc_guard} in \Code{sancov.c}. Suppose
+  the guard of the visited edge holds the edge ID $k$. Which byte of
+  the coverage map do you set to \Code{1}?
+  \begin{choices}
+  \item Byte $k$
+  \item Byte $k - 1$
+  \CorrectChoice Byte $4 + k - 1$
+  \item Byte $4 + k$
+  \end{choices}
+  \begin{solution}
+    The first four bytes store the total number of edges. Edge IDs
+    start from 1, so edge $k$ uses byte $4 + k - 1$.
+  \end{solution}
+
+  \vspace{12pt}
+%% ------------------------------------------------------------
+\question[1] When your fuzzer discovers an input that triggers new
+  code coverage, it minimizes that input by attempting to remove
+  individual bytes from the input, one at a time. How does the fuzzer
+  decide when to trim each byte?
+  \begin{choices}
+  \item When the input without that byte still covers every edge that
+    the old input covered.
+  \item When the input without that byte covers at least one new edge.
+  \item When the input without that byte still crashes.
+    \CorrectChoice When the input without that byte still triggers all
+    the new code coverage.
+  \end{choices}
+  \begin{solution}
+    This is the rule in the handout. The first option is too strict:
+    almost no byte could ever be removed.
+  \end{solution}
+
+  \vspace{12pt}
+%% ------------------------------------------------------------
+\question[2] In Task 3, you ran your fuzzer with \Code{-g
+    <grammar_file>}. How does your fuzzer mutate inputs from the
+  corpus?
+  \begin{choices}
+  \item It applies the mutators from Task 1 to the input string.
+  \item It generates a new input from the start nonterminal.
+    \CorrectChoice It walks the rule decision tree for the selected
+    input and expands some of the nonterminals using a different rule.
+  \item It inserts tokens from the AFL dictionary into the string.
+  \end{choices}
+  \begin{solution}
+    From the handout: ``Mutating an input is done by choosing a
+    different production rule for a nonterminal.'' The handout also
+    says not to use the Task 1 mutators in this task.
+  \end{solution}
+
+  \vspace{12pt}
+%% ------------------------------------------------------------
+\question[1] In Task 4, which part of the framework from the previous
+  tasks does \Code{afl-cc} replace?
+  \begin{choices}
+  \item The harness and the seeds.
+  \item The source code of the target library.
+  \item The mutation and corpus logic in \Code{fuzzer.py}.
+  \CorrectChoice The instrumentation flags and runtime.
+  \end{choices}
+  \begin{solution}
+    The handout says you don't need to specify the instrumentation
+    flags or implement the runtime yourself, because \Code{afl-cc}
+    does it. The mutation and corpus logic is the job of
+    \Code{afl-fuzz}.
+  \end{solution}
+
+\newpage
+
+%% ------------------------------------------------------------
+\question[3] Briefly describe how your team allocated responsibilities
+  to team members. In particular, what parts of the project did you
+  work on?  What tasks were your teamates primarily responsible for?
+  How did your team coordinate tasks?  \answerspace{30} %
+  \begin{solution}
+    Any reasonable description of the student's own contribution and
+    how the team divided the work.
+  \end{solution}
+
+\end{questions}
+
+\end{document}
