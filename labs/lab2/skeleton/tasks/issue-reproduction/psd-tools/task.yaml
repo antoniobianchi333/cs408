@@ -1,19 +1,23 @@
-type: IR
+id: psd-tools
+type: issue-reproduction
 language: python
 prompt: prompt.md
-test_paths:
-- tests/psd_tools/api
-- tests/psd_tools/psd
-- tests/psd_tools/composite
+test_paths: [tests/psd_tools/api, tests/psd_tools/psd, tests/psd_tools/composite]
 editable: []
-architecture: aarch64
-image_digest: sha256:1f4cb679d12abfe5d60fba00c911df91c66af8d113e20dab8df394a5b73a820a
+source:
+  dataset: DeepSWE
+  task: psd-tools-blend-range-api
+  repository: https://github.com/psd-tools/psd-tools
+  base_commit: c5e03189188daa3c5589326a9d74506d7dc48bc9
 environment:
-  environment_class: adapter.environment.UdockerEnvironment
-  image: ghcr.io/ailen-wrx/cs408-lab2-psd-tools:arm64-20261023
-  cwd: /app
+  image: cs408-lab2/psd-tools:arm64
+  archive: psd-tools-arm64.tar.gz
+  workdir: /app
+  head: c5e03189188daa3c5589326a9d74506d7dc48bc9
   env:
     PYTHONDONTWRITEBYTECODE: '1'
     PYTEST_ADDOPTS: ''
     OMP_NUM_THREADS: '4'
     OPENBLAS_NUM_THREADS: '4'
+check:
+  pytest_args: [-o, addopts=]

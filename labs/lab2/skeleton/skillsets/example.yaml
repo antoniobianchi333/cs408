@@ -1,8 +1,0 @@
-# Select skill directories. Paths are relative to this YAML file.
-# Add other directories to the list to enable multiple skills.
-# Merely placing a directory under skills/ does not enable it.
-# For vanilla, omit --skills-config entirely instead of selecting an empty list.
-skills:
-  enabled:
-    - ../skills/example
-    # - ../skills/another-skill

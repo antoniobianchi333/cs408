@@ -1,0 +1,144 @@
+% Project 2 report. From the root of your repository, run
+%   tectonic report/main.tex
+% to write report/main.pdf, which you submit.
+% At most 4 pages, including figures and tables. No appendix.
+% Replace every [placeholder] and delete these guidance comments.
+
+\documentclass[11pt]{article}
+
+\usepackage[final]{acl}
+\usepackage{times}
+\usepackage{latexsym}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{inconsolata}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{capt-of}
+
+% A report question, in italics, followed by your answer.
+\newcommand{\question}[2]{\par\medskip\noindent\textbf{Question #1.}\ \textit{#2}\par\smallskip\noindent\ignorespaces}
+
+\title{Project 2: Teaching a Coding Agent to Write Tests}
+
+% One block per group member (at most four); delete unused blocks.
+\author{[Member 1] \\
+  \texttt{[username1]@purdue.edu}
+  \And
+  [Member 2] \\
+  \texttt{[username2]@purdue.edu}
+  \AND
+  [Member 3] \\
+  \texttt{[username3]@purdue.edu}
+  \And
+  [Member 4] \\
+  \texttt{[username4]@purdue.edu}}
+
+\begin{document}
+\maketitle
+
+% ---------------------------------------------------------------------------
+\section{Background}
+
+\question{1}{How does the coding agent work?}
+[Answer.]
+
+\question{2}{How does the agent load skills on demand, and why?}
+[Answer.]
+
+\question{3}{How do checkpoints and faulty versions measure how well
+the agent's tests check the Warmup program?}
+[Answer.]
+
+\question{4}{In a Test Writing task, the code is correct, so a good
+test passes on it. How can such a test still show that it checks a behavior?}
+[Answer.]
+
+\question{5}{In an Issue Reproduction task, a test counts only if it
+fails on the unfixed code and passes on the correct code. Why are both
+conditions needed, and what kind of test does each one rule out?}
+[Answer.]
+
+% ---------------------------------------------------------------------------
+\section{Motivating Example}
+% One checkpoint of the Warmup task (garage), in three steps.
+
+\paragraph{What the vanilla run misses.}
+% A checkpoint whose faulty version our vanilla run (jobs/vanilla/garage)
+% does not detect. Show what its tests do and what they leave out.
+Checkpoint \texttt{[id]}, ``[label]'', is not detected by the vanilla run.
+[What its tests check, and what they miss.]
+
+\paragraph{The method and the skill.}
+% The testing method from class that finds this behavior, and the lines of
+% your skill that apply it.
+[Method, and why it finds this behavior.] The skill \texttt{[name]} says:
+\begin{quote}\small
+[Key lines of the skill.]
+\end{quote}
+
+\paragraph{How the agent gets it right.}
+% From your submitted Warmup run (jobs/submission/warmup/garage): the step
+% where the agent reads the skill, the test it writes, and eval.json showing
+% that the faulty version is detected.
+[In step N, the agent reads the skill. It then writes this test:]
+\begin{quote}\small
+\begin{verbatim}
+def test_[name]():
+    ...
+\end{verbatim}
+\end{quote}
+[eval.json: the faulty version of \texttt{[id]} is now detected.]
+
+% ---------------------------------------------------------------------------
+\section{Skills}
+% One subsection for every skill used by any of your submitted runs.
+% Skills teach methods only: they must not reveal what is wrong in a faulty
+% version or how an issue is implemented.
+
+\subsection{\texttt{[skill-name]}}
+% Copy this subsection for each skill.
+
+\paragraph{Used by.} [Warmup, Test Writing, Issue Reproduction.]
+
+\paragraph{Method.} [The testing method from class, e.g., input space
+partitioning \citep{ammann2016introduction}.]
+
+\paragraph{What it tells the agent.} [The steps of the skill.]
+
+\paragraph{Why it helps.} [Evidence from your runs.]
+
+% ---------------------------------------------------------------------------
+\section{Evaluation}
+% Task scores on the public checkpoints (python -m lab2 scoreboard) of your
+% submitted runs and of the vanilla runs.
+
+\begin{center}
+\small
+\begin{tabular}{@{}llrr@{}}
+\toprule
+Part & Task & Vanilla & Ours \\
+\midrule
+Warmup & \texttt{garage} & [ ] & [ ] \\
+\midrule
+Test Writing & \texttt{paperless} & [ ] & [ ] \\
+ & \texttt{minio} & [ ] & [ ] \\
+ & \texttt{k6} & [ ] & [ ] \\
+ & \emph{mean} & [ ] & [ ] \\
+\midrule
+Issue & \texttt{dateutil} & [ ] & [ ] \\
+Reproduction & \texttt{psd-tools} & [ ] & [ ] \\
+ & \texttt{abs} & [ ] & [ ] \\
+ & \emph{mean} & [ ] & [ ] \\
+\bottomrule
+\end{tabular}
+\captionof{table}{Task scores (0--100) on the public checkpoints.}
+\label{tab:scores}
+\end{center}
+
+[Where your skills help and where they do not, and why.]
+
+\bibliography{custom}
+
+\end{document}

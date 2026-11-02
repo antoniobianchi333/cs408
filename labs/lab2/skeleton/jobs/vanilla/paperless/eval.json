@@ -1,0 +1,234 @@
+{
+  "task": "paperless",
+  "type": "test-writing",
+  "valid_submission": true,
+  "files": [
+    "src/documents/tests/test_generate_filename.py"
+  ],
+  "unexpected_changes": [],
+  "reference_repair": false,
+  "runs": {
+    "correct": {
+      "exit_code": 0,
+      "tests": {
+        "documents.tests.test_generate_filename.TestGenerateFilename.test_asn_placeholder": "passed",
+        "documents.tests.test_generate_filename.TestGenerateFilename.test_created_year_month_day": "passed",
+        "documents.tests.test_generate_filename.TestGenerateFilename.test_document_type_placeholder": "passed",
+        "documents.tests.test_generate_filename.TestGenerateFilename.test_leading_path_separator": "passed",
+        "documents.tests.test_generate_filename.TestGenerateFilename.test_tag_list_placeholder": "passed",
+        "documents.tests.test_generate_filename.TestGenerateFilename.test_tags_by_index": "passed",
+        "documents.tests.test_generate_filename.TestGenerateFilename.test_tags_by_index_out_of_range": "passed",
+        "documents.tests.test_generate_filename.TestGenerateFilename.test_tags_with_dashes": "passed",
+        "documents.tests.test_generate_filename.TestGenerateFilename.test_tags_with_underscores": "passed",
+        "documents.tests.test_generate_filename.TestGenerateFilename.test_tags_with_unrecognized_format": "passed"
+      },
+      "output_tail": "..........                                                               [100%]\n=============================== warnings summary ===============================\n../../opt/task-venv/lib/python3.9/site-packages/redis/connection.py:67\n  /opt/task-venv/lib/python3.9/site-packages/redis/connection.py:67: DeprecationWarning: distutils Version classes are deprecated. Use packaging.version instead.\n    hiredis_version = StrictVersion(hiredis.__version__)\n\n../../opt/task-venv/lib/python3.9/site-packages/redis/connection.py:69\n  /opt/task-venv/lib/python3.9/site-packages/redis/connection.py:69: DeprecationWarning: distutils Version classes are deprecated. Use packaging.version instead.\n    hiredis_version >= StrictVersion('0.1.3')\n\n../../opt/task-venv/lib/python3.9/site-packages/redis/connection.py:71\n  /opt/task-venv/lib/python3.9/site-packages/redis/connection.py:71: DeprecationWarning: distutils Version classes are deprecated. Use packaging.version instead.\n    hiredis_version >= StrictVersion('0.1.4')\n\n../../opt/task-venv/lib/python3.9/site-packages/redis/connection.py:73\n  /opt/task-venv/lib/python3.9/site-packages/redis/connection.py:73: DeprecationWarning: distutils Version classes are deprecated. Use packaging.version instead.\n    hiredis_version >= StrictVersion('1.0.0')\n\n../../opt/task-venv/lib/python3.9/site-packages/django/conf/__init__.py:229\n  /opt/task-venv/lib/python3.9/site-packages/django/conf/__init__.py:229: RemovedInDjango50Warning: The USE_L10N setting is deprecated. Starting with Django 5.0, localized formatting of data will always be enabled. For example Django will display numbers and dates using the format of the current locale.\n    warnings.warn(USE_L10N_DEPRECATED_MSG, RemovedInDjango50Warning)\n\n../../opt/task-venv/lib/python3.9/site-packages/django_q/core_signing.py:9\n  /opt/task-venv/lib/python3.9/site-packages/django_q/core_signing.py:9: RemovedInDjango50Warning: The django.utils.baseconv module is deprecated.\n    from django.utils import baseconv\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n---------------- generated xml file: /tmp/tmpy1phxmj7/junit.xml ----------------\n10 passed, 6 warnings in 2.05s\n"
+    }
+  },
+  "eligible": [
+    "documents.tests.test_generate_filename.TestGenerateFilename.test_asn_placeholder",
+    "documents.tests.test_generate_filename.TestGenerateFilename.test_created_year_month_day",
+    "documents.tests.test_generate_filename.TestGenerateFilename.test_document_type_placeholder",
+    "documents.tests.test_generate_filename.TestGenerateFilename.test_leading_path_separator",
+    "documents.tests.test_generate_filename.TestGenerateFilename.test_tag_list_placeholder",
+    "documents.tests.test_generate_filename.TestGenerateFilename.test_tags_by_index",
+    "documents.tests.test_generate_filename.TestGenerateFilename.test_tags_by_index_out_of_range",
+    "documents.tests.test_generate_filename.TestGenerateFilename.test_tags_with_dashes",
+    "documents.tests.test_generate_filename.TestGenerateFilename.test_tags_with_underscores",
+    "documents.tests.test_generate_filename.TestGenerateFilename.test_tags_with_unrecognized_format"
+  ],
+  "checkpoints": [
+    {
+      "id": "document-type-present",
+      "label": "{document_type} renders the assigned document type name",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "M1-doctype-name-dropped",
+          "error": null,
+          "detected_by": [
+            "documents.tests.test_generate_filename.TestGenerateFilename.test_document_type_placeholder"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "document-type-absent",
+      "label": "{document_type} renders \"none\" when no type is assigned",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "M2-doctype-missing-empty",
+          "error": null,
+          "detected_by": [
+            "documents.tests.test_generate_filename.TestGenerateFilename.test_document_type_placeholder"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "asn-present",
+      "label": "{asn} renders the archive serial number",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "M3-asn-value-dropped",
+          "error": null,
+          "detected_by": [
+            "documents.tests.test_generate_filename.TestGenerateFilename.test_asn_placeholder"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tag-key-underscore",
+      "label": "{tags[key]} splits tag names at the first underscore",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "M5-underscore-not-delimiter",
+          "error": null,
+          "detected_by": [
+            "documents.tests.test_generate_filename.TestGenerateFilename.test_tags_with_underscores"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tag-key-dash",
+      "label": "{tags[key]} splits tag names at the first dash when there is no underscore",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "M6-dash-not-delimiter",
+          "error": null,
+          "detected_by": [
+            "documents.tests.test_generate_filename.TestGenerateFilename.test_tags_with_dashes"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tag-key-unrecognized",
+      "label": "Tag names with another delimiter (e.g. a colon) define no key",
+      "hidden": false,
+      "K": 0.0,
+      "faulty_versions": [
+        {
+          "id": "M7-colon-accepted-as-delimiter",
+          "error": null,
+          "detected_by": []
+        }
+      ]
+    },
+    {
+      "id": "tag-missing-none",
+      "label": "A missing tag key or out-of-range index renders \"none\"",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "M8-missing-tag-empty",
+          "error": null,
+          "detected_by": [
+            "documents.tests.test_generate_filename.TestGenerateFilename.test_tags_by_index_out_of_range",
+            "documents.tests.test_generate_filename.TestGenerateFilename.test_tags_with_unrecognized_format"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tag-list-sorted",
+      "label": "{tag_list} lists tag names in ascending order",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "M10-tag-list-unsorted",
+          "error": null,
+          "detected_by": [
+            "documents.tests.test_generate_filename.TestGenerateFilename.test_tag_list_placeholder"
+          ]
+        },
+        {
+          "id": "M10b-tag-list-reverse-sorted",
+          "error": null,
+          "detected_by": [
+            "documents.tests.test_generate_filename.TestGenerateFilename.test_tag_list_placeholder"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tag-list-separator",
+      "label": "{tag_list} joins tag names with a bare comma",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "M11-tag-list-spaced-separator",
+          "error": null,
+          "detected_by": [
+            "documents.tests.test_generate_filename.TestGenerateFilename.test_tag_list_placeholder"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "format-result-stripped",
+      "label": "Surrounding whitespace is stripped (e.g. an empty {tag_list})",
+      "hidden": false,
+      "K": 0.0,
+      "faulty_versions": [
+        {
+          "id": "M12-result-not-stripped",
+          "error": null,
+          "detected_by": []
+        }
+      ]
+    },
+    {
+      "id": "created-year",
+      "label": "{created_year} renders the four-digit year",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "M14-created-year-two-digits",
+          "error": null,
+          "detected_by": [
+            "documents.tests.test_generate_filename.TestGenerateFilename.test_created_year_month_day"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "created-month-padded",
+      "label": "{created_month} is zero-padded to two digits",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "M15-created-month-unpadded",
+          "error": null,
+          "detected_by": [
+            "documents.tests.test_generate_filename.TestGenerateFilename.test_created_year_month_day"
+          ]
+        }
+      ]
+    }
+  ],
+  "score": 83.3333,
+  "evaluated_at": "2026-11-02T16:30:45+00:00",
+  "job": {
+    "alias": "vanilla",
+    "skills": [],
+    "exit_status": "Submitted",
+    "errors": []
+  }
+}

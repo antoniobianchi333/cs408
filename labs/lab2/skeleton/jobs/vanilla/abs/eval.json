@@ -1,0 +1,272 @@
+{
+  "task": "abs",
+  "type": "issue-reproduction",
+  "valid_submission": true,
+  "files": [
+    "evaluator/stepped_slice_test.go",
+    "parser/stepped_slice_test.go"
+  ],
+  "unexpected_changes": [],
+  "reference_repair": true,
+  "runs": {
+    "unfixed": {
+      "exit_code": 1,
+      "tests": {
+        "github.com/abs-lang/abs/evaluator.TestArraySteppedSliceExpressions": "failed",
+        "github.com/abs-lang/abs/evaluator.TestStringSteppedSliceExpressions": "failed",
+        "github.com/abs-lang/abs/evaluator.TestStringSteppedSliceUnicode": "failed",
+        "github.com/abs-lang/abs/evaluator.TestSteppedSliceErrors": "failed",
+        "github.com/abs-lang/abs/evaluator.TestArraySteppedSliceAssignment": "failed",
+        "github.com/abs-lang/abs/evaluator.TestArraySteppedSliceAssignmentErrors": "failed",
+        "github.com/abs-lang/abs/evaluator.TestStringSteppedSliceAssignment": "failed",
+        "github.com/abs-lang/abs/evaluator.TestStringSteppedSliceAssignmentUnicode": "failed",
+        "github.com/abs-lang/abs/evaluator.TestStringSteppedSliceAssignmentErrors": "failed",
+        "github.com/abs-lang/abs/parser.TestParsingSteppedSliceExpressions": "failed",
+        "github.com/abs-lang/abs/parser.TestParsingSteppedSliceWithoutStartExpressions": "failed",
+        "github.com/abs-lang/abs/parser.TestParsingSteppedSliceWithoutEndExpressions": "failed",
+        "github.com/abs-lang/abs/parser.TestParsingSteppedSliceOnlyStepExpressions": "failed",
+        "github.com/abs-lang/abs/parser.TestSteppedSliceStringification": "failed"
+      },
+      "output_tail": "_slice_test.go:395: no error object returned. got=*object.String (abcdef) (input=s = \\\"abcdef\\\"; s[5:5] = \\\"X\\\"; s)\\n\"}\n{\"Time\":\"2026-11-02T16:56:00.32333757Z\",\"Action\":\"output\",\"Package\":\"github.com/abs-lang/abs/evaluator\",\"Test\":\"TestStringSteppedSliceAssignmentErrors\",\"Output\":\"    stepped_slice_test.go:395: no error object returned. got=*object.String (abcdef) (input=s = \\\"abcdef\\\"; s[1:5:2] = 10; s)\\n\"}\n{\"Time\":\"2026-11-02T16:56:00.32338877Z\",\"Action\":\"output\",\"Package\":\"github.com/abs-lang/abs/evaluator\",\"Test\":\"TestStringSteppedSliceAssignmentErrors\",\"Output\":\"    stepped_slice_test.go:395: no error object returned. got=*object.String (abcdef) (input=s = \\\"abcdef\\\"; s[2] = \\\"XY\\\"; s)\\n\"}\n{\"Time\":\"2026-11-02T16:56:00.32339485Z\",\"Action\":\"output\",\"Package\":\"github.com/abs-lang/abs/evaluator\",\"Test\":\"TestStringSteppedSliceAssignmentErrors\",\"Output\":\"--- FAIL: TestStringSteppedSliceAssignmentErrors (0.00s)\\n\"}\n{\"Time\":\"2026-11-02T16:56:00.32342449Z\",\"Action\":\"fail\",\"Package\":\"github.com/abs-lang/abs/evaluator\",\"Test\":\"TestStringSteppedSliceAssignmentErrors\",\"Elapsed\":0}\n{\"Time\":\"2026-11-02T16:56:00.32347809Z\",\"Action\":\"output\",\"Package\":\"github.com/abs-lang/abs/evaluator\",\"Output\":\"FAIL\\n\"}\n{\"Time\":\"2026-11-02T16:56:00.324206686Z\",\"Action\":\"output\",\"Package\":\"github.com/abs-lang/abs/evaluator\",\"Output\":\"FAIL\\tgithub.com/abs-lang/abs/evaluator\\t0.014s\\n\"}\n{\"Time\":\"2026-11-02T16:56:00.324250486Z\",\"Action\":\"fail\",\"Package\":\"github.com/abs-lang/abs/evaluator\",\"Elapsed\":0.015}\n/parser\",\"Test\":\"TestSteppedSliceStringification\",\"Output\":\"    parser_test.go:2066: parser error: \\\"expected next token to be NUMBER, got : instead\\\\n\\\\t[1:14]\\\\tmyArray[99 : 101 : 2]\\\"\\n\"}\n{\"Time\":\"2026-11-02T16:56:01.630600782Z\",\"Action\":\"output\",\"Package\":\"github.com/abs-lang/abs/parser\",\"Test\":\"TestSteppedSliceStringification\",\"Output\":\"    parser_test.go:2066: parser error: \\\"no prefix parse function for ':' found\\\\n\\\\t[1:18]\\\\tmyArray[99 : 101 : 2]\\\"\\n\"}\n{\"Time\":\"2026-11-02T16:56:01.630608902Z\",\"Action\":\"output\",\"Package\":\"github.com/abs-lang/abs/parser\",\"Test\":\"TestSteppedSliceStringification\",\"Output\":\"    parser_test.go:2066: parser error: \\\"no prefix parse function for ']' found\\\\n\\\\t[1:21]\\\\tmyArray[99 : 101 : 2]\\\"\\n\"}\n{\"Time\":\"2026-11-02T16:56:01.630619462Z\",\"Action\":\"output\",\"Package\":\"github.com/abs-lang/abs/parser\",\"Test\":\"TestSteppedSliceStringification\",\"Output\":\"--- FAIL: TestSteppedSliceStringification (0.00s)\\n\"}\n{\"Time\":\"2026-11-02T16:56:01.630628062Z\",\"Action\":\"fail\",\"Package\":\"github.com/abs-lang/abs/parser\",\"Test\":\"TestSteppedSliceStringification\",\"Elapsed\":0}\n{\"Time\":\"2026-11-02T16:56:01.630637342Z\",\"Action\":\"output\",\"Package\":\"github.com/abs-lang/abs/parser\",\"Output\":\"FAIL\\n\"}\n{\"Time\":\"2026-11-02T16:56:01.631048061Z\",\"Action\":\"output\",\"Package\":\"github.com/abs-lang/abs/parser\",\"Output\":\"FAIL\\tgithub.com/abs-lang/abs/parser\\t0.009s\\n\"}\n{\"Time\":\"2026-11-02T16:56:01.63107546Z\",\"Action\":\"fail\",\"Package\":\"github.com/abs-lang/abs/parser\",\"Elapsed\":0.009}\n"
+    },
+    "repaired": {
+      "exit_code": 1,
+      "tests": {
+        "github.com/abs-lang/abs/evaluator.TestArraySteppedSliceExpressions": "passed",
+        "github.com/abs-lang/abs/evaluator.TestStringSteppedSliceExpressions": "failed",
+        "github.com/abs-lang/abs/evaluator.TestStringSteppedSliceUnicode": "passed",
+        "github.com/abs-lang/abs/evaluator.TestSteppedSliceErrors": "failed",
+        "github.com/abs-lang/abs/evaluator.TestArraySteppedSliceAssignment": "failed",
+        "github.com/abs-lang/abs/evaluator.TestArraySteppedSliceAssignmentErrors": "passed",
+        "github.com/abs-lang/abs/evaluator.TestStringSteppedSliceAssignment": "failed",
+        "github.com/abs-lang/abs/evaluator.TestStringSteppedSliceAssignmentUnicode": "passed",
+        "github.com/abs-lang/abs/evaluator.TestStringSteppedSliceAssignmentErrors": "passed",
+        "github.com/abs-lang/abs/parser.TestParsingSteppedSliceExpressions": "passed",
+        "github.com/abs-lang/abs/parser.TestParsingSteppedSliceWithoutStartExpressions": "passed",
+        "github.com/abs-lang/abs/parser.TestParsingSteppedSliceWithoutEndExpressions": "passed",
+        "github.com/abs-lang/abs/parser.TestParsingSteppedSliceOnlyStepExpressions": "passed",
+        "github.com/abs-lang/abs/parser.TestSteppedSliceStringification": "passed"
+      },
+      "output_tail": "t\",\"Package\":\"github.com/abs-lang/abs/evaluator\",\"Test\":\"TestStringSteppedSliceAssignmentUnicode\",\"Output\":\"--- PASS: TestStringSteppedSliceAssignmentUnicode (0.00s)\\n\"}\n{\"Time\":\"2026-11-02T16:56:03.501432511Z\",\"Action\":\"pass\",\"Package\":\"github.com/abs-lang/abs/evaluator\",\"Test\":\"TestStringSteppedSliceAssignmentUnicode\",\"Elapsed\":0}\n{\"Time\":\"2026-11-02T16:56:03.501441111Z\",\"Action\":\"run\",\"Package\":\"github.com/abs-lang/abs/evaluator\",\"Test\":\"TestStringSteppedSliceAssignmentErrors\"}\n{\"Time\":\"2026-11-02T16:56:03.501447071Z\",\"Action\":\"output\",\"Package\":\"github.com/abs-lang/abs/evaluator\",\"Test\":\"TestStringSteppedSliceAssignmentErrors\",\"Output\":\"=== RUN   TestStringSteppedSliceAssignmentErrors\\n\"}\n{\"Time\":\"2026-11-02T16:56:03.501640951Z\",\"Action\":\"output\",\"Package\":\"github.com/abs-lang/abs/evaluator\",\"Test\":\"TestStringSteppedSliceAssignmentErrors\",\"Output\":\"--- PASS: TestStringSteppedSliceAssignmentErrors (0.00s)\\n\"}\n{\"Time\":\"2026-11-02T16:56:03.501655431Z\",\"Action\":\"pass\",\"Package\":\"github.com/abs-lang/abs/evaluator\",\"Test\":\"TestStringSteppedSliceAssignmentErrors\",\"Elapsed\":0}\n{\"Time\":\"2026-11-02T16:56:03.50169963Z\",\"Action\":\"output\",\"Package\":\"github.com/abs-lang/abs/evaluator\",\"Output\":\"FAIL\\n\"}\n{\"Time\":\"2026-11-02T16:56:03.502372827Z\",\"Action\":\"output\",\"Package\":\"github.com/abs-lang/abs/evaluator\",\"Output\":\"FAIL\\tgithub.com/abs-lang/abs/evaluator\\t0.014s\\n\"}\n{\"Time\":\"2026-11-02T16:56:03.502411667Z\",\"Action\":\"fail\",\"Package\":\"github.com/abs-lang/abs/evaluator\",\"Elapsed\":0.014}\ns\\n\"}\n{\"Time\":\"2026-11-02T16:56:04.475992766Z\",\"Action\":\"output\",\"Package\":\"github.com/abs-lang/abs/parser\",\"Test\":\"TestParsingSteppedSliceOnlyStepExpressions\",\"Output\":\"--- PASS: TestParsingSteppedSliceOnlyStepExpressions (0.00s)\\n\"}\n{\"Time\":\"2026-11-02T16:56:04.476001126Z\",\"Action\":\"pass\",\"Package\":\"github.com/abs-lang/abs/parser\",\"Test\":\"TestParsingSteppedSliceOnlyStepExpressions\",\"Elapsed\":0}\n{\"Time\":\"2026-11-02T16:56:04.476007286Z\",\"Action\":\"run\",\"Package\":\"github.com/abs-lang/abs/parser\",\"Test\":\"TestSteppedSliceStringification\"}\n{\"Time\":\"2026-11-02T16:56:04.476012126Z\",\"Action\":\"output\",\"Package\":\"github.com/abs-lang/abs/parser\",\"Test\":\"TestSteppedSliceStringification\",\"Output\":\"=== RUN   TestSteppedSliceStringification\\n\"}\n{\"Time\":\"2026-11-02T16:56:04.476066846Z\",\"Action\":\"output\",\"Package\":\"github.com/abs-lang/abs/parser\",\"Test\":\"TestSteppedSliceStringification\",\"Output\":\"--- PASS: TestSteppedSliceStringification (0.00s)\\n\"}\n{\"Time\":\"2026-11-02T16:56:04.476077166Z\",\"Action\":\"pass\",\"Package\":\"github.com/abs-lang/abs/parser\",\"Test\":\"TestSteppedSliceStringification\",\"Elapsed\":0}\n{\"Time\":\"2026-11-02T16:56:04.476106366Z\",\"Action\":\"output\",\"Package\":\"github.com/abs-lang/abs/parser\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-11-02T16:56:04.476587964Z\",\"Action\":\"output\",\"Package\":\"github.com/abs-lang/abs/parser\",\"Output\":\"ok  \\tgithub.com/abs-lang/abs/parser\\t0.008s\\n\"}\n{\"Time\":\"2026-11-02T16:56:04.476626204Z\",\"Action\":\"pass\",\"Package\":\"github.com/abs-lang/abs/parser\",\"Elapsed\":0.009}\n"
+    }
+  },
+  "eligible": [
+    "github.com/abs-lang/abs/evaluator.TestArraySteppedSliceAssignmentErrors",
+    "github.com/abs-lang/abs/evaluator.TestArraySteppedSliceExpressions",
+    "github.com/abs-lang/abs/evaluator.TestStringSteppedSliceAssignmentErrors",
+    "github.com/abs-lang/abs/evaluator.TestStringSteppedSliceAssignmentUnicode",
+    "github.com/abs-lang/abs/evaluator.TestStringSteppedSliceUnicode",
+    "github.com/abs-lang/abs/parser.TestParsingSteppedSliceExpressions",
+    "github.com/abs-lang/abs/parser.TestParsingSteppedSliceOnlyStepExpressions",
+    "github.com/abs-lang/abs/parser.TestParsingSteppedSliceWithoutEndExpressions",
+    "github.com/abs-lang/abs/parser.TestParsingSteppedSliceWithoutStartExpressions",
+    "github.com/abs-lang/abs/parser.TestSteppedSliceStringification"
+  ],
+  "checkpoints": [
+    {
+      "id": "array-single-assignment",
+      "label": "Preserve single-index array assignment",
+      "hidden": false,
+      "K": 0.0,
+      "faulty_versions": [
+        {
+          "id": "array-single-assignment-off-by-one",
+          "error": null,
+          "detected_by": []
+        }
+      ]
+    },
+    {
+      "id": "array-size-mismatch-diagnostic",
+      "label": "Report the correct array size-mismatch error",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "array-size-error-wrong",
+          "error": null,
+          "detected_by": [
+            "github.com/abs-lang/abs/evaluator.TestArraySteppedSliceAssignmentErrors"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "parser-step-component",
+      "label": "Preserve the third slice component in the parsed expression",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "ast-step-colon-lost",
+          "error": null,
+          "detected_by": [
+            "github.com/abs-lang/abs/parser.TestSteppedSliceStringification"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "range-type-diagnostic",
+      "label": "Report non-numeric slice bounds or steps",
+      "hidden": false,
+      "K": 0.0,
+      "faulty_versions": [
+        {
+          "id": "range-type-error-wrong",
+          "error": null,
+          "detected_by": []
+        }
+      ]
+    },
+    {
+      "id": "reverse-slice-default-start",
+      "label": "Choose the correct default start for reverse slices",
+      "hidden": false,
+      "K": 0.0,
+      "faulty_versions": [
+        {
+          "id": "negative-step-default-start",
+          "error": null,
+          "detected_by": []
+        }
+      ]
+    },
+    {
+      "id": "reverse-slice-end-exclusion",
+      "label": "Exclude the end position in reverse slices",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "negative-step-end-inclusive",
+          "error": null,
+          "detected_by": [
+            "github.com/abs-lang/abs/evaluator.TestArraySteppedSliceExpressions",
+            "github.com/abs-lang/abs/evaluator.TestStringSteppedSliceUnicode"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "string-broadcast",
+      "label": "Broadcast one character across selected string positions",
+      "hidden": false,
+      "K": 0.0,
+      "faulty_versions": [
+        {
+          "id": "string-broadcast-rejected",
+          "error": null,
+          "detected_by": []
+        }
+      ]
+    },
+    {
+      "id": "string-empty-range",
+      "label": "Handle assignment to an empty string range",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "string-empty-range-broadcast-accepted",
+          "error": null,
+          "detected_by": [
+            "github.com/abs-lang/abs/evaluator.TestStringSteppedSliceAssignmentErrors"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "string-range-order",
+      "label": "Assign characters in the selected order",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "string-range-assignment-reversed",
+          "error": null,
+          "detected_by": [
+            "github.com/abs-lang/abs/evaluator.TestStringSteppedSliceAssignmentUnicode"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "string-single-assignment-arity",
+      "label": "Require one character for single-index string assignment",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "string-single-assignment-truncates",
+          "error": null,
+          "detected_by": [
+            "github.com/abs-lang/abs/evaluator.TestStringSteppedSliceAssignmentErrors"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "two-part-negative-end",
+      "label": "Preserve negative ends in two-part slices",
+      "hidden": false,
+      "K": 0.0,
+      "faulty_versions": [
+        {
+          "id": "two-part-negative-end-ignored",
+          "error": null,
+          "detected_by": []
+        }
+      ]
+    },
+    {
+      "id": "unicode-read",
+      "label": "Read Unicode characters rather than bytes",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "unicode-read-counts-bytes",
+          "error": null,
+          "detected_by": [
+            "github.com/abs-lang/abs/evaluator.TestStringSteppedSliceUnicode"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unicode-write",
+      "label": "Assign Unicode characters rather than bytes",
+      "hidden": false,
+      "K": 0.0,
+      "faulty_versions": [
+        {
+          "id": "unicode-assignment-counts-bytes",
+          "error": null,
+          "detected_by": []
+        }
+      ]
+    },
+    {
+      "id": "zero-step-rejection-diagnostic",
+      "label": "Reject step zero with the correct error",
+      "hidden": false,
+      "K": 0.0,
+      "faulty_versions": [
+        {
+          "id": "zero-step-error-wrong",
+          "error": null,
+          "detected_by": []
+        }
+      ]
+    }
+  ],
+  "score": 50.0,
+  "evaluated_at": "2026-11-02T16:56:42+00:00",
+  "job": {
+    "alias": "vanilla",
+    "skills": [],
+    "exit_status": "LimitsExceeded",
+    "errors": []
+  }
+}

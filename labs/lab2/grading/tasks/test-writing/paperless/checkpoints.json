@@ -1,0 +1,185 @@
+{
+ "task": "paperless",
+ "checkpoints": [
+  {
+   "id": "document-type-present",
+   "label": "{document_type} renders the assigned document type name",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "M1-doctype-name-dropped",
+     "patch": "diff --git a/src/documents/file_handling.py b/src/documents/file_handling.py\nindex 132825e..8f5f929 100644\n--- a/src/documents/file_handling.py\n+++ b/src/documents/file_handling.py\n@@ -147,7 +147,7 @@ def generate_filename(doc, counter=0, append_gpg=True, archive_filename=False):\n \n             if doc.document_type:\n                 document_type = pathvalidate.sanitize_filename(\n-                    doc.document_type.name,\n+                    \"none\",\n                     replacement_text=\"-\",\n                 )\n             else:\n"
+    }
+   ]
+  },
+  {
+   "id": "document-type-absent",
+   "label": "{document_type} renders \"none\" when no type is assigned",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "M2-doctype-missing-empty",
+     "patch": "diff --git a/src/documents/file_handling.py b/src/documents/file_handling.py\nindex 132825e..31a2389 100644\n--- a/src/documents/file_handling.py\n+++ b/src/documents/file_handling.py\n@@ -151,7 +151,7 @@ def generate_filename(doc, counter=0, append_gpg=True, archive_filename=False):\n                     replacement_text=\"-\",\n                 )\n             else:\n-                document_type = \"none\"\n+                document_type = \"\"\n \n             if doc.archive_serial_number:\n                 asn = str(doc.archive_serial_number)\n"
+    }
+   ]
+  },
+  {
+   "id": "asn-present",
+   "label": "{asn} renders the archive serial number",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "M3-asn-value-dropped",
+     "patch": "diff --git a/src/documents/file_handling.py b/src/documents/file_handling.py\nindex 132825e..2bab5f1 100644\n--- a/src/documents/file_handling.py\n+++ b/src/documents/file_handling.py\n@@ -154,7 +154,7 @@ def generate_filename(doc, counter=0, append_gpg=True, archive_filename=False):\n                 document_type = \"none\"\n \n             if doc.archive_serial_number:\n-                asn = str(doc.archive_serial_number)\n+                asn = \"none\"\n             else:\n                 asn = \"none\"\n \n"
+    }
+   ]
+  },
+  {
+   "id": "asn-absent",
+   "label": "{asn} renders \"none\" when there is no archive serial number",
+   "hidden": true,
+   "faulty_versions": [
+    {
+     "id": "M4-asn-missing-empty",
+     "patch": "diff --git a/src/documents/file_handling.py b/src/documents/file_handling.py\nindex 132825e..20ce7a6 100644\n--- a/src/documents/file_handling.py\n+++ b/src/documents/file_handling.py\n@@ -156,7 +156,7 @@ def generate_filename(doc, counter=0, append_gpg=True, archive_filename=False):\n             if doc.archive_serial_number:\n                 asn = str(doc.archive_serial_number)\n             else:\n-                asn = \"none\"\n+                asn = \"\"\n \n             path = settings.PAPERLESS_FILENAME_FORMAT.format(\n                 title=pathvalidate.sanitize_filename(doc.title, replacement_text=\"-\"),\n"
+    }
+   ]
+  },
+  {
+   "id": "tag-key-underscore",
+   "label": "{tags[key]} splits tag names at the first underscore",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "M5-underscore-not-delimiter",
+     "patch": "diff --git a/src/documents/file_handling.py b/src/documents/file_handling.py\nindex 132825e..8d27347 100644\n--- a/src/documents/file_handling.py\n+++ b/src/documents/file_handling.py\n@@ -62,7 +62,7 @@ def many_to_dictionary(field):\n         mydictionary[index] = slugify(t.name)\n \n         # Find delimiter\n-        delimiter = t.name.find(\"_\")\n+        delimiter = t.name.find(\"__\")\n \n         if delimiter == -1:\n             delimiter = t.name.find(\"-\")\n"
+    }
+   ]
+  },
+  {
+   "id": "tag-key-dash",
+   "label": "{tags[key]} splits tag names at the first dash when there is no underscore",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "M6-dash-not-delimiter",
+     "patch": "diff --git a/src/documents/file_handling.py b/src/documents/file_handling.py\nindex 132825e..a3d0527 100644\n--- a/src/documents/file_handling.py\n+++ b/src/documents/file_handling.py\n@@ -65,7 +65,7 @@ def many_to_dictionary(field):\n         delimiter = t.name.find(\"_\")\n \n         if delimiter == -1:\n-            delimiter = t.name.find(\"-\")\n+            delimiter = t.name.find(\"--\")\n \n         if delimiter == -1:\n             continue\n"
+    }
+   ]
+  },
+  {
+   "id": "tag-key-unrecognized",
+   "label": "Tag names with another delimiter (e.g. a colon) define no key",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "M7-colon-accepted-as-delimiter",
+     "patch": "diff --git a/src/documents/file_handling.py b/src/documents/file_handling.py\nindex 132825e..f352961 100644\n--- a/src/documents/file_handling.py\n+++ b/src/documents/file_handling.py\n@@ -67,6 +67,9 @@ def many_to_dictionary(field):\n         if delimiter == -1:\n             delimiter = t.name.find(\"-\")\n \n+        if delimiter == -1:\n+            delimiter = t.name.find(\":\")\n+\n         if delimiter == -1:\n             continue\n \n"
+    }
+   ]
+  },
+  {
+   "id": "tag-missing-none",
+   "label": "A missing tag key or out-of-range index renders \"none\"",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "M8-missing-tag-empty",
+     "patch": "diff --git a/src/documents/file_handling.py b/src/documents/file_handling.py\nindex 132825e..9d44f37 100644\n--- a/src/documents/file_handling.py\n+++ b/src/documents/file_handling.py\n@@ -130,7 +130,7 @@ def generate_filename(doc, counter=0, append_gpg=True, archive_filename=False):\n \n     try:\n         if settings.PAPERLESS_FILENAME_FORMAT is not None:\n-            tags = defaultdictNoStr(lambda: slugify(None), many_to_dictionary(doc.tags))\n+            tags = defaultdictNoStr(lambda: \"\", many_to_dictionary(doc.tags))\n \n             tag_list = pathvalidate.sanitize_filename(\n                 \",\".join(sorted([tag.name for tag in doc.tags.all()])),\n"
+    }
+   ]
+  },
+  {
+   "id": "tag-index-zero-based",
+   "label": "{tags[N]} indexes tags from zero",
+   "hidden": true,
+   "faulty_versions": [
+    {
+     "id": "M9-index-one-based",
+     "patch": "diff --git a/src/documents/file_handling.py b/src/documents/file_handling.py\nindex 132825e..3ae3488 100644\n--- a/src/documents/file_handling.py\n+++ b/src/documents/file_handling.py\n@@ -59,7 +59,7 @@ def many_to_dictionary(field):\n \n     for index, t in enumerate(field.all()):\n         # Populate tag names by index\n-        mydictionary[index] = slugify(t.name)\n+        mydictionary[index + 1] = slugify(t.name)\n \n         # Find delimiter\n         delimiter = t.name.find(\"_\")\n"
+    }
+   ]
+  },
+  {
+   "id": "tag-list-sorted",
+   "label": "{tag_list} lists tag names in ascending order",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "M10-tag-list-unsorted",
+     "patch": "diff --git a/src/documents/file_handling.py b/src/documents/file_handling.py\nindex 132825e..d98bae9 100644\n--- a/src/documents/file_handling.py\n+++ b/src/documents/file_handling.py\n@@ -133,7 +133,7 @@ def generate_filename(doc, counter=0, append_gpg=True, archive_filename=False):\n             tags = defaultdictNoStr(lambda: slugify(None), many_to_dictionary(doc.tags))\n \n             tag_list = pathvalidate.sanitize_filename(\n-                \",\".join(sorted([tag.name for tag in doc.tags.all()])),\n+                \",\".join([tag.name for tag in doc.tags.all()]),\n                 replacement_text=\"-\",\n             )\n \n"
+    },
+    {
+     "id": "M10b-tag-list-reverse-sorted",
+     "patch": "diff --git a/src/documents/file_handling.py b/src/documents/file_handling.py\nindex 132825e..816113a 100644\n--- a/src/documents/file_handling.py\n+++ b/src/documents/file_handling.py\n@@ -133,7 +133,7 @@ def generate_filename(doc, counter=0, append_gpg=True, archive_filename=False):\n             tags = defaultdictNoStr(lambda: slugify(None), many_to_dictionary(doc.tags))\n \n             tag_list = pathvalidate.sanitize_filename(\n-                \",\".join(sorted([tag.name for tag in doc.tags.all()])),\n+                \",\".join(sorted([tag.name for tag in doc.tags.all()], reverse=True)),\n                 replacement_text=\"-\",\n             )\n \n"
+    }
+   ]
+  },
+  {
+   "id": "tag-list-separator",
+   "label": "{tag_list} joins tag names with a bare comma",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "M11-tag-list-spaced-separator",
+     "patch": "diff --git a/src/documents/file_handling.py b/src/documents/file_handling.py\nindex 132825e..4315002 100644\n--- a/src/documents/file_handling.py\n+++ b/src/documents/file_handling.py\n@@ -133,7 +133,7 @@ def generate_filename(doc, counter=0, append_gpg=True, archive_filename=False):\n             tags = defaultdictNoStr(lambda: slugify(None), many_to_dictionary(doc.tags))\n \n             tag_list = pathvalidate.sanitize_filename(\n-                \",\".join(sorted([tag.name for tag in doc.tags.all()])),\n+                \", \".join(sorted([tag.name for tag in doc.tags.all()])),\n                 replacement_text=\"-\",\n             )\n \n"
+    }
+   ]
+  },
+  {
+   "id": "format-result-stripped",
+   "label": "Surrounding whitespace is stripped (e.g. an empty {tag_list})",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "M12-result-not-stripped",
+     "patch": "diff --git a/src/documents/file_handling.py b/src/documents/file_handling.py\nindex 132825e..e502f0b 100644\n--- a/src/documents/file_handling.py\n+++ b/src/documents/file_handling.py\n@@ -173,7 +173,7 @@ def generate_filename(doc, counter=0, append_gpg=True, archive_filename=False):\n                 asn=asn,\n                 tags=tags,\n                 tag_list=tag_list,\n-            ).strip()\n+            )\n \n             path = path.strip(os.sep)\n \n"
+    }
+   ]
+  },
+  {
+   "id": "leading-separator-stripped",
+   "label": "Leading path separators are removed, keeping the path relative",
+   "hidden": true,
+   "faulty_versions": [
+    {
+     "id": "M13-leading-separator-kept",
+     "patch": "diff --git a/src/documents/file_handling.py b/src/documents/file_handling.py\nindex 132825e..9122bec 100644\n--- a/src/documents/file_handling.py\n+++ b/src/documents/file_handling.py\n@@ -175,7 +175,7 @@ def generate_filename(doc, counter=0, append_gpg=True, archive_filename=False):\n                 tag_list=tag_list,\n             ).strip()\n \n-            path = path.strip(os.sep)\n+            path = path.rstrip(os.sep)\n \n     except (ValueError, KeyError, IndexError):\n         logger.warning(\n"
+    }
+   ]
+  },
+  {
+   "id": "created-year",
+   "label": "{created_year} renders the four-digit year",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "M14-created-year-two-digits",
+     "patch": "diff --git a/src/documents/file_handling.py b/src/documents/file_handling.py\nindex 132825e..fe99602 100644\n--- a/src/documents/file_handling.py\n+++ b/src/documents/file_handling.py\n@@ -163,7 +163,7 @@ def generate_filename(doc, counter=0, append_gpg=True, archive_filename=False):\n                 correspondent=correspondent,\n                 document_type=document_type,\n                 created=datetime.date.isoformat(doc.created),\n-                created_year=doc.created.year if doc.created else \"none\",\n+                created_year=doc.created.strftime(\"%y\") if doc.created else \"none\",\n                 created_month=f\"{doc.created.month:02}\" if doc.created else \"none\",\n                 created_day=f\"{doc.created.day:02}\" if doc.created else \"none\",\n                 added=datetime.date.isoformat(doc.added),\n"
+    }
+   ]
+  },
+  {
+   "id": "created-month-padded",
+   "label": "{created_month} is zero-padded to two digits",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "M15-created-month-unpadded",
+     "patch": "diff --git a/src/documents/file_handling.py b/src/documents/file_handling.py\nindex 132825e..a15f1c3 100644\n--- a/src/documents/file_handling.py\n+++ b/src/documents/file_handling.py\n@@ -164,7 +164,7 @@ def generate_filename(doc, counter=0, append_gpg=True, archive_filename=False):\n                 document_type=document_type,\n                 created=datetime.date.isoformat(doc.created),\n                 created_year=doc.created.year if doc.created else \"none\",\n-                created_month=f\"{doc.created.month:02}\" if doc.created else \"none\",\n+                created_month=f\"{doc.created.month}\" if doc.created else \"none\",\n                 created_day=f\"{doc.created.day:02}\" if doc.created else \"none\",\n                 added=datetime.date.isoformat(doc.added),\n                 added_year=doc.added.year if doc.added else \"none\",\n"
+    }
+   ]
+  },
+  {
+   "id": "created-day-padded",
+   "label": "{created_day} is zero-padded to two digits",
+   "hidden": true,
+   "faulty_versions": [
+    {
+     "id": "M16-created-day-unpadded",
+     "patch": "diff --git a/src/documents/file_handling.py b/src/documents/file_handling.py\nindex 132825e..b883783 100644\n--- a/src/documents/file_handling.py\n+++ b/src/documents/file_handling.py\n@@ -165,7 +165,7 @@ def generate_filename(doc, counter=0, append_gpg=True, archive_filename=False):\n                 created=datetime.date.isoformat(doc.created),\n                 created_year=doc.created.year if doc.created else \"none\",\n                 created_month=f\"{doc.created.month:02}\" if doc.created else \"none\",\n-                created_day=f\"{doc.created.day:02}\" if doc.created else \"none\",\n+                created_day=f\"{doc.created.day}\" if doc.created else \"none\",\n                 added=datetime.date.isoformat(doc.added),\n                 added_year=doc.added.year if doc.added else \"none\",\n                 added_month=f\"{doc.added.month:02}\" if doc.added else \"none\",\n"
+    }
+   ]
+  }
+ ]
+}

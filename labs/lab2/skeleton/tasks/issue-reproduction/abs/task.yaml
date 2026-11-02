@@ -1,14 +1,18 @@
-type: IR
+id: abs
+type: issue-reproduction
 language: go
 prompt: prompt.md
-test_paths:
-- evaluator
-- parser
+test_paths: [evaluator, parser]
 editable: []
-architecture: aarch64
-image_digest: sha256:d74b8cda7f8b578fde1bfe5d613b1b852158db55eed60770b85340e9100dcea3
+source:
+  dataset: DeepSWE
+  task: abs-stepped-slices
+  repository: https://github.com/abs-lang/abs
+  base_commit: cb1b3b671d0ee9fa9da9f7b02f86967953ffd10a
 environment:
-  environment_class: adapter.environment.UdockerEnvironment
-  image: ghcr.io/ailen-wrx/cs408-lab2-abs:arm64-20261023
-  cwd: /app
+  image: cs408-lab2/abs:arm64
+  archive: abs-arm64.tar.gz
+  workdir: /app
+  head: cb1b3b671d0ee9fa9da9f7b02f86967953ffd10a
+  env: {}
 prepare: go test -run "^$" ./evaluator ./parser

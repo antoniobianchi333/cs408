@@ -1,0 +1,433 @@
+{
+  "task": "psd-tools",
+  "type": "issue-reproduction",
+  "valid_submission": true,
+  "files": [
+    "tests/psd_tools/api/test_blend_range.py",
+    "tests/psd_tools/composite/test_blend_range_composite.py",
+    "tests/psd_tools/psd/test_blend_range_validation.py"
+  ],
+  "unexpected_changes": [],
+  "reference_repair": true,
+  "runs": {
+    "unfixed": {
+      "exit_code": 1,
+      "tests": {
+        "tests.psd_tools.api.test_blend_range.test_blend_range_channel_from_raw": "failed",
+        "tests.psd_tools.api.test_blend_range.test_blend_range_channel_default": "failed",
+        "tests.psd_tools.api.test_blend_range.test_blend_range_channel_mutable_and_split": "failed",
+        "tests.psd_tools.api.test_blend_range.test_blend_range_channel_from_values": "failed",
+        "tests.psd_tools.api.test_blend_range.test_blend_ranges_container": "failed",
+        "tests.psd_tools.api.test_blend_range.test_blend_ranges_from_raw": "failed",
+        "tests.psd_tools.api.test_blend_range.test_blend_ranges_from_null": "failed",
+        "tests.psd_tools.api.test_blend_range.test_blend_ranges_from_channels_and_apply_to_raw": "failed",
+        "tests.psd_tools.api.test_blend_range.test_blend_ranges_is_default": "failed",
+        "tests.psd_tools.api.test_blend_range.test_blend_ranges_compute_visibility": "failed",
+        "tests.psd_tools.api.test_blend_range.test_blend_ranges_to_pil_mask": "failed",
+        "tests.psd_tools.api.test_blend_range.test_layer_blend_ranges_default": "failed",
+        "tests.psd_tools.api.test_blend_range.test_layer_blend_ranges_setter_persists": "failed",
+        "tests.psd_tools.composite.test_blend_range_composite.test_composite_ignores_default_ranges": "passed",
+        "tests.psd_tools.composite.test_blend_range_composite.test_composite_this_layer_black": "failed",
+        "tests.psd_tools.composite.test_blend_range_composite.test_composite_this_layer_white": "failed",
+        "tests.psd_tools.composite.test_blend_range_composite.test_composite_split_slider_fades": "failed",
+        "tests.psd_tools.composite.test_blend_range_composite.test_composite_underlying_layer_black": "failed",
+        "tests.psd_tools.composite.test_blend_range_composite.test_composite_per_channel_range": "failed",
+        "tests.psd_tools.psd.test_blend_range_validation.test_write_valid_ranges": "passed",
+        "tests.psd_tools.psd.test_blend_range_validation.test_write_invalid_composite_ranges": "failed",
+        "tests.psd_tools.psd.test_blend_range_validation.test_write_invalid_channel_ranges": "failed"
+      },
+      "output_tail": "er)\n        expected = np.array([0.0, 64 / 255, 191 / 255, 1.0])\n>       assert np.allclose(alpha[0], expected, atol=1e-3)\nE       assert False\nE        +  where False = <function allclose at 0xe7a8ff7069f0>(array([[1.],\\n       [1.],\\n       [1.],\\n       [1.]], dtype=float32), array([0.        , 0.25098039, 0.74901961, 1.        ]), atol=0.001)\nE        +    where <function allclose at 0xe7a8ff7069f0> = np.allclose\n\ntests/psd_tools/composite/test_blend_range_composite.py:104: AssertionError\n_____________________ test_write_invalid_composite_ranges ______________________\n\n    def test_write_invalid_composite_ranges() -> None:\n>       with pytest.raises(ValueError):\n             ^^^^^^^^^^^^^^^^^^^^^^^^^\nE       Failed: DID NOT RAISE ValueError\n\ntests/psd_tools/psd/test_blend_range_validation.py:26: Failed\n______________________ test_write_invalid_channel_ranges _______________________\n\n    def test_write_invalid_channel_ranges() -> None:\n>       with pytest.raises(ValueError):\n             ^^^^^^^^^^^^^^^^^^^^^^^^^\nE       Failed: DID NOT RAISE ValueError\n\ntests/psd_tools/psd/test_blend_range_validation.py:38: Failed\n=========================== short test summary info ============================\nFAILED tests/psd_tools/api/test_blend_range.py::test_blend_range_channel_from_raw\nFAILED tests/psd_tools/api/test_blend_range.py::test_blend_range_channel_default\nFAILED tests/psd_tools/api/test_blend_range.py::test_blend_range_channel_mutable_and_split\nFAILED tests/psd_tools/api/test_blend_range.py::test_blend_range_channel_from_values\nFAILED tests/psd_tools/api/test_blend_range.py::test_blend_ranges_container\nFAILED tests/psd_tools/api/test_blend_range.py::test_blend_ranges_from_raw - ...\nFAILED tests/psd_tools/api/test_blend_range.py::test_blend_ranges_from_null\nFAILED tests/psd_tools/api/test_blend_range.py::test_blend_ranges_from_channels_and_apply_to_raw\nFAILED tests/psd_tools/api/test_blend_range.py::test_blend_ranges_is_default\nFAILED tests/psd_tools/api/test_blend_range.py::test_blend_ranges_compute_visibility\nFAILED tests/psd_tools/api/test_blend_range.py::test_blend_ranges_to_pil_mask\nFAILED tests/psd_tools/api/test_blend_range.py::test_layer_blend_ranges_default\nFAILED tests/psd_tools/api/test_blend_range.py::test_layer_blend_ranges_setter_persists\nFAILED tests/psd_tools/composite/test_blend_range_composite.py::test_composite_this_layer_black\nFAILED tests/psd_tools/composite/test_blend_range_composite.py::test_composite_this_layer_white\nFAILED tests/psd_tools/composite/test_blend_range_composite.py::test_composite_split_slider_fades\nFAILED tests/psd_tools/composite/test_blend_range_composite.py::test_composite_underlying_layer_black\nFAILED tests/psd_tools/composite/test_blend_range_composite.py::test_composite_per_channel_range\nFAILED tests/psd_tools/psd/test_blend_range_validation.py::test_write_invalid_composite_ranges\nFAILED tests/psd_tools/psd/test_blend_range_validation.py::test_write_invalid_channel_ranges\n20 failed, 2 passed in 2.83s\n"
+    },
+    "repaired": {
+      "exit_code": 1,
+      "tests": {
+        "tests.psd_tools.api.test_blend_range.test_blend_range_channel_from_raw": "passed",
+        "tests.psd_tools.api.test_blend_range.test_blend_range_channel_default": "failed",
+        "tests.psd_tools.api.test_blend_range.test_blend_range_channel_mutable_and_split": "failed",
+        "tests.psd_tools.api.test_blend_range.test_blend_range_channel_from_values": "failed",
+        "tests.psd_tools.api.test_blend_range.test_blend_ranges_container": "passed",
+        "tests.psd_tools.api.test_blend_range.test_blend_ranges_from_raw": "failed",
+        "tests.psd_tools.api.test_blend_range.test_blend_ranges_from_null": "passed",
+        "tests.psd_tools.api.test_blend_range.test_blend_ranges_from_channels_and_apply_to_raw": "failed",
+        "tests.psd_tools.api.test_blend_range.test_blend_ranges_is_default": "passed",
+        "tests.psd_tools.api.test_blend_range.test_blend_ranges_compute_visibility": "failed",
+        "tests.psd_tools.api.test_blend_range.test_blend_ranges_to_pil_mask": "failed",
+        "tests.psd_tools.api.test_blend_range.test_layer_blend_ranges_default": "passed",
+        "tests.psd_tools.api.test_blend_range.test_layer_blend_ranges_setter_persists": "failed",
+        "tests.psd_tools.composite.test_blend_range_composite.test_composite_ignores_default_ranges": "passed",
+        "tests.psd_tools.composite.test_blend_range_composite.test_composite_this_layer_black": "failed",
+        "tests.psd_tools.composite.test_blend_range_composite.test_composite_this_layer_white": "failed",
+        "tests.psd_tools.composite.test_blend_range_composite.test_composite_split_slider_fades": "failed",
+        "tests.psd_tools.composite.test_blend_range_composite.test_composite_underlying_layer_black": "passed",
+        "tests.psd_tools.composite.test_blend_range_composite.test_composite_per_channel_range": "failed",
+        "tests.psd_tools.psd.test_blend_range_validation.test_write_valid_ranges": "passed",
+        "tests.psd_tools.psd.test_blend_range_validation.test_write_invalid_composite_ranges": "passed",
+        "tests.psd_tools.psd.test_blend_range_validation.test_write_invalid_channel_ranges": "passed"
+      },
+      "output_tail": "set_ranges(layer, [(0, 128 << 8), FULL])\n        color, shape, alpha = composite(layer)\n        expected = np.array([0.0, 64 / 128, 1.0, 1.0])\n>       assert np.allclose(alpha[0], expected, atol=1e-3)\nE       assert False\nE        +  where False = <function allclose at 0xfdddd3b86e70>(array([[1. ],\\n       [0.5],\\n       [0. ],\\n       [0. ]], dtype=float32), array([0. , 0.5, 1. , 1. ]), atol=0.001)\nE        +    where <function allclose at 0xfdddd3b86e70> = np.allclose\n\ntests/psd_tools/composite/test_blend_range_composite.py:72: AssertionError\n_______________________ test_composite_per_channel_range _______________________\n\n    def test_composite_per_channel_range() -> None:\n        # Red channel this_layer_black = (0, 255): weight = R / 255.\n        values = np.zeros((4, 4, 3), dtype=np.uint8)\n        values[:, :, 0] = np.tile(np.array([0, 64, 191, 255], dtype=np.uint8), (4, 1))\n        values[:, :, 1] = 255\n        values[:, :, 2] = 255\n        psd = _make_psd(values)\n        layer = psd[0]\n        _set_ranges(\n            layer,\n            [FULL, FULL],\n            [\n                [(0, 255 << 8), FULL],\n                [FULL, FULL],\n                [FULL, FULL],\n                [FULL, FULL],\n            ],\n        )\n        color, shape, alpha = composite(layer)\n        expected = np.array([0.0, 64 / 255, 191 / 255, 1.0])\n>       assert np.allclose(alpha[0], expected, atol=1e-3)\nE       assert False\nE        +  where False = <function allclose at 0xfdddd3b86e70>(array([[1.        ],\\n       [0.7490196 ],\\n       [0.25098038],\\n       [0.        ]], dtype=float32), array([0.        , 0.25098039, 0.74901961, 1.        ]), atol=0.001)\nE        +    where <function allclose at 0xfdddd3b86e70> = np.allclose\n\ntests/psd_tools/composite/test_blend_range_composite.py:104: AssertionError\n=========================== short test summary info ============================\nFAILED tests/psd_tools/api/test_blend_range.py::test_blend_range_channel_default\nFAILED tests/psd_tools/api/test_blend_range.py::test_blend_range_channel_mutable_and_split\nFAILED tests/psd_tools/api/test_blend_range.py::test_blend_range_channel_from_values\nFAILED tests/psd_tools/api/test_blend_range.py::test_blend_ranges_from_raw - ...\nFAILED tests/psd_tools/api/test_blend_range.py::test_blend_ranges_from_channels_and_apply_to_raw\nFAILED tests/psd_tools/api/test_blend_range.py::test_blend_ranges_compute_visibility\nFAILED tests/psd_tools/api/test_blend_range.py::test_blend_ranges_to_pil_mask\nFAILED tests/psd_tools/api/test_blend_range.py::test_layer_blend_ranges_setter_persists\nFAILED tests/psd_tools/composite/test_blend_range_composite.py::test_composite_this_layer_black\nFAILED tests/psd_tools/composite/test_blend_range_composite.py::test_composite_this_layer_white\nFAILED tests/psd_tools/composite/test_blend_range_composite.py::test_composite_split_slider_fades\nFAILED tests/psd_tools/composite/test_blend_range_composite.py::test_composite_per_channel_range\n12 failed, 10 passed in 2.90s\n"
+    }
+  },
+  "eligible": [
+    "tests.psd_tools.api.test_blend_range.test_blend_range_channel_from_raw",
+    "tests.psd_tools.api.test_blend_range.test_blend_ranges_container",
+    "tests.psd_tools.api.test_blend_range.test_blend_ranges_from_null",
+    "tests.psd_tools.api.test_blend_range.test_blend_ranges_is_default",
+    "tests.psd_tools.api.test_blend_range.test_layer_blend_ranges_default",
+    "tests.psd_tools.composite.test_blend_range_composite.test_composite_underlying_layer_black",
+    "tests.psd_tools.psd.test_blend_range_validation.test_write_invalid_channel_ranges",
+    "tests.psd_tools.psd.test_blend_range_validation.test_write_invalid_composite_ranges"
+  ],
+  "checkpoints": [
+    {
+      "id": "channel-default-predicate",
+      "label": "Recognize default channel values",
+      "hidden": false,
+      "K": 0.5,
+      "faulty_versions": [
+        {
+          "id": "any-default-field-means-default",
+          "error": null,
+          "detected_by": [
+            "tests.psd_tools.api.test_blend_range.test_blend_ranges_is_default",
+            "tests.psd_tools.composite.test_blend_range_composite.test_composite_underlying_layer_black"
+          ]
+        },
+        {
+          "id": "channel-default-ignores-source",
+          "error": null,
+          "detected_by": []
+        }
+      ]
+    },
+    {
+      "id": "channel-description",
+      "label": "Describe a channel",
+      "hidden": false,
+      "K": 0.0,
+      "faulty_versions": [
+        {
+          "id": "channel-describe-active-empty",
+          "error": null,
+          "detected_by": []
+        },
+        {
+          "id": "channel-describe-default-empty",
+          "error": null,
+          "detected_by": []
+        }
+      ]
+    },
+    {
+      "id": "composite-pair-validation",
+      "label": "Validate the composite pair count",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "invalid-composite-length-accepted",
+          "error": null,
+          "detected_by": [
+            "tests.psd_tools.psd.test_blend_range_validation.test_write_invalid_composite_ranges"
+          ]
+        },
+        {
+          "id": "valid-composite-write-rejected",
+          "error": null,
+          "detected_by": [
+            "tests.psd_tools.psd.test_blend_range_validation.test_write_invalid_composite_ranges"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "composite-writeback",
+      "label": "Write composite values back to raw storage",
+      "hidden": false,
+      "K": 0.0,
+      "faulty_versions": [
+        {
+          "id": "writeback-resets-composite",
+          "error": null,
+          "detected_by": []
+        }
+      ]
+    },
+    {
+      "id": "container-default-predicate",
+      "label": "Recognize a default container",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "container-default-ignores-composite",
+          "error": null,
+          "detected_by": [
+            "tests.psd_tools.api.test_blend_range.test_blend_ranges_is_default",
+            "tests.psd_tools.composite.test_blend_range_composite.test_composite_underlying_layer_black"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "container-iteration",
+      "label": "Iterate over all color channels",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "iterator-omits-last-channel",
+          "error": null,
+          "detected_by": [
+            "tests.psd_tools.api.test_blend_range.test_blend_ranges_container"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "default-compositor-visibility",
+      "label": "Preserve compositing with default ranges",
+      "hidden": false,
+      "K": 0.0,
+      "faulty_versions": [
+        {
+          "id": "compositor-default-hidden",
+          "error": null,
+          "detected_by": []
+        }
+      ]
+    },
+    {
+      "id": "default-visibility",
+      "label": "Return full visibility for default ranges",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "default-visibility-half",
+          "error": null,
+          "detected_by": [
+            "tests.psd_tools.composite.test_blend_range_composite.test_composite_underlying_layer_black"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "explicit-container-construction",
+      "label": "Construct a container from explicit channels",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "from-channels-discards-channel",
+          "error": null,
+          "detected_by": [
+            "tests.psd_tools.api.test_blend_range.test_blend_ranges_is_default"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "from-values-construction",
+      "label": "Construct non-split channels from scalar values",
+      "hidden": false,
+      "K": 0.5,
+      "faulty_versions": [
+        {
+          "id": "from-values-default-white-off-by-one",
+          "error": null,
+          "detected_by": []
+        },
+        {
+          "id": "from-values-white-wrong",
+          "error": null,
+          "detected_by": [
+            "tests.psd_tools.api.test_blend_range.test_blend_ranges_is_default"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "layer-property-readback",
+      "label": "Read and persist layer blend-range values",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "layer-property-default-only",
+          "error": null,
+          "detected_by": [
+            "tests.psd_tools.composite.test_blend_range_composite.test_composite_underlying_layer_black"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mask-pixel-semantics",
+      "label": "Produce the correct visibility-mask pixels",
+      "hidden": false,
+      "K": 0.0,
+      "faulty_versions": [
+        {
+          "id": "mask-inverts-visibility",
+          "error": null,
+          "detected_by": []
+        }
+      ]
+    },
+    {
+      "id": "negative-container-indexing",
+      "label": "Support negative channel indices",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "negative-index-treated-invalid",
+          "error": null,
+          "detected_by": [
+            "tests.psd_tools.api.test_blend_range.test_blend_ranges_container"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "per-channel-visibility",
+      "label": "Apply individual color-channel ranges",
+      "hidden": false,
+      "K": 0.0,
+      "faulty_versions": [
+        {
+          "id": "per-channel-visibility-ignored",
+          "error": null,
+          "detected_by": []
+        }
+      ]
+    },
+    {
+      "id": "raw-container-construction",
+      "label": "Construct a container from raw range data",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "null-ranges-gain-channel",
+          "error": null,
+          "detected_by": [
+            "tests.psd_tools.api.test_blend_range.test_blend_ranges_from_null"
+          ]
+        },
+        {
+          "id": "raw-channels-discarded",
+          "error": null,
+          "detected_by": [
+            "tests.psd_tools.api.test_blend_range.test_layer_blend_ranges_default"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "raw-decoding",
+      "label": "Decode slider handles from raw integers",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "decode-high-bit-lost",
+          "error": null,
+          "detected_by": [
+            "tests.psd_tools.api.test_blend_range.test_layer_blend_ranges_default",
+            "tests.psd_tools.composite.test_blend_range_composite.test_composite_underlying_layer_black"
+          ]
+        },
+        {
+          "id": "decode-split-byte-order",
+          "error": null,
+          "detected_by": [
+            "tests.psd_tools.api.test_blend_range.test_blend_range_channel_from_raw"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "raw-encoding",
+      "label": "Encode slider handles as raw integers",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "encode-split-byte-order",
+          "error": null,
+          "detected_by": [
+            "tests.psd_tools.api.test_blend_range.test_blend_range_channel_from_raw"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "split-flags",
+      "label": "Report whether slider handles are split",
+      "hidden": false,
+      "K": 0.0,
+      "faulty_versions": [
+        {
+          "id": "split-flag-inverted",
+          "error": null,
+          "detected_by": []
+        }
+      ]
+    },
+    {
+      "id": "typed-layer-property",
+      "label": "Expose a typed blend-range property on layers",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "layer-property-returns-raw",
+          "error": null,
+          "detected_by": [
+            "tests.psd_tools.api.test_blend_range.test_layer_blend_ranges_default",
+            "tests.psd_tools.composite.test_blend_range_composite.test_composite_underlying_layer_black"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "underlying-slider-selection",
+      "label": "Use backdrop values for underlying-layer sliders",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "underlying-uses-source",
+          "error": null,
+          "detected_by": [
+            "tests.psd_tools.composite.test_blend_range_composite.test_composite_underlying_layer_black"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zero-container-indexing",
+      "label": "Index the first color channel correctly",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "zero-index-treated-invalid",
+          "error": null,
+          "detected_by": [
+            "tests.psd_tools.api.test_blend_range.test_blend_ranges_container"
+          ]
+        }
+      ]
+    }
+  ],
+  "score": 66.6667,
+  "evaluated_at": "2026-11-02T17:03:35+00:00",
+  "job": {
+    "alias": "vanilla",
+    "skills": [],
+    "exit_status": "Submitted",
+    "errors": []
+  }
+}

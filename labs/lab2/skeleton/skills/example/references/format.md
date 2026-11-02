@@ -1,39 +1,35 @@
 # Course skill format
 
-Each skill is a directory containing `skill.yaml`. All three fields are required:
+A skill is a folder `skills/<name>/` containing `SKILL.md`, which starts with
+YAML front matter and continues with the instructions in Markdown:
+
+```markdown
+---
+name: my-skill
+description: When the skill is useful (shown to the agent at the start).
+---
+
+# Instructions read by the agent when the skill is relevant
+```
 
 | Field | Meaning |
 | --- | --- |
-| `name` | Unique lowercase identifier, such as `example` or `my-skill`. Digits and hyphens are allowed. |
-| `description` | Short explanation of when the skill is useful. Visible in the initial skill catalog. |
-| `instructions` | Full instructions, written as a YAML multiline string. Read by the agent when needed. |
+| `name` | Must equal the folder name: lowercase letters, digits and hyphens. |
+| `description` | Short explanation of when to use the skill; part of the initial prompt. |
 
-Additional YAML fields are rejected. A run cannot select two skills with the same
-name. Supporting files are optional; this example uses `references/format.md`.
-They are copied with the selected skill, but are not automatically inserted into
-the prompt. Do not include symbolic links in a skill directory.
+The instructions (the Markdown body) are not in the initial prompt; the agent
+reads `SKILL.md` when it decides the skill is relevant. Other files in the
+folder, such as this one, are optional and are read only when the
+instructions point to them. Skill folders must not contain symbolic links.
 
-A skill-list file selects directories, not individual YAML files:
+Select skills by folder name when running:
 
-```yaml
-skills:
-  enabled:
-    - ../skills/example
-    # - ../skills/another-skill
-```
+    python -m lab2 run --alias A --tasks garage --skills example
 
-The directory paths are relative to the **skill-list file**, not the shell's
-working directory. For `skillsets/example.yaml`, `../skills/example` selects this
-directory. At runtime the selected copy is available at `.skills/example/` in the
-task workspace. Paths mentioned inside a skill's instructions are relative to
-that skill's directory; for example, this file is
-`.skills/example/references/format.md`.
+Omit `--skills` for a vanilla run. During the run the selected skills are at
+`.skills/<name>/` in the task's working directory, so this file is
+`.skills/example/references/format.md`, and a snapshot is saved in
+`jobs/<alias>/<id>/skills/`.
 
-A directory under `skills/` is not enabled just because it exists. Select a list
-explicitly with `--skills-config skillsets/example.yaml`. Omit `--skills-config`
-to disable skills entirely for a vanilla run.
-
-To create your own skill, copy this directory, change its `name`, `description`,
-and `instructions`, and select its directory in a skill-list YAML. Supporting
-files may be added or removed as needed. This example contains no task-specific
-testing advice.
+To write your own skill, copy this folder, rename it, and change `name`,
+`description` and the instructions.

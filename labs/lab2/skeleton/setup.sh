@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
-# Bootstrap a native Python without changing the system or shell profiles.
+# Bootstrap: install uv and Python 3.12 under .tools/, then run scripts/setup.py
+# (tools, venv, packages). Changes nothing outside the repository. `--check` only reports.
 set -euo pipefail
 LAB2_ROOT=$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+export PYTHONDONTWRITEBYTECODE=1  # no __pycache__ in the source tree
 case "$(uname -s):$(uname -m)" in
   Linux:aarch64|Linux:arm64) LAB2_PLATFORM=linux-arm64 ;;
   Linux:x86_64|Linux:amd64) LAB2_PLATFORM=linux-amd64 ;;
@@ -36,7 +38,7 @@ if [[ ! -x "$LAB2_UV" ]]; then
 fi
 export UV_PYTHON_INSTALL_DIR="$LAB2_ROOT/.tools/python/$LAB2_PLATFORM"
 export UV_PYTHON_BIN_DIR="$LAB2_ROOT/.tools/python-bin/$LAB2_PLATFORM"
-export UV_CACHE_DIR="$LAB2_ROOT/.cache/uv/$LAB2_PLATFORM"
+export UV_NO_CACHE=1
 "$LAB2_UV" python install 3.12
 LAB2_PYTHON=$("$LAB2_UV" python find --managed-python 3.12)
 exec "$LAB2_PYTHON" "$LAB2_ROOT/scripts/setup.py" "$@"

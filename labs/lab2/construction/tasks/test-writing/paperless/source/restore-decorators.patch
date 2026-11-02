@@ -1,0 +1,41 @@
+From e5092a6d578711b59c9ca6d3229b746e76365ace Mon Sep 17 00:00:00 2001
+From: CS408 <cs408@localhost>
+Date: Sun, 1 Nov 2026 22:07:35 -0500
+Subject: [PATCH] CS408: restore @override_settings of test_tags_without_args
+ and test_added_year_month_day
+
+The SWE-Atlas TW removal of the task's reference tests also dropped the
+decorators of the two following pre-existing tests. Restored from the
+upstream file at the same base commit (visible as context in the task's
+addition.patch). No reference test is added.
+---
+ src/documents/tests/test_file_handling.py | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/src/documents/tests/test_file_handling.py b/src/documents/tests/test_file_handling.py
+index 2739bbf..595b8af 100644
+--- a/src/documents/tests/test_file_handling.py
++++ b/src/documents/tests/test_file_handling.py
+@@ -253,7 +253,7 @@ class TestFileHandling(DirectoriesMixin, TestCase):
+         self.assertEqual(os.path.isdir(settings.ORIGINALS_DIR + "/none"), True)
+         self.assertTrue(os.path.isfile(important_file))
+ 
+-    @override_settings(PAPERLESS_FILENAME_FORMAT="{document_type} - {title}")
++    @override_settings(PAPERLESS_FILENAME_FORMAT="{tags}")
+     def test_tags_without_args(self):
+         document = Document()
+         document.mime_type = "application/pdf"
+@@ -262,7 +262,9 @@ class TestFileHandling(DirectoriesMixin, TestCase):
+ 
+         self.assertEqual(generate_filename(document), f"{document.pk:07}.pdf")
+ 
+-    @override_settings(PAPERLESS_FILENAME_FORMAT="{title} {tag_list}")
++    @override_settings(
++        PAPERLESS_FILENAME_FORMAT="{added_year}-{added_month}-{added_day}",
++    )
+     def test_added_year_month_day(self):
+         d1 = timezone.make_aware(datetime.datetime(232, 1, 9, 1, 1, 1))
+         doc1 = Document.objects.create(
+-- 
+2.43.0
+

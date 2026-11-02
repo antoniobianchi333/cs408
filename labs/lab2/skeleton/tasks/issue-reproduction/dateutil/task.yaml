@@ -1,0 +1,19 @@
+id: dateutil
+type: issue-reproduction
+language: python
+prompt: prompt.md
+test_paths: [tests]
+editable: []
+source:
+  dataset: DeepSWE
+  task: dateutil-rfc5545-timezone-interop
+  repository: https://github.com/dateutil/dateutil
+  base_commit: c981f9c7aa91b83cc9bd33a09ecee9e751b06e8d
+environment:
+  image: cs408-lab2/dateutil:arm64
+  archive: dateutil-arm64.tar.gz
+  workdir: /app
+  head: c981f9c7aa91b83cc9bd33a09ecee9e751b06e8d
+  env:
+    PYTHONDONTWRITEBYTECODE: '1'
+    PYTEST_ADDOPTS: ''

@@ -1,13 +1,18 @@
-type: TW
+id: minio
+type: test-writing
 language: go
 prompt: prompt.md
-test_paths:
-- internal/etag
+test_paths: [internal/etag]
 editable: []
-architecture: aarch64
-image_digest: sha256:9b08b788fe33d420a94a9bc99e6a2557170938f8e8497c08ff03844dcefec96d
+source:
+  dataset: SWE-Atlas TW
+  task: task-6902ef3ab97fe23e2ad271f9
+  repository: https://github.com/minio/minio
+  base_commit: c07e5b49d477b0774f23db3b290745aef8c01bd2
 environment:
-  environment_class: adapter.environment.UdockerEnvironment
-  image: ghcr.io/ailen-wrx/cs408-lab2-minio:arm64-20261023
-  cwd: /app
+  image: cs408-lab2/minio:arm64
+  archive: minio-arm64.tar.gz
+  workdir: /app
+  head: 3f0a48a04ebf4e4d0441b38a80136d21b27d10f8
+  env: {}
 prepare: go test -run "^$" ./internal/etag

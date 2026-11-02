@@ -1,484 +1,297 @@
-# CS408 Lab 2 — Teaching a Coding Agent to Write Tests
+# CS408 Lab 2: Teaching a Coding Agent to Write Tests
 
-This project has three parts: **Warmup**, **Test Writing**, and **Issue Reproduction**.
-You write reusable skills. The supplied coding agent uses those skills to write tests.
-The agent, model, tasks, and run budgets stay fixed when you compare vanilla and skills.
+You write *skills*: reusable instructions that a fixed coding agent (mini-swe-agent
+with the course model) reads while it writes tests. You compare runs with your
+skills against vanilla runs (no skills) on the same tasks. The agent, the model,
+the tasks and the run limits are the same for everyone. The course handout gives
+the background, the deliverables and the deadlines.
 
-Read the [course handout](../handout/index.md) for the background and examples.
-The handout also has a [standalone HTML edition](../handout/index.html).
-All six benchmark tasks are public. There is no separate set of hidden tasks.
-TA reference fixes and deliberately faulty implementations are not distributed in this skeleton.
+## Tasks
 
-## Set up the environment
+`python -m lab2 tasks` lists them.
 
-Run these commands **from this skeleton directory**:
+| Task | Type | Language | Public checkpoints | The agent must... |
+| --- | --- | --- | ---: | --- |
+| `garage` | warmup | Python | 15 | extend `test_garage.py` for a parking-garage class (plates, capacity, sessions, charges, passes) from `SPEC.md` |
+| `paperless` | test-writing | Python | 12 | test `generate_filename` of paperless-ngx (document type, ASN, tag and date placeholders, path separators) |
+| `minio` | test-writing | Go | 8 | test MinIO's `internal/etag` package (parsing, equality, multipart, encryption, S3 formatting) |
+| `k6` | test-writing | Go | 9 | test k6 execution segments (sequences from strings, striped offsets, shared properties, new execution tuples) |
+| `dateutil` | issue-reproduction | Python | 25 | reproduce RFC 5545 timezone interoperability of `dateutil.rrule` (RDATE TZID/VALUE, timezone-aware `__str__`, iCalendar output, set operations) |
+| `psd-tools` | issue-reproduction | Python | 20 | reproduce a typed blend-range ("Blend If") API for layers and its use in compositing |
+| `abs` | issue-reproduction | Go | 14 | reproduce stepped slices `value[start:end:step]` for arrays and strings in the ABS language |
 
-```bash
-bash setup.sh --check          # report status; do not install anything
-bash setup.sh                  # install missing tools without sudo or apt
-source scripts/activate.sh    # select this machine's Python, gh, and udocker tools
-bash setup.sh --check
-```
+- **Test writing** (and the warmup): the supplied implementation is correct. The
+  tests must pass on it and catch faulty versions of it.
+- **Issue reproduction**: the supplied code lacks a feature or fix described in an
+  upstream issue. The tests must fail on the supplied (unfixed) code and pass once
+  a correct repair is applied. The agent must not implement the repair.
 
-The setup checks Linux architecture, Git, GitHub CLI (`gh`), Python, Python packages,
-udocker execution tools, and the presence of `PURDUE_RCAC_API_KEY`. It does not print
-secrets. GitHub login is optional for the public source and images. An API key is
-required to run the agent, but is not needed to install the environment.
+The six test-writing and issue-reproduction tasks are the benchmark. The warmup
+is practice and is not part of the benchmark mean. Each task's prompt is
+`tasks/<type>/<id>/prompt.md`. The agent may add test files only in the task's
+`test_paths` (`task.yaml`), and may edit only the starter tests listed under
+`editable` (only the warmup has one, `test_garage.py`).
 
-- **Linux ARM64 / aarch64:** runs all seven tasks.
-- **Linux x86_64 / amd64:** runs the local Garage Warmup. The current six benchmark
-  images are ARM64; setup does not claim that x86 can execute them.
-- **Other systems:** use a Linux machine. These scripts do not create a VM or enable
-  cross-architecture emulation.
+## Setup
 
-Setup uses an official user-owned `uv` installation and managed Python 3.12. If Git
-or required command-line utilities are absent, a user-owned micromamba environment
-provides them. No system package manager is used. The GitHub CLI release archive is
-checked against its published SHA-256 checksum. Python packages are installed only
-in `.venvs/linux-arm64/` or `.venvs/linux-amd64/`.
-
-The project-local `.tools/bin/gh` launcher checks `uname` on **every invocation**.
-It selects `.tools/gh/linux-arm64/bin/gh` or `.tools/gh/linux-amd64/bin/gh`.
-Setup installs only the current machine's binary. It never replaces
-`~/.local/bin/gh`, `~/.local/libexec/gh/`, an existing system `gh`, or the other
-architecture's project binary. The shared-home x86 installation remains intact.
-Neither setup nor activation edits `.bashrc` or another shell profile.
-
-If the key is not already exported in your shell, set it before a run:
+Run all commands from the root of your repository, in Bash.
 
 ```bash
-export PURDUE_RCAC_API_KEY='YOUR_KEY'
+bash setup.sh --check        # report what is installed; changes nothing
+bash setup.sh                # install everything under .tools/ and .venvs/ (no sudo)
+source scripts/activate.sh   # in every new shell
 ```
 
-Keep real keys out of Git, skill files, and reports. The API endpoint is
-`https://genai.rcac.purdue.edu/api`. The configured model is `qwen3.8:27b`.
-See [Purdue's API documentation](https://docs.rcac.purdue.edu/services/genai/api/).
+`setup.sh` installs uv and Python 3.12 under `.tools/`, git and basic utilities
+when missing, the pinned mini-swe-agent and Harbor (`vendor/`) and the other
+requirements into `.venvs/<platform>/`, the udocker engines, and tectonic (a
+self-contained LaTeX engine, for the report). It does not touch anything outside
+the repository or edit your shell profile.
 
-The official mini-swe-agent is a Git submodule under `vendor/mini-swe-agent`, pinned
-to `04d809ceab9df28f9adaed044884180159172930` (2.4.6). Setup initializes it when
-needed. If distributing this lab as a new Git repository, preserve the submodule
-URL and Git link in that repository's `.gitmodules` as well.
+**Machine.** The six benchmark tasks run in ARM64 container images, so they need
+Linux ARM64 (aarch64). On Linux x86_64 only the warmup runs.
 
-## Part 1 — Warmup: Garage
+**Images.** Download the six image archives (`<id>-arm64.tar.gz`, named in each
+`task.yaml` under `environment.archive`) and put them into `images/`. The first
+run of a task loads its archive into the udocker image store,
+`.cache/udocker/` by default (several GB; set `LAB2_IMAGE_STORE` to another
+folder if space is short). Once loaded, the archive is not needed any more.
 
-**Task:** `warmup/garage` · Python · local virtual environment
-
-The supplied `Garage` implementation is correct. Its specification covers vehicle
-names, capacity, visits, re-entry, charges, and session history. Read
-[`SPEC.md`](tasks/warmup/garage/project/SPEC.md). Extend the starter test file or
-add `test_*.py` files. Do not change `garage.py` or the specification.
+**API key.** Runs call the Purdue RCAC GenAI API (`https://genai.rcac.purdue.edu/api`,
+model `qwen3.8:27b`). The key is read from `PURDUE_RCAC_API_KEY`. Keep it out of
+git, skills and reports. The lab2 process makes itself unreadable to the agent's
+commands (Linux `prctl`), and credential-like variables (`*KEY*`, `*TOKEN*`,
+`*SECRET*`, `*PASSWORD*`) are removed from their environment. A shell that has the
+key exported is still readable by processes of your user, so pass it only to
+the command:
 
 ```bash
-python -m lab2 warmup/garage --output outputs/garage-vanilla
-python -m lab2 warmup/garage --skills-config skillsets/example.yaml \
-  --output outputs/garage-example
+PURDUE_RCAC_API_KEY=$(cat ~/.purdue-rcac-key) python -m lab2 run --alias A --tasks garage
 ```
 
-The second command demonstrates loading the **format example**, not an effective
-Garage strategy. Write your own skill and skill-list file for an actual comparison.
-No Garage reference skills or reference test suite are provided.
+**Sandboxing.** Image tasks run in rootless udocker containers. The warmup runs
+on the host, without a sandbox: the agent's commands run as your user in a
+temporary git workspace copied from `tasks/warmup/garage/project/`, and they can
+reach your files. Run it on a machine and account where that is acceptable.
 
-**Practice scoring:** the existing TA Warmup checker runs the suite against the
-correct implementation and 21 deliberately faulty versions. The suite must pass
-on the correct implementation, and production code must be unchanged. Otherwise
-the practice submission is invalid. For a valid suite, its practice score is
-`100 × detected faulty versions / 21`. This Warmup feedback is reported separately
-and is **not included** in the six-task benchmark mean.
+## Command line
 
-## Part 2 — Test Writing
-
-The supplied implementation is already correct. Add tests that check its behavior.
-A test must pass on that implementation and detect a relevant deliberately faulty
-version. There is no requirement for a reference repair to turn a failure into a
-pass: this is a test-writing task, not a repair-reproduction task.
-
-The following numbers are the **lowest previously scored vanilla test-artifact
-scores** selected under the current checkpoint rubric. They are not averages.
-See the selection policy below before interpreting them.
-
-<!-- baseline:TW -->
-### Maddy — 80.00/100
-
-Write integration tests for sender-based mail routing. Check domains, rejected senders, name normalization, and rule precedence.
-
-**Task:** `test-writing/maddy` · **Checkpoints:** 5 · **Faulty versions:** 5
-
-```bash
-python -m lab2 test-writing/maddy
+```
+python -m lab2 tasks
+python -m lab2 run    --alias A --tasks ID [ID ...] [--skills NAME [NAME ...]] [--redo-existing]
+python -m lab2 eval   --alias A --tasks ID [ID ...] [--checkpoints FILE [FILE ...]]
+python -m lab2 submit --alias A --type {warmup,test-writing,issue-reproduction} [--resubmit-existing]
+python -m lab2 scoreboard
 ```
 
-<details>
-<summary>Detailed selected vanilla score</summary>
+An **alias** names a set of runs (`jobs/<alias>/`). It matches
+`[A-Za-z0-9][A-Za-z0-9._-]*`. `submission` and `vanilla` are reserved, in any
+letter case: `run` and `submit` refuse them. All arguments are checked before
+anything runs. An error prints `error: ...` and exits with status 2. `run` exits with
+status 1 if a task ended with an error; that task's `run.json` records it.
 
-| Checkpoint | Max | V | K | Points |
-| --- | ---: | ---: | ---: | ---: |
-| Route by sender domain | 20.00 | 1 | 1 | 20.00 |
-| Normalize qualified sender addresses | 20.00 | 1 | 1 | 20.00 |
-| Reject a configured sender | 20.00 | 1 | 1 | 20.00 |
-| Apply sender-route precedence | 20.00 | 1 | 1 | 20.00 |
-| Normalize unqualified sender names | 20.00 | 0 | 0 | 0.00 |
+**`run`** runs the agent once per task and writes `jobs/<alias>/<id>/`.
 
-**Total: 80.00/100.** Each checkpoint is worth exactly `100/5`; displayed values are rounded. The total uses unrounded values.
+- `--tasks`: task ids (`python -m lab2 tasks`).
+- `--skills`: folder names under `skills/` (not paths). Omit it for a vanilla run.
+- `--redo-existing`: replace existing jobs of this alias. Without it, `run`
+  refuses to start if any named task already has a job under the alias.
+- The tasks run one after another: each run holds a full container copy, and the
+  machine's shared temporary storage serves every student at once.
+- `run` and `eval` first remove containers and temporary folders left behind by
+  killed runs or evaluations (only those of processes that no longer exist).
+- Errors: invalid or reserved alias, unknown task, unknown or duplicate skill,
+  invalid `SKILL.md`, existing jobs, an image that is neither loaded nor present
+  in `images/`.
 
-Selected score record: `results/benchmark-course-skills-v2-r1/vanilla-scores.json`. See `baselines.json` for the evidence hash and other eligible historical scores.
+Each run goes through Harbor: the agent works in a fresh environment, then the
+accepted test files are collected and evaluated in another fresh environment with
+the task's public checkpoints (`eval.json`). If a task fails (agent, Harbor or
+evaluation error), its `run.json` still records the parameters and the error,
+and the other tasks go on. The CLI prints one summary line per task and the
+first line of each error.
 
-</details>
+**`eval`** re-evaluates saved jobs in a fresh environment and rewrites their
+`eval.json`.
 
-### MinIO — 68.18/100
+- `--checkpoints FILE ...`: checkpoints files to use instead of the task's
+  public `checkpoints.json`. Several files are concatenated; checkpoint ids must
+  be unique.
+- `--alias submission` evaluates `jobs/submission/<type>/<id>/`.
+- Errors: no job for a task under the alias, `--alias vanilla` (the shipped jobs
+  are read-only; copy one to your own alias first), a checkpoints file that does
+  not exist, belongs to another task or lacks the required keys, duplicate ids.
 
-Write ETag tests for parsing, equality, multipart aggregation, encrypted tags, and S3 formatting.
+**`submit`** copies `jobs/<alias>/<id>/` of every task of one type to
+`jobs/submission/<type>/<id>/` and writes `jobs/submission/<type>/submission.json`
+(alias, tasks, skills, time). All tasks of the type must have run with the same
+skills (identical `skills/` snapshots in their jobs, or no skills).
 
-**Task:** `test-writing/minio` · **Checkpoints:** 11 · **Faulty versions:** 14
+- `--resubmit-existing`: replace an existing `jobs/submission/<type>/`. Without
+  it, `submit` refuses.
+- Errors: invalid or reserved alias, a task of that type without a job under the
+  alias, jobs of that type that used different skills.
 
-```bash
-python -m lab2 test-writing/minio
+**`scoreboard`** prints the score in `eval.json` of every alias (`jobs/<alias>/`,
+vanilla first; not `submission`) on every task, plus `TW mean` (paperless, minio,
+k6) and `IR mean` (dateutil, psd-tools, abs), each when all three tasks of that
+part have a score. `–` marks a task without a job,
+`no eval` a job without `eval.json`, `checks` an `eval.json` without a score.
+
+## Skills
+
+A skill is a folder `skills/<name>/` with a `SKILL.md` and optional supporting files:
+
+```markdown
+---
+name: my-skill
+description: When the skill is useful (shown to the agent at the start).
+---
+
+# Instructions the agent reads when it decides the skill is relevant
 ```
 
-<details>
-<summary>Detailed selected vanilla score</summary>
+- `name` must equal the folder name: lowercase letters, digits and `-`.
+- `description` and the instructions must not be empty. Symbolic links are not allowed.
+- The initial prompt lists only the names and descriptions. During the run the
+  selected skills are at `.skills/<name>/` in the task's working directory, and the
+  agent reads `SKILL.md` and other files with bash when needed.
+- Select skills with `run --skills my-skill other-skill`. A run without
+  `--skills` is a **vanilla** run.
 
-| Checkpoint | Max | V | K | Points |
-| --- | ---: | ---: | ---: | ---: |
-| Report the accepted multipart count | 9.09 | 1 | 1 | 9.09 |
-| Compute the multipart digest | 9.09 | 1 | 1 | 9.09 |
-| Exclude ineligible parts from aggregation | 9.09 | 1 | 1 | 9.09 |
-| Handle aggregation with no accepted parts | 9.09 | 1 | 1 | 9.09 |
-| Recognize encrypted ETags | 9.09 | 1 | 1 | 9.09 |
-| Format encrypted ETags for S3 | 9.09 | 1 | 1 | 9.09 |
-| Compare equivalent ETags | 9.09 | 0 | 0 | 0.00 |
-| Validate multipart part numbers | 9.09 | 1 | 0.5 | 4.55 |
-| Validate multipart digest length | 9.09 | 0 | 0 | 0.00 |
-| Parse non-strict single-part ETags | 9.09 | 0 | 0 | 0.00 |
-| Parse quoted ETags | 9.09 | 1 | 1 | 9.09 |
+`skills/example/` shows the format only; it is not a testing strategy.
 
-**Total: 68.18/100.** Each checkpoint is worth exactly `100/11`; displayed values are rounded. The total uses unrounded values.
+## Jobs
 
-Selected score record: `results/benchmark-course-skills-v2-r1/vanilla-scores.json`. See `baselines.json` for the evidence hash and other eligible historical scores.
+`jobs/<alias>/<id>/` holds one run:
 
-</details>
-
-### k6 — 66.67/100
-
-Write tests for execution segments. Check sequence input, boundaries, striped work allocation, and integer resegmentation.
-
-**Task:** `test-writing/k6` · **Checkpoints:** 12 · **Faulty versions:** 12
-
-```bash
-python -m lab2 test-writing/k6
-```
-
-<details>
-<summary>Detailed selected vanilla score</summary>
-
-| Checkpoint | Max | V | K | Points |
-| --- | ---: | ---: | ---: | ---: |
-| Format segments consistently | 8.33 | 1 | 1 | 8.33 |
-| Handle an empty execution-segment sequence | 8.33 | 1 | 1 | 8.33 |
-| Build the correct integer execution tuple | 8.33 | 1 | 1 | 8.33 |
-| Compute a shared denominator | 8.33 | 0 | 0 | 0.00 |
-| Reject negative segment boundaries | 8.33 | 0 | 0 | 0.00 |
-| Parse rational segment values | 8.33 | 0 | 0 | 0.00 |
-| Require neighboring segments to meet | 8.33 | 1 | 1 | 8.33 |
-| Validate the number of sequence boundaries | 8.33 | 1 | 1 | 8.33 |
-| Require increasing boundaries | 8.33 | 0 | 0 | 0.00 |
-| Allocate the correct number of striped units | 8.33 | 1 | 1 | 8.33 |
-| Compute the striped period | 8.33 | 1 | 1 | 8.33 |
-| Compute the striped starting offset | 8.33 | 1 | 1 | 8.33 |
-
-**Total: 66.67/100.** Each checkpoint is worth exactly `100/12`; displayed values are rounded. The total uses unrounded values.
-
-Selected score record: `results/benchmark-course-skills-v2-r1/vanilla-scores.json`. See `baselines.json` for the evidence hash and other eligible historical scores.
-
-</details>
-
-<!-- /baseline:TW -->
-
-## Part 3 — Issue Reproduction
-
-The supplied implementation has a defect or missing feature. The task text states
-what should happen. Write tests that fail because of that issue and pass after the
-TA's reference repair. You write tests, not the repair. The agent never receives
-the reference patch. The upstream issue is quoted as context; any instructions
-in it to implement a fix or commit code do not override the tests-only rules.
-
-<!-- baseline:IR -->
-### Ansible — 40.00/100
-
-Reproduce archive path traversal during collection extraction. Keep legitimate extraction behavior intact.
-
-**Task:** `issue-reproduction/ansible` · **Checkpoints:** 5 · **Faulty versions:** 5
-
-```bash
-python -m lab2 issue-reproduction/ansible
-```
-
-<details>
-<summary>Detailed selected vanilla score</summary>
-
-| Checkpoint | Max | V | E | K | Points |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| Preserve checksum validation | 20.00 | 0 | 0 | 0 | 0.00 |
-| Keep normalized extraction paths inside the destination | 20.00 | 1 | 1 | 1 | 20.00 |
-| Name the offending archive entry in the error | 20.00 | 1 | 1 | 0 | 0.00 |
-| Allow a legitimate file directly inside the destination | 20.00 | 1 | 1 | 1 | 20.00 |
-| Handle Unicode archive paths | 20.00 | 0 | 0 | 0 | 0.00 |
-
-**Total: 40.00/100.** Each checkpoint is worth exactly `100/5`; displayed values are rounded. The total uses unrounded values.
-
-Selected score record: `results/benchmark-course-skills-v2-r1/vanilla-scores.json`. See `baselines.json` for the evidence hash and other eligible historical scores.
-
-</details>
-
-### psd-tools — 54.52/100
-
-Reproduce the missing typed Blend If API and its effect on stored sliders, layer persistence, and composited pixels.
-
-**Task:** `issue-reproduction/psd-tools` · **Checkpoints:** 28 · **Faulty versions:** 35
-
-```bash
-python -m lab2 issue-reproduction/psd-tools
-```
-
-<details>
-<summary>Detailed selected vanilla score</summary>
-
-| Checkpoint | Max | V | E | K | Points |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| Apply the black-slider visibility transition | 3.57 | 0 | 0 | 0 | 0.00 |
-| Construct a full-range default channel | 3.57 | 0 | 0 | 0 | 0.00 |
-| Recognize default channel values | 3.57 | 0.8 | 1 | 1 | 2.86 |
-| Describe a channel | 3.57 | 1 | 1 | 0.5 | 1.79 |
-| Validate each channel pair count | 3.57 | 1 | 1 | 1 | 3.57 |
-| Write color-channel values back to raw storage | 3.57 | 0 | 0 | 0 | 0.00 |
-| Validate the composite pair count | 3.57 | 1 | 1 | 1 | 3.57 |
-| Write composite values back to raw storage | 3.57 | 0 | 0 | 0 | 0.00 |
-| Use source and backdrop in the right order | 3.57 | 0 | 0 | 0 | 0.00 |
-| Report the number of color channels | 3.57 | 1 | 1 | 1 | 3.57 |
-| Recognize a default container | 3.57 | 0.4 | 1 | 0 | 0.00 |
-| Describe a container | 3.57 | 1 | 1 | 0.5 | 1.79 |
-| Iterate over all color channels | 3.57 | 1 | 1 | 1 | 3.57 |
-| Preserve compositing with default ranges | 3.57 | 1 | 1 | 1 | 3.57 |
-| Return full visibility for default ranges | 3.57 | 1 | 1 | 1 | 3.57 |
-| Construct a container from explicit channels | 3.57 | 1 | 1 | 1 | 3.57 |
-| Construct non-split channels from scalar values | 3.57 | 0 | 0 | 0 | 0.00 |
-| Read and persist layer blend-range values | 3.57 | 0.2 | 1 | 0 | 0.00 |
-| Produce the correct visibility-mask pixels | 3.57 | 0 | 0 | 0 | 0.00 |
-| Support negative channel indices | 3.57 | 1 | 1 | 1 | 3.57 |
-| Apply individual color-channel ranges | 3.57 | 0 | 0 | 0 | 0.00 |
-| Construct a container from raw range data | 3.57 | 0.6667 | 1 | 1 | 2.38 |
-| Decode slider handles from raw integers | 3.57 | 0.8 | 1 | 1 | 2.86 |
-| Encode slider handles as raw integers | 3.57 | 1 | 1 | 1 | 3.57 |
-| Report whether slider handles are split | 3.57 | 1 | 1 | 1 | 3.57 |
-| Expose a typed blend-range property on layers | 3.57 | 1 | 1 | 1 | 3.57 |
-| Use backdrop values for underlying-layer sliders | 3.57 | 0 | 0 | 0 | 0.00 |
-| Index the first color channel correctly | 3.57 | 1 | 1 | 1 | 3.57 |
-
-**Total: 54.52/100.** Each checkpoint is worth exactly `100/28`; displayed values are rounded. The total uses unrounded values.
-
-Selected score record: `results/benchmark-course-skills-v2-r1/vanilla-scores.json`. See `baselines.json` for the evidence hash and other eligible historical scores.
-
-</details>
-
-### abs — 50.88/100
-
-Reproduce stepped reads and assignments for arrays and strings, including omitted bounds, Unicode, and error handling.
-
-**Task:** `issue-reproduction/abs` · **Checkpoints:** 19 · **Faulty versions:** 19
-
-```bash
-python -m lab2 issue-reproduction/abs
-```
-
-<details>
-<summary>Detailed selected vanilla score</summary>
-
-| Checkpoint | Max | V | E | K | Points |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| Broadcast one value across selected array positions | 5.26 | 1 | 1 | 1 | 5.26 |
-| Assign array values in the selected order | 5.26 | 0.6667 | 1 | 1 | 3.51 |
-| Preserve single-index array assignment | 5.26 | 0 | 0 | 0 | 0.00 |
-| Report the correct array size-mismatch error | 5.26 | 0 | 0 | 0 | 0.00 |
-| Read forward slices using the requested step | 5.26 | 1 | 1 | 1 | 5.26 |
-| Preserve an omitted start in the parsed expression | 5.26 | 1 | 1 | 1 | 5.26 |
-| Preserve the third slice component in the parsed expression | 5.26 | 1 | 1 | 1 | 5.26 |
-| Report non-numeric slice bounds or steps | 5.26 | 1 | 1 | 1 | 5.26 |
-| Choose the correct default start for reverse slices | 5.26 | 1 | 1 | 1 | 5.26 |
-| Exclude the end position in reverse slices | 5.26 | 0.5 | 1 | 0 | 0.00 |
-| Broadcast one character across selected string positions | 5.26 | 1 | 1 | 1 | 5.26 |
-| Handle assignment to an empty string range | 5.26 | 0 | 0 | 0 | 0.00 |
-| Assign through a negative string index | 5.26 | 0 | 0 | 0 | 0.00 |
-| Assign characters in the selected order | 5.26 | 0.3333 | 1 | 1 | 1.75 |
-| Require one character for single-index string assignment | 5.26 | 0 | 0 | 0 | 0.00 |
-| Preserve negative ends in two-part slices | 5.26 | 0 | 0 | 0 | 0.00 |
-| Read Unicode characters rather than bytes | 5.26 | 0.6667 | 1 | 1 | 3.51 |
-| Assign Unicode characters rather than bytes | 5.26 | 0 | 0 | 0 | 0.00 |
-| Reject step zero with the correct error | 5.26 | 1 | 1 | 1 | 5.26 |
-
-**Total: 50.88/100.** Each checkpoint is worth exactly `100/19`; displayed values are rounded. The total uses unrounded values.
-
-Selected score record: `manual-mutation-scenario-v3.json`. See `baselines.json` for the evidence hash and other eligible historical scores.
-
-</details>
-
-<!-- /baseline:IR -->
-
-## How benchmark scores work
-
-Every benchmark task receives **one score out of 100**. Its behavior is divided
-into checkpoints. A checkpoint concerns one behavior, such as rejecting an invalid
-path or treating an empty input correctly. All checkpoints within one task have
-equal weight. Some checkpoints have more than one deliberately faulty version;
-those versions have equal weight within that checkpoint.
-
-| Symbol | Meaning |
+| File | Contents |
 | --- | --- |
-| `N` | Number of checkpoints for this task. Each is worth `100/N` points. |
-| `V` | Fraction of a checkpoint's submitted independent checks that have a correct expected answer and pass on the correct implementation. |
-| `E` | IR only: among those correct checks, the fraction that meet the required before/after behavior. |
-| `K` | Fraction of that checkpoint's faulty versions detected by eligible correct checks. |
+| `run.json` | Run parameters and outcome (below) |
+| `trajectory.json` | The mini-swe-agent trajectory; `info.lab2` holds a copy of `run.json` |
+| `model-requests.jsonl` | One row per model request attempt, with token usage |
+| `prompt.md` | The exact task prompt given to the agent |
+| `config.yaml` | The agent and model configuration used |
+| `skills/` | Snapshot of the selected skills (absent for vanilla) |
+| `submission/` | The accepted test files |
+| `eval.json` | The evaluation with the public checkpoints |
 
-- **TW:** checkpoint points = `(100/N) × V × K`.
-- **IR:** checkpoint points = `(100/N) × V × E × K`.
-- Add checkpoint points to obtain the task's score. No checks for a checkpoint
-  means zero points there. If `V=0`, that checkpoint contributes zero.
-- An IR bug check must fail on the supplied code and pass on the corrected code.
-  A preclassified check of existing correct behavior must pass on both. A new bug
-  check that happens to pass the supplied code is not relabeled as an existing
-  behavior check to gain credit.
-- A correct independent check can earn credit even if another check in the same
-  test function is wrong. The TA may isolate checks for diagnosis without changing
-  their inputs, setup, or expected answers. Wrong checks still receive no credit.
-- A timeout, missing dependency, collection failure, or unrelated crash is not by
-  itself proof that a behavioral requirement was tested correctly. Reference
-  tests validate the faulty versions before they are used for scoring.
+`run.json` records every parameter of the run, so `run.json`, or a trajectory
+alone, shows how it was produced:
 
-For example, suppose an IR checkpoint is worth 20 points. Three of four submitted
-checks are correct (`V=3/4`). Two of those three satisfy the required before/after
-behavior (`E=2/3`). They expose one of two relevant faulty versions (`K=1/2`).
-The checkpoint receives `20 × 3/4 × 2/3 × 1/2 = 5` points. For TW, leave out `E`.
+- `command` (the exact command line), `alias`, `task`, `type`, `redo_existing`;
+- `skills`: name, description and snapshot path of each skill;
+- `model` (name, API base, temperature and other settings) and `agent` (step
+  limit, wall-time limit, templates excluded), the effective `config.yaml` values;
+- `environment`: image tag, archive and image git head (warmup: `local`);
+- `versions` (Python, mini-swe-agent, Harbor), `repository` (git commit, dirty flag),
+  `host` (name, platform);
+- `timestamps` (UTC ISO-8601): `started`, `agent_started`, `agent_finished`,
+  `eval_finished`, `finished`;
+- outcome: `exit_status`, `model_calls`, `usage` (token totals), `valid_submission`,
+  `score`, `errors`.
 
-The six tasks use **80 checkpoints and 90 approved faulty versions** in total.
-The benchmark mean is the arithmetic mean of the six task scores. Warmup is
-separate. There is no public/hidden-task weighting. A score of 100 means all
-checks in this finite rubric were satisfied; it is not a proof that a test suite
-will detect every possible programming mistake.
+The agent has at most 60 model calls and 2 hours (`config.yaml`, temperature 0).
+Transient provider errors (timeouts, connection errors, 5xx, rate limits) are
+retried; every attempt is a row in `model-requests.jsonl`.
 
-### Historical vanilla selection policy
+`jobs/vanilla/<id>/` holds our vanilla run of each task (one per task), in the same
+format.
 
-Vanilla means skills are disabled, not that an empty skill list is selected.
-For each task, the tables above select the minimum among the available previously
-scored vanilla artifacts under **scenario-v3**, using the same approved faulty
-versions and checkpoint weights. Skill-assisted runs, incomplete candidate-only
-outputs, no-test timeout attempts, and superseded scoring formulas are excluded.
-The old 30-minute abs run that produced no tests is therefore not reported as a
-0-point test suite. Ties prefer the newer score record.
+Vanilla scores on the public checkpoints (`python -m lab2 scoreboard` shows the same):
 
-The selected six-task mean is **60.04/100**. This is a set of historical minima,
-not one matched six-task run, an expected vanilla score, or evidence of a stable
-improvement. Historical runs used different transport/time settings. The current
-runner uses two hours and non-streaming requests. Inspect `baselines.json` for
-unrounded checkpoint values, candidate scores, the selection rule, and evidence
-hashes. Reference fixes, generated test bodies, and faulty source patches are
-not included in that file.
+| Task | Type | Vanilla score | Public checkpoints |
+| --- | --- | ---: | ---: |
+| `garage` | warmup | 53.33 | 15 |
+| `k6` | test-writing | 77.78 | 9 |
+| `minio` | test-writing | 75.00 | 8 |
+| `paperless` | test-writing | 83.33 | 12 |
+| `abs` | issue-reproduction | 50.00 | 14 |
+| `dateutil` | issue-reproduction | 70.83 | 24 |
+| `psd-tools` | issue-reproduction | 66.67 | 21 |
 
-The historical psd-tools minimum was accepted by the older file collector, but
-its run also changed Git history. That protocol problem was recorded separately;
-the frozen test-quality score was not retroactively changed. The current runner
-rejects Git-history changes. Historical quality scores do not certify compliance
-with every current submission rule.
+TW mean **78.70**, IR mean **62.50** (the warmup is in neither mean).
 
-## Write and select skills
+## Scoring
 
-```text
-skills/                         # student-authored skill directories
-  example/
-    skill.yaml                  # format only; no task-specific strategy
-    references/format.md
-skillsets/
-  example.yaml                  # selects ../skills/example
+A task has checkpoints: behaviours the tests should check. Each checkpoint has
+one or more *faulty versions*, patches that break that behaviour.
+
+1. **Valid submission.** The submission is the set of new test files in the
+   task's test paths, plus edited starter tests listed as editable. It is
+   invalid if there is no such file or if anything else changed (production code,
+   other files, git history). An invalid submission scores 0.
+2. **Eligible tests.** Test writing and warmup: a test is eligible if it passes on
+   the correct code. Issue reproduction: if it fails (or does not run) on the
+   unfixed code and passes on the reference-repaired code.
+3. **K per checkpoint.** A faulty version is detected if at least one eligible
+   test fails on it; a test that does not run (crash, panic, build error,
+   timeout) counts as failing. K is the fraction of the checkpoint's faulty
+   versions that are detected.
+4. **Score** = 100 x the mean K over the checkpoints, all weighted equally.
+
+Every test run starts from a reset repository with only the submission added. A
+run longer than 300 seconds is stopped and its tests count as not run. All
+faulty-version runs of one evaluation together get 2 hours; faulty versions not
+reached by then count as not detected.
+
+**Hidden checkpoints.** Each benchmark task also has hidden checkpoints, about
+25-30% of its checkpoints. They cover the same features as the listed ones and
+are scored the same way, but they are not listed and are used only in the TAs'
+evaluation of your submission. The warmup has none.
+
+**Issue reproduction** is scored with the task's reference repair,
+`tasks/issue-reproduction/<id>/solution.patch`; its faulty versions are edits of
+the repaired code. The repair is there only for evaluation: skills must not
+reveal, directly or indirectly, the cause of a bug or how to fix it.
+
+### checkpoints.json
+
+`tasks/<type>/<id>/checkpoints.json` lists the public checkpoints:
+
+```json
+{"task": "paperless",
+ "checkpoints": [
+   {"id": "tag-key-dash", "label": "...", "hidden": false,
+    "faulty_versions": [{"id": "dash-not-delimiter", "patch": "diff --git a/... b/...\n..."}]}]}
 ```
 
-Every skill needs `name`, `description`, and `instructions`. The name must be
-unique in the selected list. The initial prompt includes only the name,
-description, and file location. The agent reads instructions and supporting
-files when needed. These files are not executable plugins.
+Each `patch` is a unified diff against the correct code (`git apply`); for issue
+reproduction, against the reference-repaired code. To check your tests against
+your own faulty versions, write a file in this format (`task` must be the task id)
+and pass it with `eval --checkpoints FILE`, together with the public file if you
+want both.
 
-Each skill-list YAML selects directories. Paths are relative to the list file:
+## Submission
 
-```yaml
-skills:
-  enabled:
-    - ../skills/my-skill
-    - ../skills/another-skill
-```
-
-Create multiple files under `skillsets/` to compare different combinations.
-Omitting `--skills-config` disables skills entirely. No vanilla list file is needed.
-
-```bash
-python -m lab2 test-writing/minio --output outputs/minio-vanilla
-python -m lab2 test-writing/minio --skills-config skillsets/my-list.yaml \
-  --output outputs/minio-skills
-python -m lab2 issue-reproduction/ansible --skills-config skillsets/my-list.yaml \
-  --output outputs/ansible-skills
-```
-
-Use a new output directory for every run. The runner refuses to overwrite an old
-run. Do not edit the adapter, the official agent, protected source, dependencies,
-or Git history to improve a score. Only the Garage starter test is explicitly
-editable; benchmark tasks require new test files in their listed directories.
-
-## Runs, records, and submission
-
-Both arms use the same model, temperature 0, 60-call limit, and two-hour agent
-time setting. No output-token cap is set by this runner. The provider may impose
-its own context/output limits. The official agent checks elapsed time **between**
-model calls, so a long active request can exceed the nominal time setting.
-Non-streaming transport can also encounter a server-side gateway timeout.
-Such a request is recorded as incomplete and is not silently retried.
-
-A run saves:
-
-| Path | Contents |
-| --- | --- |
-| `submission/` | Automatically collected new or permitted starter test files. No agent-written manifest is required. |
-| `trajectory.json` | Agent messages, tool actions, observations, configuration, and exit status. |
-| `model-requests.jsonl` | Request attempts and provider-reported usage, including rejected tool responses. |
-| `raw-model-responses/` | Original responses saved before tool parsing. |
-| `usage-summary.json` | Input, output, reasoning, and reported cache token counts. |
-| `result.json` | File-integrity checks, submission status, elapsed time, and usage summary. |
-| `skills/` | Snapshot and hashes of enabled skills, if any. |
-
-Input tokens count every request, including repeated conversation history.
-Output tokens already include reasoning tokens; do not add reasoning a second
-time. Missing token usage is an error, not zero. Missing cache counts remain
-unknown. Monetary cost is not calculated for this locally deployed model.
-`valid_submission` reports file/protocol acceptance; it does not mean that all
-tests are correct or that the task scored 100. Scoring happens on the TA side.
-
-Submit your own skill directories, selected skill-list files, generated test
-artifacts, trajectories/usage records, and a short comparison of what improved
-and what still failed. Keep vanilla and skill-assisted outputs separate. Report
-all attempts you use in the comparison, not only a favorable pair.
+- `python -m lab2 submit --alias A --type TYPE` puts the jobs you choose into
+  `jobs/submission/<type>/`; the three tasks of a type must use the same skills.
+  The TAs evaluate them with all checkpoints, public and hidden.
+- The report: edit `report/main.tex` (ACL style; its comments say what to write),
+  from the root of your repository run `tectonic report/main.tex`, and submit
+  the output `report/main.pdf`. The first build downloads the LaTeX packages it
+  needs into `.cache/tectonic/` (needs network; set by `scripts/activate.sh`).
+- Keep the skills you used in `skills/`; each job also has its own snapshot.
 
 ## Layout
 
-```text
-adapter/        Purdue RCAC model, udocker environment, and skill loading
-lab2/           python -m lab2 entry point
-vendor/         pinned official mini-swe-agent submodule
-scripts/        user-owned setup and architecture-aware activation
-skills/         student-authored skills; only a format example is supplied
-skillsets/      selectable skill-list YAML files
-tasks/          warmup/, test-writing/, issue-reproduction/
-baselines.json  historical minimum scores and checkpoint evidence metadata
-tests/          adapter and environment checks
+```
+README.md            this guide
+setup.sh             installs the tools (scripts/setup.py)
+scripts/activate.sh  shell environment: venv, PATH, PYTHONPATH, udocker, tectonic cache
+config.yaml          agent and model configuration
+pyproject.toml       Python requirements and pinned vendored packages
+lab2/                the lab tools (python -m lab2); verify.py is the verifier run in each task environment
+tasks/<type>/<id>/   task.yaml, prompt.md, checkpoints.json (issue reproduction: solution.patch; warmup: project/)
+skills/<name>/       skills (skills/example: the format)
+jobs/vanilla/<id>/   our vanilla run of each task
+jobs/submission/     your submitted jobs (written by submit)
+jobs/<alias>/<id>/   your runs
+images/              downloaded image archives
+report/              your report: main.tex (edit), main.pdf (submit; tectonic report/main.tex)
+tests/               tests of the lab tools (python -m pytest; no API calls)
+vendor/              mini-swe-agent and Harbor (pinned git submodules)
 ```
 
-## Environment references
-
-- [uv installer options](https://docs.astral.sh/uv/reference/installer/)
-- [uv Python storage](https://docs.astral.sh/uv/reference/storage/)
-- [udocker installation](https://github.com/indigo-dc/udocker/blob/master/docs/installation_manual.md)
-- [GitHub CLI releases](https://github.com/cli/cli/releases)
-- [mini-swe-agent source](https://github.com/SWE-agent/mini-swe-agent)
+Generated and ignored by git: `.tools/`, `.venvs/`, `.cache/udocker/`,
+`.cache/tectonic/`, `images/*.tar.gz` and `jobs/<alias>/` of your own runs.

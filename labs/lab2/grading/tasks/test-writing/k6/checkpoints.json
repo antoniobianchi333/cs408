@@ -1,0 +1,137 @@
+{
+ "task": "k6",
+ "checkpoints": [
+  {
+   "id": "canonical-stringification",
+   "label": "Format segments consistently",
+   "hidden": true,
+   "faulty_versions": [
+    {
+     "id": "sequence-string-decimal",
+     "patch": "diff --git a/lib/execution_segment.go b/lib/execution_segment.go\nindex 52256df..5bf918a 100644\n--- a/lib/execution_segment.go\n+++ b/lib/execution_segment.go\n@@ -380,7 +380,7 @@ func (ess ExecutionSegmentSequence) String() string {\n \t\tif i == 0 {\n \t\t\tresult = append(result, s.from.RatString())\n \t\t}\n-\t\tresult = append(result, s.to.RatString())\n+\t\tresult = append(result, s.to.FloatString(2))\n \t}\n \treturn strings.Join(result, \",\")\n }\n"
+    }
+   ]
+  },
+  {
+   "id": "empty-sequence",
+   "label": "Handle an empty execution-segment sequence",
+   "hidden": true,
+   "faulty_versions": [
+    {
+     "id": "empty-sequence-rejected",
+     "patch": "diff --git a/lib/execution_segment.go b/lib/execution_segment.go\nindex 52256df..346a9b3 100644\n--- a/lib/execution_segment.go\n+++ b/lib/execution_segment.go\n@@ -323,7 +323,7 @@ func NewExecutionSegmentSequence(segments ...*ExecutionSegment) (ExecutionSegmen\n // (r3, r4], ..., (r{n-1}, rn].\n func NewExecutionSegmentSequenceFromString(strSeq string) (ExecutionSegmentSequence, error) {\n \tif len(strSeq) == 0 {\n-\t\treturn nil, nil\n+\t\treturn nil, fmt.Errorf(\"empty execution sequence\")\n \t}\n \n \tpoints := strings.Split(strSeq, \",\")\n"
+    }
+   ]
+  },
+  {
+   "id": "integer-resegmentation",
+   "label": "Build the correct integer execution tuple",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "new-tuple-floor-scaling",
+     "patch": "diff --git a/lib/execution_segment.go b/lib/execution_segment.go\nindex 52256df..9d47fc5 100644\n--- a/lib/execution_segment.go\n+++ b/lib/execution_segment.go\n@@ -637,7 +637,7 @@ func (essw *ExecutionSegmentSequenceWrapper) GetNewExecutionSegmentSequenceFromV\n \n \tprev := int64(0)\n \tfor i := range essw.ExecutionSegmentSequence {\n-\t\tnewValue := essw.ScaleInt64(i, value)\n+\t\tnewValue := int64(essw.ExecutionSegmentSequence[i].FloatLength() * float64(value))\n \t\tif newValue == 0 {\n \t\t\tcontinue\n \t\t}\n"
+    }
+   ]
+  },
+  {
+   "id": "least-common-denominator",
+   "label": "Compute a shared denominator",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "lcd-uses-product",
+     "patch": "diff --git a/lib/execution_segment.go b/lib/execution_segment.go\nindex 52256df..f55f3b2 100644\n--- a/lib/execution_segment.go\n+++ b/lib/execution_segment.go\n@@ -395,7 +395,7 @@ func (ess ExecutionSegmentSequence) LCD() int64 {\n \t\tif acc == n || acc%n == 0 { // short circuit\n \t\t\tcontinue\n \t\t}\n-\t\tacc *= (n / gcd(acc, n))\n+\t\tacc *= n\n \t}\n \n \treturn acc\n"
+    }
+   ]
+  },
+  {
+   "id": "nonnegative-boundaries",
+   "label": "Reject negative segment boundaries",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "negative-start-accepted",
+     "patch": "diff --git a/lib/execution_segment.go b/lib/execution_segment.go\nindex 52256df..cc9c120 100644\n--- a/lib/execution_segment.go\n+++ b/lib/execution_segment.go\n@@ -47,7 +47,7 @@ var (\n // from < to <= 1) and either returns an error, or it returns a\n // fully-initialized and usable execution segment.\n func NewExecutionSegment(from, to *big.Rat) (*ExecutionSegment, error) {\n-\tif from.Cmp(zeroRat) < 0 {\n+\tif from.Cmp(zeroRat) < -1 {\n \t\treturn nil, fmt.Errorf(\"segment start value must be at least 0 but was %s\", from.FloatString(2))\n \t}\n \tif from.Cmp(to) >= 0 {\n"
+    }
+   ]
+  },
+  {
+   "id": "rational-parsing",
+   "label": "Parse rational segment values",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "decimal-boundary-rounded",
+     "patch": "diff --git a/lib/execution_segment.go b/lib/execution_segment.go\nindex 52256df..07d2d0f 100644\n--- a/lib/execution_segment.go\n+++ b/lib/execution_segment.go\n@@ -334,7 +334,7 @@ func NewExecutionSegmentSequenceFromString(strSeq string) (ExecutionSegmentSeque\n \n \tsegments := make([]*ExecutionSegment, 0, len(points)-1)\n \tfor i, point := range points {\n-\t\trat, err := stringToRat(point)\n+\t\trat, err := stringToRat(point); if err == nil && strings.Contains(point, \".\") { rat = big.NewRat(rat.Num().Int64()/rat.Denom().Int64(), 1) }\n \t\tif err != nil {\n \t\t\treturn nil, err\n \t\t}\n"
+    }
+   ]
+  },
+  {
+   "id": "segment-adjacency",
+   "label": "Require neighboring segments to meet",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "sequence-start-reset",
+     "patch": "diff --git a/lib/execution_segment.go b/lib/execution_segment.go\nindex 52256df..317a1e0 100644\n--- a/lib/execution_segment.go\n+++ b/lib/execution_segment.go\n@@ -348,7 +348,7 @@ func NewExecutionSegmentSequenceFromString(strSeq string) (ExecutionSegmentSeque\n \t\t\treturn nil, err\n \t\t}\n \t\tsegments = append(segments, segment)\n-\t\tstart = rat\n+\t\tstart = zeroRat\n \t}\n \n \treturn NewExecutionSegmentSequence(segments...)\n"
+    }
+   ]
+  },
+  {
+   "id": "sequence-arity",
+   "label": "Validate the number of sequence boundaries",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "single-point-accepted",
+     "patch": "diff --git a/lib/execution_segment.go b/lib/execution_segment.go\nindex 52256df..93f8041 100644\n--- a/lib/execution_segment.go\n+++ b/lib/execution_segment.go\n@@ -327,7 +327,7 @@ func NewExecutionSegmentSequenceFromString(strSeq string) (ExecutionSegmentSeque\n \t}\n \n \tpoints := strings.Split(strSeq, \",\")\n-\tif len(points) < 2 {\n+\tif len(points) < 1 {\n \t\treturn nil, fmt.Errorf(\"at least 2 points are needed for an execution segment sequence, %d given\", len(points))\n \t}\n \tvar start *big.Rat\n"
+    }
+   ]
+  },
+  {
+   "id": "strict-boundary-order",
+   "label": "Require increasing boundaries",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "equal-endpoints-accepted",
+     "patch": "diff --git a/lib/execution_segment.go b/lib/execution_segment.go\nindex 52256df..3f8f722 100644\n--- a/lib/execution_segment.go\n+++ b/lib/execution_segment.go\n@@ -50,7 +50,7 @@ func NewExecutionSegment(from, to *big.Rat) (*ExecutionSegment, error) {\n \tif from.Cmp(zeroRat) < 0 {\n \t\treturn nil, fmt.Errorf(\"segment start value must be at least 0 but was %s\", from.FloatString(2))\n \t}\n-\tif from.Cmp(to) >= 0 {\n+\tif from.Cmp(to) > 0 {\n \t\treturn nil, fmt.Errorf(\"segment start(%s) must be less than its end(%s)\", from.FloatString(2), to.FloatString(2))\n \t}\n \tif to.Cmp(oneRat) > 0 {\n"
+    }
+   ]
+  },
+  {
+   "id": "striped-allocation",
+   "label": "Allocate the correct number of striped units",
+   "hidden": true,
+   "faulty_versions": [
+    {
+     "id": "striping-priority-reversed",
+     "patch": "diff --git a/lib/execution_segment.go b/lib/execution_segment.go\nindex 52256df..6745817 100644\n--- a/lib/execution_segment.go\n+++ b/lib/execution_segment.go\n@@ -513,7 +513,7 @@ func NewExecutionSegmentSequenceWrapper(ess ExecutionSegmentSequence) *Execution\n \t}\n \n \tsort.SliceStable(sortedNormalizedIndexes, func(i, j int) bool {\n-\t\treturn sortedNormalizedIndexes[i].normNumerator > sortedNormalizedIndexes[j].normNumerator\n+\t\treturn sortedNormalizedIndexes[i].normNumerator < sortedNormalizedIndexes[j].normNumerator\n \t})\n \n \t// This is the striping algorithm. Imagine you have a number of rational\n"
+    }
+   ]
+  },
+  {
+   "id": "striped-period",
+   "label": "Compute the striped period",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "striping-wrap-distance-off-by-one",
+     "patch": "diff --git a/lib/execution_segment.go b/lib/execution_segment.go\nindex 52256df..a6cd030 100644\n--- a/lib/execution_segment.go\n+++ b/lib/execution_segment.go\n@@ -552,7 +552,7 @@ func NewExecutionSegmentSequenceWrapper(ess ExecutionSegmentSequence) *Execution\n \t\toffsets[index] = append(offsets[index], iteration-prev[index])\n \t\tprev[index] = iteration\n \t\tif int64(len(offsets[index])) == numerator {\n-\t\t\toffsets[index] = append(offsets[index], offsets[index][0]+lcd-iteration)\n+\t\t\toffsets[index] = append(offsets[index], offsets[index][0]+lcd-iteration+1)\n \t\t}\n \t}\n \tfor i := int64(0); i < lcd; i++ {\n"
+    }
+   ]
+  },
+  {
+   "id": "striped-start",
+   "label": "Compute the striped starting offset",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "striping-start-one-based",
+     "patch": "diff --git a/lib/execution_segment.go b/lib/execution_segment.go\nindex 52256df..a91cc81 100644\n--- a/lib/execution_segment.go\n+++ b/lib/execution_segment.go\n@@ -597,7 +597,7 @@ func (essw *ExecutionSegmentSequenceWrapper) ScaleInt64(segmentIndex int, value\n //     elements after which the algorithm starts to loop and give the same values\n func (essw *ExecutionSegmentSequenceWrapper) GetStripedOffsets(segmentIndex int) (int64, []int64, int64) {\n \toffsets := essw.offsets[segmentIndex]\n-\treturn offsets[0], offsets[1:], essw.lcd\n+\treturn offsets[0]+1, offsets[1:], essw.lcd\n }\n \n // GetTuple returns an ExecutionTuple for the specified segment index.\n"
+    }
+   ]
+  }
+ ]
+}
