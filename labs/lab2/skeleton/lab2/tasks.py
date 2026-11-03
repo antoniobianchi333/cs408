@@ -1,8 +1,9 @@
 """Task registry: the tasks under tasks/<type>/<id>/.
 
-Each task folder holds task.yaml (schema in the README), prompt.md, the public
-checkpoints.json, for issue reproduction the reference repair solution.patch,
-and for the warmup the project/ it runs on.
+Each task folder holds task.yaml (id, type, language, test_paths, editable,
+source, environment, prepare, check), prompt.md, the public checkpoints.json,
+for issue reproduction the correct code as solution.patch, and for the warmup
+the project/ it runs on.
 
     from lab2 import tasks
     task = tasks.load("paperless")      # Task(id, type, dir, spec)

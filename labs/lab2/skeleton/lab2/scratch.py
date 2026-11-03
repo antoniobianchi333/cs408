@@ -9,8 +9,10 @@ created it. They are removed when that process finishes normally; a process that
 was killed (kill -9, out of memory, closed session) leaves them behind, each
 container holding about 100k files. clean() removes exactly those leftovers:
 names in this format whose process is gone. Anything else, including the
-scratch of processes still running, is left alone. `run`, `eval` and
-grading/eval.py call it before they start.
+scratch of processes still running, is left alone. It also removes images
+pulled into the user's store once no lab2 command of the user runs
+(lab2.environments.own_images). `run`, `eval` and grading/eval.py call it
+before they start.
 """
 import os
 import re
@@ -48,8 +50,9 @@ def owner_gone(entry: str) -> bool:
 
 
 def clean(store: Path | None = None) -> list[str]:
-    """Remove leftover containers from the image store and leftover temporary folders."""
-    from lab2.environments import Udocker, normalize_tree
+    """Remove leftover containers, command markers and pulled images from the
+    image store, and leftover temporary folders."""
+    from lab2.environments import Udocker, normalize_tree, remove_own_images
 
     removed = []
     udocker = Udocker(store)
@@ -59,6 +62,12 @@ def clean(store: Path | None = None) -> list[str]:
             if alias.is_symlink() and owner_gone(alias.name):
                 udocker.remove(alias.name)
                 removed.append(str(alias))
+    for marker in udocker.store.glob("lab2-command-*"):
+        if owner_gone(marker.name):
+            marker.unlink(missing_ok=True)
+            removed.append(str(marker))
+    if (udocker.store / "layers").is_dir() and remove_own_images(udocker.store):
+        removed.append(str(udocker.store / "layers"))
     for folder in Path(tempfile.gettempdir()).glob("lab2-*"):
         if folder.is_dir() and not folder.is_symlink() and owner_gone(folder.name):
             normalize_tree(folder)  # udocker trees may lack owner write permission

@@ -10,8 +10,7 @@ source:
   repository: https://github.com/minio/minio
   base_commit: c07e5b49d477b0774f23db3b290745aef8c01bd2
 environment:
-  image: cs408-lab2/minio:arm64
-  archive: minio-arm64.tar.gz
+  image: ghcr.io/cs408-fall-2026/lab2-minio:arm64
   workdir: /app
   head: 3f0a48a04ebf4e4d0441b38a80136d21b27d10f8
   env: {}

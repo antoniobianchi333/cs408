@@ -10,8 +10,7 @@ source:
   repository: https://github.com/abs-lang/abs
   base_commit: cb1b3b671d0ee9fa9da9f7b02f86967953ffd10a
 environment:
-  image: cs408-lab2/abs:arm64
-  archive: abs-arm64.tar.gz
+  image: ghcr.io/cs408-fall-2026/lab2-abs:arm64
   workdir: /app
   head: cb1b3b671d0ee9fa9da9f7b02f86967953ffd10a
   env: {}

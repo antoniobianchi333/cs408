@@ -10,8 +10,7 @@ source:
   repository: https://github.com/dateutil/dateutil
   base_commit: c981f9c7aa91b83cc9bd33a09ecee9e751b06e8d
 environment:
-  image: cs408-lab2/dateutil:arm64
-  archive: dateutil-arm64.tar.gz
+  image: ghcr.io/cs408-fall-2026/lab2-dateutil:arm64
   workdir: /app
   head: c981f9c7aa91b83cc9bd33a09ecee9e751b06e8d
   env:

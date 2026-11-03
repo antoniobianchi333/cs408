@@ -10,8 +10,7 @@ source:
   repository: https://github.com/grafana/k6
   base_commit: ddc3b0b1d23c128e34e2792fc9075f9126e32375
 environment:
-  image: cs408-lab2/k6:arm64
-  archive: k6-arm64.tar.gz
+  image: ghcr.io/cs408-fall-2026/lab2-k6:arm64
   workdir: /app
   head: d5a177ed7d457342833e08768196c7c2c25d71a2
   env: {}

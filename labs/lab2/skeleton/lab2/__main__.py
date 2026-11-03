@@ -44,6 +44,7 @@ def cmd_run(args):
 
 
 def cmd_eval(args):
+    from lab2.environments import own_images
     from lab2.evaluate import evaluate_job
 
     jobs.check_alias(args.alias, writable=False)
@@ -54,10 +55,11 @@ def cmd_eval(args):
     if missing:
         raise ValueError(f"no job for {', '.join(missing)} under alias {args.alias!r}")
     scratch.clean()  # leftovers of killed runs and evaluations
-    for task in selected:
-        files = args.checkpoints or [task.checkpoints]
-        result = evaluate_job(jobs.job_dir(args.alias, task), task.id, files, task.solution)
-        print(json.dumps({k: result.get(k) for k in ("task", "valid_submission", "score")}))
+    with own_images():  # images pulled here are removed at the end
+        for task in selected:
+            files = args.checkpoints or [task.checkpoints]
+            result = evaluate_job(jobs.job_dir(args.alias, task), task.id, files, task.solution)
+            print(json.dumps({k: result.get(k) for k in ("task", "valid_submission", "score")}))
 
 
 def cmd_submit(args):

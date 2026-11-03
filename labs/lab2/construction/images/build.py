@@ -17,7 +17,7 @@ source/requirements.txt (the versions the images were validated with).
 
 The built /app must match task.yaml `environment.head` and the recorded tree
 (`app_tree` below, `git rev-parse HEAD^{tree}`), with a clean working tree.
-The image is packaged as <out>/<id>-arm64.tar.gz (tag cs408-lab2/<id>:arm64),
+The image is packaged as <out>/<id>-arm64.tar.gz (tagged task.yaml environment.image),
 loaded into the image store <out>/udocker and validated with
 construction/validate.py (the official checks of the source task).
 
@@ -300,7 +300,7 @@ def build(task, out, work, validate):
         if (head, tree, dirty) != (spec["environment"]["head"], recipe["app_tree"], ""):
             raise RuntimeError(f"{task.id}: /app is HEAD {head} tree {tree} (dirty: {bool(dirty)}); expected "
                                f"{spec['environment']['head']} tree {recipe['app_tree']}")
-        archive = out / spec["environment"]["archive"]
+        archive = out / f"{task.id}-arm64.tar.gz"
         labels = {"org.opencontainers.image.title": task.id, "cs408.task": task.id,
                   "cs408.source": f"{spec['source']['dataset']} {spec['source']['task']}"}
         print(f"{task.id}: packaging {archive}", flush=True)

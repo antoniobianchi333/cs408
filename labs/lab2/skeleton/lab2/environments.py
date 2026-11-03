@@ -6,12 +6,17 @@ LocalEnvironment     the warmup (garage): a git workspace on the host.
 Harbor loads them by import path (`harbor run -e lab2.environments:...`, see
 lab2.run). The udocker helpers below are also used by lab2.evaluate.
 
-Image store: $LAB2_IMAGE_STORE, default .cache/udocker (repos/,
-layers/, containers/). A task image missing from the store is loaded from its
-archive, images/<environment.archive>.
+Images: read from the shared store SHARED_STORE (kept by the course staff, read
+only) when it holds the image, otherwise pulled from the registry (task.yaml
+environment.image, public on ghcr.io) into the user's store, $LAB2_IMAGE_STORE or
+/tmp/cs408-lab2-<user>/udocker. Containers are always in the user's store.
+Pulled images are removed when the lab2 command that needed them ends
+(own_images), so they never stay on the machine.
 """
 import asyncio
+import contextlib
 import os
+import pwd
 import re
 import shutil
 import signal
@@ -26,9 +31,7 @@ from harbor.models.environment_type import EnvironmentType
 
 from lab2 import scratch
 from lab2.skills import MOUNT
-from lab2.tasks import SKELETON
 
-IMAGES_DIR = SKELETON / "images"
 OUTPUT_LIMIT = 4_000_000  # characters of stdout/stderr kept per command
 SECRET = re.compile(r"KEY|TOKEN|SECRET|PASSWORD", re.I)
 # Fixed identity, dates and no user/system git config: the workspace commit of
@@ -39,8 +42,68 @@ WORKSPACE_GIT = {"GIT_AUTHOR_NAME": "CS408", "GIT_AUTHOR_EMAIL": "cs408@localhos
                  "GIT_CONFIG_GLOBAL": os.devnull, "GIT_CONFIG_NOSYSTEM": "1"}
 
 
+# One copy of every task image for all users of the machine (repos/ and layers/
+# of a udocker store), kept by the course staff (construction/images/shared.py).
+SHARED_STORE = Path("/tmp/cs408-lab2-shared")
+
+
+def shared_store() -> Path | None:
+    """SHARED_STORE if usable: real folders that only their owner can write to."""
+    paths = [SHARED_STORE, SHARED_STORE / "repos", SHARED_STORE / "layers"]
+    try:
+        infos = [p.lstat() for p in paths]
+    except OSError:
+        return None
+    if any(p.is_symlink() or not p.is_dir() or i.st_mode & 0o022 for p, i in zip(paths, infos)):
+        return None
+    return SHARED_STORE
+
+
 def image_store() -> Path:
-    return Path(os.environ.get("LAB2_IMAGE_STORE") or SKELETON / ".cache" / "udocker").resolve()
+    """$LAB2_IMAGE_STORE, or a private folder of this user under /tmp.
+
+    The default name carries the login name (/tmp/cs408-lab2-<user>/udocker), so
+    students on the same machine never share or collide on a store. The folder
+    is created with mode 700; one that exists but is a link, or belongs to
+    someone else, is refused rather than used.
+    """
+    if os.environ.get("LAB2_IMAGE_STORE"):
+        return Path(os.environ["LAB2_IMAGE_STORE"]).resolve()
+    user = pwd.getpwuid(os.getuid()).pw_name  # from the account database, not $USER
+    base = Path(tempfile.gettempdir()) / f"cs408-lab2-{user}"
+    try:
+        base.mkdir(mode=0o700)
+    except FileExistsError:
+        info = base.lstat()
+        if base.is_symlink() or info.st_uid != os.getuid():
+            raise RuntimeError(f"{base} is not a folder of yours; remove it or set LAB2_IMAGE_STORE") from None
+    return base / "udocker"
+
+
+@contextlib.contextmanager
+def own_images():
+    """Scope of one lab2 command (run, eval): images it pulls into the user's store
+    are removed at its end, unless another lab2 command of the user still runs."""
+    store = image_store()
+    store.mkdir(parents=True, exist_ok=True)
+    marker = store / scratch.name("command")  # shows the command runs; clean() drops dead ones
+    marker.touch()
+    try:
+        yield
+    finally:
+        marker.unlink(missing_ok=True)
+        remove_own_images(store)
+
+
+def remove_own_images(store: Path) -> bool:
+    """Delete the pulled images (repos/, layers/) of `store` if no lab2 command uses them."""
+    if any(not scratch.owner_gone(m.name) for m in store.glob("lab2-command-*")):
+        return False
+    for d in ("repos", "layers"):
+        if (store / d).is_dir():
+            normalize_tree(store / d)
+            shutil.rmtree(store / d, ignore_errors=True)
+    return True
 
 
 def normalize_tree(root: Path, writable_files: bool = False) -> None:
@@ -58,13 +121,24 @@ def normalize_tree(root: Path, writable_files: bool = False) -> None:
 
 
 class Udocker:
-    """Synchronous udocker commands against one image store."""
+    """Synchronous udocker commands against one image store.
+
+    Without an explicit store, images come from the shared store when it holds
+    them (ensure_image decides per image); containers are always in self.store.
+    """
 
     def __init__(self, store: Path | None = None):
         self.store = Path(store or image_store()).resolve()
+        self.shared = shared_store() if store is None else None
         self.executable = shutil.which("udocker") or "udocker"
         self.env = {k: os.environ[k] for k in ("PATH", "HOME", "USER", "LANG", "LC_ALL", "UDOCKER_DIR") if k in os.environ}
-        self.env.update({"UDOCKER_" + d.upper(): str(self.store / d) for d in ("repos", "layers", "containers")})
+        self.env["UDOCKER_CONTAINERS"] = str(self.store / "containers")
+        self.use_images(self.store)
+
+    def use_images(self, store: Path) -> None:
+        """Read images (repos/, layers/) from `store`."""
+        self.images = store
+        self.env.update({"UDOCKER_" + d.upper(): str(store / d) for d in ("repos", "layers")})
 
     def command(self, *args: str) -> list[str]:
         return [self.executable, "--quiet", *args]
@@ -78,19 +152,35 @@ class Udocker:
     def has_image(self, image: str) -> bool:
         return subprocess.run(self.command("inspect", image), env=self.env, capture_output=True).returncode == 0
 
-    def ensure_image(self, image: str, archive: str | None) -> None:
+    def ensure_image(self, image: str) -> None:
+        """Use the shared copy of `image`, or pull it into the own store once (needs network)."""
         for d in ("repos", "layers", "containers"):
             (self.store / d).mkdir(parents=True, exist_ok=True)
-        if self.has_image(image):
-            return
-        path = IMAGES_DIR / archive if archive else None
-        if path is None or not path.is_file():
-            raise RuntimeError(f"image {image} is not in {self.store}; put {archive or 'its archive'} into {IMAGES_DIR}")
-        self.call("load", "-i", str(path))
+        if self.shared:
+            self.use_images(self.shared)
+            if self.has_image(image):
+                return
+        self.use_images(self.store)
+        if not self.has_image(image):
+            self.call("pull", image)
 
     def create(self, name: str, image: str) -> Path:
-        """Create container `name`; returns its root directory on the host."""
-        self.call("create", f"--name={name}", image)
+        """Create container `name`; returns its root directory on the host.
+
+        If the image is broken (e.g. /tmp cleanup removed some of its files),
+        the own copy is pulled again (or first, if the shared copy was used)
+        and the container is created once more.
+        """
+        try:
+            self.call("create", f"--name={name}", image)
+        except RuntimeError:
+            self.remove(name)
+            if self.images == self.store:
+                subprocess.run(self.command("rmi", image), env=self.env, capture_output=True)
+            self.use_images(self.store)
+            if not self.has_image(image):
+                self.call("pull", image)
+            self.call("create", f"--name={name}", image)
         root = (self.store / "containers" / name).resolve() / "ROOT"
         normalize_tree(root, writable_files=True)
         return root
@@ -201,14 +291,12 @@ class UdockerEnvironment(_HostFiles, BaseEnvironment):
 
     Commands run with `udocker run`, so files persist between them; files are
     transferred by copying into the container root, a plain host directory.
-    Environment kwargs (`--ek`): archive (file name under images/),
-    store (default: image_store()).
+    Environment kwargs (`--ek`): store (default: image_store()).
     """
 
-    def __init__(self, *args, archive: str | None = None, store: str | None = None, **kwargs):
+    def __init__(self, *args, store: str | None = None, **kwargs):
         super().__init__(*args, **kwargs)
         self._udocker = Udocker(Path(store) if store else None)
-        self._archive = archive
         self._name = scratch.name("agent")
         self._root: Path | None = None
 
@@ -229,7 +317,7 @@ class UdockerEnvironment(_HostFiles, BaseEnvironment):
 
     async def start(self, force_build: bool) -> None:
         image = self.task_env_config.docker_image
-        await asyncio.to_thread(self._udocker.ensure_image, image, self._archive)
+        await asyncio.to_thread(self._udocker.ensure_image, image)
         self._root = await asyncio.to_thread(self._udocker.create, self._name, image)
         await self.exec("mkdir -p /logs/agent /logs/verifier /logs/artifacts /tests")
 

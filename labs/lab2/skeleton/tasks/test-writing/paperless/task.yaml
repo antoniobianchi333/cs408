@@ -10,8 +10,7 @@ source:
   repository: https://github.com/paperless-ngx/paperless-ngx
   base_commit: 542221a38dff06361e07976452f9aea24d210542
 environment:
-  image: cs408-lab2/paperless:arm64
-  archive: paperless-arm64.tar.gz
+  image: ghcr.io/cs408-fall-2026/lab2-paperless:arm64
   workdir: /app
   head: e5092a6d578711b59c9ca6d3229b746e76365ace
   env:

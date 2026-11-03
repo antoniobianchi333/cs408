@@ -2,8 +2,9 @@
 
     python -m lab2 run --alias A --tasks paperless k6 [--skills NAME ...] [--redo-existing]
 
-Before any run, every needed task image is loaded into the store, one at a
-time. For each task: export a Harbor task folder (instruction, task.toml and a
+Before any run, every needed task image is found in the shared store or
+pulled into the user's store, one at a time (removed when the command ends).
+For each task: export a Harbor task folder (instruction, task.toml and a
 collect-only verifier payload) into a scratch folder under the system temp
 directory, run `harbor run` with lab2.agent and lab2.environments (its console
 output is captured; the tail is kept for error messages), copy the results into
@@ -72,8 +73,6 @@ def harbor_command(task: Task, task_dir: Path, jobs_dir: Path, selected: list[sk
                        "--ek", f"project={task.dir / task.spec['environment']['project']}"]
     else:
         environment = ["-e", "lab2.environments:UdockerEnvironment"]
-        if task.spec["environment"].get("archive"):
-            environment += ["--ek", f"archive={task.spec['environment']['archive']}"]
     return ["harbor", "run", "-p", str(task_dir), "-a", AGENT, *environment,
             "--ak", f"config={config}", "--ak", f"skills={json.dumps([str(s.dir) for s in selected])}",
             "-o", str(jobs_dir), "--job-name", task.id, "-n", "1", "-k", "1"]
@@ -117,7 +116,7 @@ def parameters(alias: str, task: Task, selected: list[skills.Skill], redo_existi
             "model": model_settings(config),
             "agent": {k: v for k, v in config["agent"].items() if not k.endswith("_template")},
             "environment": ({"local": True, "head": env["head"]} if task.local else
-                            {"image": env["image"], "archive": env.get("archive"), "head": env["head"]}),
+                            {"image": env["image"], "head": env["head"]}),
             "versions": versions(), "repository": git_commit(),
             "host": {"name": platform.node(), "platform": platform.platform()}}
 
@@ -198,7 +197,7 @@ def run(alias: str, task_ids: list[str], skill_names: list[str] = (), redo_exist
 
     command: the command line to record (lab2.__main__ passes the CLI's).
     """
-    from lab2.environments import IMAGES_DIR, Udocker
+    from lab2.environments import Udocker, own_images
 
     jobs.check_alias(alias, writable=True)
     selected = [load(t) for t in dict.fromkeys(task_ids)]
@@ -209,12 +208,9 @@ def run(alias: str, task_ids: list[str], skill_names: list[str] = (), redo_exist
     existing = [t.id for t in selected if jobs.job_dir(alias, t).exists()]
     if existing and not redo_existing:
         raise ValueError(f"jobs/{alias}/ already has {', '.join(existing)}; pass --redo-existing to replace")
-    images = {t.spec["environment"]["image"]: t.spec["environment"].get("archive") for t in selected if not t.local}
-    udocker = Udocker() if images else None
-    for image, archive in images.items():
-        if not udocker.has_image(image) and not (IMAGES_DIR / str(archive)).is_file():
-            raise ValueError(f"image {image} not loaded; put {archive} into {IMAGES_DIR}")
+    images = list(dict.fromkeys(t.spec["environment"]["image"] for t in selected if not t.local))
     scratch.clean()  # leftovers of killed runs and evaluations
-    for image, archive in images.items():
-        udocker.ensure_image(image, archive)
-    return [run_task(alias, t, selected_skills, config, redo_existing, command) for t in selected]
+    with own_images():  # images pulled here are removed at the end
+        for image in images:  # shared copy, or pulled once for this command
+            Udocker().ensure_image(image)
+        return [run_task(alias, t, selected_skills, config, redo_existing, command) for t in selected]

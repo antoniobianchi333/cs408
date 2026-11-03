@@ -1,6 +1,6 @@
 # Lab 2 task images (TA only)
 
-How the six ARM64 task images that students download are built. Not distributed.
+How the six ARM64 task images are built and published. Not distributed.
 
 ## Requirements
 
@@ -33,10 +33,45 @@ For each task the build:
    `source/requirements.txt`);
 3. checks that `/app` is at task.yaml `environment.head`, has the recipe's `app_tree`
    and a clean working tree;
-4. writes `<out>/<id>-arm64.tar.gz` (tag `cs408-lab2/<id>:arm64`), loads it into
-   `<out>/udocker` and runs `validate.py` on it.
+4. writes `<out>/<id>-arm64.tar.gz` (tagged with task.yaml `environment.image`),
+   loads it into `<out>/udocker` and runs `validate.py` on it.
 
-The archives are what students download into `skeleton/images/`.
+## Publish
+
+Students' first run of a task pulls `environment.image`
+(`ghcr.io/cs408-fall-2026/lab2-<id>:arm64`). Push a validated archive with crane
+(the token needs `write:packages`; crane reads only uncompressed archives):
+
+```bash
+gh auth token | crane auth login ghcr.io -u <github-user> --password-stdin
+gunzip -c /tmp/cs408-lab2-images/<id>-arm64.tar.gz > /tmp/<id>.tar
+crane push /tmp/<id>.tar ghcr.io/cs408-fall-2026/lab2-<id>:arm64 && rm /tmp/<id>.tar
+```
+
+A new package is private: make it public once, in the package's settings on
+GitHub (Change visibility).
+
+## Shared copy on a server
+
+Students read the images from one shared copy per server, `/tmp/cs408-lab2-shared`
+(`SHARED_STORE` in `skeleton/lab2/environments.py`; lab2 ignores it if anyone
+but its owner can write to it). As the TA account that keeps it:
+
+```bash
+python construction/images/shared.py
+```
+
+It pulls every missing or broken image (`udocker verify`), sets every file's
+access time to now and leaves the folder readable by all, writable only by its
+owner. The server deletes files in `/tmp` not read for 7 days (and everything on
+reboot), so the same account runs it daily from its crontab:
+
+```
+0 4 * * * bash -c 'cd <lab root> && source skeleton/scripts/activate.sh && python construction/images/shared.py' >> ~/cs408-lab2-shared.log 2>&1
+```
+
+Should the copy be gone anyway, students' commands pull the images themselves and
+delete them afterwards.
 
 ## Validate
 

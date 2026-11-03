@@ -2,8 +2,8 @@
 
     python construction/validate.py [TASK ...] [--store DIR]
 
-The image (task.yaml environment.image) must be in the udocker store (--store,
-default $LAB2_IMAGE_STORE or skeleton/.cache/udocker). For each task, one
+The image (task.yaml environment.image) is taken from the udocker store given
+with --store, else as lab2 finds it (the shared copy, or pulled). For each task, one
 container is created, checked and removed:
   * /app: HEAD = task.yaml environment.head, tree = the build recipe's app_tree,
     clean working tree;
@@ -46,6 +46,7 @@ class Container:
     def __init__(self, udocker, task):
         self.udocker, self.task = udocker, task
         self.name = "lab2-validate-" + uuid.uuid4().hex[:8]
+        udocker.ensure_image(task.spec["environment"]["image"])  # without --store: the shared copy
         self.root = udocker.create(self.name, task.spec["environment"]["image"])
         (self.root / W.lstrip("/")).mkdir(parents=True)
 

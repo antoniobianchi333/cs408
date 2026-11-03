@@ -91,7 +91,7 @@ def _verify_image(task: Task, job_dir: Path, tests: Path, out: Path) -> None:
 
     udocker = Udocker()
     env = task.spec["environment"]
-    udocker.ensure_image(env["image"], env.get("archive"))
+    udocker.ensure_image(env["image"])
     name = scratch.name("eval")
     try:
         root = udocker.create(name, env["image"])

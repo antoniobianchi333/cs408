@@ -15,13 +15,13 @@ from lab2.run import CONFIG, export, run
 
 def test_export_image_task(lab, tmp_path):
     folder = write_task(lab, "img", "test-writing", prepare="true", environment={
-        "image": "cs408-lab2/img:arm64", "archive": "img-arm64.tar.gz", "workdir": "/app",
+        "image": "ghcr.io/example/img:arm64", "workdir": "/app",
         "head": "abc", "env": {"A": 1}})
     (folder / "project").rename(folder / "unused")
     task = tasks.load("img")
     dest = export(task, tmp_path / "harbor/img", yaml.safe_load(CONFIG.read_text()))
     config = tomllib.loads((dest / "task.toml").read_text())
-    assert config["environment"]["docker_image"] == "cs408-lab2/img:arm64"
+    assert config["environment"]["docker_image"] == "ghcr.io/example/img:arm64"
     assert config["environment"]["env"] == {"A": "1"} and config["environment"]["workdir"] == "/app"
     assert config["environment"]["healthcheck"]["command"] == "cd /app && true"
     assert (dest / "instruction.md").read_text() == task.prompt()

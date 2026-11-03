@@ -84,7 +84,8 @@ Here is the breakdown of points for this project:
 
 Read the assignment \textbf{entirely} before starting any work on it.
 
-This is a group project for groups of \textbf{at most four} students. Only
+This is a group project for groups of \textbf{at most four} students. Feel
+free to reuse your group from Project 1; you can also form a new group. Only
 collaboration between pre-registered group members is allowed.
 
 \noindent\fbox{%
@@ -137,21 +138,30 @@ Linux environments). Their task repositories are public: the \ic{source:} sectio
 the code at this commit: the unfixed code. For Test Writing, it holds the same
 code, except that the existing tests of the behavior to be tested were removed.
 
-Each container is created from an \textbf{image}, an archive file that holds the
-task repository and everything needed to run its tests. Download the six
-image files (\TODO: download location) and put them, unchanged, in
-\ic{images/}. The first run of a task loads its image, which takes a few minutes. The loaded images
-and the containers created from them need several GB of disk space in
-\ic{.cache/udocker/}; to keep the loaded images elsewhere, set the environment
-variable \ic{LAB2\_IMAGE\_STORE} to another folder, in every shell, as with the API key below.
+Each container is created from an \textbf{image}, which holds the task
+repository and everything needed to run its tests. You do not need to
+download the images: the server keeps a shared, read-only copy of all of
+them, and the lab2 tool uses it. Your own containers are kept in
+\ic{/tmp/cs408-lab2-<user>/udocker/}, where \ic{<user>} is your login name;
+only you can access this folder. To keep them in another folder, set the
+environment variable \ic{LAB2\_IMAGE\_STORE} to that folder in every new
+shell.
 
 The agent calls a language model through the Purdue RCAC GenAI API.
-Get an API key as described in~[1]. Set it in every new shell, as you do with \ic{activate.sh}. Do not put the key in Git, in skills, or in your report.
-The last command below reports whether everything is ready.
+Get an API key as described in~[1], and save it in a file that only you can
+read. Do not put the key in Git, in skills, or in your report.
 \begin{verbatim}
-$ export PURDUE_RCAC_API_KEY='YOUR_KEY'
-$ bash setup.sh --check
+$ (umask 077; echo 'YOUR_KEY' > ~/.purdue-rcac-key)
 \end{verbatim}
+Do not \ic{export} the key in your shell. In the Warmup task, the agent's
+commands run under your account, and they could read the key from a shell
+that has it. Instead, give the key only to the command that needs it. For
+example, the following command reports whether everything is ready:
+\begin{verbatim}
+$ PURDUE_RCAC_API_KEY=$(cat ~/.purdue-rcac-key) bash setup.sh --check
+\end{verbatim}
+Every \ic{python -m lab2 run} command needs the key in the same way. To keep
+them short, the \ic{run} commands in this handout leave it out.
 
 \section{Coding Agent Background}
 \label{sec:background}
@@ -195,14 +205,18 @@ folders: \autoref{sec:running}).}
 The agent in this project is mini-swe-agent~[3]. Its only tool is the
 \ic{bash} shell, which it uses to read files, write tests, and run them. When we say that the agent decides something, we mean that the model decides
 it. Every run uses the same model (\ic{qwen3.8:27b}) and is limited to 60 model calls and two hours. When a limit is reached,
-the run ends, and the test files written so far are still evaluated. In this project, the prompt has four parts: fixed rules for all tasks, the
+the run ends, and the test files written so far are still evaluated.
+
+In this project, the prompt has four parts: fixed rules for all tasks, the
 list of skills (\autoref{sec:skills}), the \textbf{task text} (the file \ic{prompt.md} in the task's folder), and
 the list of allowed test folders (``Allowed test directories''). The fixed rules tell the agent, among other
 things, to write tests only, never to install dependencies or search for
 solutions, to run only the tests it added, to use \ic{/tmp} for scratch work,
 and not to modify skills or make Git commits. They are in
 \ic{config.yaml} (\ic{system\_template}), and each run's trajectory
-shows them in its first message. Only the test libraries already present can be
+shows them in its first message.
+
+Only the test libraries already present can be
 used: pytest for the Warmup task, and what each task repository already uses for
 the other tasks. Each command of the agent is stopped after 3 minutes, and only
 the first and last parts of a long output are shown to the model.
@@ -283,7 +297,9 @@ behavior that an issue requests is implemented. For example, a skill must not
 describe what a faulty version changes, name the exact input that breaks a
 faulty version, or describe how our implementation of an issue works. In addition, the three
 runs that you submit for Test Writing must use the same skills, and so must
-the three runs for Issue Reproduction (\autoref{sec:submission}).
+the three runs for Issue Reproduction (\autoref{sec:submission}). Together,
+the skills of all your submitted runs must use \textbf{at least three
+different testing techniques} covered in class.
 
 \begin{figure}[ht]
 \centering

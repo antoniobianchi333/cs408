@@ -1,36 +1,44 @@
 # CS408 Lab 2: Teaching a Coding Agent to Write Tests
 
-You write *skills*: reusable instructions that a fixed coding agent (mini-swe-agent
+You write *skills*: short instructions that a fixed coding agent (mini-swe-agent
 with the course model) reads while it writes tests. You compare runs with your
 skills against vanilla runs (no skills) on the same tasks. The agent, the model,
 the tasks and the run limits are the same for everyone. The course handout gives
-the background, the deliverables and the deadlines.
+the background, the deliverables and the deadlines; this guide is the reference
+for the lab2 tool. The tool calls an experiment an *alias*, a run a *job*, and a
+part (warmup, test writing, issue reproduction) a *type*.
 
 ## Tasks
 
 `python -m lab2 tasks` lists them.
 
-| Task | Type | Language | Public checkpoints | The agent must... |
+| Task | Part (type) | Language | Public checkpoints | The agent must... |
 | --- | --- | --- | ---: | --- |
 | `garage` | warmup | Python | 15 | extend `test_garage.py` for a parking-garage class (plates, capacity, sessions, charges, passes) from `SPEC.md` |
 | `paperless` | test-writing | Python | 12 | test `generate_filename` of paperless-ngx (document type, ASN, tag and date placeholders, path separators) |
 | `minio` | test-writing | Go | 8 | test MinIO's `internal/etag` package (parsing, equality, multipart, encryption, S3 formatting) |
 | `k6` | test-writing | Go | 9 | test k6 execution segments (sequences from strings, striped offsets, shared properties, new execution tuples) |
-| `dateutil` | issue-reproduction | Python | 25 | reproduce RFC 5545 timezone interoperability of `dateutil.rrule` (RDATE TZID/VALUE, timezone-aware `__str__`, iCalendar output, set operations) |
-| `psd-tools` | issue-reproduction | Python | 20 | reproduce a typed blend-range ("Blend If") API for layers and its use in compositing |
+| `dateutil` | issue-reproduction | Python | 24 | reproduce RFC 5545 timezone interoperability of `dateutil.rrule` (RDATE TZID/VALUE, timezone-aware `__str__`, iCalendar output, set operations) |
+| `psd-tools` | issue-reproduction | Python | 21 | reproduce a typed blend-range ("Blend If") API for layers and its use in compositing |
 | `abs` | issue-reproduction | Go | 14 | reproduce stepped slices `value[start:end:step]` for arrays and strings in the ABS language |
 
-- **Test writing** (and the warmup): the supplied implementation is correct. The
-  tests must pass on it and catch faulty versions of it.
-- **Issue reproduction**: the supplied code lacks a feature or fix described in an
-  upstream issue. The tests must fail on the supplied (unfixed) code and pass once
-  a correct repair is applied. The agent must not implement the repair.
+- **Warmup and test writing**: the code in the task repository is correct. The
+  tests must pass on it and detect faulty versions of it.
+- **Issue reproduction**: the task repository holds the *unfixed code*, which lacks
+  a behavior that an issue requests. The tests must fail on the unfixed code and
+  pass on the correct code (our implementation, `solution.patch`). The agent must
+  not implement the behavior.
 
-The six test-writing and issue-reproduction tasks are the benchmark. The warmup
-is practice and is not part of the benchmark mean. Each task's prompt is
-`tasks/<type>/<id>/prompt.md`. The agent may add test files only in the task's
-`test_paths` (`task.yaml`), and may edit only the starter tests listed under
-`editable` (only the warmup has one, `test_garage.py`).
+The six test-writing and issue-reproduction tasks are the benchmark; the warmup
+is practice and is in neither mean. Each task's text is
+`tasks/<type>/<id>/prompt.md`.
+
+A *test file* is a file named `test_*.py` or `*_test.py` (Python) or `*_test.go`
+(Go) in one of the task's `test_paths` (`task.yaml`). The agent may only add test
+files and edit the starter tests listed under `editable` (only the warmup has
+one, `test_garage.py`). Any other change in the task repository, including files
+that the tests write when they run, makes the submission invalid; tests write
+temporary files under `/tmp`.
 
 ## Setup
 
@@ -51,11 +59,13 @@ the repository or edit your shell profile.
 **Machine.** The six benchmark tasks run in ARM64 container images, so they need
 Linux ARM64 (aarch64). On Linux x86_64 only the warmup runs.
 
-**Images.** Download the six image archives (`<id>-arm64.tar.gz`, named in each
-`task.yaml` under `environment.archive`) and put them into `images/`. The first
-run of a task loads its archive into the udocker image store,
-`.cache/udocker/` by default (several GB; set `LAB2_IMAGE_STORE` to another
-folder if space is short). Once loaded, the archive is not needed any more.
+**Images.** On the course servers the task images are already there, in a
+shared read-only copy (`/tmp/cs408-lab2-shared`). If it is missing an image, the
+command pulls it (`environment.image` in `task.yaml`, public on
+`ghcr.io/cs408-fall-2026`; needs network, about a minute) into your own store and
+deletes it again when the command ends. Your own store,
+`/tmp/cs408-lab2-<user>/udocker` (private to you; `<user>` is your login name, or
+`LAB2_IMAGE_STORE`), otherwise holds only the containers of running tasks.
 
 **API key.** Runs call the Purdue RCAC GenAI API (`https://genai.rcac.purdue.edu/api`,
 model `qwen3.8:27b`). The key is read from `PURDUE_RCAC_API_KEY`. Keep it out of
@@ -84,7 +94,7 @@ python -m lab2 submit --alias A --type {warmup,test-writing,issue-reproduction} 
 python -m lab2 scoreboard
 ```
 
-An **alias** names a set of runs (`jobs/<alias>/`). It matches
+An **alias** (an experiment in the handout) names a set of runs (`jobs/<alias>/`). It matches
 `[A-Za-z0-9][A-Za-z0-9._-]*`. `submission` and `vanilla` are reserved, in any
 letter case: `run` and `submit` refuse them. All arguments are checked before
 anything runs. An error prints `error: ...` and exits with status 2. `run` exits with
@@ -101,8 +111,7 @@ status 1 if a task ended with an error; that task's `run.json` records it.
 - `run` and `eval` first remove containers and temporary folders left behind by
   killed runs or evaluations (only those of processes that no longer exist).
 - Errors: invalid or reserved alias, unknown task, unknown or duplicate skill,
-  invalid `SKILL.md`, existing jobs, an image that is neither loaded nor present
-  in `images/`.
+  invalid `SKILL.md`, existing jobs, an image that cannot be pulled.
 
 Each run goes through Harbor: the agent works in a fresh environment, then the
 accepted test files are collected and evaluated in another fresh environment with
@@ -153,13 +162,21 @@ description: When the skill is useful (shown to the agent at the start).
 
 - `name` must equal the folder name: lowercase letters, digits and `-`.
 - `description` and the instructions must not be empty. Symbolic links are not allowed.
-- The initial prompt lists only the names and descriptions. During the run the
-  selected skills are at `.skills/<name>/` in the task's working directory, and the
-  agent reads `SKILL.md` and other files with bash when needed.
+- The prompt lists only the name, the description and the path of each skill's
+  `SKILL.md`. During the run the selected skills are at `.skills/<name>/` in the
+  task repository, and the agent reads their files with bash when it needs them.
 - Select skills with `run --skills my-skill other-skill`. A run without
   `--skills` is a **vanilla** run.
+- Do not edit a skill after a run has used it: copy it to a new folder
+  (e.g. `my-skill-v2/`, with `name: my-skill-v2`) and edit the copy.
 
-`skills/example/` shows the format only; it is not a testing strategy.
+**Rules.** A skill teaches *how* to test: a testing method from class and how to
+apply it to a kind of code. It must not tell the agent *what* to test in a
+particular task, and must not reveal, directly or indirectly, what a faulty
+version breaks, an input that breaks it, or how our implementation of an issue
+works. The three runs you submit for a part must use the same skills.
+
+`skills/example/` shows the format only; its instructions are not testing advice.
 
 ## Jobs
 
@@ -183,7 +200,7 @@ alone, shows how it was produced:
 - `skills`: name, description and snapshot path of each skill;
 - `model` (name, API base, temperature and other settings) and `agent` (step
   limit, wall-time limit, templates excluded), the effective `config.yaml` values;
-- `environment`: image tag, archive and image git head (warmup: `local`);
+- `environment`: image and its git head (warmup: `local`);
 - `versions` (Python, mini-swe-agent, Harbor), `repository` (git commit, dirty flag),
   `host` (name, platform);
 - `timestamps` (UTC ISO-8601): `started`, `agent_started`, `agent_finished`,
@@ -214,36 +231,43 @@ TW mean **78.70**, IR mean **62.50** (the warmup is in neither mean).
 
 ## Scoring
 
-A task has checkpoints: behaviours the tests should check. Each checkpoint has
-one or more *faulty versions*, patches that break that behaviour.
+A task has *checkpoints*: behaviors the tests should check. Each checkpoint has
+one or more *faulty versions*: copies of the correct code (patches) in which only
+that behavior is broken.
 
-1. **Valid submission.** The submission is the set of new test files in the
-   task's test paths, plus edited starter tests listed as editable. It is
-   invalid if there is no such file or if anything else changed (production code,
-   other files, git history). An invalid submission scores 0.
-2. **Eligible tests.** Test writing and warmup: a test is eligible if it passes on
-   the correct code. Issue reproduction: if it fails (or does not run) on the
-   unfixed code and passes on the reference-repaired code.
-3. **K per checkpoint.** A faulty version is detected if at least one eligible
-   test fails on it; a test that does not run (crash, panic, build error,
-   timeout) counts as failing. K is the fraction of the checkpoint's faulty
-   versions that are detected.
-4. **Score** = 100 x the mean K over the checkpoints, all weighted equally.
+1. **Valid submission.** The submission is the agent's test files (see Tasks). It
+   is invalid if there is no test file or if anything else in the task repository
+   changed. An invalid submission scores 0 (`valid_submission: false`, with the
+   offending files in `unexpected_changes`).
+2. **Counted tests.** Warmup and test writing: a test is counted if it passes on
+   the correct code. Issue reproduction: if it fails on the unfixed code and passes
+   on the correct code. Tests that are not counted are ignored; they never lower
+   the score.
+3. **Detection.** A faulty version is detected if at least one counted test fails
+   on it. A test that gives no result (crash, panic, build or import error,
+   timeout) counts as failing.
+4. **Task score** = 100 x the mean *checkpoint value* over the checkpoints, all
+   weighted equally; a checkpoint's value is the fraction of its faulty versions
+   that are detected.
 
-Every test run starts from a reset repository with only the submission added. A
-run longer than 300 seconds is stopped and its tests count as not run. All
-faulty-version runs of one evaluation together get 2 hours; faulty versions not
-reached by then count as not detected.
+Each version of the code is tested from a reset repository with only the
+submission added, with all the agent's tests run together. A run longer than 5
+minutes is stopped and its tests count as giving no result (Go: each package also
+stops after 2 minutes). All faulty versions of a task together get 2 hours;
+faulty versions not reached by then count as not detected.
 
-**Hidden checkpoints.** Each benchmark task also has hidden checkpoints, about
-25-30% of its checkpoints. They cover the same features as the listed ones and
-are scored the same way, but they are not listed and are used only in the TAs'
-evaluation of your submission. The warmup has none.
+Tests must check behavior: they call the code under test. A test that reads or
+checks source code, file contents or a diff (e.g. whether a line is present) makes
+the run invalid; the TAs check this by hand.
 
-**Issue reproduction** is scored with the task's reference repair,
-`tasks/issue-reproduction/<id>/solution.patch`; its faulty versions are edits of
-the repaired code. The repair is there only for evaluation: skills must not
-reveal, directly or indirectly, the cause of a bug or how to fix it.
+**Hidden checkpoints.** In each benchmark task 25-30% of the checkpoints are not
+listed. They cover other behaviors the task text asks for and are scored the same
+way, but they are used only for the skills competition and are published after
+the deadline. The warmup has none. Grading uses the public checkpoints.
+
+**Issue reproduction** uses the correct code `tasks/issue-reproduction/<id>/solution.patch`;
+its faulty versions are edits of that code. The agent never sees it or any faulty
+version, and your skills must not pass on what you learn from them.
 
 ### checkpoints.json
 
@@ -257,21 +281,23 @@ reveal, directly or indirectly, the cause of a bug or how to fix it.
 ```
 
 Each `patch` is a unified diff against the correct code (`git apply`); for issue
-reproduction, against the reference-repaired code. To check your tests against
-your own faulty versions, write a file in this format (`task` must be the task id)
-and pass it with `eval --checkpoints FILE`, together with the public file if you
-want both.
+reproduction, the correct code is the unfixed code with `solution.patch` applied.
+To check your tests against faulty versions of your own, write a file in this
+format (`task` must be the task id) and pass it with `eval --checkpoints FILE`,
+together with the public file if you want both.
 
 ## Submission
 
-- `python -m lab2 submit --alias A --type TYPE` puts the jobs you choose into
-  `jobs/submission/<type>/`; the three tasks of a type must use the same skills.
-  The TAs evaluate them with all checkpoints, public and hidden.
-- The report: edit `report/main.tex` (ACL style; its comments say what to write),
-  from the root of your repository run `tectonic report/main.tex`, and submit
-  the output `report/main.pdf`. The first build downloads the LaTeX packages it
-  needs into `.cache/tectonic/` (needs network; set by `scripts/activate.sh`).
-- Keep the skills you used in `skills/`; each job also has its own snapshot.
+- `python -m lab2 submit --alias A --type TYPE` copies the jobs of one part into
+  `jobs/submission/<type>/`; the tasks of a part must use the same skills. Different
+  parts may come from different aliases. The TAs evaluate the submitted test files
+  again.
+- The report: edit `report/main.tex` (ACL style; its comments say what to write)
+  and run `tectonic report/main.tex` from the root of your repository. Commit both
+  the sources and `report/main.pdf`. The first build downloads the LaTeX packages
+  it needs into `.cache/tectonic/` (needs network).
+- Commit every skill a submitted job used in `skills/`, identical to the job's
+  snapshot in `jobs/submission/<type>/<id>/skills/`.
 
 ## Layout
 
@@ -287,11 +313,10 @@ skills/<name>/       skills (skills/example: the format)
 jobs/vanilla/<id>/   our vanilla run of each task
 jobs/submission/     your submitted jobs (written by submit)
 jobs/<alias>/<id>/   your runs
-images/              downloaded image archives
 report/              your report: main.tex (edit), main.pdf (submit; tectonic report/main.tex)
 tests/               tests of the lab tools (python -m pytest; no API calls)
 vendor/              mini-swe-agent and Harbor (pinned git submodules)
 ```
 
-Generated and ignored by git: `.tools/`, `.venvs/`, `.cache/udocker/`,
-`.cache/tectonic/`, `images/*.tar.gz` and `jobs/<alias>/` of your own runs.
+Generated and ignored by git: `.tools/`, `.venvs/`, `.cache/tectonic/` and
+`jobs/<alias>/` of your own runs.
