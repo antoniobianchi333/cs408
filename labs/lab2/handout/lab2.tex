@@ -9,6 +9,7 @@
 \usepackage{needspace}
 \usepackage{parskip}
 \input{cmds}
+\usepackage[varqu,scaled=0.95]{inconsolata}
 \setlength{\emergencystretch}{2em}
 \graphicspath{ {./imgs/} }
 \usepackage{caption}
@@ -16,6 +17,8 @@
 \usepackage{multirow}
 \makeatletter\g@addto@macro\UrlBreaks{\do\-}\makeatother
 \hyphenation{Section Sections}
+% A clickable reference number, linked to its entry in the References.
+\newcommand{\refnum}[1]{\hyperlink{ref#1}{[#1]}}
 \captionsetup[table]{skip=2pt}
 
 \def\sectionautorefname{Section}%
@@ -109,8 +112,8 @@ Hence, in this course, students are \textbf{required} to use this repository and
 \end{minipage}%
 }
 
-You need to do this project on one of the two CS ARM64 servers,
-\ic{dahj.cs.purdue.edu} or \ic{soji.cs.purdue.edu}. Log in with one of:
+You need to do this project on one of the two CS ARM64 servers, \ic{dahj} or
+\ic{soji}. Log in with one of:
 
 \begin{verbatim}
 $ ssh <purdue-alias>@dahj.cs.purdue.edu
@@ -130,7 +133,7 @@ folders inside your group's repository; it does not need \ic{sudo}. Run
 \ic{source scripts/activate.sh} in every new shell before you use the
 commands in this handout.
 
-Each task has a folder \ic{tasks/<part>/<task>/}, where \ic{<part>}
+Each task has its own folder, \ic{tasks/<part>/<task>/}, where \ic{<part>}
 is \ic{warmup}, \ic{test-writing}, or \ic{issue-reproduction}. The six Test
 Writing and Issue Reproduction tasks run in \textbf{containers} (isolated
 Linux environments). Their task repositories are public: the \ic{source:} section of the task's \ic{task.yaml} gives the GitHub repository (\ic{repository}) and the commit
@@ -148,7 +151,7 @@ environment variable \ic{LAB2\_IMAGE\_STORE} to that folder in every new
 shell.
 
 The agent calls a language model through the Purdue RCAC GenAI API.
-Get an API key as described in~[1], and save it in a file that only you can
+Get an API key as described in~\refnum{1}, and save it in a file that only you can
 read. Do not put the key in Git, in skills, or in your report.
 \begin{verbatim}
 $ (umask 077; echo 'YOUR_KEY' > ~/.purdue-rcac-key)
@@ -188,7 +191,7 @@ calls the model in a loop (\autoref{fig:agentloop}):
 The run ends when the model says that the task is done, or when a limit is
 reached. The saved history of a run, with all its actions and observations, is
 the run's \textbf{trajectory}. This pattern of reasoning, acting, and observing
-is known as ReAct~[2]. Because the model sees the result of each action, it can
+is known as ReAct~\refnum{2}. Because the model sees the result of each action, it can
 correct its own mistakes, for example a test that fails because of a typo.
 
 \begin{figure}[ht]
@@ -202,7 +205,7 @@ folders: \autoref{sec:running}).}
 \label{fig:agentloop}
 \end{figure}
 
-The agent in this project is mini-swe-agent~[3]. Its only tool is the
+The agent in this project is mini-swe-agent~\refnum{3}. Its only tool is the
 \ic{bash} shell, which it uses to read files, write tests, and run them. When we say that the agent decides something, we mean that the model decides
 it. Every run uses the same model (\ic{qwen3.8:27b}) and is limited to 60 model calls and two hours. When a limit is reached,
 the run ends, and the test files written so far are still evaluated.
@@ -901,7 +904,7 @@ has invited every enrolled student by their Purdue email address.
   check your spam folder, then contact the course staff on Ed Discussion.
 
 \item \textbf{Open the assignment.}
-  Go to \url{https://classroom50.org/cs408-fall-2026/lab-2}. (\TODO: the Classroom 50 assignment is not set up yet; confirm this link and the repository name below.) The page shows that
+  Go to \url{https://classroom50.org/cs408-fall-2026/lab-2}. (\TODO: the Classroom 50 assignment is not set up yet; confirm this link.) The page shows that
   Project 2 is a \emph{group assignment}.
 
 \item \textbf{Create or join your group.}
@@ -924,6 +927,7 @@ has invited every enrolled student by their Purdue email address.
   group, for example\\
   \url{https://github.com/cs408-fall-2026/cs408-fall-2026-lab-2-group-1/}\\
   The exact name is shown on the assignment page after you accept it.
+  (\TODO: confirm this repository URL once the Classroom 50 assignment is set up.)
 \end{enumerate}
 
 \subsection{Development workflow}
@@ -971,10 +975,10 @@ $ git push
 \Needspace{12\baselineskip}
 \section*{References}
 
-\noindent [1] Purdue RCAC GenAI API. \url{https://docs.rcac.purdue.edu/services/genai/api/}
+\noindent \hypertarget{ref1}{[1]} Purdue RCAC GenAI API. \url{https://docs.rcac.purdue.edu/services/genai/api/}
 
-\noindent [2] Shunyu Yao, Jeffrey Zhao, Dian Yu, Nan Du, Izhak Shafran, Karthik Narasimhan, and Yuan Cao. ReAct: Synergizing Reasoning and Acting in Language Models. (ICLR '23) \url{https://arxiv.org/abs/2210.03629}
+\noindent \hypertarget{ref2}{[2]} Shunyu Yao, Jeffrey Zhao, Dian Yu, Nan Du, Izhak Shafran, Karthik Narasimhan, and Yuan Cao. ReAct: Synergizing Reasoning and Acting in Language Models. (ICLR '23) \url{https://arxiv.org/abs/2210.03629}
 
-\noindent [3] mini-swe-agent. \url{https://github.com/SWE-agent/mini-swe-agent}
+\noindent \hypertarget{ref3}{[3]} mini-swe-agent. \url{https://github.com/SWE-agent/mini-swe-agent}
 
 \end{document}
