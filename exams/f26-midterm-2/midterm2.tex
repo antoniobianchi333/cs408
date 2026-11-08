@@ -32,7 +32,8 @@
 \thispagestyle{empty}
 
 \begin{center}
-	{\LARGE CS 408 Fall 2026 -- Midterm 2 \\}
+  {\LARGE CS 408 Fall 2026 -- Midterm 2}
+  \vspace{1cm}
 
 \fbox{\fbox{\parbox{5.5in}{\centering
 	\begin{itemize}
@@ -115,9 +116,9 @@
 \question Short answers.
 \begin{parts}
 
-\part[2] Every property-based testing framework consists of three key
-  components. List each of those pieces and explain in a few words the
-  role of each.
+\part[2] Every automated testing framework we have seen in class
+  consists of three key components. List each of those pieces and
+  explain in a few words the role of each.
   \begin{solutionorbox}[1.5in]
     A generator that produces inputs, a property that must hold for
     every input, and a shrinker that reduces a failing input to a
@@ -295,9 +296,9 @@ def crashme(s: str) -> None:
   At each iteration, the fuzzer is allowed to apply either \textbf{one
     or two} of these mutations. For each of the following inputs,
   indicate whether the fuzzer could \textbf{produce} it from its
-  initial seed; if so, you should additionally indicate whether the
-  fuzzer would then \textbf{include} it in the population. (Indicate
-  your answer by circling your choice.)
+  \textbf{initial} seed; if so, you should additionally indicate
+  whether the fuzzer would then \textbf{include} it in the
+  population. (Indicate your answer by circling your choice.)
 
 \begin{parts}
 
@@ -393,9 +394,9 @@ def check(x: int, y: int) -> int:
   engine would produce for \Code{check}. Use $a$ and $b$ for the
   initial symbolic value for \Code{x} and \Code{y}, respectively, so
   that the initial symbolic state is:
-  $\{\texttt{x}\mapsto a, \texttt{y} \mapsto b\}$. When drawing the
-  tree, you do not need to explicitly annotate nodes with symbolic
-  states.
+  $\{\texttt{x}\mapsto a, \texttt{y} \mapsto b\}$. \textbf{Note:} When
+  drawing the tree, you do not need to annotate its nodes with
+  symbolic states.
 
   \begin{solutionorbox}[4in]
     Branching on \Code{x > 0}, then on \Code{y > 0} beneath each, and
@@ -521,18 +522,20 @@ def bar(arr: list) -> int:
   condition, assume the initial symbolic input has the form
   $arr \mapsto [a , b, c]$, and write the symbolic value stored at
   index \Code{0} as $a$, \Code{1} as $b$, and \Code{2} as $c$. You may
-  drop clauses that are always true, e.g., $3 < 5 + 1$ from the path
-  constraint, but otherwise you should not simplify it in any way.
+  drop any clauses related to checking whether the loop on line 5 has
+  finished from the path constraint, but otherwise you should not
+  simplify it in any way.
   \begin{solutionorbox}[2in]
     The final path constraint is:\\
     $\lnot$ \Code{len(arr) < 3} $\land$ \Code{a >= 0} $\land$ $\lnot$
     \Code{b >= 1} $\land$ \Code{c >= 2} $\land$ \Code{(a - b + c)} \%
     \Code{2 == 0}
     \end{solutionorbox}
-\part[4] List the next two new inputs that a concolic execution engine
-  might generate after executing \Code{bar} on the test input
-  $[1, 0, 3]$. Explicitly state the strategy you used. %
-  \begin{solutionorbox}[2.75in]
+  \part[4] List the next two inputs that a concolic execution engine
+    might generate after executing \Code{bar} on the test input
+    $[1, 0, 3]$. Explicitly state the order in which the inputs are
+    generated, and the input generation strategy the engine used. %
+  \begin{solutionorbox}[2.5in]
     Anything that flips the last path constraint they had above will
     work. Assuming they correctly generated the path condition in the
     previous part, we need an array with three elements whose first
