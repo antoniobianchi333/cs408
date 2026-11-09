@@ -32,7 +32,8 @@
     {\Large{CS408, Fall 2026}}\\
     \vspace*{10pt}
     {\large{\textbf{Group Project (100 points)\\
-        Due date: \TODO}}}\\
+        Midpoint checkpoint: Sunday, November 22, 2026\\
+        Due date: Tuesday, December 8, 2026}}}\\
     \vspace*{15pt}
     \textbf{Lead TA}: Ruixin Wang (\href{mailto:ruixinw@purdue.edu}{ruixinw@purdue.edu})
 \end{center}
@@ -85,6 +86,18 @@ Here is the breakdown of points for this project:
 \squishend
 \autoref{sec:scoring} explains task scores and points.
 
+The project has two deadlines (\autoref{sec:submission}):
+\squishlist
+ \item \textbf{Midpoint checkpoint (Sunday, November 22, 2026)}: submit the
+   Warmup and a report that answers Questions 1 to 3. At this checkpoint, we
+   grade the Warmup (40 points) and your answers to Questions 1 to 3. We do
+   not grade the rest of the report at this checkpoint.
+ \item \textbf{Final deadline (Tuesday, December 8, 2026)}: submit Test
+   Writing, Issue Reproduction, and the full report. We grade these two parts
+   and the rest of the report. We do not grade the Warmup and Questions 1 to
+   3 again.
+\squishend
+
 Read the assignment \textbf{entirely} before starting any work on it.
 
 This is a group project for groups of \textbf{at most four} students. Feel
@@ -103,6 +116,9 @@ submit, and every group member must understand the group's skills and report.
 \section{Project Setup and Development Workflow}
 \label{sec:setup}
 
+\subsection{Group repository}
+\label{sec:repo}
+
 Please follow the instructions in \autoref{sec:appx:setup} to \textbf{clone}, \textbf{setup}, and regularly \textbf{update} your group's private GitHub repository.
 
 \noindent\fbox{%
@@ -111,6 +127,9 @@ Please follow the instructions in \autoref{sec:appx:setup} to \textbf{clone}, \t
 Hence, in this course, students are \textbf{required} to use this repository and regularly commit and push their updates (e.g., approximately every 2 hours of work). Not following this requirement will lead to \textbf{partial or total loss of points} in the final grade of the project.
 \end{minipage}%
 }
+
+\subsection{Server and setup}
+\label{sec:server}
 
 You need to do this project on one of the two CS ARM64 servers, \ic{dahj} or
 \ic{soji}. Log in with one of:
@@ -133,6 +152,9 @@ folders inside your group's repository; it does not need \ic{sudo}. Run
 \ic{source scripts/activate.sh} in every new shell before you use the
 commands in this handout.
 
+\subsection{Tasks and containers}
+\label{sec:tasks}
+
 Each task has its own folder, \ic{tasks/<part>/<task>/}, where \ic{<part>}
 is \ic{warmup}, \ic{test-writing}, or \ic{issue-reproduction}. The six Test
 Writing and Issue Reproduction tasks run in \textbf{containers} (isolated
@@ -150,6 +172,9 @@ only you can access this folder. To keep them in another folder, set the
 environment variable \ic{LAB2\_IMAGE\_STORE} to that folder in every new
 shell.
 
+\subsection{API key}
+\label{sec:apikey}
+
 The agent calls a language model through the Purdue RCAC GenAI API.
 Get an API key as described in~\refnum{1}, and save it in a file that only you can
 read. Do not put the key in Git, in skills, or in your report.
@@ -159,12 +184,18 @@ $ (umask 077; echo 'YOUR_KEY' > ~/.purdue-rcac-key)
 Do not \ic{export} the key in your shell. In the Warmup task, the agent's
 commands run under your account, and they could read the key from a shell
 that has it. Instead, give the key only to the command that needs it. For
-example, the following command reports whether everything is ready:
+example, the following command checks the whole setup and reports whether
+everything is ready:
 \begin{verbatim}
 $ PURDUE_RCAC_API_KEY=$(cat ~/.purdue-rcac-key) bash setup.sh --check
 \end{verbatim}
-Every \ic{python -m lab2 run} command needs the key in the same way. To keep
-them short, the \ic{run} commands in this handout leave it out.
+Every \ic{python -m lab2 run} command needs the key, given in the same way.
+The \ic{run} commands in this handout do not show it, to keep them short.
+When you run them, add the key in front, for example:
+\begin{verbatim}
+$ PURDUE_RCAC_API_KEY=$(cat ~/.purdue-rcac-key) \
+    python -m lab2 run --alias plain --tasks garage
+\end{verbatim}
 
 \section{Coding Agent Background}
 \label{sec:background}
@@ -200,8 +231,8 @@ correct its own mistakes, for example a test that fails because of a typo.
 \caption{The agent loop. The model reads the prompt and the history and
 chooses an action (here, always a bash command); the environment runs it; the
 output is added to the history. When the run ends, the test files are copied
-into the run's \ic{submission/} folder (skills: \autoref{sec:skills}; run
-folders: \autoref{sec:running}).}
+into the run's \ic{submission/} folder (run folders:
+\autoref{sec:running}).}
 \label{fig:agentloop}
 \end{figure}
 
@@ -552,7 +583,7 @@ score is 37.5.
 \subsection{Public and hidden checkpoints}
 \label{sec:public}
 
-The file \ic{checkpoints.json} in each task's folder, \ic{tasks/<part>/<task>/} (see \mbox{\autoref{sec:setup}}), lists the task's checkpoints, for example:
+The file \ic{checkpoints.json} in each task's folder, \ic{tasks/<part>/<task>/} (see \mbox{\autoref{sec:tasks}}), lists the task's checkpoints, for example:
 
 \begin{verbatim}
 tasks/warmup/garage/checkpoints.json
@@ -563,7 +594,7 @@ A checkpoint is \textbf{public} if this file lists it, and \textbf{hidden}
 otherwise. All Warmup checkpoints are public. In each Test Writing and Issue
 Reproduction task, 25--30\% of the checkpoints are hidden. Hidden checkpoints
 are used only for the competition (\autoref{sec:competition}); we will
-publish them after the deadline.
+publish them after the final deadline.
 
 The files list each public checkpoint with its faulty versions.
 
@@ -621,6 +652,8 @@ Points will be deducted if:
 
 \section{Warmup (40 Points)}
 \label{sec:warmup}
+
+The Warmup is due at the midpoint checkpoint (Sunday, November 22, 2026).
 
 The Warmup task, \ic{garage}, runs without a container, directly on the
 server (\autoref{sec:background}). Use it to get familiar with the coding
@@ -722,7 +755,7 @@ conditions needed, and what kind of test does each one rule out?
 \section{Skills Competition (5 Bonus Points)}
 \label{sec:competition}
 
-After the deadline, we will publish the hidden checkpoints and evaluate the
+After the final deadline, we will publish the hidden checkpoints and evaluate the
 test files of your submitted runs again on all checkpoints, public and
 hidden. We rank groups by the average task score of the six Test Writing and
 Issue Reproduction tasks. The Warmup is not part of the competition.
@@ -770,7 +803,9 @@ a course report, not a research paper: follow the sections of the template.
 The report has \textbf{at most 4 pages}, including figures and tables, and no
 appendix.
 The report must answer Questions 1 to 5, in its first section,
-\emph{Background}, with the labels of this handout. It must also contain:
+\emph{Background}, with the labels of this handout. At the midpoint
+checkpoint, the report needs only the answers to Questions 1 to 3; we grade
+these answers then. The final report contains everything below. It must also contain:
 \squishlist
  \item \textbf{A motivating example} from the Warmup task, in three steps.
    First, a behavior that our vanilla run of \ic{garage}
@@ -810,8 +845,19 @@ replaces the earlier submission. We grade exactly one run per task. Do not submi
 parts may come from different experiments, with different skills.
 
 Commit and push the following files to your group's repository. Your other
-experiments under \ic{jobs/} are ignored by Git and need not be committed. We grade the
-version on the default branch at the deadline.
+experiments under \ic{jobs/} are ignored by Git and need not be committed. After
+each deadline, we collect the last commit on the default branch of your
+group's repository made before the deadline, and grade that version. For the
+midpoint checkpoint, you do not need to submit anything on Brightspace.
+
+\squishlist
+ \item At the \textbf{midpoint checkpoint}, push three things: \ic{report/}
+   with the answers to Questions 1 to 3, the Warmup runs in
+   \ic{jobs/submission/warmup/}, and the skills that these runs used.
+ \item At the \textbf{final deadline}, push everything below. Keep the
+   Warmup files: the motivating example and the evaluation in the final
+   report use them.
+\squishend
 
 \medskip
 \noindent\begin{minipage}{\textwidth}
@@ -942,7 +988,7 @@ purposes, we will \textbf{assume} that your project is under
 
 \item \textbf{Clone the project repository.}
 
-Log in to \ic{dahj.cs.purdue.edu} or \ic{soji.cs.purdue.edu} (\autoref{sec:setup}).
+Log in to \ic{dahj.cs.purdue.edu} or \ic{soji.cs.purdue.edu} (\autoref{sec:server}).
 For example, to clone the repository in a new \textit{myclass} folder in your home
 directory there, you should execute the following commands:
 
