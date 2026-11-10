@@ -100,3 +100,23 @@ tasks/test-writing/<id>/reference-tests/   the Atlas reference test file, at its
 The Atlas removal of paperless' reference tests also removed the `@override_settings`
 decorators from two existing tests. `source/restore-decorators.patch` adds them back
 as a separate commit.
+
+## Student template repository
+
+The Classroom 50 template (`cs408-fall-2026/lab-2-template`) is the tree of
+`labs/lab2/skeleton/` as one commit. Build it from that tree, not by copying
+files: the tree keeps the two submodule entries (`vendor/mini-swe-agent`,
+`vendor/harbor`) at their pinned commits, and `skeleton/.gitmodules` becomes the
+template's root `.gitmodules` (inside cs408 it has no effect). A file copy loses
+the submodules; `setup.sh` then clones the two packages into `vendor/` as nested
+repositories, which breaks `git add` in student repositories.
+
+```bash
+# from the root of cs408, with the branch to publish checked out and committed
+C=$(git commit-tree "$(git rev-parse HEAD:labs/lab2/skeleton)" -m "Project 2 starter code")
+git push https://github.com/cs408-fall-2026/lab-2-template.git "$C:refs/heads/main"
+```
+
+Before students accept the assignment, test a clone of the template on dahj or
+soji: `git clone`, `bash setup.sh`, `source scripts/activate.sh`,
+`python -m pytest -q tests`, then one warmup run and one container run.
