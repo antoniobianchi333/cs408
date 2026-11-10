@@ -103,7 +103,8 @@ Read the assignment \textbf{entirely} before starting any work on it.
 
 This is a group project for groups of \textbf{at most four} students. Feel
 free to reuse your group from Project 1; you can also form a new group. Only
-collaboration between pre-registered group members is allowed.
+collaboration between pre-registered group members is allowed. Create or join
+your group on Classroom 50 as described in \autoref{sec:appx:classroom}.
 
 \noindent\fbox{%
 \begin{minipage}{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}
@@ -134,7 +135,7 @@ skills and report.
 \subsection{Group repository}
 \label{sec:repo}
 
-Please follow the instructions in \autoref{sec:appx:setup} to \textbf{clone}, \textbf{setup}, and regularly \textbf{update} your group's private GitHub repository.
+Create or join your group's private GitHub repository (\autoref{sec:appx:classroom}), then \textbf{clone} it on the server and regularly \textbf{commit and push} your changes (\autoref{sec:appx:workflow}).
 
 \noindent\fbox{%
 \begin{minipage}{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}
@@ -154,7 +155,7 @@ $ ssh <purdue-alias>@dahj.cs.purdue.edu
 $ ssh <purdue-alias>@soji.cs.purdue.edu
 \end{verbatim}
 
-Clone your group's repository on the server (\autoref{sec:appx:setup}). In
+Clone your group's repository on the server (\autoref{sec:appx:workflow}). In
 this handout, all paths are relative to the root directory of your group's
 repository, and all commands are run from there. First run:
 
@@ -425,7 +426,8 @@ If a run fails, for example because the model API cannot be reached or the conta
 prints the error, and \ic{run.json} keeps the full text under \ic{errors}. Run the task again with \ic{-{}-redo-existing}. While a task runs, the
 command prints nothing. When the task ends, the run's folder appears, and the
 command prints one line for the task: the exit status, whether the submission
-is valid, and the score. The
+is valid, and the score. A run can take hours; to keep it running after you
+log out, and to check on it later, see \autoref{sec:appx:tmux}. The
 tool's messages call a run a \emph{job} and an experiment an \emph{alias}.
 A run's own \ic{submission/} folder holds only its test files. It is not the
 folder \ic{jobs/submission/} that you hand in (\autoref{sec:submission}).
@@ -859,7 +861,7 @@ runs must have used the same skills; otherwise \ic{submit} refuses them. Submitt
 replaces the earlier submission. We grade exactly one run per task. Do not submit the vanilla runs or copies of them. Different
 parts may come from different experiments, with different skills.
 
-Commit and push the following files to your group's repository. Your other
+Commit and push the following files to your group's repository (\autoref{sec:appx:workflow}). Your other
 experiments under \ic{jobs/} are ignored by Git and need not be committed. After
 each deadline, we collect the last commit on the default branch of your
 group's repository made before the deadline, and grade that version. For the
@@ -953,6 +955,7 @@ environment and downloading the skeleton code for the project:
 \end{itemize}
 
 \subsection{Setup project on private GitHub repository}
+\label{sec:appx:classroom}
 
 This course uses Classroom 50 (\url{https://classroom50.org}) to manage the
 project repositories. You cannot join the classroom by yourself: the course staff
@@ -994,7 +997,7 @@ has invited every enrolled student by their Purdue email address.
 \end{enumerate}
 
 \subsection{Development workflow}
-\label{development-workflow}
+\label{sec:appx:workflow}
 
 In case you forget the project repository name, you can go to
 \url{https://github.com/cs408-fall-2026} to find it. For illustration
@@ -1034,6 +1037,67 @@ $ git push
 \end{verbatim}
 
 \end{enumerate}
+
+\section{Tips: Long Runs with \texorpdfstring{\ic{tmux}}{tmux}}
+\label{sec:appx:tmux}
+
+A \ic{run} command can take hours: each task may run the agent for up to two
+hours, and then evaluates its tests. If your SSH connection drops or your
+laptop goes to sleep, the shell on the server ends, and so does the command
+in it. \ic{tmux} keeps a shell running on the server after you
+disconnect, so you can start a long command, leave, and come back later to
+check it. \ic{tmux} is installed on \ic{dahj} and \ic{soji}.
+
+Start a \ic{tmux} session, named here \ic{try1}, and run the command in it as
+usual:
+
+\begin{verbatim}
+$ tmux new -s try1
+$ source scripts/activate.sh
+$ PURDUE_RCAC_API_KEY=$(cat ~/.purdue-rcac-key) \
+    python -m lab2 run --alias try1 --tasks paperless minio k6 \
+    --skills boundaries
+\end{verbatim}
+
+Then press \ic{Ctrl-b}, release it, and press \ic{d} to \textbf{detach}:
+you are back in your normal shell, and the command keeps running in the
+session. You can now log out. Commands you will use most:
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+Command & What it does \\
+\midrule
+\ic{tmux new -s try1} & start a new session named \ic{try1} \\
+\ic{Ctrl-b}, then \ic{d} & detach from the session; it keeps running \\
+\ic{tmux ls} & list your sessions \\
+\ic{tmux attach -t try1} & attach to the session \ic{try1} again \\
+\ic{Ctrl-b}, then \ic{[} & scroll through earlier output (\ic{q} to stop) \\
+\ic{tmux kill-session -t try1} & end the session and the command in it \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Check on a long command from time to time. Attach to its session to see the
+output: the command prints one line when each task ends
+(\autoref{sec:running}). Without attaching, \ic{ls jobs/try1/} shows the
+tasks that have ended, and \ic{python -m lab2 scoreboard} shows their scores.
+If a task failed, its \ic{run.json} lists the error; run it again with
+\ic{-{}-redo-existing}.
+
+Keep in mind:
+\squishlist
+ \item A session lives on one server. Log in to the same server, \ic{dahj}
+   or \ic{soji}, to attach to it again.
+ \item A new session is a new shell: run \ic{source scripts/activate.sh} in
+   it, and give the API key to each command as in \autoref{sec:apikey}. Do
+   not \ic{export} the key in a \ic{tmux} session either.
+ \item Start one \ic{run} or \ic{eval} command at a time. Each task holds a
+   large container on the server's shared disk, which all students use.
+ \item \ic{tmux} does not survive a restart of the server. If a command stops
+   this way, run the unfinished tasks again; the lab2 tool removes what the
+   stopped command left behind.
+\squishend
 
 \Needspace{12\baselineskip}
 \section*{References}
