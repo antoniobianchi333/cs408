@@ -1,8 +1,8 @@
 """PurdueRCACModel: the course model class for mini-swe-agent (config.yaml model_class).
 
 Calls the Purdue RCAC GenAI Chat Completions API with the OpenAI SDK, keeps
-mini-swe-agent's tool parsing, and appends one JSON row per request attempt
-(started, failed or answered, with token usage) to `usage_log_path`
+mini-swe-agent's tool parsing, and appends two JSON rows per request attempt
+(request_started, then response with token usage or request_failed) to `usage_log_path`
 (jobs/<alias>/<id>/model-requests.jsonl). Token counts are never invented: a
 response without valid usage stops the run.
 

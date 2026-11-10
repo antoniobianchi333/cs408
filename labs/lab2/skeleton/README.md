@@ -48,7 +48,10 @@ Run all commands from the root of your repository, in Bash.
 bash setup.sh --check        # report what is installed; changes nothing
 bash setup.sh                # install everything under .tools/ and .venvs/ (no sudo)
 source scripts/activate.sh   # in every new shell
+PURDUE_RCAC_API_KEY=$(cat ~/.purdue-rcac-key) bash setup.sh --check   # all ready, key included
 ```
+
+The last line needs your API key in `~/.purdue-rcac-key` (see **API key** below).
 
 `setup.sh` installs uv and Python 3.12 under `.tools/`, git and basic utilities
 when missing, the pinned mini-swe-agent and Harbor (`vendor/`) and the other
@@ -69,11 +72,20 @@ deletes it again when the command ends. Your own store,
 
 **API key.** Runs call the Purdue RCAC GenAI API (`https://genai.rcac.purdue.edu/api`,
 model `qwen3.8:27b`). The key is read from `PURDUE_RCAC_API_KEY`. Keep it out of
-git, skills and reports. The lab2 process makes itself unreadable to the agent's
-commands (Linux `prctl`), and credential-like variables (`*KEY*`, `*TOKEN*`,
-`*SECRET*`, `*PASSWORD*`) are removed from their environment. A shell that has the
-key exported is still readable by processes of your user, so pass it only to
-the command:
+git, skills and reports. Save it once in a file that only you can read:
+
+```bash
+(umask 077; echo 'YOUR_KEY' > ~/.purdue-rcac-key)
+```
+
+Do not `export` the key in your shell. The lab2 process makes itself unreadable
+to the agent's commands (Linux `prctl`), and credential-like variables (`*KEY*`,
+`*TOKEN*`, `*SECRET*`, `*PASSWORD*`) are removed from their environment, but in
+the warmup the agent's commands run as your user, and a shell that has the key
+exported is readable by processes of your user. Give the key only to the command
+that needs it: `bash setup.sh --check` (to report it) and every
+`python -m lab2 run`. The `run` commands in this guide leave it out to keep them
+short; add it in front:
 
 ```bash
 PURDUE_RCAC_API_KEY=$(cat ~/.purdue-rcac-key) python -m lab2 run --alias A --tasks garage
@@ -174,7 +186,9 @@ description: When the skill is useful (shown to the agent at the start).
 apply it to a kind of code. It must not tell the agent *what* to test in a
 particular task, and must not reveal, directly or indirectly, what a faulty
 version breaks, an input that breaks it, or how our implementation of an issue
-works. The three runs you submit for a part must use the same skills.
+works. The three runs you submit for a part must use the same skills. Together,
+the skills of all your submitted runs must use at least three different testing
+techniques covered in class.
 
 `skills/example/` shows the format only; its instructions are not testing advice.
 
@@ -186,7 +200,7 @@ works. The three runs you submit for a part must use the same skills.
 | --- | --- |
 | `run.json` | Run parameters and outcome (below) |
 | `trajectory.json` | The mini-swe-agent trajectory; `info.lab2` holds a copy of `run.json` |
-| `model-requests.jsonl` | One row per model request attempt, with token usage |
+| `model-requests.jsonl` | Two rows per model request attempt: its start, then its result (token usage, or the error) |
 | `prompt.md` | The exact task prompt given to the agent |
 | `config.yaml` | The agent and model configuration used |
 | `skills/` | Snapshot of the selected skills (absent for vanilla) |
@@ -210,7 +224,7 @@ alone, shows how it was produced:
 
 The agent has at most 60 model calls and 2 hours (`config.yaml`, temperature 0).
 Transient provider errors (timeouts, connection errors, 5xx, rate limits) are
-retried; every attempt is a row in `model-requests.jsonl`.
+retried; each attempt adds its two rows to `model-requests.jsonl`.
 
 `jobs/vanilla/<id>/` holds our vanilla run of each task (one per task), in the same
 format.
@@ -262,8 +276,8 @@ the run invalid; the TAs check this by hand.
 
 **Hidden checkpoints.** In each benchmark task 25-30% of the checkpoints are not
 listed. They cover other behaviors the task text asks for and are scored the same
-way, but they are used only for the skills competition and are published after
-the deadline. The warmup has none. Grading uses the public checkpoints.
+way, but they are used only for the skills competition. The warmup has none.
+Grading uses the public checkpoints.
 
 **Issue reproduction** uses the correct code `tasks/issue-reproduction/<id>/solution.patch`;
 its faulty versions are edits of that code. The agent never sees it or any faulty
@@ -288,6 +302,12 @@ together with the public file if you want both.
 
 ## Submission
 
+There are two deadlines (dates in the handout). For each, we grade the last commit
+on the default branch of your repository made before it. At the midpoint
+checkpoint, commit `report/` with the answers to Questions 1 to 3, the warmup
+submission `jobs/submission/warmup/` and the skills it used. At the final
+deadline, commit everything below.
+
 - `python -m lab2 submit --alias A --type TYPE` copies the jobs of one part into
   `jobs/submission/<type>/`; the tasks of a part must use the same skills. Different
   parts may come from different aliases. The TAs evaluate the submitted test files
@@ -298,11 +318,15 @@ together with the public file if you want both.
   it needs into `.cache/tectonic/` (needs network).
 - Commit every skill a submitted job used in `skills/`, identical to the job's
   snapshot in `jobs/submission/<type>/<id>/skills/`.
+- Final deadline only: commit the record of all your group's AI use to
+  `ai-transcripts/` (what it must contain: `ai-transcripts/README.md`).
 
 ## Layout
 
 ```
 README.md            this guide
+AGENTS.md            instructions for the AI coding agents you use (CLAUDE.md points to it)
+CLAUDE.md            loads AGENTS.md in Claude Code
 setup.sh             installs the tools (scripts/setup.py)
 scripts/activate.sh  shell environment: venv, PATH, PYTHONPATH, udocker, tectonic cache
 config.yaml          agent and model configuration
@@ -314,6 +338,7 @@ jobs/vanilla/<id>/   our vanilla run of each task
 jobs/submission/     your submitted jobs (written by submit)
 jobs/<alias>/<id>/   your runs
 report/              your report: main.tex (edit), main.pdf (submit; tectonic report/main.tex)
+ai-transcripts/      the record of your group's AI use (final deadline; see its README.md)
 tests/               tests of the lab tools (python -m pytest; no API calls)
 vendor/              mini-swe-agent and Harbor (pinned git submodules)
 ```

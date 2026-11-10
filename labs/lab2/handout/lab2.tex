@@ -39,6 +39,7 @@
 \end{center}
 
 \section{Project Description}
+\label{sec:description}
 
 In this project, you will turn the testing methods from class into
 \textbf{skills}: short written instructions that a coding agent reads while it
@@ -108,8 +109,22 @@ collaboration between pre-registered group members is allowed.
 \begin{minipage}{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}
 \textbf{AI TOOL POLICY:} For this project, you may use AI and ML tools that
 generate text or code \textbf{without restriction}. This replaces the default
-syllabus rule for this project only. You remain responsible for everything you
-submit, and every group member must understand the group's skills and report.
+syllabus rule for this project only. You must keep a \textbf{complete record of
+all your AI use} and commit it to the folder \ic{ai-transcripts/} of your
+group's repository by the final deadline (\autoref{sec:submission}). The record
+includes:
+\squishlist
+ \item the transcript of \textbf{every} web-based chat session (for example, an
+   exported conversation);
+ \item the complete session log of \textbf{every} command-line or IDE coding
+   agent;
+ \item the model name and version used in each case, and which group member
+   used it.
+\squishend
+Partial, summarized, or reconstructed records are not enough. The runs of this
+project's coding agent are not part of this record. You remain responsible for
+everything you submit, and every group member must understand the group's
+skills and report.
 \end{minipage}%
 }
 
@@ -397,7 +412,7 @@ File or folder & Contents \\
 \ic{config.yaml} & the agent and model settings \\
 \ic{prompt.md} & the task text with the list of allowed test folders \\
 \ic{trajectory.json} & the whole prompt, and every action and observation \\
-\ic{model-requests.jsonl} & one line per model call, with its tokens \\
+\ic{model-requests.jsonl} & two lines per model request, retries included: start, then tokens or error \\
 \ic{skills/} & the skills given to the agent (absent for a vanilla run) \\
 \ic{submission/} & the test files the agent wrote \\
 \ic{eval.json} & the evaluation of the run (\autoref{sec:scoring}) \\
@@ -593,8 +608,7 @@ tasks/test-writing/paperless/checkpoints.json
 A checkpoint is \textbf{public} if this file lists it, and \textbf{hidden}
 otherwise. All Warmup checkpoints are public. In each Test Writing and Issue
 Reproduction task, 25--30\% of the checkpoints are hidden. Hidden checkpoints
-are used only for the competition (\autoref{sec:competition}); we will
-publish them after the final deadline.
+are used only for the competition (\autoref{sec:competition}).
 
 The files list each public checkpoint with its faulty versions.
 
@@ -640,7 +654,8 @@ compare the average task score of the three tasks.
 \Needspace{8\baselineskip}
 Points will be deducted if:
 \squishlist
- \item your submission is incomplete: a run, a skill, or the report is
+ \item your submission is incomplete: a run, a skill, the report, or the AI
+   record is
    missing, or a submitted run is not valid (\autoref{sec:maychange});
  \item your skills reveal, directly or indirectly, the content of a task, for example what is wrong in a faulty version, how our implementation of an
    issue works, or an input that breaks a faulty version (\autoref{sec:skills});
@@ -755,7 +770,7 @@ conditions needed, and what kind of test does each one rule out?
 \section{Skills Competition (5 Bonus Points)}
 \label{sec:competition}
 
-After the final deadline, we will publish the hidden checkpoints and evaluate the
+After the final deadline, we will evaluate the
 test files of your submitted runs again on all checkpoints, public and
 hidden. We rank groups by the average task score of the six Test Writing and
 Issue Reproduction tasks. The Warmup is not part of the competition.
@@ -856,7 +871,8 @@ midpoint checkpoint, you do not need to submit anything on Brightspace.
    \ic{jobs/submission/warmup/}, and the skills that these runs used.
  \item At the \textbf{final deadline}, push everything below. Keep the
    Warmup files: the motivating example and the evaluation in the final
-   report use them.
+   report use them. Also push \ic{ai-transcripts/}, the record of all your AI
+   use (\autoref{sec:description}); it is not needed at the midpoint.
 \squishend
 
 \medskip
@@ -864,6 +880,7 @@ midpoint checkpoint, you do not need to submit anything on Brightspace.
 \begin{verbatim}
 report/             Required: sources and compiled main.pdf
 skills/             Required: every skill used by a submitted run
+ai-transcripts/     Required (final deadline): the record of all your AI use
 jobs/submission/    Required: created by python -m lab2 submit
   warmup/
   test-writing/
