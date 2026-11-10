@@ -1,0 +1,7 @@
+[submodule "labs/lab2/skeleton/vendor/mini-swe-agent"]
+	path = labs/lab2/skeleton/vendor/mini-swe-agent
+	url = https://github.com/SWE-agent/mini-swe-agent.git
+[submodule "labs/lab2/skeleton/vendor/harbor"]
+	path = labs/lab2/skeleton/vendor/harbor
+	url = https://github.com/harbor-framework/harbor.git
+	shallow = true

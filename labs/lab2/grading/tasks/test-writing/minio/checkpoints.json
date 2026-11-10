@@ -1,0 +1,138 @@
+{
+ "task": "minio",
+ "checkpoints": [
+  {
+   "id": "aggregation-count",
+   "label": "Report the accepted multipart count",
+   "hidden": true,
+   "faulty_versions": [
+    {
+     "id": "multipart-count-off-by-one",
+     "patch": "diff --git a/internal/etag/etag.go b/internal/etag/etag.go\nindex c891426..9c90e50 100644\n--- a/internal/etag/etag.go\n+++ b/internal/etag/etag.go\n@@ -286,7 +286,7 @@ func Multipart(etags ...ETag) ETag {\n \tfor _, etag := range etags {\n \t\tif !etag.IsMultipart() && !etag.IsEncrypted() {\n \t\t\th.Write(etag)\n-\t\t\tn++\n+\t\t\tn += 2\n \t\t}\n \t}\n \tetag := append(h.Sum(nil), '-')\n"
+    }
+   ]
+  },
+  {
+   "id": "aggregation-digest",
+   "label": "Compute the multipart digest",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "multipart-hashes-text",
+     "patch": "diff --git a/internal/etag/etag.go b/internal/etag/etag.go\nindex c891426..1bb2d6f 100644\n--- a/internal/etag/etag.go\n+++ b/internal/etag/etag.go\n@@ -285,7 +285,7 @@ func Multipart(etags ...ETag) ETag {\n \th := md5.New()\n \tfor _, etag := range etags {\n \t\tif !etag.IsMultipart() && !etag.IsEncrypted() {\n-\t\t\th.Write(etag)\n+\t\t\th.Write([]byte(etag.String()))\n \t\t\tn++\n \t\t}\n \t}\n"
+    }
+   ]
+  },
+  {
+   "id": "aggregation-input-filtering",
+   "label": "Exclude ineligible parts from aggregation",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "encrypted-input-not-filtered",
+     "patch": "diff --git a/internal/etag/etag.go b/internal/etag/etag.go\nindex c891426..eb2c561 100644\n--- a/internal/etag/etag.go\n+++ b/internal/etag/etag.go\n@@ -284,7 +284,7 @@ func Multipart(etags ...ETag) ETag {\n \tvar n int64\n \th := md5.New()\n \tfor _, etag := range etags {\n-\t\tif !etag.IsMultipart() && !etag.IsEncrypted() {\n+\t\tif !etag.IsMultipart() {\n \t\t\th.Write(etag)\n \t\t\tn++\n \t\t}\n"
+    },
+    {
+     "id": "multipart-input-not-filtered",
+     "patch": "diff --git a/internal/etag/etag.go b/internal/etag/etag.go\nindex c891426..5713595 100644\n--- a/internal/etag/etag.go\n+++ b/internal/etag/etag.go\n@@ -284,7 +284,7 @@ func Multipart(etags ...ETag) ETag {\n \tvar n int64\n \th := md5.New()\n \tfor _, etag := range etags {\n-\t\tif !etag.IsMultipart() && !etag.IsEncrypted() {\n+\t\tif !etag.IsEncrypted() {\n \t\t\th.Write(etag)\n \t\t\tn++\n \t\t}\n"
+    }
+   ]
+  },
+  {
+   "id": "empty-aggregation",
+   "label": "Handle aggregation with no accepted parts",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "empty-multipart-not-nil",
+     "patch": "diff --git a/internal/etag/etag.go b/internal/etag/etag.go\nindex c891426..446b12d 100644\n--- a/internal/etag/etag.go\n+++ b/internal/etag/etag.go\n@@ -278,7 +278,7 @@ func ContentMD5Requested(h http.Header) bool {\n // used to compute the returned ETag.\n func Multipart(etags ...ETag) ETag {\n \tif len(etags) == 0 {\n-\t\treturn nil\n+\t\treturn ETag(\"-0\")\n \t}\n \n \tvar n int64\n"
+    }
+   ]
+  },
+  {
+   "id": "encrypted-classification",
+   "label": "Recognize encrypted ETags",
+   "hidden": true,
+   "faulty_versions": [
+    {
+     "id": "encrypted-threshold-too-high",
+     "patch": "diff --git a/internal/etag/etag.go b/internal/etag/etag.go\nindex c891426..b1b0373 100644\n--- a/internal/etag/etag.go\n+++ b/internal/etag/etag.go\n@@ -163,7 +163,7 @@ func (e ETag) IsEncrypted() bool {\n \t// such an ETag (with a nonce value containing a '-')\n \t// as non-encrypted.\n \n-\treturn len(e) >= 32 // We consider all ETags longer than 32 bytes as encrypted\n+\treturn len(e) > 48 // We consider all ETags longer than 32 bytes as encrypted\n }\n \n // IsMultipart reports whether the ETag belongs to an\n"
+    }
+   ]
+  },
+  {
+   "id": "encrypted-formatting",
+   "label": "Format encrypted ETags for S3",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "format-keeps-first-bytes",
+     "patch": "diff --git a/internal/etag/etag.go b/internal/etag/etag.go\nindex c891426..678662a 100644\n--- a/internal/etag/etag.go\n+++ b/internal/etag/etag.go\n@@ -232,7 +232,7 @@ func (e ETag) Format() ETag {\n \tif !e.IsEncrypted() {\n \t\treturn e\n \t}\n-\treturn e[len(e)-16:]\n+\treturn e[:16]\n }\n \n var _ Tagger = ETag{} // compiler check\n"
+    }
+   ]
+  },
+  {
+   "id": "etag-equality",
+   "label": "Compare equivalent ETags",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "equality-ignores-part-count",
+     "patch": "diff --git a/internal/etag/etag.go b/internal/etag/etag.go\nindex c891426..72ca73b 100644\n--- a/internal/etag/etag.go\n+++ b/internal/etag/etag.go\n@@ -328,7 +328,9 @@ func Get(h http.Header) (ETag, error) {\n \n // Equal returns true if and only if the two ETags are\n // identical.\n-func Equal(a, b ETag) bool { return bytes.Equal(a, b) }\n+func Equal(a, b ETag) bool {\n+\tif len(a) >= 16 && len(b) >= 16 { return bytes.Equal(a[:16], b[:16]) }; return bytes.Equal(a, b)\n+}\n \n // Decrypt decrypts the ETag with the given key.\n //\n"
+    }
+   ]
+  },
+  {
+   "id": "multipart-part-number",
+   "label": "Validate multipart part numbers",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "empty-part-number-accepted",
+     "patch": "diff --git a/internal/etag/etag.go b/internal/etag/etag.go\nindex c891426..c188b4c 100644\n--- a/internal/etag/etag.go\n+++ b/internal/etag/etag.go\n@@ -408,7 +408,7 @@ func parse(s string, strict bool) (ETag, error) {\n \t\treturn nil, fmt.Errorf(\"etag: invalid prefix length %d\", len(prefix))\n \t}\n \tif len(suffix) <= 1 {\n-\t\treturn nil, errors.New(\"etag: suffix is not a part number\")\n+\t\tsuffix = \"-1\"\n \t}\n \n \tetag, err := hex.DecodeString(prefix)\n"
+    },
+    {
+     "id": "part-number-parse-error-ignored",
+     "patch": "diff --git a/internal/etag/etag.go b/internal/etag/etag.go\nindex c891426..9363b38 100644\n--- a/internal/etag/etag.go\n+++ b/internal/etag/etag.go\n@@ -417,7 +417,7 @@ func parse(s string, strict bool) (ETag, error) {\n \t}\n \tpartNumber, err := strconv.Atoi(suffix[1:]) // suffix[0] == '-' Therefore, we start parsing at suffix[1]\n \tif err != nil {\n-\t\treturn nil, err\n+\t\tpartNumber = 1\n \t}\n \tif strict && (partNumber == 0 || partNumber > 10000) {\n \t\treturn nil, fmt.Errorf(\"etag: invalid part number %d\", partNumber)\n"
+    }
+   ]
+  },
+  {
+   "id": "multipart-prefix-length",
+   "label": "Validate multipart digest length",
+   "hidden": true,
+   "faulty_versions": [
+    {
+     "id": "multipart-prefix-long-accepted",
+     "patch": "diff --git a/internal/etag/etag.go b/internal/etag/etag.go\nindex c891426..3d1a155 100644\n--- a/internal/etag/etag.go\n+++ b/internal/etag/etag.go\n@@ -404,7 +404,7 @@ func parse(s string, strict bool) (ETag, error) {\n \t}\n \n \tprefix, suffix := s[:n], s[n:]\n-\tif len(prefix) != 32 {\n+\tif len(prefix) < 32 {\n \t\treturn nil, fmt.Errorf(\"etag: invalid prefix length %d\", len(prefix))\n \t}\n \tif len(suffix) <= 1 {\n"
+    },
+    {
+     "id": "multipart-prefix-short-accepted",
+     "patch": "diff --git a/internal/etag/etag.go b/internal/etag/etag.go\nindex c891426..2c9a37b 100644\n--- a/internal/etag/etag.go\n+++ b/internal/etag/etag.go\n@@ -404,7 +404,7 @@ func parse(s string, strict bool) (ETag, error) {\n \t}\n \n \tprefix, suffix := s[:n], s[n:]\n-\tif len(prefix) != 32 {\n+\tif len(prefix) > 32 {\n \t\treturn nil, fmt.Errorf(\"etag: invalid prefix length %d\", len(prefix))\n \t}\n \tif len(suffix) <= 1 {\n"
+    }
+   ]
+  },
+  {
+   "id": "non-strict-single-parsing",
+   "label": "Parse non-strict single-part ETags",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "short-single-tag-rejected",
+     "patch": "diff --git a/internal/etag/etag.go b/internal/etag/etag.go\nindex c891426..72c3734 100644\n--- a/internal/etag/etag.go\n+++ b/internal/etag/etag.go\n@@ -397,7 +397,7 @@ func parse(s string, strict bool) (ETag, error) {\n \t\tif err != nil {\n \t\t\treturn nil, err\n \t\t}\n-\t\tif strict && len(etag) != 16 { // AWS S3 ETags are always 128 bit long\n+\t\tif len(etag) < 16 || (strict && len(etag) != 16) { // AWS S3 ETags are always 128 bit long\n \t\t\treturn nil, fmt.Errorf(\"etag: invalid length %d\", len(etag))\n \t\t}\n \t\treturn ETag(etag), nil\n"
+    }
+   ]
+  },
+  {
+   "id": "quoted-parsing",
+   "label": "Parse quoted ETags",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "quoted-tag-truncated",
+     "patch": "diff --git a/internal/etag/etag.go b/internal/etag/etag.go\nindex c891426..33eab53 100644\n--- a/internal/etag/etag.go\n+++ b/internal/etag/etag.go\n@@ -384,7 +384,7 @@ func parse(s string, strict bool) (ETag, error) {\n \t// Therefore, we remove double quotes at the\n \t// start and end, if any.\n \tif strings.HasPrefix(s, `\"`) && strings.HasSuffix(s, `\"`) {\n-\t\ts = s[1 : len(s)-1]\n+\t\ts = s[1 : len(s)-2]\n \t}\n \n \t// An S3 ETag may be a multipart ETag that\n"
+    }
+   ]
+  }
+ ]
+}

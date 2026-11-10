@@ -1,0 +1,371 @@
+{
+  "task": "garage",
+  "type": "warmup",
+  "valid_submission": true,
+  "files": [
+    "test_garage.py"
+  ],
+  "unexpected_changes": [],
+  "reference_repair": false,
+  "runs": {
+    "correct": {
+      "exit_code": 0,
+      "tests": {
+        "test_garage.test_capacity_zero_rejected": "passed",
+        "test_garage.test_negative_capacity_rejected": "passed",
+        "test_garage.test_capacity_one_ok": "passed",
+        "test_garage.test_plate_normalization_equivalence": "passed",
+        "test_garage.test_empty_plate_rejected[]": "passed",
+        "test_garage.test_empty_plate_rejected[   ]": "passed",
+        "test_garage.test_empty_plate_rejected[-]": "passed",
+        "test_garage.test_empty_plate_rejected[--]": "passed",
+        "test_garage.test_empty_plate_rejected[ - ]": "passed",
+        "test_garage.test_two_hour_visit": "passed",
+        "test_garage.test_grace_period_free": "passed",
+        "test_garage.test_just_over_grace_costs_one_hour": "passed",
+        "test_garage.test_fractional_minutes_round_up": "passed",
+        "test_garage.test_started_hour_billing": "passed",
+        "test_garage.test_daily_cap_15": "passed",
+        "test_garage.test_two_day_cap": "passed",
+        "test_garage.test_periods_start_at_first_admission": "passed",
+        "test_garage.test_exact_24h_is_one_period": "passed",
+        "test_garage.test_zero_duration_exit": "passed",
+        "test_garage.test_full_garage_rejects_without_changes": "passed",
+        "test_garage.test_enter_already_inside_raises": "passed",
+        "test_garage.test_exit_not_inside_raises": "passed",
+        "test_garage.test_exit_before_latest_admission_raises": "passed",
+        "test_garage.test_lost_ticket_not_inside_raises": "passed",
+        "test_garage.test_lost_ticket_before_admission_raises": "passed",
+        "test_garage.test_reentry_within_10_minutes_resumes_session": "passed",
+        "test_garage.test_reentry_outside_window_starts_new_session": "passed",
+        "test_garage.test_reentry_after_lost_ticket_starts_new_session": "passed",
+        "test_garage.test_reentry_after_grace_exit_still_resumes": "passed",
+        "test_garage.test_reentry_span_includes_time_outside": "passed",
+        "test_garage.test_reentry_after_lost_then_exit_resumes": "passed",
+        "test_garage.test_lost_ticket_minimum_15": "passed",
+        "test_garage.test_lost_ticket_grace_still_15": "passed",
+        "test_garage.test_lost_ticket_larger_charge_kept": "passed",
+        "test_garage.test_lost_ticket_frees_space": "passed",
+        "test_garage.test_pass_makes_session_free": "passed",
+        "test_garage.test_pass_applies_to_lost_ticket": "passed",
+        "test_garage.test_pass_plate_normalized": "passed",
+        "test_garage.test_pass_wrong_month_not_free": "passed",
+        "test_garage.test_pass_wrong_year_not_free": "passed",
+        "test_garage.test_pass_keyed_on_first_admission_month": "passed",
+        "test_garage.test_pass_does_not_cover_new_session_next_month": "passed",
+        "test_garage.test_pass_added_after_session_start_still_covers_it": "passed",
+        "test_garage.test_occupancy_tracks_cars": "passed",
+        "test_garage.test_independent_sessions_per_car": "passed",
+        "test_garage.test_reentry_of_one_car_does_not_affect_other": "passed"
+      },
+      "output_tail": "..............................................                           [100%]\n46 passed in 0.08s\n"
+    }
+  },
+  "eligible": [
+    "test_garage.test_capacity_one_ok",
+    "test_garage.test_capacity_zero_rejected",
+    "test_garage.test_daily_cap_15",
+    "test_garage.test_empty_plate_rejected[   ]",
+    "test_garage.test_empty_plate_rejected[ - ]",
+    "test_garage.test_empty_plate_rejected[--]",
+    "test_garage.test_empty_plate_rejected[-]",
+    "test_garage.test_empty_plate_rejected[]",
+    "test_garage.test_enter_already_inside_raises",
+    "test_garage.test_exact_24h_is_one_period",
+    "test_garage.test_exit_before_latest_admission_raises",
+    "test_garage.test_exit_not_inside_raises",
+    "test_garage.test_fractional_minutes_round_up",
+    "test_garage.test_full_garage_rejects_without_changes",
+    "test_garage.test_grace_period_free",
+    "test_garage.test_independent_sessions_per_car",
+    "test_garage.test_just_over_grace_costs_one_hour",
+    "test_garage.test_lost_ticket_before_admission_raises",
+    "test_garage.test_lost_ticket_frees_space",
+    "test_garage.test_lost_ticket_grace_still_15",
+    "test_garage.test_lost_ticket_larger_charge_kept",
+    "test_garage.test_lost_ticket_minimum_15",
+    "test_garage.test_lost_ticket_not_inside_raises",
+    "test_garage.test_negative_capacity_rejected",
+    "test_garage.test_occupancy_tracks_cars",
+    "test_garage.test_pass_added_after_session_start_still_covers_it",
+    "test_garage.test_pass_applies_to_lost_ticket",
+    "test_garage.test_pass_does_not_cover_new_session_next_month",
+    "test_garage.test_pass_keyed_on_first_admission_month",
+    "test_garage.test_pass_makes_session_free",
+    "test_garage.test_pass_plate_normalized",
+    "test_garage.test_pass_wrong_month_not_free",
+    "test_garage.test_pass_wrong_year_not_free",
+    "test_garage.test_periods_start_at_first_admission",
+    "test_garage.test_plate_normalization_equivalence",
+    "test_garage.test_reentry_after_grace_exit_still_resumes",
+    "test_garage.test_reentry_after_lost_then_exit_resumes",
+    "test_garage.test_reentry_after_lost_ticket_starts_new_session",
+    "test_garage.test_reentry_of_one_car_does_not_affect_other",
+    "test_garage.test_reentry_outside_window_starts_new_session",
+    "test_garage.test_reentry_span_includes_time_outside",
+    "test_garage.test_reentry_within_10_minutes_resumes_session",
+    "test_garage.test_started_hour_billing",
+    "test_garage.test_two_day_cap",
+    "test_garage.test_two_hour_visit",
+    "test_garage.test_zero_duration_exit"
+  ],
+  "checkpoints": [
+    {
+      "id": "period-cap",
+      "label": "Each 24-hour period of a session costs at most $15.00",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "no-period-cap",
+          "error": null,
+          "detected_by": [
+            "test_garage.test_daily_cap_15"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "plate-case",
+      "label": "Plates that differ only in letter case denote the same car",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "case-sensitive",
+          "error": null,
+          "detected_by": [
+            "test_garage.test_pass_plate_normalized",
+            "test_garage.test_plate_normalization_equivalence"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "capacity-full",
+      "label": "A full garage rejects a new car (enter returns False)",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "capacity-off-by-one",
+          "error": null,
+          "detected_by": [
+            "test_garage.test_full_garage_rejects_without_changes"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lost-ticket-minimum",
+      "label": "A lost ticket raises the session charge to at least $15.00, also after earlier payments",
+      "hidden": false,
+      "K": 0.5,
+      "faulty_versions": [
+        {
+          "id": "no-lost-minimum",
+          "error": null,
+          "detected_by": [
+            "test_garage.test_lost_ticket_grace_still_15",
+            "test_garage.test_lost_ticket_larger_charge_kept",
+            "test_garage.test_lost_ticket_minimum_15",
+            "test_garage.test_reentry_after_lost_ticket_starts_new_session"
+          ]
+        },
+        {
+          "id": "lost-minimum-only-if-unpaid",
+          "error": null,
+          "detected_by": []
+        }
+      ]
+    },
+    {
+      "id": "reentry-window",
+      "label": "Re-entry resumes the session only within 10 minutes of the latest exit",
+      "hidden": false,
+      "K": 0.0,
+      "faulty_versions": [
+        {
+          "id": "window-fifteen-minutes",
+          "error": null,
+          "detected_by": []
+        },
+        {
+          "id": "window-from-first-exit",
+          "error": null,
+          "detected_by": []
+        }
+      ]
+    },
+    {
+      "id": "cumulative-payment",
+      "label": "Each exit returns the session charge minus everything already paid",
+      "hidden": false,
+      "K": 0.0,
+      "faulty_versions": [
+        {
+          "id": "paid-overwritten",
+          "error": null,
+          "detected_by": []
+        },
+        {
+          "id": "paid-accumulates-charge",
+          "error": null,
+          "detected_by": []
+        }
+      ]
+    },
+    {
+      "id": "grace-per-session",
+      "label": "The free 15 minutes apply to the whole session, not to each visit",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "grace-per-visit",
+          "error": null,
+          "detected_by": [
+            "test_garage.test_reentry_after_grace_exit_still_resumes",
+            "test_garage.test_reentry_after_lost_then_exit_resumes"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "outside-time-billed",
+      "label": "A resumed session is billed including the time spent outside",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "outside-time-not-billed",
+          "error": null,
+          "detected_by": [
+            "test_garage.test_reentry_after_grace_exit_still_resumes",
+            "test_garage.test_reentry_after_lost_then_exit_resumes"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "resume-needs-space",
+      "label": "Resuming a session still needs a free space",
+      "hidden": false,
+      "K": 0.0,
+      "faulty_versions": [
+        {
+          "id": "resume-bypasses-capacity",
+          "error": null,
+          "detected_by": []
+        }
+      ]
+    },
+    {
+      "id": "failed-enter-no-change",
+      "label": "A rejected or raising enter() leaves every session unchanged",
+      "hidden": false,
+      "K": 0.0,
+      "faulty_versions": [
+        {
+          "id": "rejection-ends-resumability",
+          "error": null,
+          "detected_by": []
+        },
+        {
+          "id": "rejection-extends-window",
+          "error": null,
+          "detected_by": []
+        },
+        {
+          "id": "failed-enter-resets-session",
+          "error": null,
+          "detected_by": []
+        }
+      ]
+    },
+    {
+      "id": "inside-check-first",
+      "label": "A car already inside raises ValueError even when the garage is full",
+      "hidden": false,
+      "K": 0.0,
+      "faulty_versions": [
+        {
+          "id": "capacity-checked-before-inside",
+          "error": null,
+          "detected_by": []
+        }
+      ]
+    },
+    {
+      "id": "leave-before-admission",
+      "label": "Leaving earlier than the latest admission raises ValueError",
+      "hidden": false,
+      "K": 0.0,
+      "faulty_versions": [
+        {
+          "id": "leave-check-against-session-start",
+          "error": null,
+          "detected_by": []
+        }
+      ]
+    },
+    {
+      "id": "pass-session-month",
+      "label": "A pass covers a session by the month of its first admission",
+      "hidden": false,
+      "K": 0.5,
+      "faulty_versions": [
+        {
+          "id": "pass-by-latest-admission",
+          "error": null,
+          "detected_by": []
+        },
+        {
+          "id": "pass-by-first-admission-ever",
+          "error": null,
+          "detected_by": [
+            "test_garage.test_pass_does_not_cover_new_session_next_month"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pass-year",
+      "label": "A pass covers one month of one year only",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "pass-ignores-year",
+          "error": null,
+          "detected_by": [
+            "test_garage.test_pass_wrong_year_not_free"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pass-added-during-session",
+      "label": "A pass registered during a session still makes that session free",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "pass-fixed-at-session-start",
+          "error": null,
+          "detected_by": [
+            "test_garage.test_pass_added_after_session_start_still_covers_it"
+          ]
+        }
+      ]
+    }
+  ],
+  "score": 53.3333,
+  "evaluated_at": "2026-11-02T16:20:36+00:00",
+  "job": {
+    "alias": "vanilla",
+    "skills": [],
+    "exit_status": "Submitted",
+    "errors": []
+  }
+}

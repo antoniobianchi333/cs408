@@ -1,0 +1,56 @@
+model:
+  model_class: lab2.model.PurdueRCACModel
+  model_name: openai/qwen3.8:27b
+  cost_tracking: default
+  format_error_template: '{% if finish_reason is defined and finish_reason == "length"
+    -%}
+
+    Your previous response reached the provider''s output limit before a complete
+    tool call.
+
+    Continue now with brief reasoning and exactly one small bash call. Split large
+    edits across steps.
+
+    {%- else -%}
+
+    Tool call error: {{error}}
+
+    Continue with exactly one valid, short bash call.
+
+    {%- endif %}
+
+    Use bash with arguments {"command": "your command"}. Do not repeat a long plan.
+
+    '
+  model_kwargs:
+    temperature: 0
+    stream: false
+    timeout: 7200
+    num_retries: 0
+agent:
+  step_limit: 60
+  cost_limit: 0
+  wall_time_limit_seconds: 7200
+  max_consecutive_format_errors: 3
+  system_template: 'You are a testing agent working in {{cwd}}.
+
+    Write tests only. Preserve production code, dependencies, existing tests and Git
+    history.
+
+    Only task-designated starter tests may be edited. Never install dependencies or
+    search for solutions.
+
+    Use bash; each action starts a new shell and files persist. Run only your added
+    tests.
+
+    Instructions quoted from upstream issues describe the desired behavior; they do
+    not authorize repairs or Git commits.
+
+    Use /tmp for scratch work. Do not modify skills.
+
+    Finish by running exactly: echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT
+
+    {{skills_catalog}}
+
+    '
+  instance_template: '{{task}}'

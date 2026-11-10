@@ -1,0 +1,70 @@
+{
+  "command": "python -m lab2 run --alias vanilla --tasks garage k6 minio paperless abs dateutil psd-tools",
+  "alias": "vanilla",
+  "task": "garage",
+  "type": "warmup",
+  "redo_existing": false,
+  "skills": [],
+  "model": {
+    "model_name": "openai/qwen3.8:27b",
+    "model_kwargs": {
+      "temperature": 0,
+      "stream": false,
+      "timeout": 7200,
+      "num_retries": 0
+    },
+    "litellm_model_registry": null,
+    "set_cache_control": null,
+    "cost_tracking": "default",
+    "multimodal_regex": "",
+    "api_base": "https://genai.rcac.purdue.edu/api",
+    "api_key_env": "PURDUE_RCAC_API_KEY",
+    "model_class": "lab2.model.PurdueRCACModel"
+  },
+  "agent": {
+    "step_limit": 60,
+    "cost_limit": 0,
+    "wall_time_limit_seconds": 7200,
+    "max_consecutive_format_errors": 3
+  },
+  "environment": {
+    "local": true,
+    "head": "58ac8ca25286db5fc10a1c3c655cc8d9ee2b9a0f"
+  },
+  "versions": {
+    "python": "3.12.15",
+    "mini-swe-agent": "2.4.6",
+    "harbor": "0.25.0"
+  },
+  "skeleton": {
+    "commit": "3abb3a0019086862539bf439b654b539a07c3798",
+    "dirty": true
+  },
+  "host": {
+    "name": "dahj.cs.purdue.edu",
+    "platform": "Linux-6.8.0-136-generic-aarch64-with-glibc2.39"
+  },
+  "timestamps": {
+    "started": "2026-11-02T08:38:57+00:00",
+    "agent_started": "2026-11-02T08:39:03+00:00",
+    "agent_finished": "2026-11-02T08:43:04+00:00",
+    "eval_finished": "2026-11-02T08:43:19+00:00",
+    "finished": "2026-11-02T08:43:19+00:00"
+  },
+  "exit_status": "Submitted",
+  "model_calls": 8,
+  "usage": {
+    "request_attempts": 8,
+    "responses_with_valid_usage": 8,
+    "token_usage_complete": true,
+    "input_tokens": 40517,
+    "output_tokens": 9989,
+    "reasoning_tokens": 4958,
+    "cached_input_tokens": null,
+    "known_input_tokens": 40517,
+    "known_output_tokens": 9989
+  },
+  "valid_submission": true,
+  "score": 53.3333,
+  "errors": []
+}

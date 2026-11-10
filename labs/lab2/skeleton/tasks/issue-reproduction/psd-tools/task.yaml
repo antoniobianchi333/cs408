@@ -1,0 +1,22 @@
+id: psd-tools
+type: issue-reproduction
+language: python
+prompt: prompt.md
+test_paths: [tests/psd_tools/api, tests/psd_tools/psd, tests/psd_tools/composite]
+editable: []
+source:
+  dataset: DeepSWE
+  task: psd-tools-blend-range-api
+  repository: https://github.com/psd-tools/psd-tools
+  base_commit: c5e03189188daa3c5589326a9d74506d7dc48bc9
+environment:
+  image: ghcr.io/cs408-fall-2026/lab2-psd-tools:arm64
+  workdir: /app
+  head: c5e03189188daa3c5589326a9d74506d7dc48bc9
+  env:
+    PYTHONDONTWRITEBYTECODE: '1'
+    PYTEST_ADDOPTS: ''
+    OMP_NUM_THREADS: '4'
+    OPENBLAS_NUM_THREADS: '4'
+check:
+  pytest_args: [-o, addopts=]

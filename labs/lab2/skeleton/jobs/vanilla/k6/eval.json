@@ -1,0 +1,238 @@
+{
+  "task": "k6",
+  "type": "test-writing",
+  "valid_submission": true,
+  "files": [
+    "lib/execution_segment_missing_test.go"
+  ],
+  "unexpected_changes": [],
+  "reference_repair": false,
+  "runs": {
+    "correct": {
+      "exit_code": 0,
+      "tests": {
+        "go.k6.io/k6/lib.TestNewExecutionSegmentSequenceFromString/valid_sequence": "passed",
+        "go.k6.io/k6/lib.TestNewExecutionSegmentSequenceFromString/single_point_is_an_error": "passed",
+        "go.k6.io/k6/lib.TestNewExecutionSegmentSequenceFromString/invalid_point_is_an_error": "passed",
+        "go.k6.io/k6/lib.TestNewExecutionSegmentSequenceFromString/non-contiguous_points_are_an_error": "passed",
+        "go.k6.io/k6/lib.TestNewExecutionSegmentSequenceFromString/empty_string_is_nil_sequence": "passed",
+        "go.k6.io/k6/lib.TestNewExecutionSegmentSequenceFromString/mixed_formats": "passed",
+        "go.k6.io/k6/lib.TestNewExecutionSegmentSequenceFromString": "passed",
+        "go.k6.io/k6/lib.TestExecutionTupleGetNewExecutionTupleFromValue/re-segment_thirds_with_value_2": "passed",
+        "go.k6.io/k6/lib.TestExecutionTupleGetNewExecutionTupleFromValue/segment_dropped_from_the_new_sequence_is_an_error": "passed",
+        "go.k6.io/k6/lib.TestExecutionTupleGetNewExecutionTupleFromValue/value_below_1_is_an_error": "passed",
+        "go.k6.io/k6/lib.TestExecutionTupleGetStripedOffsets/two_equal_halves": "passed",
+        "go.k6.io/k6/lib.TestExecutionSegmentSequenceLCD/halves": "passed",
+        "go.k6.io/k6/lib.TestExecutionTupleGetStripedOffsets/single_full_segment": "passed",
+        "go.k6.io/k6/lib.TestExecutionTupleGetStripedOffsets/unequal_3/5_and_2/5_segments": "passed",
+        "go.k6.io/k6/lib.TestExecutionTupleGetNewExecutionTupleFromValue/value_divisible_by_the_LCD_keeps_the_same_tuple": "passed",
+        "go.k6.io/k6/lib.TestExecutionTupleGetNewExecutionTupleFromValue": "passed",
+        "go.k6.io/k6/lib.TestExecutionTupleGetStripedOffsets/three_equal_thirds": "passed",
+        "go.k6.io/k6/lib.TestExecutionTupleGetStripedOffsets": "passed",
+        "go.k6.io/k6/lib.TestExecutionSegmentSequenceLCD/fifths": "passed",
+        "go.k6.io/k6/lib.TestExecutionSegmentSequenceLCD/mixed_denominators": "passed",
+        "go.k6.io/k6/lib.TestExecutionSegmentSequenceLCD/quarters": "passed",
+        "go.k6.io/k6/lib.TestExecutionSegmentSequenceLCD/full": "passed",
+        "go.k6.io/k6/lib.TestExecutionSegmentSequenceLCD/thirds": "passed",
+        "go.k6.io/k6/lib.TestExecutionSegmentSequenceLCD": "passed"
+      },
+      "output_tail": "-02T16:21:56.423850231Z\",\"Action\":\"pass\",\"Package\":\"go.k6.io/k6/lib\",\"Test\":\"TestExecutionSegmentSequenceLCD/quarters\",\"Elapsed\":0}\n{\"Time\":\"2026-11-02T16:21:56.423858671Z\",\"Action\":\"output\",\"Package\":\"go.k6.io/k6/lib\",\"Test\":\"TestExecutionSegmentSequenceLCD/full\",\"Output\":\"--- PASS: TestExecutionSegmentSequenceLCD/full (0.00s)\\n\"}\n{\"Time\":\"2026-11-02T16:21:56.423867351Z\",\"Action\":\"pass\",\"Package\":\"go.k6.io/k6/lib\",\"Test\":\"TestExecutionSegmentSequenceLCD/full\",\"Elapsed\":0}\n{\"Time\":\"2026-11-02T16:21:56.423875831Z\",\"Action\":\"output\",\"Package\":\"go.k6.io/k6/lib\",\"Test\":\"TestExecutionSegmentSequenceLCD/thirds\",\"Output\":\"--- PASS: TestExecutionSegmentSequenceLCD/thirds (0.00s)\\n\"}\n{\"Time\":\"2026-11-02T16:21:56.423884831Z\",\"Action\":\"pass\",\"Package\":\"go.k6.io/k6/lib\",\"Test\":\"TestExecutionSegmentSequenceLCD/thirds\",\"Elapsed\":0}\n{\"Time\":\"2026-11-02T16:21:56.423892351Z\",\"Action\":\"output\",\"Package\":\"go.k6.io/k6/lib\",\"Test\":\"TestExecutionSegmentSequenceLCD\",\"Output\":\"--- PASS: TestExecutionSegmentSequenceLCD (0.00s)\\n\"}\n{\"Time\":\"2026-11-02T16:21:56.423899711Z\",\"Action\":\"pass\",\"Package\":\"go.k6.io/k6/lib\",\"Test\":\"TestExecutionSegmentSequenceLCD\",\"Elapsed\":0}\n{\"Time\":\"2026-11-02T16:21:56.423906991Z\",\"Action\":\"output\",\"Package\":\"go.k6.io/k6/lib\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-11-02T16:21:56.425630383Z\",\"Action\":\"output\",\"Package\":\"go.k6.io/k6/lib\",\"Output\":\"ok  \\tgo.k6.io/k6/lib\\t0.021s\\n\"}\n{\"Time\":\"2026-11-02T16:21:56.425658823Z\",\"Action\":\"pass\",\"Package\":\"go.k6.io/k6/lib\",\"Elapsed\":0.022}\n"
+    }
+  },
+  "eligible": [
+    "go.k6.io/k6/lib.TestExecutionSegmentSequenceLCD",
+    "go.k6.io/k6/lib.TestExecutionSegmentSequenceLCD/fifths",
+    "go.k6.io/k6/lib.TestExecutionSegmentSequenceLCD/full",
+    "go.k6.io/k6/lib.TestExecutionSegmentSequenceLCD/halves",
+    "go.k6.io/k6/lib.TestExecutionSegmentSequenceLCD/mixed_denominators",
+    "go.k6.io/k6/lib.TestExecutionSegmentSequenceLCD/quarters",
+    "go.k6.io/k6/lib.TestExecutionSegmentSequenceLCD/thirds",
+    "go.k6.io/k6/lib.TestExecutionTupleGetNewExecutionTupleFromValue",
+    "go.k6.io/k6/lib.TestExecutionTupleGetNewExecutionTupleFromValue/re-segment_thirds_with_value_2",
+    "go.k6.io/k6/lib.TestExecutionTupleGetNewExecutionTupleFromValue/segment_dropped_from_the_new_sequence_is_an_error",
+    "go.k6.io/k6/lib.TestExecutionTupleGetNewExecutionTupleFromValue/value_below_1_is_an_error",
+    "go.k6.io/k6/lib.TestExecutionTupleGetNewExecutionTupleFromValue/value_divisible_by_the_LCD_keeps_the_same_tuple",
+    "go.k6.io/k6/lib.TestExecutionTupleGetStripedOffsets",
+    "go.k6.io/k6/lib.TestExecutionTupleGetStripedOffsets/single_full_segment",
+    "go.k6.io/k6/lib.TestExecutionTupleGetStripedOffsets/three_equal_thirds",
+    "go.k6.io/k6/lib.TestExecutionTupleGetStripedOffsets/two_equal_halves",
+    "go.k6.io/k6/lib.TestExecutionTupleGetStripedOffsets/unequal_3/5_and_2/5_segments",
+    "go.k6.io/k6/lib.TestNewExecutionSegmentSequenceFromString",
+    "go.k6.io/k6/lib.TestNewExecutionSegmentSequenceFromString/empty_string_is_nil_sequence",
+    "go.k6.io/k6/lib.TestNewExecutionSegmentSequenceFromString/invalid_point_is_an_error",
+    "go.k6.io/k6/lib.TestNewExecutionSegmentSequenceFromString/mixed_formats",
+    "go.k6.io/k6/lib.TestNewExecutionSegmentSequenceFromString/non-contiguous_points_are_an_error",
+    "go.k6.io/k6/lib.TestNewExecutionSegmentSequenceFromString/single_point_is_an_error",
+    "go.k6.io/k6/lib.TestNewExecutionSegmentSequenceFromString/valid_sequence"
+  ],
+  "checkpoints": [
+    {
+      "id": "integer-resegmentation",
+      "label": "Build the correct integer execution tuple",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "new-tuple-floor-scaling",
+          "error": null,
+          "detected_by": [
+            "go.k6.io/k6/lib.TestExecutionTupleGetNewExecutionTupleFromValue",
+            "go.k6.io/k6/lib.TestExecutionTupleGetNewExecutionTupleFromValue/re-segment_thirds_with_value_2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "least-common-denominator",
+      "label": "Compute a shared denominator",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "lcd-uses-product",
+          "error": null,
+          "detected_by": [
+            "go.k6.io/k6/lib.TestExecutionSegmentSequenceLCD",
+            "go.k6.io/k6/lib.TestExecutionSegmentSequenceLCD/mixed_denominators"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nonnegative-boundaries",
+      "label": "Reject negative segment boundaries",
+      "hidden": false,
+      "K": 0.0,
+      "faulty_versions": [
+        {
+          "id": "negative-start-accepted",
+          "error": null,
+          "detected_by": []
+        }
+      ]
+    },
+    {
+      "id": "rational-parsing",
+      "label": "Parse rational segment values",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "decimal-boundary-rounded",
+          "error": null,
+          "detected_by": [
+            "go.k6.io/k6/lib.TestNewExecutionSegmentSequenceFromString",
+            "go.k6.io/k6/lib.TestNewExecutionSegmentSequenceFromString/mixed_formats"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "segment-adjacency",
+      "label": "Require neighboring segments to meet",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "sequence-start-reset",
+          "error": null,
+          "detected_by": [
+            "go.k6.io/k6/lib.TestExecutionSegmentSequenceLCD",
+            "go.k6.io/k6/lib.TestExecutionSegmentSequenceLCD/fifths",
+            "go.k6.io/k6/lib.TestExecutionSegmentSequenceLCD/halves",
+            "go.k6.io/k6/lib.TestExecutionSegmentSequenceLCD/mixed_denominators",
+            "go.k6.io/k6/lib.TestExecutionSegmentSequenceLCD/quarters",
+            "go.k6.io/k6/lib.TestExecutionSegmentSequenceLCD/thirds",
+            "go.k6.io/k6/lib.TestExecutionTupleGetNewExecutionTupleFromValue",
+            "go.k6.io/k6/lib.TestExecutionTupleGetNewExecutionTupleFromValue/re-segment_thirds_with_value_2",
+            "go.k6.io/k6/lib.TestExecutionTupleGetNewExecutionTupleFromValue/segment_dropped_from_the_new_sequence_is_an_error",
+            "go.k6.io/k6/lib.TestExecutionTupleGetNewExecutionTupleFromValue/value_below_1_is_an_error",
+            "go.k6.io/k6/lib.TestExecutionTupleGetNewExecutionTupleFromValue/value_divisible_by_the_LCD_keeps_the_same_tuple",
+            "go.k6.io/k6/lib.TestExecutionTupleGetStripedOffsets",
+            "go.k6.io/k6/lib.TestExecutionTupleGetStripedOffsets/three_equal_thirds",
+            "go.k6.io/k6/lib.TestExecutionTupleGetStripedOffsets/two_equal_halves",
+            "go.k6.io/k6/lib.TestExecutionTupleGetStripedOffsets/unequal_3/5_and_2/5_segments",
+            "go.k6.io/k6/lib.TestNewExecutionSegmentSequenceFromString",
+            "go.k6.io/k6/lib.TestNewExecutionSegmentSequenceFromString/mixed_formats",
+            "go.k6.io/k6/lib.TestNewExecutionSegmentSequenceFromString/valid_sequence"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sequence-arity",
+      "label": "Validate the number of sequence boundaries",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "single-point-accepted",
+          "error": null,
+          "detected_by": [
+            "go.k6.io/k6/lib.TestNewExecutionSegmentSequenceFromString",
+            "go.k6.io/k6/lib.TestNewExecutionSegmentSequenceFromString/single_point_is_an_error"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "strict-boundary-order",
+      "label": "Require increasing boundaries",
+      "hidden": false,
+      "K": 0.0,
+      "faulty_versions": [
+        {
+          "id": "equal-endpoints-accepted",
+          "error": null,
+          "detected_by": []
+        }
+      ]
+    },
+    {
+      "id": "striped-period",
+      "label": "Compute the striped period",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "striping-wrap-distance-off-by-one",
+          "error": null,
+          "detected_by": [
+            "go.k6.io/k6/lib.TestExecutionTupleGetStripedOffsets",
+            "go.k6.io/k6/lib.TestExecutionTupleGetStripedOffsets/single_full_segment",
+            "go.k6.io/k6/lib.TestExecutionTupleGetStripedOffsets/three_equal_thirds",
+            "go.k6.io/k6/lib.TestExecutionTupleGetStripedOffsets/two_equal_halves",
+            "go.k6.io/k6/lib.TestExecutionTupleGetStripedOffsets/unequal_3/5_and_2/5_segments"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "striped-start",
+      "label": "Compute the striped starting offset",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "striping-start-one-based",
+          "error": null,
+          "detected_by": [
+            "go.k6.io/k6/lib.TestExecutionTupleGetStripedOffsets",
+            "go.k6.io/k6/lib.TestExecutionTupleGetStripedOffsets/single_full_segment",
+            "go.k6.io/k6/lib.TestExecutionTupleGetStripedOffsets/three_equal_thirds",
+            "go.k6.io/k6/lib.TestExecutionTupleGetStripedOffsets/two_equal_halves",
+            "go.k6.io/k6/lib.TestExecutionTupleGetStripedOffsets/unequal_3/5_and_2/5_segments"
+          ]
+        }
+      ]
+    }
+  ],
+  "score": 77.7778,
+  "evaluated_at": "2026-11-02T16:22:27+00:00",
+  "job": {
+    "alias": "vanilla",
+    "skills": [],
+    "exit_status": "Submitted",
+    "errors": []
+  }
+}

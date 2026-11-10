@@ -1,0 +1,1030 @@
+\documentclass[letterpaper,11pt]{article}
+\usepackage[margin=1.1in]{geometry}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc}
+\usepackage{verbatim}
+\usepackage{textcomp}
+\usepackage{upquote}
+\usepackage{needspace}
+\usepackage{parskip}
+\input{cmds}
+\usepackage[varqu,scaled=0.95]{inconsolata}
+\setlength{\emergencystretch}{2em}
+\graphicspath{ {./imgs/} }
+\usepackage{caption}
+\usepackage{placeins}
+\usepackage{multirow}
+\makeatletter\g@addto@macro\UrlBreaks{\do\-}\makeatother
+\hyphenation{Section Sections}
+% A clickable reference number, linked to its entry in the References.
+\newcommand{\refnum}[1]{\hyperlink{ref#1}{[#1]}}
+\captionsetup[table]{skip=2pt}
+
+\def\sectionautorefname{Section}%
+\def\subsectionautorefname{Section}%
+
+\begin{document}
+
+\begin{center}
+    {\LARGE{Project 2: Teaching a Coding Agent to Write Tests}}\\
+    \vspace*{10pt}
+    {\Large{CS408, Fall 2026}}\\
+    \vspace*{10pt}
+    {\large{\textbf{Group Project (100 points)\\
+        Midpoint checkpoint: Sunday, November 22, 2026\\
+        Due date: Tuesday, December 8, 2026}}}\\
+    \vspace*{15pt}
+    \textbf{Lead TA}: Ruixin Wang (\href{mailto:ruixinw@purdue.edu}{ruixinw@purdue.edu})
+\end{center}
+
+\section{Project Description}
+
+In this project, you will turn the testing methods from class into
+\textbf{skills}: short written instructions that a coding agent reads while it
+works. We provide a coding agent that writes tests for existing code. You will
+run it with and without your skills and evaluate the tests it writes.
+
+The project has three \textbf{parts}, with seven \textbf{tasks} in total:
+\squishenumerate
+ \item \textbf{Warmup} (1 task): the agent writes tests for a small Python
+   program whose code is correct. Use it to learn how to run the coding agent
+   and how to write skills for it.
+ \item \textbf{Test Writing} (3 tasks): the agent writes tests for larger, real
+   programs whose code is correct. These tasks are a benchmark: they measure
+   how well your skills work on code that you did not write them for.
+ \item \textbf{Issue Reproduction} (3 tasks): each program comes with an
+   \emph{issue}, a request for a new behavior that the code does not have yet.
+   The agent writes tests for the requested behavior; it does not implement it.
+   We call the code without the new behavior the \textbf{unfixed code}.
+\squishenumerateend
+Four tasks are in Python and three in Go. You do not write tests yourself: the
+agent writes them, in the language of the task. In this handout, the
+\textbf{task repository} is the code that the agent works on. For the Warmup,
+it is the folder \ic{tasks/warmup/garage/project/} (\autoref{sec:warmup}).
+\textbf{Your group's repository} is your group's GitHub repository, which
+holds everything else.
+
+A \textbf{run} is one execution of the agent on one task. The agent, the
+language model, the tasks, and the limits of each run are fixed. You change only the skills that the agent may use.
+
+Here is the breakdown of points for this project:
+\squishlist
+ \item \textbf{Warmup (40 points)}, \textbf{Test Writing (20 points)}, and
+      \textbf{Issue Reproduction (20 points)}: Points are awarded based on
+      whether your submission for the part is complete and whether your
+      skills improve the task scores over the vanilla runs.
+ \item \textbf{Report (20 points)}: Points are awarded based on whether your
+      report follows the template in \ic{report/}, answers the questions in
+      this handout, and contains the motivating example, the skills, and the
+      evaluation (\autoref{sec:report}). \textit{You must answer all
+      the questions listed in the handout.}
+ \item \textbf{Skills competition (5 bonus points)}: Bonus points are awarded
+      based on how your Test Writing and Issue Reproduction runs rank among
+      your peers' when the hidden checkpoints are included. The final scheme
+      will be announced on Ed (\autoref{sec:competition}).
+\squishend
+\autoref{sec:scoring} explains task scores and points.
+
+The project has two deadlines (\autoref{sec:submission}):
+\squishlist
+ \item \textbf{Midpoint checkpoint (Sunday, November 22, 2026)}: submit the
+   Warmup and a report that answers Questions 1 to 3. At this checkpoint, we
+   grade the Warmup (40 points) and your answers to Questions 1 to 3. We do
+   not grade the rest of the report at this checkpoint.
+ \item \textbf{Final deadline (Tuesday, December 8, 2026)}: submit Test
+   Writing, Issue Reproduction, and the full report. We grade these two parts
+   and the rest of the report. We do not grade the Warmup and Questions 1 to
+   3 again.
+\squishend
+
+Read the assignment \textbf{entirely} before starting any work on it.
+
+This is a group project for groups of \textbf{at most four} students. Feel
+free to reuse your group from Project 1; you can also form a new group. Only
+collaboration between pre-registered group members is allowed.
+
+\noindent\fbox{%
+\begin{minipage}{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}
+\textbf{AI TOOL POLICY:} For this project, you may use AI and ML tools that
+generate text or code \textbf{without restriction}. This replaces the default
+syllabus rule for this project only. You remain responsible for everything you
+submit, and every group member must understand the group's skills and report.
+\end{minipage}%
+}
+
+\section{Project Setup and Development Workflow}
+\label{sec:setup}
+
+\subsection{Group repository}
+\label{sec:repo}
+
+Please follow the instructions in \autoref{sec:appx:setup} to \textbf{clone}, \textbf{setup}, and regularly \textbf{update} your group's private GitHub repository.
+
+\noindent\fbox{%
+\begin{minipage}{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}
+\textbf{REQUIREMENT:} Your group's private GitHub repository (created through Classroom 50) is going to be used to: (a) help staff provide support to students when there are questions about their project, (b) help students backup and cooperate within the group, (c) investigate cases of plagiarism, and (d) investigate cases of uneven contributions among group members.
+Hence, in this course, students are \textbf{required} to use this repository and regularly commit and push their updates (e.g., approximately every 2 hours of work). Not following this requirement will lead to \textbf{partial or total loss of points} in the final grade of the project.
+\end{minipage}%
+}
+
+\subsection{Server and setup}
+\label{sec:server}
+
+You need to do this project on one of the two CS ARM64 servers, \ic{dahj} or
+\ic{soji}. Log in with one of:
+
+\begin{verbatim}
+$ ssh <purdue-alias>@dahj.cs.purdue.edu
+$ ssh <purdue-alias>@soji.cs.purdue.edu
+\end{verbatim}
+
+Clone your group's repository on the server (\autoref{sec:appx:setup}). In
+this handout, all paths are relative to the root directory of your group's
+repository, and all commands are run from there. First run:
+
+\begin{verbatim}
+$ bash setup.sh
+$ source scripts/activate.sh
+\end{verbatim}
+\ic{setup.sh} installs Python, the agent, and the container tool udocker into
+folders inside your group's repository; it does not need \ic{sudo}. Run
+\ic{source scripts/activate.sh} in every new shell before you use the
+commands in this handout.
+
+\subsection{Tasks and containers}
+\label{sec:tasks}
+
+Each task has its own folder, \ic{tasks/<part>/<task>/}, where \ic{<part>}
+is \ic{warmup}, \ic{test-writing}, or \ic{issue-reproduction}. The six Test
+Writing and Issue Reproduction tasks run in \textbf{containers} (isolated
+Linux environments). Their task repositories are public: the \ic{source:} section of the task's \ic{task.yaml} gives the GitHub repository (\ic{repository}) and the commit
+(\ic{base\_commit}), so you can read the code on GitHub. For Issue Reproduction, the container holds
+the code at this commit: the unfixed code. For Test Writing, it holds the same
+code, except that the existing tests of the behavior to be tested were removed.
+
+Each container is created from an \textbf{image}, which holds the task
+repository and everything needed to run its tests. You do not need to
+download the images: the server keeps a shared, read-only copy of all of
+them, and the lab2 tool uses it. Your own containers are kept in
+\ic{/tmp/cs408-lab2-<user>/udocker/}, where \ic{<user>} is your login name;
+only you can access this folder. To keep them in another folder, set the
+environment variable \ic{LAB2\_IMAGE\_STORE} to that folder in every new
+shell.
+
+\subsection{API key}
+\label{sec:apikey}
+
+The agent calls a language model through the Purdue RCAC GenAI API.
+Get an API key as described in~\refnum{1}, and save it in a file that only you can
+read. Do not put the key in Git, in skills, or in your report.
+\begin{verbatim}
+$ (umask 077; echo 'YOUR_KEY' > ~/.purdue-rcac-key)
+\end{verbatim}
+Do not \ic{export} the key in your shell. In the Warmup task, the agent's
+commands run under your account, and they could read the key from a shell
+that has it. Instead, give the key only to the command that needs it. For
+example, the following command checks the whole setup and reports whether
+everything is ready:
+\begin{verbatim}
+$ PURDUE_RCAC_API_KEY=$(cat ~/.purdue-rcac-key) bash setup.sh --check
+\end{verbatim}
+Every \ic{python -m lab2 run} command needs the key, given in the same way.
+The \ic{run} commands in this handout do not show it, to keep them short.
+When you run them, add the key in front, for example:
+\begin{verbatim}
+$ PURDUE_RCAC_API_KEY=$(cat ~/.purdue-rcac-key) \
+    python -m lab2 run --alias plain --tasks garage
+\end{verbatim}
+
+\section{Coding Agent Background}
+\label{sec:background}
+
+\subsection{Coding agents}
+
+A \textbf{language model} takes text as input and produces text as output. On
+its own, it cannot read a file or run a program. A \textbf{coding agent} is a
+program that connects a language model to \textbf{tools}, such as a shell, and
+calls the model in a loop (\autoref{fig:agentloop}):
+
+\squishenumerate
+ \item The agent sends the model the \textbf{prompt}, which describes the task,
+   together with the \textbf{history} of everything that has happened so far.
+ \item The model reasons about what to do next and answers with an
+   \textbf{action}: a request to use a tool, for example to run the shell
+   command \ic{pytest test\_garage.py}.
+ \item The agent runs the action in the \textbf{environment} that holds the
+   task repository: a container, or, for the Warmup, a folder on the server.
+ \item The output of the action, the \textbf{observation}, is added to the
+   history, and the loop starts again.
+\squishenumerateend
+
+The run ends when the model says that the task is done, or when a limit is
+reached. The saved history of a run, with all its actions and observations, is
+the run's \textbf{trajectory}. This pattern of reasoning, acting, and observing
+is known as ReAct~\refnum{2}. Because the model sees the result of each action, it can
+correct its own mistakes, for example a test that fails because of a typo.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{agent-loop}
+\caption{The agent loop. The model reads the prompt and the history and
+chooses an action (here, always a bash command); the environment runs it; the
+output is added to the history. When the run ends, the test files are copied
+into the run's \ic{submission/} folder (run folders:
+\autoref{sec:running}).}
+\label{fig:agentloop}
+\end{figure}
+
+The agent in this project is mini-swe-agent~\refnum{3}. Its only tool is the
+\ic{bash} shell, which it uses to read files, write tests, and run them. When we say that the agent decides something, we mean that the model decides
+it. Every run uses the same model (\ic{qwen3.8:27b}) and is limited to 60 model calls and two hours. When a limit is reached,
+the run ends, and the test files written so far are still evaluated.
+
+In this project, the prompt has four parts: fixed rules for all tasks, the
+list of skills (\autoref{sec:skills}), the \textbf{task text} (the file \ic{prompt.md} in the task's folder), and
+the list of allowed test folders (``Allowed test directories''). The fixed rules tell the agent, among other
+things, to write tests only, never to install dependencies or search for
+solutions, to run only the tests it added, to use \ic{/tmp} for scratch work,
+and not to modify skills or make Git commits. They are in
+\ic{config.yaml} (\ic{system\_template}), and each run's trajectory
+shows them in its first message.
+
+Only the test libraries already present can be
+used: pytest for the Warmup task, and what each task repository already uses for
+the other tasks. Each command of the agent is stopped after 3 minutes, and only
+the first and last parts of a long output are shown to the model.
+
+When the run ends, the \textbf{lab2 tool} (\ic{python -m lab2}, \autoref{sec:running}) copies the agent's test
+files into the run's \ic{submission/} folder. It also checks that the agent
+changed nothing else in the task repository (\autoref{sec:maychange}). For the Warmup task, there is no container: the agent runs its commands
+directly on the server, under your account. It works in a temporary copy of
+\ic{tasks/warmup/garage/project/}, so that folder does not change, and its
+task text tells it to work only inside this copy and not to read, list, or
+search any file outside it (except its own scratch files in \ic{/tmp}).
+Nothing else enforces this rule: a command of the agent can reach any file
+that your account can, so keep a copy of anything important.
+
+Runs are not deterministic: the same skills can lead to different tests and
+different scores in two runs. You may run the agent as often as you like and choose, for each part, which experiment (a named group of runs, \autoref{sec:running}) to submit (\autoref{sec:submission}).
+
+\subsection{Skills}
+\label{sec:skills}
+
+A skill is a folder under \ic{skills/} that contains a file named
+\ic{SKILL.md}, and optionally other files that the skill refers to:
+
+\smallskip
+
+\noindent\begin{minipage}{\textwidth}
+\begin{verbatim}
+skills/
+  boundaries/
+    SKILL.md
+    references/table.md      (optional)
+\end{verbatim}
+\end{minipage}
+
+\smallskip
+\ic{SKILL.md} starts with a header between two \ic{-{}-{}-} lines. The header gives
+the skill's \ic{name}, which must equal the folder name (lowercase letters,
+digits, and hyphens), and a one-line
+\ic{description} of \emph{when} the skill is useful. The rest of the file holds
+the instructions, written in Markdown. Do not edit a skill in place after a run has used it; copy it to a new folder instead (\autoref{sec:submission}). The folder
+\ic{skills/example/} shows the format only; its instructions are not useful testing advice. Here is a skill that the rest of this handout uses as an example:
+
+\medskip
+
+\noindent\begin{minipage}{\textwidth}
+\begin{verbatim}
+---
+name: boundaries
+description: Use when the specification defines numeric ranges.
+---
+
+# Boundary values for numeric ranges
+
+1. List every numeric input and its valid range.
+2. For each range, choose test values as in references/table.md.
+3. ...
+\end{verbatim}
+\end{minipage}
+
+\medskip
+
+The agent reads a skill only when it needs it, that is, on demand
+(\autoref{fig:skills}). When you
+start a run (\autoref{sec:running}), you name the skills that the agent may use; they are copied into
+the folder \ic{.skills/} at the root of the task repository. The prompt lists only the name and
+description of each skill, and the path of its \ic{SKILL.md}. When the agent decides that a skill is relevant, it
+reads the skill's \ic{SKILL.md}; it is told to read the skill's other files only as needed, for example when
+the instructions point to them. Paths in a skill are relative to the skill's folder. This keeps the prompt short, but it also means
+that the agent may never read a skill you gave it. The trajectory shows which
+skills the agent read.
+
+\textbf{Rules for skills.} A skill must be \textbf{methodology}: it teaches
+the agent \emph{how} to test, that is, a testing method from class and how to
+apply it to a kind of code. It must not tell the agent \emph{what} to test in
+a particular task. In particular, a skill must \textbf{not} point out, directly or indirectly,
+what is wrong in a faulty version (\autoref{sec:checkpoints}) or how the
+behavior that an issue requests is implemented. For example, a skill must not
+describe what a faulty version changes, name the exact input that breaks a
+faulty version, or describe how our implementation of an issue works. In addition, the three
+runs that you submit for Test Writing must use the same skills, and so must
+the three runs for Issue Reproduction (\autoref{sec:submission}). Together,
+the skills of all your submitted runs must use \textbf{at least three
+different testing techniques} covered in class.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{skills}
+\caption{How the agent reads skills. You choose the skills, the prompt lists
+their names, descriptions, and paths, and the agent reads a skill's files only when it
+decides that the skill is relevant.}
+\label{fig:skills}
+\end{figure}
+
+\FloatBarrier
+\subsection{Report questions}
+
+Answer the following questions in your report. Please use the exact labels
+(e.g., Question 1) in your report.
+
+\textbf{Question 1}: How does the coding agent work?
+
+\textbf{Question 2}: How does the agent load skills on demand, and why?
+
+\section{Running the Agent}
+\label{sec:running}
+
+Runs are grouped into
+\textbf{experiments}. You name an experiment with \ic{-{}-alias}; a name may contain letters, digits, dots, underscores, and hyphens, and starts with a letter or digit. Use one experiment for each set of skills that you try.
+The lab2 tool, \ic{python -m lab2} (code in \ic{lab2/}), runs, evaluates, and submits experiments. The command \mbox{\ic{python -m lab2 tasks}}
+lists the seven tasks. One \ic{run} command runs the agent on one or more tasks, all with the
+same skills:
+
+\noindent\begin{minipage}{\textwidth}
+\begin{verbatim}
+$ python -m lab2 run --alias plain --tasks garage
+$ python -m lab2 run --alias try1 --tasks garage paperless minio k6 \
+      --skills boundaries
+\end{verbatim}
+\end{minipage}
+
+\smallskip
+
+\squishlist
+ \item \ic{-{}-tasks} names one or more of the seven tasks: \ic{garage} (Warmup); \ic{paperless},
+   \ic{minio}, \ic{k6} (Test Writing); \ic{dateutil}, \ic{psd-tools}, \ic{abs}
+   (Issue Reproduction).
+ \item \ic{-{}-skills} names one or more skill folders under \ic{skills/},
+   separated by spaces. A run
+   without \ic{-{}-skills} is a \textbf{vanilla} run: the agent gets no skills.
+ \item An experiment holds at most one run of each task. Running a task again
+   in the same experiment is an error, unless you add \ic{-{}-redo-existing},
+   which replaces the earlier run.
+ \item You cannot use \ic{submission} or \ic{vanilla} as an experiment name.
+\squishend
+
+Each run is saved in the folder \ic{jobs/<experiment>/<task>/}:
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+File or folder & Contents \\
+\midrule
+\ic{run.json} & task, skills, timing, number of model calls and tokens$^*$ \\
+\ic{config.yaml} & the agent and model settings \\
+\ic{prompt.md} & the task text with the list of allowed test folders \\
+\ic{trajectory.json} & the whole prompt, and every action and observation \\
+\ic{model-requests.jsonl} & one line per model call, with its tokens \\
+\ic{skills/} & the skills given to the agent (absent for a vanilla run) \\
+\ic{submission/} & the test files the agent wrote \\
+\ic{eval.json} & the evaluation of the run (\autoref{sec:scoring}) \\
+\bottomrule
+\multicolumn{2}{l}{\footnotesize $^*$A \textbf{token} is a piece of a word; the model API counts text in tokens.}
+\end{tabular}
+\end{center}
+
+If a run fails, for example because the model API cannot be reached or the container cannot start, the tool
+prints the error, and \ic{run.json} keeps the full text under \ic{errors}. Run the task again with \ic{-{}-redo-existing}. While a task runs, the
+command prints nothing. When the task ends, the run's folder appears, and the
+command prints one line for the task: the exit status, whether the submission
+is valid, and the score. The
+tool's messages call a run a \emph{job} and an experiment an \emph{alias}.
+A run's own \ic{submission/} folder holds only its test files. It is not the
+folder \ic{jobs/submission/} that you hand in (\autoref{sec:submission}).
+
+The folder \ic{jobs/vanilla/} contains one vanilla run of every task,
+made by us with the same agent, model, and limits as your runs, for comparison. The lab2 tool refuses to evaluate or submit these runs. To evaluate one,
+first copy it into an experiment of your own: \begin{verbatim}
+$ mkdir -p jobs/base && cp -r jobs/vanilla/garage jobs/base/
+$ python -m lab2 eval --alias base --tasks garage
+\end{verbatim}
+Do not submit such copies (\autoref{sec:submission}).
+\autoref{tab:vanilla} lists the task scores of the vanilla runs (\autoref{sec:taskscore})
+on the public checkpoints (\autoref{sec:public}); your own \ic{eval} of a copy
+gives the same scores, up to tests that pass only sometimes.
+
+\begin{table}[ht]
+\centering
+\caption{Task scores of the vanilla runs in \ic{jobs/vanilla/}, on the public checkpoints.}
+\label{tab:vanilla}
+\begin{tabular}{llr}
+\toprule
+Part & Task & Task score \\
+\midrule
+Warmup & \ic{garage} & 53.33 \\
+\midrule
+\multirow{4}{*}{Test Writing} & \ic{paperless} & 83.33 \\
+ & \ic{minio} & 75.00 \\
+ & \ic{k6} & 77.78 \\
+\cmidrule(l){2-3}
+ & \emph{mean} & 78.70 \\
+\midrule
+\multirow{4}{*}{Issue Reproduction} & \ic{dateutil} & 70.83 \\
+ & \ic{psd-tools} & 66.67 \\
+ & \ic{abs} & 50.00 \\
+\cmidrule(l){2-3}
+ & \emph{mean} & 62.50 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Scoring}
+\label{sec:scoring}
+
+The lab2 tool evaluates every run when it ends. This section explains
+how a run is scored and how scores become points.
+
+\subsection{Checkpoints and faulty versions}
+\label{sec:checkpoints}
+
+Each task has a list of \textbf{checkpoints}. A checkpoint is one behavior that
+the tests should check. Each checkpoint has a short \ic{id} and a \ic{label}
+that describes the behavior. For example, the label of a Warmup checkpoint is ``A full garage rejects a new car (enter
+returns False)''.
+
+Scoring uses several versions of each task's code. The \textbf{correct code}
+behaves as the task describes. In the Warmup and in Test Writing, it is the code in
+the task repository, which you and the agent see. In Issue Reproduction, the
+task repository holds the unfixed code, and the correct code is our own
+implementation of the requested behavior. You can read it in the file
+\ic{solution.patch} in the task's folder; the agent cannot see it.
+
+For each checkpoint, we wrote one or more \textbf{faulty versions}: copies of
+the correct code in which only that checkpoint's behavior is broken. They are
+like the mutants of mutation testing, but written by hand, each for one
+behavior. A good test of the checkpoint's behavior fails on its faulty versions. In
+Issue Reproduction, the faulty versions are copies of our implementation, so
+the issue is fixed in them except for one behavior. You can read the public
+faulty versions (\autoref{sec:public}); the agent never sees any faulty
+version. Your skills must not pass on what you learn from them
+(\autoref{sec:skills}).
+
+\subsection{What the agent may change}
+\label{sec:maychange}
+
+A \textbf{test file} is a file named \ic{test\_*.py} or \ic{*\_test.py}
+(Python tasks) or \ic{*\_test.go} (Go tasks) in one of the allowed test folders. These folders are given by \ic{test\_paths}
+in the task's \ic{task.yaml} and listed at the end of the prompt. The agent may only add test files and, in the Warmup task, edit the starter file
+\ic{test\_garage.py}. It must not edit or delete any other file, create any
+other file in the task repository (such as \ic{conftest.py}, a data file, or a file
+named like a test file outside the allowed folders), or make a Git commit. This
+includes files that the agent's tests write when it runs them: tests must
+create the data they need in code and write temporary files only under
+\ic{/tmp}. If the agent breaks this rule or writes no test file, the task score
+(\autoref{sec:taskscore}) is 0. In that case, \ic{valid\_submission} in
+\ic{eval.json} is \ic{false}, and \ic{unexpected\_changes} lists the files that broke
+the rule (empty if the only problem is that the agent wrote no test file). The copied skills in \ic{.skills/} and files that Git ignores, such as
+\ic{\_\_pycache\_\_}, do not count.
+
+Tests must check \emph{behavior}: they must call the code under test and
+check what it does. A test must not read or check the source code, the
+content of a code file, or a diff, for example to check whether some line of
+code is present. We check the tests by hand. If we find such a test, the run
+is not valid, and its task score is 0.
+
+\subsection{Counted tests}
+\label{sec:counted}
+
+A \textbf{test} is one test case as reported by the test runner. For pytest, each test function or test method is a test, and each parameter set of a parametrized test is
+a separate test. For Go, each \ic{Test} function and each subtest is a test.
+Only
+\textbf{counted tests} are used for scoring
+(\autoref{fig:tasktypes}). A test is counted if:
+\squishlist
+ \item \textbf{Warmup and Test Writing}: it passes on the correct code;
+ \item \textbf{Issue Reproduction}: it fails on the unfixed code \emph{and}
+   passes on the correct code.
+\squishend
+A test that fails on the correct code is itself wrong; if it were counted, it
+would wrongly detect faulty versions, so it is not counted. In Issue Reproduction, a test must also
+fail on the unfixed code; this shows that it checks the requested behavior.
+Tests that are not counted are ignored: they never lower the score. The number and the order of the tests do not matter. A test that is skipped on
+the correct code is not counted. A faulty version is
+\textbf{detected} if at least one counted test fails on it.
+
+\begin{figure}[!b]
+\centering
+\includegraphics[width=0.8\textwidth]{task-types}
+\caption{When a test is counted, and when a faulty version is
+detected. ``Fails'' includes giving no result (\autoref{sec:counted}).}
+\label{fig:tasktypes}
+\end{figure}
+
+How the tests are run:
+\squishlist
+ \item \textbf{Which tests}: only the tests in the agent's test files; the
+   existing tests of the task repository are not run. In the Warmup task,
+   \ic{test\_garage.py} is one of the agent's test files only if the agent
+   changed it; all tests in it, including the starter tests, are then run.
+ \item \textbf{Time limits}: the lab2 tool runs all these tests together, once
+   on each version of the code, with a limit of 5 minutes for each version
+   (for Go, the tests of each package also stop after 2 minutes). All faulty
+   versions of a task together have at most two hours; a faulty version that
+   is not run in that time is not detected, so slow tests can cost points.
+ \item \textbf{No result}: a test that reports no result on a version, because
+   the tests crash or run out of time or a test file fails to load, is
+   treated as failing on that version. In Python, if \emph{any} test file
+   fails to load, pytest runs none of the agent's tests on that version; in
+   Go, no test in that file's package runs. So one test file that does not
+   load on the correct code can make the task score 0.
+ \item \textbf{Run once}: we run the tests once when we grade, so a test that
+   passes only sometimes on the correct code may not be counted.
+\squishend
+
+
+\subsection{Task score}
+\label{sec:taskscore}
+
+The \textbf{checkpoint value} is the fraction of the checkpoint's faulty
+versions that are detected. A checkpoint with one faulty version, as most
+have, has the value 0 or 1. The \textbf{task score} is the average checkpoint value
+of the task, times 100. All checkpoints have the same weight. For example,
+suppose a task has four checkpoints:
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Checkpoint & Faulty versions & Faulty versions detected & Checkpoint value \\
+\midrule
+A & 1 & 1 & 1 \\
+B & 2 & 1 & 0.5 \\
+C & 1 & 0 & 0 \\
+D & 1 & 0 & 0 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The average checkpoint value is $(1 + 0.5 + 0 + 0) / 4 = 0.375$, so the task
+score is 37.5.
+
+\subsection{Public and hidden checkpoints}
+\label{sec:public}
+
+The file \ic{checkpoints.json} in each task's folder, \ic{tasks/<part>/<task>/} (see \mbox{\autoref{sec:tasks}}), lists the task's checkpoints, for example:
+
+\begin{verbatim}
+tasks/warmup/garage/checkpoints.json
+tasks/test-writing/paperless/checkpoints.json
+\end{verbatim}
+
+A checkpoint is \textbf{public} if this file lists it, and \textbf{hidden}
+otherwise. All Warmup checkpoints are public. In each Test Writing and Issue
+Reproduction task, 25--30\% of the checkpoints are hidden. Hidden checkpoints
+are used only for the competition (\autoref{sec:competition}); we will
+publish them after the final deadline.
+
+The files list each public checkpoint with its faulty versions.
+
+\subsection{Evaluating runs yourself}
+\label{sec:evalyourself}
+
+Each run's evaluation is saved in its \ic{eval.json}. You can evaluate a saved run again at any time; it can still be submitted afterwards.
+
+\begin{verbatim}
+$ python -m lab2 eval --alias try1 --tasks garage paperless
+\end{verbatim}
+
+The command prints a one-line summary and saves the details in the run's
+\ic{eval.json}, replacing the earlier one. It contains:
+\squishlist
+ \item the task score on the public checkpoints. This is the score that we use
+   for grading (\autoref{sec:points}), unless some tests pass only sometimes
+   (\autoref{sec:counted});
+ \item for each checkpoint, which of its faulty versions were detected;
+ \item for Issue Reproduction, also which tests fail on the unfixed code.
+\squishend
+To see the task scores of all your experiments side by side, run:
+\begin{verbatim}
+$ python -m lab2 scoreboard
+\end{verbatim}
+It prints one row per experiment and one column per task, from the
+\ic{eval.json} files under \ic{jobs/}. The last two columns, \ic{TW mean} and
+\ic{IR mean}, are the average task scores of the three Test Writing tasks and
+of the three Issue Reproduction tasks; we compare these averages with those of
+the vanilla runs (\autoref{sec:points}).
+
+\subsection{Points}
+\label{sec:points}
+
+For grading, we take the test files of your submitted runs
+(\autoref{sec:submission}) and evaluate them again on the public checkpoints,
+with the same lab2 tool. For each part (Warmup, Test Writing, Issue
+Reproduction), points are awarded based on whether your submission is
+complete and whether your skills improve the task scores over the vanilla
+runs (\autoref{tab:vanilla}). For Test Writing and Issue Reproduction, we
+compare the average task score of the three tasks.
+
+\Needspace{8\baselineskip}
+Points will be deducted if:
+\squishlist
+ \item your submission is incomplete: a run, a skill, or the report is
+   missing, or a submitted run is not valid (\autoref{sec:maychange});
+ \item your skills reveal, directly or indirectly, the content of a task, for example what is wrong in a faulty version, how our implementation of an
+   issue works, or an input that breaks a faulty version (\autoref{sec:skills});
+ \item in a part, the task scores of \emph{all} your submitted runs are clearly
+   lower than those of the vanilla runs;
+ \item the files of a submitted run were changed, or its tests were not
+   written by the agent.
+\squishend
+
+\section{Warmup (40 Points)}
+\label{sec:warmup}
+
+The Warmup is due at the midpoint checkpoint (Sunday, November 22, 2026).
+
+The Warmup task, \ic{garage}, runs without a container, directly on the
+server (\autoref{sec:background}). Use it to get familiar with the coding
+agent and with skills before you try them on larger programs. Its task
+repository is a small Python program that manages a parking garage. This
+program is in the folder \ic{tasks/warmup/garage/project/}, which holds the
+correct code \ic{garage.py}, its specification \ic{SPEC.md}, and a starter test file
+\ic{test\_garage.py}. The specification describes cars and plates, capacity,
+visits, re-entry, charges, monthly passes, and the history of each parking
+session.
+
+Write skills that apply the testing methods from class to this program. Run the
+agent with them, read the evaluation and the trajectories, and improve the
+skills. All Warmup checkpoints are public, so you can see exactly which
+behaviors the tests miss.
+
+\subsection{Report question}
+
+\textbf{Question 3}: How do checkpoints and faulty versions measure how well
+the agent's tests check the Warmup program?
+
+\section{Test Writing (20 Points)}
+
+As in the Warmup, in a Test Writing task the agent gets correct code and a
+description of what to test. The three Test Writing tasks use larger, real
+programs that run in containers. They benchmark your skills: skills that only
+fit \ic{garage} will not do well here.
+
+\squishlist
+ \item \ic{paperless} (Python): the function in paperless-ngx, a document
+   manager, that builds a file name for a document from a pattern such as
+   \ic{\{created\_year\}/\{title\}}.
+ \item \ic{minio} (Go): ETags in MinIO, an object store. An ETag is a short
+   fingerprint of a file's content; the task text asks for tests of reading,
+   comparing, and combining ETags.
+ \item \ic{k6} (Go): execution segments in k6, a load-testing tool. A segment
+   is a fraction of the work, such as ``the second third''; the task text asks
+   for tests of reading segments and dividing work among them.
+\squishend
+
+Run the agent with your skills on these tasks and read each run's
+\ic{eval.json} (\autoref{sec:evalyourself}) to see which public checkpoints its
+tests detect. Improve your skills so that
+they also work on these larger programs.
+
+\subsection{Report question}
+
+\textbf{Question 4}: In a Test Writing task, the code is correct, so a good
+test passes on it. How can such a test still show that it checks a behavior?
+
+\section{Issue Reproduction (20 Points)}
+\label{sec:ir}
+
+In Issue Reproduction, unlike the Warmup and Test Writing, the code does not
+have the behavior to test yet. The agent gets a task repository with the
+unfixed code and an issue that describes the requested behavior. When the issue names new
+functions or classes and their arguments, the tests must use them exactly as
+written.
+
+\squishlist
+ \item \ic{dateutil} (Python): time-zone support in the recurrence rules of
+   dateutil, so that rules can be written to and read from calendar files
+   (iCalendar, RFC 5545).
+ \item \ic{psd-tools} (Python): new classes in psd-tools, a library for
+   Photoshop files, for the ``Blend If'' settings of image layers, and their use when layers are combined.
+ \item \ic{abs} (Go): slices with a step, such as \ic{a[0:10:2]}, for arrays and
+   strings in the ABS programming language.
+\squishend
+
+A test of a new function often cannot load on the unfixed code, because the
+function does not exist there yet. This does not lower the score: such tests
+still fail on the unfixed code, so they can be counted. But it makes
+\ic{eval.json} harder to read:
+\squishlist
+ \item In Python, if a test file imports the new function at its top, the
+   file fails to load, pytest runs none of the agent's tests, and
+   \ic{eval.json} shows only the load error. If each test imports the new
+   function inside its own body, each test fails on its own, and
+   \ic{eval.json} lists each failing test. The task text already asks the
+   agent to do this, and your skills can remind it.
+ \item In the Go task \ic{abs}, a test file that does not compile makes its
+   whole package fail to build, and \ic{eval.json} shows only the build
+   error. A Go test can avoid this: it can write the ABS program as a string
+   and run it with the existing evaluator functions, as the tests in the
+   \ic{evaluator/} folder of the task repository do. Such a test compiles on
+   the unfixed code and fails only because the new behavior is missing.
+\squishend
+
+Run the agent with your skills on these tasks, read each run's
+\ic{eval.json} (\autoref{sec:evalyourself}) to see which public checkpoints its
+tests detect, and improve your skills.
+
+\subsection{Report question}
+
+\textbf{Question 5}: In an Issue Reproduction task, a test counts only if it
+fails on the unfixed code and passes on the correct code. Why are both
+conditions needed, and what kind of test does each one rule out?
+
+\section{Skills Competition (5 Bonus Points)}
+\label{sec:competition}
+
+After the final deadline, we will publish the hidden checkpoints and evaluate the
+test files of your submitted runs again on all checkpoints, public and
+hidden. We rank groups by the average task score of the six Test Writing and
+Issue Reproduction tasks. The Warmup is not part of the competition.
+
+Only groups that meet both of the following conditions take part:
+\squishlist
+ \item their skills follow the rules for skills in \autoref{sec:skills};
+ \item on the public checkpoints, their submitted runs improve the average
+   task score over the vanilla runs in Test Writing \emph{or} in Issue
+   Reproduction (at least one of the two).
+\squishend
+Bonus points are awarded based on the rank among these groups; the
+final scheme will be announced on Ed.
+
+Hidden checkpoints cover other behaviors of the code that the task text asks
+the agent to test. If your skills make the agent test every behavior that the
+task text asks for, not only the listed ones, its tests are likely to detect
+the faulty versions of hidden checkpoints too.
+
+We recommend that you \textbf{prioritize the other parts over the
+competition}. It is worth a few bonus points only.
+
+\section{Report}
+\label{sec:report}
+
+Write your report with the template in the folder \ic{report/} of your
+group's repository. \ic{setup.sh} installs the LaTeX compiler tectonic, so after
+\ic{source scripts/activate.sh} the following command compiles the report to
+\ic{report/main.pdf} (the first time, it downloads LaTeX packages, which takes
+a few minutes):
+
+\begin{verbatim}
+$ tectonic report/main.tex
+\end{verbatim}
+You may also write the report on Overleaf: download your group's repository,
+upload the folder \ic{report/} to a new Overleaf project, and compile
+\ic{main.tex} there. When you are done, copy both the final source files and
+the compiled \ic{main.pdf} back into \ic{report/} in your group's repository,
+then commit and push them. We grade the files in your group's repository, not on
+Overleaf.
+
+ 
+The template uses the ACL format, but the report is
+a course report, not a research paper: follow the sections of the template.
+The report has \textbf{at most 4 pages}, including figures and tables, and no
+appendix.
+The report must answer Questions 1 to 5, in its first section,
+\emph{Background}, with the labels of this handout. At the midpoint
+checkpoint, the report needs only the answers to Questions 1 to 3; we grade
+these answers then. The final report contains everything below. It must also contain:
+\squishlist
+ \item \textbf{A motivating example} from the Warmup task, in three steps.
+   First, a behavior that our vanilla run of \ic{garage}
+   (\autoref{sec:running}) does not test: a checkpoint whose faulty version
+   its tests do not detect. Second, the testing method from class and your
+   skill that address it. Third, how the agent tests the behavior correctly
+   in your submitted Warmup run. Support each step with short excerpts from
+   the two runs: the trajectory (including the step where the agent reads
+   your skill), the test file, and \ic{eval.json}.
+ \item \textbf{Your skills}: every skill used by any of your submitted runs,
+   one at a time: which testing method from class it is based on, what it
+   tells the agent to do, why it should help, and which parts (Warmup, Test
+   Writing, Issue Reproduction) use it.
+ \item \textbf{An evaluation}: a table of the task scores of your submitted
+   runs and of the vanilla runs (\autoref{tab:vanilla} of this handout) for all seven tasks,
+   with the average of each part (\ic{python -m lab2 scoreboard} lists
+   the scores), and a short discussion of where your skills
+   help and where they do not.
+\squishend
+
+\section{Submission}
+\label{sec:submission}
+
+For each part (Warmup, Test Writing, Issue Reproduction), choose the experiment
+you want us to grade, and copy its runs of that part into
+\ic{jobs/submission/}. The option \ic{-{}-type} names the part:
+
+\begin{verbatim}
+$ python -m lab2 submit --alias try1 --type warmup
+$ python -m lab2 submit --alias try1 --type test-writing
+$ python -m lab2 submit --alias try4 --type issue-reproduction
+\end{verbatim}
+
+The experiment must have a run of every task of that part, and all these
+runs must have used the same skills; otherwise \ic{submit} refuses them. Submitting a part a second time is an error, unless you add \ic{-{}-resubmit-existing}, which
+replaces the earlier submission. We grade exactly one run per task. Do not submit the vanilla runs or copies of them. Different
+parts may come from different experiments, with different skills.
+
+Commit and push the following files to your group's repository. Your other
+experiments under \ic{jobs/} are ignored by Git and need not be committed. After
+each deadline, we collect the last commit on the default branch of your
+group's repository made before the deadline, and grade that version. For the
+midpoint checkpoint, you do not need to submit anything on Brightspace.
+
+\squishlist
+ \item At the \textbf{midpoint checkpoint}, push three things: \ic{report/}
+   with the answers to Questions 1 to 3, the Warmup runs in
+   \ic{jobs/submission/warmup/}, and the skills that these runs used.
+ \item At the \textbf{final deadline}, push everything below. Keep the
+   Warmup files: the motivating example and the evaluation in the final
+   report use them.
+\squishend
+
+\medskip
+\noindent\begin{minipage}{\textwidth}
+\begin{verbatim}
+report/             Required: sources and compiled main.pdf
+skills/             Required: every skill used by a submitted run
+jobs/submission/    Required: created by python -m lab2 submit
+  warmup/
+  test-writing/
+  issue-reproduction/
+\end{verbatim}
+\end{minipage}
+
+\medskip
+Each skill in a submitted run's \ic{skills/} folder (\autoref{sec:running})
+must be identical to the folder of the same name in \ic{skills/}. A run saves its copy when it starts, so if you later edit a skill in place, the
+folder in \ic{skills/} no longer matches the run's copy. Instead, copy the skill to a new folder (for example
+\ic{boundaries-v2/}), set the \ic{name} in its \ic{SKILL.md} to \ic{boundaries-v2}, and edit the copy. Keep
+every version that a submitted run used. We evaluate the test files in \ic{jobs/submission/} again, and we use the other
+files of each run, including its trajectory and its copy of the skills, to
+check that the agent wrote the tests with the skills you submitted. The tests you submit must be written by the agent; do not change the files of a run.
+
+Reminder: In accordance with the course policy, the number of late days
+available for the group project is the \textbf{minimum} number of late days that
+each group member still has available.
+
+\section{Grading and Group Member Contributions}
+\label{sec:grading}
+
+All students are expected to \textbf{contribute equally} to the project and be \textbf{familiar
+with all components of the project}. If the staff suspects or otherwise receives
+reports from group members of significantly unequal contributions to the project,
+we may investigate the contribution of each student by analyzing the commit
+history of the group repository, interviewing students, and using other evidence.
+Furthermore, we may decide to conduct an oral exam to all group members to
+assess their knowledge of the project. The results of the exam and investigation
+may lead to different grades for different group members.
+
+If problems with group members arise, please attempt first to resolve them
+internally in a friendly and respectful manner. If unsuccessful, report the
+problems with your group members as \textit{early} as possible (i.e., ideally
+well before the due date) so that the staff can more easily address them.
+Reports will only be considered if they are made in writing to the instructor
+and received before the third day past the project assignment deadline date.
+
+\section{Updates and Clarifications}
+\label{sec:updates}
+
+Students are responsible for following the Ed posts and lecture announcements
+regarding project clarifications. If the need arises to provide additional
+clarification on the project, they also may be summarized here and/or identified
+and described in the relevant sections if appropriate.
+
+\Needspace{8\baselineskip}
+\appendix
+\section{Setup and Workflow: Classroom 50}
+\label{sec:appx:setup}
+
+The following are prerequisites for setting your project GitHub development
+environment and downloading the skeleton code for the project:
+
+\begin{itemize}
+
+\item \textbf{A github.com account.}
+					If you do not yet have a GitHub account,
+					please sign up for a free GitHub account at \url{https://github.com/join}.
+
+\item \textbf{Familiarity with basic git operations.}
+					Knowing basic git commands such as `git clone', `git status', `git add',
+					`git commit', and `git push' should be good enough. If necessary,
+					please refer to the git tutorial at:\\
+          \url{https://product.hubspot.com/blog/git-and-github-tutorial-for-beginners}\\
+          and/or the git reference at:\\
+          \url{https://git-scm.com/doc}.
+
+\end{itemize}
+
+\subsection{Setup project on private GitHub repository}
+
+This course uses Classroom 50 (\url{https://classroom50.org}) to manage the
+project repositories. You cannot join the classroom by yourself: the course staff
+has invited every enrolled student by their Purdue email address.
+
+\begin{enumerate}
+\item \textbf{Accept the invitation email.}
+  Look for the invitation email sent to your Purdue email address and follow
+  its link. Sign in with your GitHub account (\textbf{Sign in with GitHub}) and
+  authorize Classroom 50. This also accepts the invitation to the
+  \emph{cs408-fall-2026} GitHub organization. If you cannot find the email,
+  check your spam folder, then contact the course staff on Ed Discussion.
+
+\item \textbf{Open the assignment.}
+  Go to \url{https://classroom50.org/cs408-fall-2026/lab-2}. (\TODO: the Classroom 50 assignment is not set up yet; confirm this link.) The page shows that
+  Project 2 is a \emph{group assignment}.
+
+\item \textbf{Create or join your group.}
+  Form your group as required in the group announcement on Ed Discussion
+  (group size and naming).
+  \begin{itemize}
+  \item \textbf{One member} of each group fills in the group name and clicks
+    \textbf{Create group}. This creates your group's private repository.
+  \item \textbf{The other members} find their group in the list and click
+    \textbf{Ask to join}. The member who created the group approves the
+    requests (or adds the teammates by GitHub username) under
+    \textbf{Manage my group}.
+  \end{itemize}
+  Please double-check the group before you join. Do not create a second group for
+  the same team; if you joined the wrong group, use \textbf{Leave group} and
+  join the correct one.
+
+\item \textbf{Get your repo URL.}
+  Your group repository is named after the classroom, the assignment, and your
+  group, for example\\
+  \url{https://github.com/cs408-fall-2026/cs408-fall-2026-lab-2-group-1/}\\
+  The exact name is shown on the assignment page after you accept it.
+  (\TODO: confirm this repository URL once the Classroom 50 assignment is set up.)
+\end{enumerate}
+
+\subsection{Development workflow}
+\label{development-workflow}
+
+In case you forget the project repository name, you can go to
+\url{https://github.com/cs408-fall-2026} to find it. For illustration
+purposes, we will \textbf{assume} that your project is under
+\emph{github.com/cs408-fall-2026/cs408-fall-2026-lab-2-group-1}, so please adjust the links/directories accordingly.
+
+\begin{enumerate}
+
+\item \textbf{Clone the project repository.}
+
+Log in to \ic{dahj.cs.purdue.edu} or \ic{soji.cs.purdue.edu} (\autoref{sec:server}).
+For example, to clone the repository in a new \textit{myclass} folder in your home
+directory there, you should execute the following commands:
+
+{\small
+\begin{verbatim}
+$ mkdir -p ~/myclass/; cd ~/myclass/;
+$ git clone \
+  https://github.com/cs408-fall-2026/cs408-fall-2026-lab-2-group-1.git
+$ cd cs408-fall-2026-lab-2-group-1/
+\end{verbatim}
+}
+
+This project folder, \emph{cs408-fall-2026-lab-2-group-1}, would be your
+project's \textbf{root directory}.
+
+\item \textbf{Modify the source code as needed.}
+
+\item \textbf{Commit and push changes to the private GitHub server repo regularly.}
+
+Note that you are required to regularly commit and push your changes to your group's private
+GitHub repository.
+
+\begin{verbatim}
+$ git commit
+$ git push
+\end{verbatim}
+
+\end{enumerate}
+
+\Needspace{12\baselineskip}
+\section*{References}
+
+\noindent \hypertarget{ref1}{[1]} Purdue RCAC GenAI API. \url{https://docs.rcac.purdue.edu/services/genai/api/}
+
+\noindent \hypertarget{ref2}{[2]} Shunyu Yao, Jeffrey Zhao, Dian Yu, Nan Du, Izhak Shafran, Karthik Narasimhan, and Yuan Cao. ReAct: Synergizing Reasoning and Acting in Language Models. (ICLR '23) \url{https://arxiv.org/abs/2210.03629}
+
+\noindent \hypertarget{ref3}{[3]} mini-swe-agent. \url{https://github.com/SWE-agent/mini-swe-agent}
+
+\end{document}

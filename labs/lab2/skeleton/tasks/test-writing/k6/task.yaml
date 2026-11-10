@@ -1,0 +1,17 @@
+id: k6
+type: test-writing
+language: go
+prompt: prompt.md
+test_paths: [lib]
+editable: []
+source:
+  dataset: SWE-Atlas TW
+  task: task-6902ef3ab97fe23e2ad27275
+  repository: https://github.com/grafana/k6
+  base_commit: ddc3b0b1d23c128e34e2792fc9075f9126e32375
+environment:
+  image: ghcr.io/cs408-fall-2026/lab2-k6:arm64
+  workdir: /app
+  head: d5a177ed7d457342833e08768196c7c2c25d71a2
+  env: {}
+prepare: go test -run "^$" ./lib

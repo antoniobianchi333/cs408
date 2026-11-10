@@ -1,0 +1,194 @@
+{
+ "task": "garage",
+ "checkpoints": [
+  {
+   "id": "period-cap",
+   "label": "Each 24-hour period of a session costs at most $15.00",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "no-period-cap",
+     "patch": "diff --git a/garage.py b/garage.py\nindex e534159..4b078f1 100644\n--- a/garage.py\n+++ b/garage.py\n@@ -34,7 +34,7 @@ def _charge(start: datetime, t: datetime) -> Decimal:\n         return Decimal(\"0\")\n     hours = math.ceil(minutes / 60)\n     full_periods, rest = divmod(hours, HOURS_PER_PERIOD)\n-    return full_periods * PERIOD_CAP + min(rest * HOURLY, PERIOD_CAP)\n+    return full_periods * PERIOD_CAP + rest * HOURLY\n \n \n def _money(x: Decimal) -> float:\n"
+    }
+   ]
+  },
+  {
+   "id": "plate-case",
+   "label": "Plates that differ only in letter case denote the same car",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "case-sensitive",
+     "patch": "diff --git a/garage.py b/garage.py\nindex e534159..a3bf3ce 100644\n--- a/garage.py\n+++ b/garage.py\n@@ -22,7 +22,7 @@ class _Session:\n \n \n def _normalize(plate: str) -> str:\n-    norm = plate.replace(\" \", \"\").replace(\"-\", \"\").upper()\n+    norm = plate.replace(\" \", \"\").replace(\"-\", \"\")\n     if not norm:\n         raise ValueError(\"empty plate\")\n     return norm\n"
+    }
+   ]
+  },
+  {
+   "id": "capacity-full",
+   "label": "A full garage rejects a new car (enter returns False)",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "capacity-off-by-one",
+     "patch": "diff --git a/garage.py b/garage.py\nindex e534159..15b3778 100644\n--- a/garage.py\n+++ b/garage.py\n@@ -60,7 +60,7 @@ class Garage:\n         car = _normalize(plate)\n         if car in self._inside:\n             raise ValueError(\"car is already inside\")\n-        if len(self._inside) >= self.capacity:\n+        if len(self._inside) > self.capacity:\n             return False\n         previous = self._sessions.get(car)\n         resumes = previous is not None and previous.resumable and t - previous.closed_at <= REENTRY_WINDOW\n"
+    }
+   ]
+  },
+  {
+   "id": "lost-ticket-minimum",
+   "label": "A lost ticket raises the session charge to at least $15.00, also after earlier payments",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "no-lost-minimum",
+     "patch": "diff --git a/garage.py b/garage.py\nindex e534159..615134b 100644\n--- a/garage.py\n+++ b/garage.py\n@@ -83,8 +83,6 @@ class Garage:\n             raise ValueError(\"leaving before latest admission\")\n         session = self._sessions[car]\n         charge = _charge(session.start, t)\n-        if lost:\n-            charge = max(charge, LOST_MINIMUM)\n         if (car, session.start.year, session.start.month) in self._passes:\n             charge = Decimal(\"0\")\n         due = max(charge - session.paid, Decimal(\"0\"))\n"
+    },
+    {
+     "id": "lost-minimum-only-if-unpaid",
+     "patch": "diff --git a/garage.py b/garage.py\nindex e534159..1b80098 100644\n--- a/garage.py\n+++ b/garage.py\n@@ -83,7 +83,7 @@ class Garage:\n             raise ValueError(\"leaving before latest admission\")\n         session = self._sessions[car]\n         charge = _charge(session.start, t)\n-        if lost:\n+        if lost and session.paid == 0:\n             charge = max(charge, LOST_MINIMUM)\n         if (car, session.start.year, session.start.month) in self._passes:\n             charge = Decimal(\"0\")\n"
+    }
+   ]
+  },
+  {
+   "id": "reentry-window",
+   "label": "Re-entry resumes the session only within 10 minutes of the latest exit",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "window-fifteen-minutes",
+     "patch": "diff --git a/garage.py b/garage.py\nindex e534159..dace757 100644\n--- a/garage.py\n+++ b/garage.py\n@@ -6,7 +6,7 @@ from datetime import datetime, timedelta\n from decimal import ROUND_HALF_UP, Decimal\n \n GRACE = timedelta(minutes=15)\n-REENTRY_WINDOW = timedelta(minutes=10)\n+REENTRY_WINDOW = timedelta(minutes=15)\n HOURLY = Decimal(\"2.00\")\n PERIOD_CAP = Decimal(\"15.00\")\n LOST_MINIMUM = Decimal(\"15.00\")\n"
+    },
+    {
+     "id": "window-from-first-exit",
+     "patch": "diff --git a/garage.py b/garage.py\nindex e534159..ef21cdb 100644\n--- a/garage.py\n+++ b/garage.py\n@@ -89,7 +89,8 @@ class Garage:\n             charge = Decimal(\"0\")\n         due = max(charge - session.paid, Decimal(\"0\"))\n         session.paid += due\n-        session.closed_at = t\n+        if session.closed_at is None:\n+            session.closed_at = t\n         session.resumable = not lost\n         del self._inside[car]\n         return _money(due)\n"
+    }
+   ]
+  },
+  {
+   "id": "cumulative-payment",
+   "label": "Each exit returns the session charge minus everything already paid",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "paid-overwritten",
+     "patch": "diff --git a/garage.py b/garage.py\nindex e534159..dd7d191 100644\n--- a/garage.py\n+++ b/garage.py\n@@ -88,7 +88,7 @@ class Garage:\n         if (car, session.start.year, session.start.month) in self._passes:\n             charge = Decimal(\"0\")\n         due = max(charge - session.paid, Decimal(\"0\"))\n-        session.paid += due\n+        session.paid = due\n         session.closed_at = t\n         session.resumable = not lost\n         del self._inside[car]\n"
+    },
+    {
+     "id": "paid-accumulates-charge",
+     "patch": "diff --git a/garage.py b/garage.py\nindex e534159..969a41e 100644\n--- a/garage.py\n+++ b/garage.py\n@@ -88,7 +88,7 @@ class Garage:\n         if (car, session.start.year, session.start.month) in self._passes:\n             charge = Decimal(\"0\")\n         due = max(charge - session.paid, Decimal(\"0\"))\n-        session.paid += due\n+        session.paid += charge\n         session.closed_at = t\n         session.resumable = not lost\n         del self._inside[car]\n"
+    }
+   ]
+  },
+  {
+   "id": "grace-per-session",
+   "label": "The free 15 minutes apply to the whole session, not to each visit",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "grace-per-visit",
+     "patch": "diff --git a/garage.py b/garage.py\nindex e534159..fe78626 100644\n--- a/garage.py\n+++ b/garage.py\n@@ -83,6 +83,8 @@ class Garage:\n             raise ValueError(\"leaving before latest admission\")\n         session = self._sessions[car]\n         charge = _charge(session.start, t)\n+        if t - self._inside[car] <= GRACE:\n+            charge = session.paid\n         if lost:\n             charge = max(charge, LOST_MINIMUM)\n         if (car, session.start.year, session.start.month) in self._passes:\n"
+    }
+   ]
+  },
+  {
+   "id": "outside-time-billed",
+   "label": "A resumed session is billed including the time spent outside",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "outside-time-not-billed",
+     "patch": "diff --git a/garage.py b/garage.py\nindex e534159..1852290 100644\n--- a/garage.py\n+++ b/garage.py\n@@ -66,6 +66,8 @@ class Garage:\n         resumes = previous is not None and previous.resumable and t - previous.closed_at <= REENTRY_WINDOW\n         if not resumes:\n             self._sessions[car] = _Session(start=t)\n+        else:\n+            previous.start += t - previous.closed_at\n         self._inside[car] = t\n         return True\n \n"
+    }
+   ]
+  },
+  {
+   "id": "resume-needs-space",
+   "label": "Resuming a session still needs a free space",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "resume-bypasses-capacity",
+     "patch": "diff --git a/garage.py b/garage.py\nindex e534159..9b3491a 100644\n--- a/garage.py\n+++ b/garage.py\n@@ -60,10 +60,10 @@ class Garage:\n         car = _normalize(plate)\n         if car in self._inside:\n             raise ValueError(\"car is already inside\")\n-        if len(self._inside) >= self.capacity:\n-            return False\n         previous = self._sessions.get(car)\n         resumes = previous is not None and previous.resumable and t - previous.closed_at <= REENTRY_WINDOW\n+        if len(self._inside) >= self.capacity and not resumes:\n+            return False\n         if not resumes:\n             self._sessions[car] = _Session(start=t)\n         self._inside[car] = t\n"
+    }
+   ]
+  },
+  {
+   "id": "failed-enter-no-change",
+   "label": "A rejected or raising enter() leaves every session unchanged",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "rejection-ends-resumability",
+     "patch": "diff --git a/garage.py b/garage.py\nindex e534159..d07d5a3 100644\n--- a/garage.py\n+++ b/garage.py\n@@ -61,6 +61,8 @@ class Garage:\n         if car in self._inside:\n             raise ValueError(\"car is already inside\")\n         if len(self._inside) >= self.capacity:\n+            if car in self._sessions:\n+                self._sessions[car].resumable = False\n             return False\n         previous = self._sessions.get(car)\n         resumes = previous is not None and previous.resumable and t - previous.closed_at <= REENTRY_WINDOW\n"
+    },
+    {
+     "id": "rejection-extends-window",
+     "patch": "diff --git a/garage.py b/garage.py\nindex e534159..5430e48 100644\n--- a/garage.py\n+++ b/garage.py\n@@ -61,6 +61,8 @@ class Garage:\n         if car in self._inside:\n             raise ValueError(\"car is already inside\")\n         if len(self._inside) >= self.capacity:\n+            if car in self._sessions and self._sessions[car].resumable:\n+                self._sessions[car].closed_at = t\n             return False\n         previous = self._sessions.get(car)\n         resumes = previous is not None and previous.resumable and t - previous.closed_at <= REENTRY_WINDOW\n"
+    },
+    {
+     "id": "failed-enter-resets-session",
+     "patch": "diff --git a/garage.py b/garage.py\nindex e534159..f8b3192 100644\n--- a/garage.py\n+++ b/garage.py\n@@ -58,14 +58,14 @@ class Garage:\n \n     def enter(self, plate: str, t: datetime) -> bool:\n         car = _normalize(plate)\n-        if car in self._inside:\n-            raise ValueError(\"car is already inside\")\n-        if len(self._inside) >= self.capacity:\n-            return False\n         previous = self._sessions.get(car)\n         resumes = previous is not None and previous.resumable and t - previous.closed_at <= REENTRY_WINDOW\n         if not resumes:\n             self._sessions[car] = _Session(start=t)\n+        if car in self._inside:\n+            raise ValueError(\"car is already inside\")\n+        if len(self._inside) >= self.capacity:\n+            return False\n         self._inside[car] = t\n         return True\n \n"
+    }
+   ]
+  },
+  {
+   "id": "inside-check-first",
+   "label": "A car already inside raises ValueError even when the garage is full",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "capacity-checked-before-inside",
+     "patch": "diff --git a/garage.py b/garage.py\nindex e534159..891dc94 100644\n--- a/garage.py\n+++ b/garage.py\n@@ -58,10 +58,10 @@ class Garage:\n \n     def enter(self, plate: str, t: datetime) -> bool:\n         car = _normalize(plate)\n-        if car in self._inside:\n-            raise ValueError(\"car is already inside\")\n         if len(self._inside) >= self.capacity:\n             return False\n+        if car in self._inside:\n+            raise ValueError(\"car is already inside\")\n         previous = self._sessions.get(car)\n         resumes = previous is not None and previous.resumable and t - previous.closed_at <= REENTRY_WINDOW\n         if not resumes:\n"
+    }
+   ]
+  },
+  {
+   "id": "leave-before-admission",
+   "label": "Leaving earlier than the latest admission raises ValueError",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "leave-check-against-session-start",
+     "patch": "diff --git a/garage.py b/garage.py\nindex e534159..29eae80 100644\n--- a/garage.py\n+++ b/garage.py\n@@ -79,7 +79,7 @@ class Garage:\n         car = _normalize(plate)\n         if car not in self._inside:\n             raise ValueError(\"car is not inside\")\n-        if t < self._inside[car]:\n+        if t < self._sessions[car].start:\n             raise ValueError(\"leaving before latest admission\")\n         session = self._sessions[car]\n         charge = _charge(session.start, t)\n"
+    }
+   ]
+  },
+  {
+   "id": "pass-session-month",
+   "label": "A pass covers a session by the month of its first admission",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "pass-by-latest-admission",
+     "patch": "diff --git a/garage.py b/garage.py\nindex e534159..f1e59a8 100644\n--- a/garage.py\n+++ b/garage.py\n@@ -85,7 +85,7 @@ class Garage:\n         charge = _charge(session.start, t)\n         if lost:\n             charge = max(charge, LOST_MINIMUM)\n-        if (car, session.start.year, session.start.month) in self._passes:\n+        if (car, self._inside[car].year, self._inside[car].month) in self._passes:\n             charge = Decimal(\"0\")\n         due = max(charge - session.paid, Decimal(\"0\"))\n         session.paid += due\n"
+    },
+    {
+     "id": "pass-by-first-admission-ever",
+     "patch": "diff --git a/garage.py b/garage.py\nindex e534159..1a524be 100644\n--- a/garage.py\n+++ b/garage.py\n@@ -49,6 +49,7 @@ class Garage:\n         self._inside: dict[str, datetime] = {}\n         self._sessions: dict[str, _Session] = {}\n         self._passes: set[tuple[str, int, int]] = set()\n+        self._first: dict[str, datetime] = {}\n \n     def occupancy(self) -> int:\n         return len(self._inside)\n@@ -66,6 +67,7 @@ class Garage:\n         resumes = previous is not None and previous.resumable and t - previous.closed_at <= REENTRY_WINDOW\n         if not resumes:\n             self._sessions[car] = _Session(start=t)\n+        self._first.setdefault(car, t)\n         self._inside[car] = t\n         return True\n \n@@ -85,7 +87,7 @@ class Garage:\n         charge = _charge(session.start, t)\n         if lost:\n             charge = max(charge, LOST_MINIMUM)\n-        if (car, session.start.year, session.start.month) in self._passes:\n+        if (car, self._first[car].year, self._first[car].month) in self._passes:\n             charge = Decimal(\"0\")\n         due = max(charge - session.paid, Decimal(\"0\"))\n         session.paid += due\n"
+    }
+   ]
+  },
+  {
+   "id": "pass-year",
+   "label": "A pass covers one month of one year only",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "pass-ignores-year",
+     "patch": "diff --git a/garage.py b/garage.py\nindex e534159..11ac083 100644\n--- a/garage.py\n+++ b/garage.py\n@@ -85,7 +85,7 @@ class Garage:\n         charge = _charge(session.start, t)\n         if lost:\n             charge = max(charge, LOST_MINIMUM)\n-        if (car, session.start.year, session.start.month) in self._passes:\n+        if any(p == car and mo == session.start.month for p, _, mo in self._passes):\n             charge = Decimal(\"0\")\n         due = max(charge - session.paid, Decimal(\"0\"))\n         session.paid += due\n"
+    }
+   ]
+  },
+  {
+   "id": "pass-added-during-session",
+   "label": "A pass registered during a session still makes that session free",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "pass-fixed-at-session-start",
+     "patch": "diff --git a/garage.py b/garage.py\nindex e534159..89697cc 100644\n--- a/garage.py\n+++ b/garage.py\n@@ -19,6 +19,7 @@ class _Session:\n     paid: Decimal = Decimal(\"0\")\n     closed_at: datetime | None = None\n     resumable: bool = False\n+    free: bool = False\n \n \n def _normalize(plate: str) -> str:\n@@ -65,7 +66,7 @@ class Garage:\n         previous = self._sessions.get(car)\n         resumes = previous is not None and previous.resumable and t - previous.closed_at <= REENTRY_WINDOW\n         if not resumes:\n-            self._sessions[car] = _Session(start=t)\n+            self._sessions[car] = _Session(start=t, free=(car, t.year, t.month) in self._passes)\n         self._inside[car] = t\n         return True\n \n@@ -85,7 +86,7 @@ class Garage:\n         charge = _charge(session.start, t)\n         if lost:\n             charge = max(charge, LOST_MINIMUM)\n-        if (car, session.start.year, session.start.month) in self._passes:\n+        if session.free:\n             charge = Decimal(\"0\")\n         due = max(charge - session.paid, Decimal(\"0\"))\n         session.paid += due\n"
+    }
+   ]
+  }
+ ]
+}

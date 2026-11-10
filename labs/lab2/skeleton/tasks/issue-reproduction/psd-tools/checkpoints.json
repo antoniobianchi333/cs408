@@ -1,0 +1,260 @@
+{
+ "task": "psd-tools",
+ "checkpoints": [
+  {
+   "id": "channel-default-predicate",
+   "label": "Recognize default channel values",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "any-default-field-means-default",
+     "patch": "diff --git a/src/psd_tools/api/blend_range.py b/src/psd_tools/api/blend_range.py\nindex f3b12ea..9ba99ae 100644\n--- a/src/psd_tools/api/blend_range.py\n+++ b/src/psd_tools/api/blend_range.py\n@@ -147,9 +147,9 @@ class BlendRangeChannel:\n         \"\"\"True when the blend range has no effect (full range, no split).\"\"\"\n         return (\n             self.this_layer_black == (0, 0)\n-            and self.this_layer_white == (255, 255)\n-            and self.underlying_black == (0, 0)\n-            and self.underlying_white == (255, 255)\n+            or self.this_layer_white == (255, 255)\n+            or self.underlying_black == (0, 0)\n+            or self.underlying_white == (255, 255)\n         )\n \n     @property\n"
+    },
+    {
+     "id": "channel-default-ignores-source",
+     "patch": "diff --git a/src/psd_tools/api/blend_range.py b/src/psd_tools/api/blend_range.py\nindex f3b12ea..0cb93ac 100644\n--- a/src/psd_tools/api/blend_range.py\n+++ b/src/psd_tools/api/blend_range.py\n@@ -146,7 +146,7 @@ class BlendRangeChannel:\n     def is_default(self) -> bool:\n         \"\"\"True when the blend range has no effect (full range, no split).\"\"\"\n         return (\n-            self.this_layer_black == (0, 0)\n+            True\n             and self.this_layer_white == (255, 255)\n             and self.underlying_black == (0, 0)\n             and self.underlying_white == (255, 255)\n"
+    }
+   ]
+  },
+  {
+   "id": "channel-description",
+   "label": "Describe a channel",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "channel-describe-active-empty",
+     "patch": "diff --git a/src/psd_tools/api/blend_range.py b/src/psd_tools/api/blend_range.py\nindex f3b12ea..13c1e0c 100644\n--- a/src/psd_tools/api/blend_range.py\n+++ b/src/psd_tools/api/blend_range.py\n@@ -198,7 +198,7 @@ class BlendRangeChannel:\n             f\"  {_fmt('black', self.underlying_black)}, \"\n             f\"{_fmt('white', self.underlying_white)}\"\n         )\n-        return \"\\n\".join(lines)\n+        return \"\".join(lines[:0])\n \n \n @define\n"
+    },
+    {
+     "id": "channel-describe-default-empty",
+     "patch": "diff --git a/src/psd_tools/api/blend_range.py b/src/psd_tools/api/blend_range.py\nindex f3b12ea..bfdb691 100644\n--- a/src/psd_tools/api/blend_range.py\n+++ b/src/psd_tools/api/blend_range.py\n@@ -181,7 +181,7 @@ class BlendRangeChannel:\n         \"\"\"\n         lines = []\n         if self.is_default:\n-            return \"BlendRangeChannel(default)\"\n+            return \"\"\n \n         def _fmt(name: str, val: Tuple[int, int]) -> str:\n             if val[0] == val[1]:\n"
+    }
+   ]
+  },
+  {
+   "id": "composite-pair-validation",
+   "label": "Validate the composite pair count",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "invalid-composite-length-accepted",
+     "patch": "diff --git a/src/psd_tools/psd/layer_and_mask.py b/src/psd_tools/psd/layer_and_mask.py\nindex a8fd6b1..ccf2a4e 100644\n--- a/src/psd_tools/psd/layer_and_mask.py\n+++ b/src/psd_tools/psd/layer_and_mask.py\n@@ -476,7 +476,7 @@ class LayerBlendingRanges(BaseElement):\n     def _write_body(self, fp: BinaryIO) -> int:\n         written = 0\n         if self.composite_ranges is not None:\n-            if len(self.composite_ranges) != 2:\n+            if len(self.composite_ranges) < 1:\n                 raise ValueError(\n                     \"composite_ranges must have exactly 2 pairs, \"\n                     \"got %d\" % len(self.composite_ranges)\n"
+    },
+    {
+     "id": "valid-composite-write-rejected",
+     "patch": "diff --git a/src/psd_tools/psd/layer_and_mask.py b/src/psd_tools/psd/layer_and_mask.py\nindex a8fd6b1..b22c06f 100644\n--- a/src/psd_tools/psd/layer_and_mask.py\n+++ b/src/psd_tools/psd/layer_and_mask.py\n@@ -476,7 +476,7 @@ class LayerBlendingRanges(BaseElement):\n     def _write_body(self, fp: BinaryIO) -> int:\n         written = 0\n         if self.composite_ranges is not None:\n-            if len(self.composite_ranges) != 2:\n+            if len(self.composite_ranges) >= 2:\n                 raise ValueError(\n                     \"composite_ranges must have exactly 2 pairs, \"\n                     \"got %d\" % len(self.composite_ranges)\n"
+    }
+   ]
+  },
+  {
+   "id": "composite-writeback",
+   "label": "Write composite values back to raw storage",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "writeback-resets-composite",
+     "patch": "diff --git a/src/psd_tools/api/blend_range.py b/src/psd_tools/api/blend_range.py\nindex f3b12ea..9c91beb 100644\n--- a/src/psd_tools/api/blend_range.py\n+++ b/src/psd_tools/api/blend_range.py\n@@ -311,7 +311,7 @@ class BlendRanges:\n \n     def apply_to_raw(self, raw: LayerBlendingRanges) -> None:\n         \"\"\"Write blend ranges back to the low-level structure.\"\"\"\n-        raw.composite_ranges = self.composite.to_raw()\n+        raw.composite_ranges = BlendRangeChannel.default().to_raw()\n         raw.channel_ranges = [ch.to_raw() for ch in self.channels]\n \n     def compute_visibility(\n"
+    }
+   ]
+  },
+  {
+   "id": "container-default-predicate",
+   "label": "Recognize a default container",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "container-default-ignores-composite",
+     "patch": "diff --git a/src/psd_tools/api/blend_range.py b/src/psd_tools/api/blend_range.py\nindex f3b12ea..2101a76 100644\n--- a/src/psd_tools/api/blend_range.py\n+++ b/src/psd_tools/api/blend_range.py\n@@ -243,7 +243,7 @@ class BlendRanges:\n     def is_default(self) -> bool:\n         \"\"\"True when all blend ranges are at their defaults.\"\"\"\n         if not self.composite.is_default:\n-            return False\n+            return True\n         return all(ch.is_default for ch in self.channels)\n \n     def describe(self) -> str:\n"
+    }
+   ]
+  },
+  {
+   "id": "container-iteration",
+   "label": "Iterate over all color channels",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "iterator-omits-last-channel",
+     "patch": "diff --git a/src/psd_tools/api/blend_range.py b/src/psd_tools/api/blend_range.py\nindex f3b12ea..fd32048 100644\n--- a/src/psd_tools/api/blend_range.py\n+++ b/src/psd_tools/api/blend_range.py\n@@ -232,7 +232,7 @@ class BlendRanges:\n \n     def __iter__(self) -> Iterator[BlendRangeChannel]:\n         \"\"\"Iterate over per-channel blend ranges.\"\"\"\n-        return iter(self.channels)\n+        return iter(self.channels[:-1])\n \n     @property\n     def channel_count(self) -> int:\n"
+    }
+   ]
+  },
+  {
+   "id": "default-compositor-visibility",
+   "label": "Preserve compositing with default ranges",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "compositor-default-hidden",
+     "patch": "diff --git a/src/psd_tools/composite/composite.py b/src/psd_tools/composite/composite.py\nindex 4125461..f6c34af 100644\n--- a/src/psd_tools/composite/composite.py\n+++ b/src/psd_tools/composite/composite.py\n@@ -568,7 +568,7 @@ class Compositor(object):\n             return 1.0\n \n         if br.is_default:\n-            return 1.0\n+            return 0.0\n \n         return br.compute_visibility(color, self._color)\n \n"
+    }
+   ]
+  },
+  {
+   "id": "default-visibility",
+   "label": "Return full visibility for default ranges",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "default-visibility-half",
+     "patch": "diff --git a/src/psd_tools/api/blend_range.py b/src/psd_tools/api/blend_range.py\nindex f3b12ea..588f3e7 100644\n--- a/src/psd_tools/api/blend_range.py\n+++ b/src/psd_tools/api/blend_range.py\n@@ -334,7 +334,7 @@ class BlendRanges:\n         import numpy as np\n \n         h, w = source_color.shape[:2]\n-        weight = np.ones((h, w, 1), dtype=np.float32)\n+        weight = np.full((h, w, 1), 0.5, dtype=np.float32)\n \n         if self.is_default:\n             return weight\n"
+    }
+   ]
+  },
+  {
+   "id": "explicit-container-construction",
+   "label": "Construct a container from explicit channels",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "from-channels-discards-channel",
+     "patch": "diff --git a/src/psd_tools/api/blend_range.py b/src/psd_tools/api/blend_range.py\nindex f3b12ea..80b1612 100644\n--- a/src/psd_tools/api/blend_range.py\n+++ b/src/psd_tools/api/blend_range.py\n@@ -269,7 +269,7 @@ class BlendRanges:\n         :param composite: Composite/gray blend range.\n         :param channels: Per-color-channel blend ranges.\n         \"\"\"\n-        return cls(composite=composite, channels=list(channels))\n+        return cls(composite=composite, channels=list(channels)[1:])\n \n     def to_pil_mask(\n         self,\n"
+    }
+   ]
+  },
+  {
+   "id": "from-values-construction",
+   "label": "Construct non-split channels from scalar values",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "from-values-default-white-off-by-one",
+     "patch": "diff --git a/src/psd_tools/api/blend_range.py b/src/psd_tools/api/blend_range.py\nindex f3b12ea..8f64aea 100644\n--- a/src/psd_tools/api/blend_range.py\n+++ b/src/psd_tools/api/blend_range.py\n@@ -121,7 +121,7 @@ class BlendRangeChannel:\n     def from_values(\n         cls,\n         this_layer_black: int = 0,\n-        this_layer_white: int = 255,\n+        this_layer_white: int = 254,\n         underlying_black: int = 0,\n         underlying_white: int = 255,\n     ) -> \"BlendRangeChannel\":\n"
+    },
+    {
+     "id": "from-values-white-wrong",
+     "patch": "diff --git a/src/psd_tools/api/blend_range.py b/src/psd_tools/api/blend_range.py\nindex f3b12ea..4e290ae 100644\n--- a/src/psd_tools/api/blend_range.py\n+++ b/src/psd_tools/api/blend_range.py\n@@ -137,7 +137,7 @@ class BlendRangeChannel:\n         \"\"\"\n         return cls(\n             this_layer_black=(this_layer_black, this_layer_black),\n-            this_layer_white=(this_layer_white, this_layer_white),\n+            this_layer_white=(255, 255),\n             underlying_black=(underlying_black, underlying_black),\n             underlying_white=(underlying_white, underlying_white),\n         )\n"
+    }
+   ]
+  },
+  {
+   "id": "layer-property-readback",
+   "label": "Read and persist layer blend-range values",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "layer-property-default-only",
+     "patch": "diff --git a/src/psd_tools/api/layers.py b/src/psd_tools/api/layers.py\nindex 806a7f3..73670aa 100644\n--- a/src/psd_tools/api/layers.py\n+++ b/src/psd_tools/api/layers.py\n@@ -318,7 +318,7 @@ class Layer(LayerProtocol):\n         \"\"\"\n         from psd_tools.api.blend_range import BlendRanges\n \n-        return BlendRanges.from_raw(self._record.blending_ranges)\n+        return BlendRanges.from_raw(type(self._record.blending_ranges)())\n \n     @blend_ranges.setter\n     def blend_ranges(self, value) -> None:\n"
+    }
+   ]
+  },
+  {
+   "id": "mask-pixel-semantics",
+   "label": "Produce the correct visibility-mask pixels",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "mask-inverts-visibility",
+     "patch": "diff --git a/src/psd_tools/api/blend_range.py b/src/psd_tools/api/blend_range.py\nindex f3b12ea..3679819 100644\n--- a/src/psd_tools/api/blend_range.py\n+++ b/src/psd_tools/api/blend_range.py\n@@ -289,7 +289,7 @@ class BlendRanges:\n         import numpy as np\n \n         weight = self.compute_visibility(source_color, backdrop_color)\n-        mask_byte = (np.squeeze(weight, axis=2) * 255).astype(np.uint8)\n+        mask_byte = ((1 - np.squeeze(weight, axis=2)) * 255).astype(np.uint8)\n         return Image.fromarray(mask_byte, mode=\"L\")\n \n     @classmethod\n"
+    }
+   ]
+  },
+  {
+   "id": "negative-container-indexing",
+   "label": "Support negative channel indices",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "negative-index-treated-invalid",
+     "patch": "diff --git a/src/psd_tools/api/blend_range.py b/src/psd_tools/api/blend_range.py\nindex f3b12ea..3a85fd0 100644\n--- a/src/psd_tools/api/blend_range.py\n+++ b/src/psd_tools/api/blend_range.py\n@@ -227,7 +227,7 @@ class BlendRanges:\n         Supports negative indices.\n         \"\"\"\n         if index < 0:\n-            index += len(self.channels)\n+            return None\n         return self.channels[index]\n \n     def __iter__(self) -> Iterator[BlendRangeChannel]:\n"
+    }
+   ]
+  },
+  {
+   "id": "per-channel-visibility",
+   "label": "Apply individual color-channel ranges",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "per-channel-visibility-ignored",
+     "patch": "diff --git a/src/psd_tools/api/blend_range.py b/src/psd_tools/api/blend_range.py\nindex f3b12ea..2a6ecb1 100644\n--- a/src/psd_tools/api/blend_range.py\n+++ b/src/psd_tools/api/blend_range.py\n@@ -364,7 +364,7 @@ class BlendRanges:\n                 comp.underlying_white,\n             )\n \n-        num_ch = min(len(self.channels), source_color.shape[2])\n+        num_ch = 0\n         for i in range(num_ch):\n             ch = self.channels[i]\n             if ch.is_default:\n"
+    }
+   ]
+  },
+  {
+   "id": "raw-container-construction",
+   "label": "Construct a container from raw range data",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "null-ranges-gain-channel",
+     "patch": "diff --git a/src/psd_tools/api/blend_range.py b/src/psd_tools/api/blend_range.py\nindex f3b12ea..0fe7043 100644\n--- a/src/psd_tools/api/blend_range.py\n+++ b/src/psd_tools/api/blend_range.py\n@@ -300,7 +300,7 @@ class BlendRanges:\n         if raw.composite_ranges is None or raw.channel_ranges is None:\n             return cls(\n                 composite=BlendRangeChannel.default(),\n-                channels=[],\n+                channels=[BlendRangeChannel.default()],\n             )\n \n         composite = BlendRangeChannel.from_raw(raw.composite_ranges)\n"
+    },
+    {
+     "id": "raw-channels-discarded",
+     "patch": "diff --git a/src/psd_tools/api/blend_range.py b/src/psd_tools/api/blend_range.py\nindex f3b12ea..b96ae16 100644\n--- a/src/psd_tools/api/blend_range.py\n+++ b/src/psd_tools/api/blend_range.py\n@@ -304,9 +304,7 @@ class BlendRanges:\n             )\n \n         composite = BlendRangeChannel.from_raw(raw.composite_ranges)\n-        channels = [\n-            BlendRangeChannel.from_raw(ch) for ch in raw.channel_ranges\n-        ]\n+        channels = []\n         return cls(composite=composite, channels=channels)\n \n     def apply_to_raw(self, raw: LayerBlendingRanges) -> None:\n"
+    }
+   ]
+  },
+  {
+   "id": "raw-decoding",
+   "label": "Decode slider handles from raw integers",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "decode-high-bit-lost",
+     "patch": "diff --git a/src/psd_tools/api/blend_range.py b/src/psd_tools/api/blend_range.py\nindex f3b12ea..27eacb8 100644\n--- a/src/psd_tools/api/blend_range.py\n+++ b/src/psd_tools/api/blend_range.py\n@@ -36,7 +36,7 @@ def _decode_split(value: int) -> Tuple[int, int]:\n     Each uint16 encodes two slider handles: low byte is the left handle,\n     high byte is the right handle.  When not split, both are equal.\n     \"\"\"\n-    return (value & 0xFF, (value >> 8) & 0xFF)\n+    return (value & 0x7F, (value >> 8) & 0x7F)\n \n \n def _encode_split(pair: Tuple[int, int]) -> int:\n"
+    },
+    {
+     "id": "decode-split-byte-order",
+     "patch": "diff --git a/src/psd_tools/api/blend_range.py b/src/psd_tools/api/blend_range.py\nindex f3b12ea..dea7d8f 100644\n--- a/src/psd_tools/api/blend_range.py\n+++ b/src/psd_tools/api/blend_range.py\n@@ -36,7 +36,7 @@ def _decode_split(value: int) -> Tuple[int, int]:\n     Each uint16 encodes two slider handles: low byte is the left handle,\n     high byte is the right handle.  When not split, both are equal.\n     \"\"\"\n-    return (value & 0xFF, (value >> 8) & 0xFF)\n+    return ((value >> 8) & 0xFF, value & 0xFF)\n \n \n def _encode_split(pair: Tuple[int, int]) -> int:\n"
+    }
+   ]
+  },
+  {
+   "id": "raw-encoding",
+   "label": "Encode slider handles as raw integers",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "encode-split-byte-order",
+     "patch": "diff --git a/src/psd_tools/api/blend_range.py b/src/psd_tools/api/blend_range.py\nindex f3b12ea..54a0af7 100644\n--- a/src/psd_tools/api/blend_range.py\n+++ b/src/psd_tools/api/blend_range.py\n@@ -41,7 +41,7 @@ def _decode_split(value: int) -> Tuple[int, int]:\n \n def _encode_split(pair: Tuple[int, int]) -> int:\n     \"\"\"Encode a (low, high) split pair into a uint16 blend range value.\"\"\"\n-    return (pair[1] & 0xFF) << 8 | (pair[0] & 0xFF)\n+    return (pair[0] & 0xFF) << 8 | (pair[1] & 0xFF)\n \n \n @define\n"
+    }
+   ]
+  },
+  {
+   "id": "split-flags",
+   "label": "Report whether slider handles are split",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "split-flag-inverted",
+     "patch": "diff --git a/src/psd_tools/api/blend_range.py b/src/psd_tools/api/blend_range.py\nindex f3b12ea..28a5f54 100644\n--- a/src/psd_tools/api/blend_range.py\n+++ b/src/psd_tools/api/blend_range.py\n@@ -155,7 +155,7 @@ class BlendRangeChannel:\n     @property\n     def this_layer_black_split(self) -> bool:\n         \"\"\"True when the This Layer black slider is split.\"\"\"\n-        return self.this_layer_black[0] != self.this_layer_black[1]\n+        return self.this_layer_black[0] == self.this_layer_black[1]\n \n     @property\n     def this_layer_white_split(self) -> bool:\n"
+    }
+   ]
+  },
+  {
+   "id": "typed-layer-property",
+   "label": "Expose a typed blend-range property on layers",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "layer-property-returns-raw",
+     "patch": "diff --git a/src/psd_tools/api/layers.py b/src/psd_tools/api/layers.py\nindex 806a7f3..a3d5ecb 100644\n--- a/src/psd_tools/api/layers.py\n+++ b/src/psd_tools/api/layers.py\n@@ -318,7 +318,7 @@ class Layer(LayerProtocol):\n         \"\"\"\n         from psd_tools.api.blend_range import BlendRanges\n \n-        return BlendRanges.from_raw(self._record.blending_ranges)\n+        return self._record.blending_ranges\n \n     @blend_ranges.setter\n     def blend_ranges(self, value) -> None:\n"
+    }
+   ]
+  },
+  {
+   "id": "underlying-slider-selection",
+   "label": "Use backdrop values for underlying-layer sliders",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "underlying-uses-source",
+     "patch": "diff --git a/src/psd_tools/api/blend_range.py b/src/psd_tools/api/blend_range.py\nindex f3b12ea..eaf4636 100644\n--- a/src/psd_tools/api/blend_range.py\n+++ b/src/psd_tools/api/blend_range.py\n@@ -360,8 +360,8 @@ class BlendRanges:\n             bg_byte = np.clip(bg_gray * 255.0, 0, 255)\n             weight *= _channel_weight(\n                 bg_byte,\n-                comp.underlying_black,\n-                comp.underlying_white,\n+                comp.this_layer_black,\n+                comp.this_layer_white,\n             )\n \n         num_ch = min(len(self.channels), source_color.shape[2])\n"
+    }
+   ]
+  },
+  {
+   "id": "zero-container-indexing",
+   "label": "Index the first color channel correctly",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "zero-index-treated-invalid",
+     "patch": "diff --git a/src/psd_tools/api/blend_range.py b/src/psd_tools/api/blend_range.py\nindex f3b12ea..c1260ad 100644\n--- a/src/psd_tools/api/blend_range.py\n+++ b/src/psd_tools/api/blend_range.py\n@@ -228,7 +228,7 @@ class BlendRanges:\n         \"\"\"\n         if index < 0:\n             index += len(self.channels)\n-        return self.channels[index]\n+        return self.channels[index] if index != 0 else None\n \n     def __iter__(self) -> Iterator[BlendRangeChannel]:\n         \"\"\"Iterate over per-channel blend ranges.\"\"\"\n"
+    }
+   ]
+  }
+ ]
+}

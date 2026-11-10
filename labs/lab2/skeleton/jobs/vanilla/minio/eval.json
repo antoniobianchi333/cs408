@@ -1,0 +1,171 @@
+{
+  "task": "minio",
+  "type": "test-writing",
+  "valid_submission": true,
+  "files": [
+    "internal/etag/etag_extra_test.go"
+  ],
+  "unexpected_changes": [],
+  "reference_repair": false,
+  "runs": {
+    "correct": {
+      "exit_code": 0,
+      "tests": {
+        "github.com/minio/minio/internal/etag.TestParse": "passed",
+        "github.com/minio/minio/internal/etag.TestEqual": "passed",
+        "github.com/minio/minio/internal/etag.TestMultipart": "passed",
+        "github.com/minio/minio/internal/etag.TestIsEncrypted": "passed",
+        "github.com/minio/minio/internal/etag.TestFormat": "passed"
+      },
+      "output_tail": "16:26:12.549175757Z\",\"Action\":\"output\",\"Package\":\"github.com/minio/minio/internal/etag\",\"Test\":\"TestIsEncrypted\",\"Output\":\"=== RUN   TestIsEncrypted\\n\"}\n{\"Time\":\"2026-11-02T16:26:12.549187397Z\",\"Action\":\"output\",\"Package\":\"github.com/minio/minio/internal/etag\",\"Test\":\"TestIsEncrypted\",\"Output\":\"--- PASS: TestIsEncrypted (0.00s)\\n\"}\n{\"Time\":\"2026-11-02T16:26:12.549197037Z\",\"Action\":\"pass\",\"Package\":\"github.com/minio/minio/internal/etag\",\"Test\":\"TestIsEncrypted\",\"Elapsed\":0}\n{\"Time\":\"2026-11-02T16:26:12.549206397Z\",\"Action\":\"run\",\"Package\":\"github.com/minio/minio/internal/etag\",\"Test\":\"TestFormat\"}\n{\"Time\":\"2026-11-02T16:26:12.549213957Z\",\"Action\":\"output\",\"Package\":\"github.com/minio/minio/internal/etag\",\"Test\":\"TestFormat\",\"Output\":\"=== RUN   TestFormat\\n\"}\n{\"Time\":\"2026-11-02T16:26:12.549223597Z\",\"Action\":\"output\",\"Package\":\"github.com/minio/minio/internal/etag\",\"Test\":\"TestFormat\",\"Output\":\"--- PASS: TestFormat (0.00s)\\n\"}\n{\"Time\":\"2026-11-02T16:26:12.549232517Z\",\"Action\":\"pass\",\"Package\":\"github.com/minio/minio/internal/etag\",\"Test\":\"TestFormat\",\"Elapsed\":0}\n{\"Time\":\"2026-11-02T16:26:12.549240717Z\",\"Action\":\"output\",\"Package\":\"github.com/minio/minio/internal/etag\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2026-11-02T16:26:12.549911594Z\",\"Action\":\"output\",\"Package\":\"github.com/minio/minio/internal/etag\",\"Output\":\"ok  \\tgithub.com/minio/minio/internal/etag\\t0.014s\\n\"}\n{\"Time\":\"2026-11-02T16:26:12.549944674Z\",\"Action\":\"pass\",\"Package\":\"github.com/minio/minio/internal/etag\",\"Elapsed\":0.015}\n"
+    }
+  },
+  "eligible": [
+    "github.com/minio/minio/internal/etag.TestEqual",
+    "github.com/minio/minio/internal/etag.TestFormat",
+    "github.com/minio/minio/internal/etag.TestIsEncrypted",
+    "github.com/minio/minio/internal/etag.TestMultipart",
+    "github.com/minio/minio/internal/etag.TestParse"
+  ],
+  "checkpoints": [
+    {
+      "id": "aggregation-digest",
+      "label": "Compute the multipart digest",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "multipart-hashes-text",
+          "error": null,
+          "detected_by": [
+            "github.com/minio/minio/internal/etag.TestMultipart"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aggregation-input-filtering",
+      "label": "Exclude ineligible parts from aggregation",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "encrypted-input-not-filtered",
+          "error": null,
+          "detected_by": [
+            "github.com/minio/minio/internal/etag.TestMultipart"
+          ]
+        },
+        {
+          "id": "multipart-input-not-filtered",
+          "error": null,
+          "detected_by": [
+            "github.com/minio/minio/internal/etag.TestMultipart"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "empty-aggregation",
+      "label": "Handle aggregation with no accepted parts",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "empty-multipart-not-nil",
+          "error": null,
+          "detected_by": [
+            "github.com/minio/minio/internal/etag.TestMultipart"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "encrypted-formatting",
+      "label": "Format encrypted ETags for S3",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "format-keeps-first-bytes",
+          "error": null,
+          "detected_by": [
+            "github.com/minio/minio/internal/etag.TestFormat"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "etag-equality",
+      "label": "Compare equivalent ETags",
+      "hidden": false,
+      "K": 0.0,
+      "faulty_versions": [
+        {
+          "id": "equality-ignores-part-count",
+          "error": null,
+          "detected_by": []
+        }
+      ]
+    },
+    {
+      "id": "multipart-part-number",
+      "label": "Validate multipart part numbers",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "empty-part-number-accepted",
+          "error": null,
+          "detected_by": [
+            "github.com/minio/minio/internal/etag.TestParse"
+          ]
+        },
+        {
+          "id": "part-number-parse-error-ignored",
+          "error": null,
+          "detected_by": [
+            "github.com/minio/minio/internal/etag.TestParse"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "non-strict-single-parsing",
+      "label": "Parse non-strict single-part ETags",
+      "hidden": false,
+      "K": 0.0,
+      "faulty_versions": [
+        {
+          "id": "short-single-tag-rejected",
+          "error": null,
+          "detected_by": []
+        }
+      ]
+    },
+    {
+      "id": "quoted-parsing",
+      "label": "Parse quoted ETags",
+      "hidden": false,
+      "K": 1.0,
+      "faulty_versions": [
+        {
+          "id": "quoted-tag-truncated",
+          "error": null,
+          "detected_by": [
+            "github.com/minio/minio/internal/etag.TestEqual",
+            "github.com/minio/minio/internal/etag.TestParse"
+          ]
+        }
+      ]
+    }
+  ],
+  "score": 75.0,
+  "evaluated_at": "2026-11-02T16:26:33+00:00",
+  "job": {
+    "alias": "vanilla",
+    "skills": [],
+    "exit_status": "Submitted",
+    "errors": []
+  }
+}

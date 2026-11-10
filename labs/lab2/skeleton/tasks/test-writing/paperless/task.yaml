@@ -1,0 +1,23 @@
+id: paperless
+type: test-writing
+language: python
+prompt: prompt.md
+test_paths: [src/documents/tests]
+editable: []
+source:
+  dataset: SWE-Atlas TW
+  task: task-6902ef3ab97fe23e2ad27271
+  repository: https://github.com/paperless-ngx/paperless-ngx
+  base_commit: 542221a38dff06361e07976452f9aea24d210542
+environment:
+  image: ghcr.io/cs408-fall-2026/lab2-paperless:arm64
+  workdir: /app
+  head: e5092a6d578711b59c9ca6d3229b746e76365ace
+  env:
+    PYTHONDONTWRITEBYTECODE: '1'
+    PYTEST_ADDOPTS: ''
+prepare: cd src && pytest --override-ini="addopts=" -p no:sugar -p no:cacheprovider --no-cov -q --collect-only documents/tests/test_file_handling.py > /dev/null
+check:
+  cwd: /app/src
+  strip: src/
+  pytest_args: [--override-ini=addopts=, -p, no:sugar, --no-cov]

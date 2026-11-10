@@ -1,0 +1,71 @@
+{
+  "command": "python -m lab2 run --alias vanilla --tasks garage k6 minio paperless abs dateutil psd-tools",
+  "alias": "vanilla",
+  "task": "dateutil",
+  "type": "issue-reproduction",
+  "redo_existing": false,
+  "skills": [],
+  "model": {
+    "model_name": "openai/qwen3.8:27b",
+    "model_kwargs": {
+      "temperature": 0,
+      "stream": false,
+      "timeout": 7200,
+      "num_retries": 0
+    },
+    "litellm_model_registry": null,
+    "set_cache_control": null,
+    "cost_tracking": "default",
+    "multimodal_regex": "",
+    "api_base": "https://genai.rcac.purdue.edu/api",
+    "api_key_env": "PURDUE_RCAC_API_KEY",
+    "model_class": "lab2.model.PurdueRCACModel"
+  },
+  "agent": {
+    "step_limit": 60,
+    "cost_limit": 0,
+    "wall_time_limit_seconds": 7200,
+    "max_consecutive_format_errors": 3
+  },
+  "environment": {
+    "image": "cs408-lab2/dateutil:arm64",
+    "archive": "dateutil-arm64.tar.gz",
+    "head": "c981f9c7aa91b83cc9bd33a09ecee9e751b06e8d"
+  },
+  "versions": {
+    "python": "3.12.15",
+    "mini-swe-agent": "2.4.6",
+    "harbor": "0.25.0"
+  },
+  "skeleton": {
+    "commit": "3abb3a0019086862539bf439b654b539a07c3798",
+    "dirty": true
+  },
+  "host": {
+    "name": "dahj.cs.purdue.edu",
+    "platform": "Linux-6.8.0-136-generic-aarch64-with-glibc2.39"
+  },
+  "timestamps": {
+    "started": "2026-11-02T09:44:06+00:00",
+    "agent_started": "2026-11-02T09:44:21+00:00",
+    "agent_finished": "2026-11-02T10:56:01+00:00",
+    "eval_finished": "2026-11-02T10:56:17+00:00",
+    "finished": "2026-11-02T10:56:17+00:00"
+  },
+  "exit_status": "LimitsExceeded",
+  "model_calls": 60,
+  "usage": {
+    "request_attempts": 67,
+    "responses_with_valid_usage": 60,
+    "token_usage_complete": false,
+    "input_tokens": null,
+    "output_tokens": null,
+    "reasoning_tokens": null,
+    "cached_input_tokens": null,
+    "known_input_tokens": 1953647,
+    "known_output_tokens": 70429
+  },
+  "valid_submission": true,
+  "score": null,
+  "errors": []
+}

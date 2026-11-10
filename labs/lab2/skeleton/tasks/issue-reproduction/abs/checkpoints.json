@@ -1,0 +1,159 @@
+{
+ "task": "abs",
+ "checkpoints": [
+  {
+   "id": "array-single-assignment",
+   "label": "Preserve single-index array assignment",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "array-single-assignment-off-by-one",
+     "patch": "diff --git a/evaluator/evaluator.go b/evaluator/evaluator.go\nindex 472d92b..59bedad 100644\n--- a/evaluator/evaluator.go\n+++ b/evaluator/evaluator.go\n@@ -497,7 +497,7 @@ func evalArraySingleIndexAssignment(iex *ast.IndexExpression, arrayObject *objec\n \t\t}\n \t\tarrayObject.Elements = elems\n \t}\n-\telems[idx] = expr\n+\telems[(idx+1)%len(elems)] = expr\n \n \treturn NULL\n }\n"
+    }
+   ]
+  },
+  {
+   "id": "array-size-mismatch-diagnostic",
+   "label": "Report the correct array size-mismatch error",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "array-size-error-wrong",
+     "patch": "diff --git a/evaluator/evaluator.go b/evaluator/evaluator.go\nindex 472d92b..3e18659 100644\n--- a/evaluator/evaluator.go\n+++ b/evaluator/evaluator.go\n@@ -638,7 +638,7 @@ func normalizeSingleStringIndex(tok token.Token, runes []rune, index int) (int,\n func buildArrayRangeAssignmentValues(tok token.Token, value object.Object, targetLen int) ([]object.Object, *object.Error) {\n \tif valueArray, ok := value.(*object.Array); ok {\n \t\tif len(valueArray.Elements) != targetLen {\n-\t\t\treturn nil, newError(tok, \"range assignment size mismatch: target=%d value=%d\", targetLen, len(valueArray.Elements))\n+\t\t\treturn nil, newError(tok, \"range assignment size mismatch: target=%d value=%d\", len(valueArray.Elements), targetLen)\n \t\t}\n \t\t// Snapshot values so self-referential assignments don't read through writes.\n \t\treturn copyObjectSlice(valueArray.Elements), nil\n"
+    }
+   ]
+  },
+  {
+   "id": "parser-step-component",
+   "label": "Preserve the third slice component in the parsed expression",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "ast-step-colon-lost",
+     "patch": "diff --git a/ast/ast.go b/ast/ast.go\nindex 8a6fec6..e9039ad 100644\n--- a/ast/ast.go\n+++ b/ast/ast.go\n@@ -608,7 +608,7 @@ func (ie *IndexExpression) String() string {\n \t\tout.WriteString(start + \":\" + end)\n \n \t\tif ie.Step != nil {\n-\t\t\tout.WriteString(\":\" + ie.Step.String())\n+\t\t\tout.WriteString(ie.Step.String())\n \t\t}\n \t} else {\n \t\tout.WriteString(ie.Index.String())\n"
+    }
+   ]
+  },
+  {
+   "id": "range-type-diagnostic",
+   "label": "Report non-numeric slice bounds or steps",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "range-type-error-wrong",
+     "patch": "diff --git a/evaluator/evaluator.go b/evaluator/evaluator.go\nindex 472d92b..0800317 100644\n--- a/evaluator/evaluator.go\n+++ b/evaluator/evaluator.go\n@@ -1680,7 +1680,7 @@ func evalArrayIndexExpression(tok token.Token, array, index object.Object, end o\n }\n \n func rangeNumberError(tok token.Token, part object.Object) *object.Error {\n-\treturn newError(tok, `index ranges can only be numerical: got \"%s\" (type %s)`, part.Inspect(), part.Type())\n+\treturn newError(tok, `index range requires integers: got \"%s\" (type %s)`, part.Inspect(), part.Type())\n }\n \n func buildRangeIndexes(tok token.Token, length int, start int, end object.Object, step object.Object, hasStep bool, startOmitted bool, endOmitted bool) ([]int, *object.Error) {\n"
+    }
+   ]
+  },
+  {
+   "id": "reverse-slice-default-start",
+   "label": "Choose the correct default start for reverse slices",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "negative-step-default-start",
+     "patch": "diff --git a/evaluator/evaluator.go b/evaluator/evaluator.go\nindex 472d92b..0fe4048 100644\n--- a/evaluator/evaluator.go\n+++ b/evaluator/evaluator.go\n@@ -1758,7 +1758,7 @@ func buildRangeIndexes(tok token.Token, length int, start int, end object.Object\n \t}\n \n \tif startOmitted {\n-\t\tstart = length - 1\n+\t\tstart = length - 2\n \t} else {\n \t\tif start < 0 {\n \t\t\tstart = length + start\n"
+    }
+   ]
+  },
+  {
+   "id": "reverse-slice-end-exclusion",
+   "label": "Exclude the end position in reverse slices",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "negative-step-end-inclusive",
+     "patch": "diff --git a/evaluator/evaluator.go b/evaluator/evaluator.go\nindex 472d92b..fa31663 100644\n--- a/evaluator/evaluator.go\n+++ b/evaluator/evaluator.go\n@@ -1796,7 +1796,7 @@ func buildRangeIndexes(tok token.Token, length int, start int, end object.Object\n \t}\n \n \tindexes := []int{}\n-\tfor i := start; i > endIdx; i += stepInt {\n+\tfor i := start; i >= endIdx; i += stepInt {\n \t\tindexes = append(indexes, i)\n \t}\n \n"
+    }
+   ]
+  },
+  {
+   "id": "string-broadcast",
+   "label": "Broadcast one character across selected string positions",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "string-broadcast-rejected",
+     "patch": "diff --git a/evaluator/evaluator.go b/evaluator/evaluator.go\nindex 472d92b..dc7b283 100644\n--- a/evaluator/evaluator.go\n+++ b/evaluator/evaluator.go\n@@ -662,7 +662,7 @@ func buildStringRangeAssignmentValues(tok token.Token, value string, targetLen i\n \t\treturn valueRunes, nil\n \t}\n \n-\tif len(valueRunes) == 1 && targetLen > 1 {\n+\tif len(valueRunes) == 1 && targetLen == 1 {\n \t\treplacements := make([]rune, targetLen)\n \t\tfor i := 0; i < targetLen; i++ {\n \t\t\treplacements[i] = valueRunes[0]\n"
+    }
+   ]
+  },
+  {
+   "id": "string-empty-range",
+   "label": "Handle assignment to an empty string range",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "string-empty-range-broadcast-accepted",
+     "patch": "diff --git a/evaluator/evaluator.go b/evaluator/evaluator.go\nindex 472d92b..8db372f 100644\n--- a/evaluator/evaluator.go\n+++ b/evaluator/evaluator.go\n@@ -657,7 +657,7 @@ func buildArrayRangeAssignmentValues(tok token.Token, value object.Object, targe\n }\n \n func buildStringRangeAssignmentValues(tok token.Token, value string, targetLen int) ([]rune, *object.Error) {\n-\tvalueRunes := []rune(value)\n+\tif targetLen == 0 { return []rune{}, nil }; valueRunes := []rune(value)\n \tif len(valueRunes) == targetLen {\n \t\treturn valueRunes, nil\n \t}\n"
+    }
+   ]
+  },
+  {
+   "id": "string-range-order",
+   "label": "Assign characters in the selected order",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "string-range-assignment-reversed",
+     "patch": "diff --git a/evaluator/evaluator.go b/evaluator/evaluator.go\nindex 472d92b..0ea6598 100644\n--- a/evaluator/evaluator.go\n+++ b/evaluator/evaluator.go\n@@ -610,7 +610,7 @@ func evalStringRangeAssignment(iex *ast.IndexExpression, stringObject *object.St\n \t}\n \n \tfor i, idx := range indexes {\n-\t\trunes[idx] = valueRunes[i]\n+\t\trunes[idx] = valueRunes[len(valueRunes)-1-i]\n \t}\n \n \tstringObject.Value = string(runes)\n"
+    }
+   ]
+  },
+  {
+   "id": "string-single-assignment-arity",
+   "label": "Require one character for single-index string assignment",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "string-single-assignment-truncates",
+     "patch": "diff --git a/evaluator/evaluator.go b/evaluator/evaluator.go\nindex 472d92b..d7122a2 100644\n--- a/evaluator/evaluator.go\n+++ b/evaluator/evaluator.go\n@@ -554,7 +554,7 @@ func evalStringSingleIndexAssignment(iex *ast.IndexExpression, stringObject *obj\n \t}\n \n \treplacementRunes := []rune(valueString.Value)\n-\tif len(replacementRunes) != 1 {\n+\tif len(replacementRunes) < 1 {\n \t\treturn newError(iex.Token, \"index assignment expects single-character STRING value, got %d characters\", len(replacementRunes))\n \t}\n \n"
+    }
+   ]
+  },
+  {
+   "id": "two-part-negative-end",
+   "label": "Preserve negative ends in two-part slices",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "two-part-negative-end-ignored",
+     "patch": "diff --git a/evaluator/evaluator.go b/evaluator/evaluator.go\nindex 472d92b..80ad0f2 100644\n--- a/evaluator/evaluator.go\n+++ b/evaluator/evaluator.go\n@@ -1692,7 +1692,7 @@ func buildRangeIndexes(tok token.Token, length int, start int, end object.Object\n \n \t\tif endIdx, ok := end.(*object.Number); ok {\n \t\t\tif endIdx.Int() < 0 {\n-\t\t\t\tmax = int(math.Max(float64(max+endIdx.Int()), 0))\n+\t\t\t\tmax = length\n \t\t\t} else if endIdx.Int() < max {\n \t\t\t\tmax = endIdx.Int()\n \t\t\t}\n"
+    }
+   ]
+  },
+  {
+   "id": "unicode-read",
+   "label": "Read Unicode characters rather than bytes",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "unicode-read-counts-bytes",
+     "patch": "diff --git a/evaluator/evaluator.go b/evaluator/evaluator.go\nindex 472d92b..2649f5f 100644\n--- a/evaluator/evaluator.go\n+++ b/evaluator/evaluator.go\n@@ -1594,7 +1594,7 @@ func evalIndexExpression(node *ast.IndexExpression, env *object.Environment) obj\n \n func evalStringIndexExpression(tok token.Token, array, index object.Object, end object.Object, step object.Object, isRange bool, hasStep bool, startOmitted bool, endOmitted bool) object.Object {\n \tstringObject := array.(*object.String)\n-\trunes := []rune(stringObject.Value)\n+\trunes := make([]rune, len(stringObject.Value)); for i, b := range []byte(stringObject.Value) { runes[i] = rune(b) }\n \tidx := index.(*object.Number).Int()\n \tmax := len(runes) - 1\n \n"
+    }
+   ]
+  },
+  {
+   "id": "unicode-write",
+   "label": "Assign Unicode characters rather than bytes",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "unicode-assignment-counts-bytes",
+     "patch": "diff --git a/evaluator/evaluator.go b/evaluator/evaluator.go\nindex 472d92b..8782907 100644\n--- a/evaluator/evaluator.go\n+++ b/evaluator/evaluator.go\n@@ -657,7 +657,7 @@ func buildArrayRangeAssignmentValues(tok token.Token, value object.Object, targe\n }\n \n func buildStringRangeAssignmentValues(tok token.Token, value string, targetLen int) ([]rune, *object.Error) {\n-\tvalueRunes := []rune(value)\n+\tvalueRunes := make([]rune, len(value)); for i, b := range []byte(value) { valueRunes[i] = rune(b) }\n \tif len(valueRunes) == targetLen {\n \t\treturn valueRunes, nil\n \t}\n"
+    }
+   ]
+  },
+  {
+   "id": "zero-step-rejection-diagnostic",
+   "label": "Reject step zero with the correct error",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "zero-step-error-wrong",
+     "patch": "diff --git a/evaluator/evaluator.go b/evaluator/evaluator.go\nindex 472d92b..1516ad4 100644\n--- a/evaluator/evaluator.go\n+++ b/evaluator/evaluator.go\n@@ -1719,7 +1719,7 @@ func buildRangeIndexes(tok token.Token, length int, start int, end object.Object\n \n \tstepInt := stepNumber.Int()\n \tif stepInt == 0 {\n-\t\treturn nil, newError(tok, \"slice step cannot be 0\")\n+\t\treturn nil, newError(tok, \"slice step must be positive\")\n \t}\n \n \tif stepInt > 0 {\n"
+    }
+   ]
+  }
+ ]
+}

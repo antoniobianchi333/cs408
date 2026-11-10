@@ -1,0 +1,273 @@
+{
+ "task": "dateutil",
+ "checkpoints": [
+  {
+   "id": "rdate-tzid",
+   "label": "RDATE honours a TZID parameter",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "C1-rdate-tzid-dropped",
+     "patch": "diff --git a/src/dateutil/rrule.py b/src/dateutil/rrule.py\nindex beea6ad..fa66612 100644\n--- a/src/dateutil/rrule.py\n+++ b/src/dateutil/rrule.py\n@@ -2262,7 +2262,7 @@ class _rrulestr(object):\n                 elif name == \"RDATE\":\n                     rdatevals.extend(\n                         self._parse_date_value(value, parms,\n-                                               TZID_NAMES, ignoretz,\n+                                               {}, ignoretz,\n                                                tzids, tzinfos)\n                     )\n                 elif name == \"EXRULE\":\n"
+    }
+   ]
+  },
+  {
+   "id": "rdate-tzids-mapping",
+   "label": "RDATE TZIDs are resolved through a tzids mapping",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "C3-rdate-ignores-tzids",
+     "patch": "diff --git a/src/dateutil/rrule.py b/src/dateutil/rrule.py\nindex beea6ad..0b38790 100644\n--- a/src/dateutil/rrule.py\n+++ b/src/dateutil/rrule.py\n@@ -2263,7 +2263,7 @@ class _rrulestr(object):\n                     rdatevals.extend(\n                         self._parse_date_value(value, parms,\n                                                TZID_NAMES, ignoretz,\n-                                               tzids, tzinfos)\n+                                               None, tzinfos)\n                     )\n                 elif name == \"EXRULE\":\n                     for parm in parms:\n"
+    }
+   ]
+  },
+  {
+   "id": "tzid-iana-name",
+   "label": "TZID uses the IANA zone name",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "C5-tzid-is-file-path",
+     "patch": "diff --git a/src/dateutil/rrule.py b/src/dateutil/rrule.py\nindex beea6ad..b3c43fb 100644\n--- a/src/dateutil/rrule.py\n+++ b/src/dateutil/rrule.py\n@@ -99,7 +99,7 @@ def _tzinfo_name(tzinfo):\n         marker = '/zoneinfo/'\n         idx = name.find(marker)\n         if idx >= 0:\n-            return name[idx + len(marker):]\n+            return name\n         return name\n \n     # dateutil.tz.tzical zones store the name in _tzid\n"
+    }
+   ]
+  },
+  {
+   "id": "until-utc-z",
+   "label": "A UTC UNTIL is written with a Z suffix",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "C6-until-missing-z",
+     "patch": "diff --git a/src/dateutil/rrule.py b/src/dateutil/rrule.py\nindex beea6ad..ee1cbec 100644\n--- a/src/dateutil/rrule.py\n+++ b/src/dateutil/rrule.py\n@@ -827,7 +827,7 @@ class rrule(rrulebase):\n             until_str = self._until.strftime('UNTIL=%Y%m%dT%H%M%S')\n             if (self._until.tzinfo is not None and\n                     _tzinfo_name(self._until.tzinfo) == 'UTC'):\n-                until_str += 'Z'\n+                pass\n             parts.append(until_str)\n \n         if self._original_rule.get('byweekday') is not None:\n"
+    }
+   ]
+  },
+  {
+   "id": "ruleset-single-dtstart",
+   "label": "A ruleset string has one DTSTART, from the first rrule",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "C7-dtstart-per-rrule",
+     "patch": "diff --git a/src/dateutil/rrule.py b/src/dateutil/rrule.py\nindex beea6ad..f684811 100644\n--- a/src/dateutil/rrule.py\n+++ b/src/dateutil/rrule.py\n@@ -1896,7 +1896,7 @@ class rruleset(rrulebase):\n             lines = rr_str.split('\\n')\n             for line in lines:\n                 if line.startswith('DTSTART'):\n-                    if not dtstart_emitted:\n+                    if True:\n                         output.append(line)\n                         dtstart_emitted = True\n                 else:\n"
+    }
+   ]
+  },
+  {
+   "id": "ruleset-exrule-prefix",
+   "label": "Exclusion rules use the EXRULE: prefix",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "C8-exrule-prefix-rrule",
+     "patch": "diff --git a/src/dateutil/rrule.py b/src/dateutil/rrule.py\nindex beea6ad..a8e70bc 100644\n--- a/src/dateutil/rrule.py\n+++ b/src/dateutil/rrule.py\n@@ -1911,7 +1911,7 @@ class rruleset(rrulebase):\n                 if line.startswith('DTSTART'):\n                     continue\n                 if line.startswith('RRULE:'):\n-                    output.append('EXRULE:' + line[6:])\n+                    output.append(line)\n                 else:\n                     output.append(line)\n \n"
+    }
+   ]
+  },
+  {
+   "id": "ruleset-exdate-utc-z",
+   "label": "UTC EXDATE values use a Z suffix",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "C10-exdate-utc-no-z",
+     "patch": "diff --git a/src/dateutil/rrule.py b/src/dateutil/rrule.py\nindex beea6ad..0ada9a7 100644\n--- a/src/dateutil/rrule.py\n+++ b/src/dateutil/rrule.py\n@@ -1961,7 +1961,7 @@ class rruleset(rrulebase):\n             return 'EXDATE:' + base\n         tzname = _tzinfo_name(dt.tzinfo)\n         if tzname == 'UTC':\n-            return 'EXDATE:' + base + 'Z'\n+            return 'EXDATE:' + base\n         return 'EXDATE;TZID=' + tzname + ':' + base\n \n     def _iter(self):\n"
+    }
+   ]
+  },
+  {
+   "id": "rrule-repr-freq",
+   "label": "rrule repr uses symbolic frequency names",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "C13-repr-numeric-freq",
+     "patch": "diff --git a/src/dateutil/rrule.py b/src/dateutil/rrule.py\nindex beea6ad..69c3949 100644\n--- a/src/dateutil/rrule.py\n+++ b/src/dateutil/rrule.py\n@@ -903,7 +903,7 @@ class rrule(rrulebase):\n             dtstart=datetime.datetime(1997, 9, 2, 9, 0))``.\n         \"\"\"\n         parts = ['rrule(']\n-        parts.append(FREQNAMES[self._freq])\n+        parts.append(str(self._freq))\n         if self._interval != 1:\n             parts.append(', interval=%d' % self._interval)\n         if self._wkst:\n"
+    }
+   ]
+  },
+  {
+   "id": "rrule-repr-byparts",
+   "label": "rrule repr includes BY* parts such as byweekday",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "C14-repr-drops-byweekday",
+     "patch": "diff --git a/src/dateutil/rrule.py b/src/dateutil/rrule.py\nindex beea6ad..465798e 100644\n--- a/src/dateutil/rrule.py\n+++ b/src/dateutil/rrule.py\n@@ -923,9 +923,6 @@ class rrule(rrulebase):\n             value = self._original_rule.get(key)\n             if value is not None:\n                 parts.append(', %s=%r' % (key, value))\n-        if self._original_rule.get('byweekday') is not None:\n-            parts.append(', byweekday=%r' % (\n-                self._original_rule['byweekday'],))\n         if self._original_rule.get('byeaster') is not None:\n             parts.append(', byeaster=%r' % (\n                 self._original_rule['byeaster'],))\n"
+    }
+   ]
+  },
+  {
+   "id": "rrule-properties",
+   "label": "rrule interval and until properties return the parameters",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "C15a-interval-property-wrong",
+     "patch": "diff --git a/src/dateutil/rrule.py b/src/dateutil/rrule.py\nindex beea6ad..13c5543 100644\n--- a/src/dateutil/rrule.py\n+++ b/src/dateutil/rrule.py\n@@ -959,7 +959,7 @@ class rrule(rrulebase):\n         :return:\n             An integer >= 1.\n         \"\"\"\n-        return self._interval\n+        return self._freq\n \n     def count(self):\n         \"\"\"The maximum number of occurrences.\n"
+    },
+    {
+     "id": "C15b-until-property-wrong",
+     "patch": "diff --git a/src/dateutil/rrule.py b/src/dateutil/rrule.py\nindex beea6ad..d56ff97 100644\n--- a/src/dateutil/rrule.py\n+++ b/src/dateutil/rrule.py\n@@ -982,7 +982,7 @@ class rrule(rrulebase):\n         :return:\n             A :class:`datetime.datetime` or ``None``.\n         \"\"\"\n-        return self._until\n+        return self._dtstart\n \n     def to_ical(self):\n         \"\"\"Serialize this rrule as a full iCalendar VCALENDAR string.\n"
+    }
+   ]
+  },
+  {
+   "id": "ruleset-tuple-properties",
+   "label": "ruleset component properties are tuples",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "C16-rrules-mutable-list",
+     "patch": "diff --git a/src/dateutil/rrule.py b/src/dateutil/rrule.py\nindex beea6ad..c0c824a 100644\n--- a/src/dateutil/rrule.py\n+++ b/src/dateutil/rrule.py\n@@ -1683,7 +1683,7 @@ class rruleset(rrulebase):\n         :return:\n             A tuple of all rrule instances added via :meth:`rrule`.\n         \"\"\"\n-        return tuple(self._rrule)\n+        return self._rrule\n \n     @property\n     def rdates(self):\n"
+    }
+   ]
+  },
+  {
+   "id": "ruleset-equality-order",
+   "label": "ruleset equality ignores date insertion order",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "C17-eq-rdate-order-sensitive",
+     "patch": "diff --git a/src/dateutil/rrule.py b/src/dateutil/rrule.py\nindex beea6ad..4c57975 100644\n--- a/src/dateutil/rrule.py\n+++ b/src/dateutil/rrule.py\n@@ -1727,7 +1727,7 @@ class rruleset(rrulebase):\n         if not isinstance(other, rruleset):\n             return NotImplemented\n         return (self._rrule == other._rrule and\n-                sorted(self._rdate) == sorted(other._rdate) and\n+                self._rdate == other._rdate and\n                 self._exrule == other._exrule and\n                 sorted(self._exdate) == sorted(other._exdate))\n \n"
+    }
+   ]
+  },
+  {
+   "id": "ruleset-repr",
+   "label": "ruleset repr includes .exrule() calls",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "C18-repr-drops-exrule",
+     "patch": "diff --git a/src/dateutil/rrule.py b/src/dateutil/rrule.py\nindex beea6ad..f3c150b 100644\n--- a/src/dateutil/rrule.py\n+++ b/src/dateutil/rrule.py\n@@ -1743,8 +1743,6 @@ class rruleset(rrulebase):\n             parts.append('.rrule(%r)' % (rr,))\n         for dt in self._rdate:\n             parts.append('.rdate(%r)' % (dt,))\n-        for exr in self._exrule:\n-            parts.append('.exrule(%r)' % (exr,))\n         for dt in self._exdate:\n             parts.append('.exdate(%r)' % (dt,))\n         return '\\n'.join(parts)\n"
+    }
+   ]
+  },
+  {
+   "id": "ruleset-union",
+   "label": "ruleset.union() includes the other set's rdates",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "C20-union-drops-rdates",
+     "patch": "diff --git a/src/dateutil/rrule.py b/src/dateutil/rrule.py\nindex beea6ad..dd71b03 100644\n--- a/src/dateutil/rrule.py\n+++ b/src/dateutil/rrule.py\n@@ -1787,8 +1787,6 @@ class rruleset(rrulebase):\n         result = self.copy()\n         for rr in other._rrule:\n             result.rrule(rr)\n-        for dt in other._rdate:\n-            result.rdate(dt)\n         for exr in other._exrule:\n             result.exrule(exr)\n         for dt in other._exdate:\n"
+    }
+   ]
+  },
+  {
+   "id": "ruleset-union-typeerror",
+   "label": "ruleset.union() raises TypeError for non-rulesets",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "C21-union-no-typeerror",
+     "patch": "diff --git a/src/dateutil/rrule.py b/src/dateutil/rrule.py\nindex beea6ad..3973612 100644\n--- a/src/dateutil/rrule.py\n+++ b/src/dateutil/rrule.py\n@@ -1781,9 +1781,6 @@ class rruleset(rrulebase):\n         :return:\n             A new :class:`rruleset` containing all components from both.\n         \"\"\"\n-        if not isinstance(other, rruleset):\n-            raise TypeError('can only union with another rruleset, '\n-                            'not %s' % type(other).__name__)\n         result = self.copy()\n         for rr in other._rrule:\n             result.rrule(rr)\n"
+    }
+   ]
+  },
+  {
+   "id": "ruleset-subtract-rrules",
+   "label": "ruleset.subtract() turns the other set's rrules into exrules",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "C22-subtract-rrule-included",
+     "patch": "diff --git a/src/dateutil/rrule.py b/src/dateutil/rrule.py\nindex beea6ad..1ec666e 100644\n--- a/src/dateutil/rrule.py\n+++ b/src/dateutil/rrule.py\n@@ -1815,7 +1815,7 @@ class rruleset(rrulebase):\n                             'not %s' % type(other).__name__)\n         result = self.copy()\n         for rr in other._rrule:\n-            result.exrule(rr)\n+            result.rrule(rr)\n         for dt in other._rdate:\n             result.exdate(dt)\n         return result\n"
+    }
+   ]
+  },
+  {
+   "id": "ruleset-subtract-typeerror",
+   "label": "ruleset.subtract() raises TypeError for non-rulesets",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "C24-subtract-no-typeerror",
+     "patch": "diff --git a/src/dateutil/rrule.py b/src/dateutil/rrule.py\nindex beea6ad..cfe093c 100644\n--- a/src/dateutil/rrule.py\n+++ b/src/dateutil/rrule.py\n@@ -1810,9 +1810,6 @@ class rruleset(rrulebase):\n             A new :class:`rruleset` with the other set's occurrences\n             excluded.\n         \"\"\"\n-        if not isinstance(other, rruleset):\n-            raise TypeError('can only subtract another rruleset, '\n-                            'not %s' % type(other).__name__)\n         result = self.copy()\n         for rr in other._rrule:\n             result.exrule(rr)\n"
+    }
+   ]
+  },
+  {
+   "id": "ical-unique-vtimezones",
+   "label": "ruleset to_ical() emits one VTIMEZONE per zone",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "C27-vtimezone-duplicated",
+     "patch": "diff --git a/src/dateutil/rrule.py b/src/dateutil/rrule.py\nindex beea6ad..3ab73e0 100644\n--- a/src/dateutil/rrule.py\n+++ b/src/dateutil/rrule.py\n@@ -1845,7 +1845,7 @@ class rruleset(rrulebase):\n         for dt in all_datetimes:\n             if dt.tzinfo is not None:\n                 tzname = _tzinfo_name(dt.tzinfo)\n-                if tzname != 'UTC' and tzname not in emitted_tznames:\n+                if tzname != 'UTC':\n                     vtimezone = rrule._build_vtimezone(\n                         tzname, dt.tzinfo, dt)\n                     lines.extend(vtimezone)\n"
+    }
+   ]
+  },
+  {
+   "id": "ical-vtimezone-all-components",
+   "label": "ruleset to_ical() covers zones used only by RDATE",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "C28-rdate-zone-no-vtimezone",
+     "patch": "diff --git a/src/dateutil/rrule.py b/src/dateutil/rrule.py\nindex beea6ad..3e59699 100644\n--- a/src/dateutil/rrule.py\n+++ b/src/dateutil/rrule.py\n@@ -1834,7 +1834,7 @@ class rruleset(rrulebase):\n                  'PRODID:-//dateutil//rrule//EN']\n \n         emitted_tznames = set()\n-        all_datetimes = list(self._rdate) + list(self._exdate)\n+        all_datetimes = list(self._exdate)\n         for rr in self._rrule:\n             if rr._dtstart and rr._dtstart.tzinfo is not None:\n                 all_datetimes.append(rr._dtstart)\n"
+    }
+   ]
+  },
+  {
+   "id": "vevent-recurrence-only",
+   "label": "Only recurrence properties are read from a VEVENT",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "C30-vevent-keeps-all-props",
+     "patch": "diff --git a/src/dateutil/rrule.py b/src/dateutil/rrule.py\nindex beea6ad..f112ab8 100644\n--- a/src/dateutil/rrule.py\n+++ b/src/dateutil/rrule.py\n@@ -2493,7 +2493,7 @@ class _rrulestr(object):\n         for line in vevent_lines:\n             name, _, _ = line.partition(':')\n             prop_name = name.split(';')[0].upper()\n-            if prop_name in recurrence_names:\n+            if True:\n                 recurrence_props.append(line)\n         return '\\n'.join(recurrence_props)\n \n"
+    }
+   ]
+  },
+  {
+   "id": "vcalendar-unfolding",
+   "label": "Folded iCalendar lines are unfolded",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "C31-no-line-unfolding",
+     "patch": "diff --git a/src/dateutil/rrule.py b/src/dateutil/rrule.py\nindex beea6ad..786f177 100644\n--- a/src/dateutil/rrule.py\n+++ b/src/dateutil/rrule.py\n@@ -2438,7 +2438,7 @@ class _rrulestr(object):\n         for line in raw_lines:\n             if line and line[0] in (' ', '\\t'):\n                 if unfolded:\n-                    unfolded[-1] += line[1:]\n+                    unfolded.append(line[1:])\n                 else:\n                     unfolded.append(line[1:])\n             else:\n"
+    }
+   ]
+  },
+  {
+   "id": "vcalendar-first-vevent",
+   "label": "Only the first VEVENT is used",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "C32-last-vevent-used",
+     "patch": "diff --git a/src/dateutil/rrule.py b/src/dateutil/rrule.py\nindex beea6ad..3ad1877 100644\n--- a/src/dateutil/rrule.py\n+++ b/src/dateutil/rrule.py\n@@ -2406,7 +2406,7 @@ class _rrulestr(object):\n         merged_tzids = _MergedTzids(vtimezones, tzids)\n \n         recurrence_props = self._extract_vevent_recurrence(\n-            vevent_lines_list[0])\n+            vevent_lines_list[-1])\n \n         return self._parse_rfc(\n             recurrence_props,\n"
+    }
+   ]
+  },
+  {
+   "id": "vtimezone-priority",
+   "label": "Inline VTIMEZONE definitions win over tzids",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "C33-tzids-before-vtimezone",
+     "patch": "diff --git a/src/dateutil/rrule.py b/src/dateutil/rrule.py\nindex beea6ad..886cd12 100644\n--- a/src/dateutil/rrule.py\n+++ b/src/dateutil/rrule.py\n@@ -2534,6 +2534,8 @@ class _MergedTzids(object):\n         self._fallback = fallback\n \n     def __call__(self, name):\n+        if callable(self._fallback):\n+            return self._fallback(name)\n         tz = self._vtimezones.get(name)\n         if tz is not None:\n             return tz\n"
+    }
+   ]
+  },
+  {
+   "id": "vtimezone-resolution",
+   "label": "Inline VTIMEZONE definitions resolve TZIDs",
+   "hidden": false,
+   "faulty_versions": [
+    {
+     "id": "C34-vtimezone-not-registered",
+     "patch": "diff --git a/src/dateutil/rrule.py b/src/dateutil/rrule.py\nindex beea6ad..6ae713c 100644\n--- a/src/dateutil/rrule.py\n+++ b/src/dateutil/rrule.py\n@@ -2385,7 +2385,7 @@ class _rrulestr(object):\n                     if nesting_depth == 0:\n                         tzinfo = self._parse_vtimezone(current_lines)\n                         if tzinfo is not None:\n-                            vtimezones[tzinfo[0]] = tzinfo[1]\n+                            pass\n                         current_block = None\n                         current_lines = []\n                 elif val_upper == 'VEVENT' and current_block == 'VEVENT':\n"
+    }
+   ]
+  }
+ ]
+}

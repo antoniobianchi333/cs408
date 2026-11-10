@@ -1,0 +1,12 @@
+id: garage
+type: warmup
+language: python
+prompt: prompt.md
+test_paths: [.]
+editable: [test_garage.py]
+source:
+  dataset: course project
+environment:
+  local: true
+  project: project
+  head: 58ac8ca25286db5fc10a1c3c655cc8d9ee2b9a0f   # the workspace commit (fixed author and dates)
