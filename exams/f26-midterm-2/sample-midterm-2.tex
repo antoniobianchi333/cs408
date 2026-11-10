@@ -1,5 +1,5 @@
 % add the answers flag to print the solutions.
-\documentclass[addpoints]{exam}
+\documentclass[addpoints, answers]{exam}
 
 \input{../cmds}
 
@@ -24,6 +24,9 @@
 \newcommand{\Code}[1]{\mintinline{python}{#1}}
 
 \renewcommand{\solutiontitle}{\noindent\textbf{Solution sketch: }}
+
+% For underlining answers
+\newcommand{\ansbf}[1]{\ifprintanswers\textbf{\underline{#1}}\else#1\fi}
 
 \definecolor{SolutionColor}{rgb}{0.8,0.9,1}
 
@@ -328,40 +331,42 @@ def parse(s: str) -> int:
 
   At each iteration the fuzzer may apply either \textbf{one or two} of
   these mutations. For each of the following inputs, indicate whether
-  the fuzzer could \textbf{produce} it from its initial seed; if so,
-  indicate whether it would then \textbf{include} it in the population.
-  (Indicate your answer by circling your choice.)
+  or not the fuzzer could \textbf{produce} it from its
+  \textbf{initial} seed. Either way, you should then indicate whether
+  the fuzzer would have \textbf{included} the input in the population
+  assuming that it had been generated.  (Indicate your answer by
+  circling your choice.)
 
 \begin{parts}
 
 \part[2] \Code{"<b"}
   \begin{itemize}
-  \item[ ] Produced from \Code{"ab"}: Yes \quad/\quad No %
-    \hfill Added to the population: Yes \quad/\quad No
+  \item[ ] Produced from \Code{"ab"}: \ansbf{Yes} \quad/\quad No %
+    \hfill Added to the population: \ansbf{Yes} \quad/\quad No
   \end{itemize}
 
 \part[2] \Code{"xb"}
   \begin{itemize}
-  \item[ ] Produced from \Code{"ab"}: Yes \quad/\quad No %
-    \hfill Added to the population: Yes \quad/\quad No
+  \item[ ] Produced from \Code{"ab"}: \ansbf{Yes} \quad/\quad No %
+    \hfill Added to the population: Yes \quad/\quad \ansbf{No}
   \end{itemize}
 
 \part[2] \Code{"a"}
   \begin{itemize}
-  \item[ ] Produced from \Code{"ab"}: Yes \quad/\quad No %
-    \hfill Added to the population: Yes \quad/\quad No
+  \item[ ] Produced from \Code{"ab"}: \ansbf{Yes} \quad/\quad No %
+    \hfill Added to the population: \ansbf{Yes} \quad/\quad No
   \end{itemize}
 
 \part[2] \Code{"<>"}
   \begin{itemize}
-  \item[ ] Produced from \Code{"ab"}: Yes \quad/\quad No %
-    \hfill Added to the population: Yes \quad/\quad No
+  \item[ ] Produced from \Code{"ab"}: \ansbf{Yes} \quad/\quad No %
+    \hfill Added to the population: \ansbf{Yes} \quad/\quad No
   \end{itemize}
 
 \part[2] \Code{"<x>"}
   \begin{itemize}
-  \item[ ] Produced from \Code{"ab"}: Yes \quad/\quad No %
-    \hfill Added to the population: Yes \quad/\quad No
+  \item[ ] Produced from \Code{"ab"}: Yes \quad/\quad \ansbf{No} %
+    \hfill Added to the population: \ansbf{Yes} \quad/\quad No
   \end{itemize}
 
 \end{parts}
@@ -378,7 +383,7 @@ def parse(s: str) -> int:
   %       \Code{"xb"}  & yes, 1 edit  & no           & \Code{a}$\to$\Code{x}; still returns 1, nothing new \\
   %       \Code{"a"}   & yes, 1 edit  & \textbf{yes} & delete \Code{b}; now trips the length guard and returns 0 \\
   %       \Code{"<>"}  & yes, 2 edits & \textbf{yes} & \Code{a}$\to$\Code{<}, \Code{b}$\to$\Code{>}; returns 3 \\
-  %       \Code{"<x>"} & \textbf{no}  & yes          & three characters from a two-character seed needs more than two edits \\
+  %       \Code{"<x>"} & \textbf{no}  & yes    & three characters from a two-character seed needs more than two edits \\
   %     \end{tabular}
   %   \end{center}
 
@@ -641,30 +646,33 @@ def grade(score: int, bonus: int) -> int:
     times on every path and has $2^3 = 8$ leaves. Reading each path as
     a conjunction of its edge conditions:
 
-    \begin{center}\small
-      \begin{tabular}{cl}
-        leaf & path condition \\ \hline
-        1 & $b > 0 \wedge s + b > 100 \wedge 100 < 0$ \\
-        2 & $b > 0 \wedge s + b > 100 \wedge \lnot(100 < 0)$ \\
-        3 & $b > 0 \wedge \lnot(s + b > 100) \wedge s + b < 0$ \\
-        4 & $b > 0 \wedge \lnot(s + b > 100) \wedge \lnot(s + b < 0)$ \\
-        5 & $\lnot(b > 0) \wedge s > 100 \wedge 100 < 0$ \\
-        6 & $\lnot(b > 0) \wedge s > 100 \wedge \lnot(100 < 0)$ \\
-        7 & $\lnot(b > 0) \wedge \lnot(s > 100) \wedge s < 0$ \\
-        8 & $\lnot(b > 0) \wedge \lnot(s > 100) \wedge \lnot(s < 0)$ \\
-      \end{tabular}
-    \end{center}
+    \includegraphics[width=\linewidth]{grade-execution-tree}
 
-    Note the third condition: on any path that took the \Code{total >
-      100} branch, \Code{total} has been \emph{reassigned} to
-    \Code{100}, so the test \Code{total < 0} is really $100 <
-    0$. Tracking that reassignment is the whole point of carrying a
-    symbolic state.
+    % \begin{center}\small
+    %   \begin{tabular}{cl}
+    %     leaf & path condition \\ \hline
+    %     1 & $b > 0 \wedge s + b > 100 \wedge 100 < 0$ \\
+    %     2 & $b > 0 \wedge s + b > 100 \wedge \lnot(100 < 0)$ \\
+    %     3 & $b > 0 \wedge \lnot(s + b > 100) \wedge s + b < 0$ \\
+    %     4 & $b > 0 \wedge \lnot(s + b > 100) \wedge \lnot(s + b < 0)$ \\
+    %     5 & $\lnot(b > 0) \wedge s > 100 \wedge 100 < 0$ \\
+    %     6 & $\lnot(b > 0) \wedge s > 100 \wedge \lnot(100 < 0)$ \\
+    %     7 & $\lnot(b > 0) \wedge \lnot(s > 100) \wedge s < 0$ \\
+    %     8 & $\lnot(b > 0) \wedge \lnot(s > 100) \wedge \lnot(s < 0)$ \\
+    %   \end{tabular}
+    % \end{center}
+
+    Note the first and fifth nodes: on any path that took the
+    \Code{total > 100} branch, \Code{total} has been \emph{reassigned}
+    to \Code{100}, so the test \Code{total < 0} is really $100 <
+    0$. The whole point of tracking a symbolic state is to enable us
+    to express the path conditions on each path in terms of symbolic
+    inputs.
   \end{solution}
 
 \newpage
 
-\part[4] How many test paths does this tree represent? %
+\part[4] How many feasible test paths does this tree represent? %
   \answerspace{22} %
   \begin{solution} %
 
