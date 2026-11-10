@@ -378,7 +378,7 @@ def parse(s: str) -> int:
   %       \Code{"xb"}  & yes, 1 edit  & no           & \Code{a}$\to$\Code{x}; still returns 1, nothing new \\
   %       \Code{"a"}   & yes, 1 edit  & \textbf{yes} & delete \Code{b}; now trips the length guard and returns 0 \\
   %       \Code{"<>"}  & yes, 2 edits & \textbf{yes} & \Code{a}$\to$\Code{<}, \Code{b}$\to$\Code{>}; returns 3 \\
-  %       \Code{"<x>"} & \textbf{no}  & ---          & three characters from a two-character seed needs more than two edits \\
+  %       \Code{"<x>"} & \textbf{no}  & yes          & three characters from a two-character seed needs more than two edits \\
   %     \end{tabular}
   %   \end{center}
 

@@ -169,13 +169,14 @@
     designed to be as push-button as possible.
   \end{solutionorbox}
 
-\question[3] In 2-4 sentences, describe an automated testing scenario
-  where a blackbox fuzzer might use one of the other kinds of test
-  oracle we have discussed in class. Be sure to explicitly state which
-  category of test oracle is used, and to justify why it is reasonable
-  to use in this scenario.
+\question[3] Describe an automated testing scenario where a blackbox
+  fuzzer might use one of the other kinds of test oracle we have
+  discussed in class. Begin your answer by identifying the scenario
+  and category of test oracle you have chosen, \underline{underlining}
+  your choice of test oracle.  Then, in 2-4 sentences, justify why this oracle is
+  reasonable to use in this scenario.
 
-  \begin{solutionorbox}[4in]
+  \begin{solutionorbox}[3.9in]
     There are many possible answers here. The key thing is that they
     need to identify a particular application which enable us to use a
     more intelligent test oracle: e.g. when fuzzing an image
@@ -295,10 +296,11 @@ def crashme(s: str) -> None:
 
   At each iteration, the fuzzer is allowed to apply either \textbf{one
     or two} of these mutations. For each of the following inputs,
-  indicate whether the fuzzer could \textbf{produce} it from its
-  \textbf{initial} seed; if so, you should additionally indicate
-  whether the fuzzer would then \textbf{include} it in the
-  population. (Indicate your answer by circling your choice.)
+  indicate whether or not the fuzzer could \textbf{produce} it from
+  its \textbf{initial} seed. Either way, you should then indicate
+  whether the fuzzer would have \textbf{included} the input in the
+  population assuming that it had been generated. (Indicate your
+  answer by circling your choice.)
 
 \begin{parts}
 
@@ -341,9 +343,9 @@ def crashme(s: str) -> None:
   %       & produced? & added? & \\ \hline
   %       \Code{"bood"}  & yes, 1 edit  & \textbf{yes} & change \Code{g} to \Code{b}; reaches the second \Code{if} \\
   %       \Code{"cood"}  & yes, 1 edit  & no           & change \Code{g} to \Code{c}; covers nothing new \\
-  %       \Code{" good"} & \textbf{no}  & ---          & a space may only be appended, not prepended \\
+  %       \Code{" good"} & \textbf{no}  & no         & a space may only be appended, not prepended \\
   %       \Code{"baod"}  & yes, 2 edits & \textbf{yes} & \Code{g}$\to$\Code{b}, \Code{o}$\to$\Code{a}; reaches the third \Code{if} \\
-  %       \Code{"bad!"}  & \textbf{no}  & ---          & four edits away from \Code{"good"} \\
+  %       \Code{"bad!"}  & \textbf{no}  & yes          & four edits away from \Code{"good"} \\
   %     \end{tabular}
   %   \end{center}
   % \end{solutionorbox}
