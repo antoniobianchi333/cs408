@@ -1,0 +1,17 @@
+pilot_slide,combined_slide,lecture,check
+1,1,01-408st-introduction,Photo background and condensed title
+2,14,01-408st-introduction,Dense styled text
+3,84,03-408st-structural-coverage-cfg,Layered cover art
+4,158,05-408st-structural-coverage-3,Editable control flow graph
+5,161,05-408st-structural-coverage-3,Pseudo-code and mathematical symbols
+6,243,07-408st-concurrency,"Timeline, code, and arrows"
+7,329,10-408st-randomized-testing,"Photo, caption, and text wrapping"
+8,438,13-408st-bug-reports,Photo title and translucent shapes
+9,633,16-408st-active-logic-coverage,Logical symbols and diagram labels
+10,657,17-408st-symbolic-execution,PDF-only image slide
+11,705,18-408st-concolic-execution,Monospaced code and punctuation
+12,748,18-408st-concolic-execution,"Code, shapes, and data structure diagram"
+13,921,22-408st-static-analysis,Lattice example
+14,982,22-408st-static-analysis,Dense code and abstract values
+15,1919,34-408st-verification,Alternative lecture theme
+16,2201,intro-lab-2,Widescreen PDF tutorial inside the 4:3 deck

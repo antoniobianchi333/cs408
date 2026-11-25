@@ -1,0 +1,7 @@
+pilot_page,combined_slide,role,coverage
+1,98,control,Unchanged neighboring content slide
+2,99,repaired,Control-flow graph with branches and labeled edges
+3,100,repaired,Two control-flow graph layouts and basic-block grouping
+4,101,repaired,Loop control-flow graph with a back edge
+5,102,repaired,Binary-search control-flow graph with branch and loop edges
+6,104,control,Unchanged graph and path-definition slide

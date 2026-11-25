@@ -1,0 +1,5 @@
+pilot_page,combined_slide,role,coverage
+1,153,control,Unchanged neighboring game-plan slide
+2,154,diagnostic,18 pt CFG trial fits on one line but looks smaller than needed
+3,155,repaired,Graph-based coverage criteria hierarchy with subset symbols moved into gaps
+4,156,repaired,Extended coverage hierarchy with a second branch and subset symbols moved into gaps

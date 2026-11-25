@@ -1,0 +1,140 @@
+[
+  {
+    "file": "cs408-editable-part-01.pptx",
+    "first_slide": 1,
+    "last_slide": 260,
+    "slides": 260,
+    "bytes": 11137175,
+    "lectures": [
+      "01-408st-introduction",
+      "02-408st-fault-error-failure",
+      "03-408st-structural-coverage-cfg",
+      "04-408st-structural-coverage-2",
+      "05-408st-structural-coverage-3",
+      "06-408st-concurrency",
+      "07-408st-concurrency"
+    ]
+  },
+  {
+    "file": "cs408-editable-part-02.pptx",
+    "first_slide": 261,
+    "last_slide": 492,
+    "slides": 232,
+    "bytes": 16401836,
+    "lectures": [
+      "08-408st-data-flow",
+      "09-408st-input-space-partitioning",
+      "10-408st-randomized-testing",
+      "11-408st-mutation-based-randomized-testing",
+      "12-408st-mutation-testing",
+      "13-408st-bug-reports"
+    ]
+  },
+  {
+    "file": "cs408-editable-part-03.pptx",
+    "first_slide": 493,
+    "last_slide": 767,
+    "slides": 275,
+    "bytes": 13951670,
+    "lectures": [
+      "14-408st-midterm-review",
+      "15-408st-logic-coverage",
+      "16-408st-active-logic-coverage",
+      "17-408st-symbolic-execution",
+      "18-408st-concolic-execution"
+    ]
+  },
+  {
+    "file": "cs408-editable-part-04.pptx",
+    "first_slide": 768,
+    "last_slide": 986,
+    "slides": 219,
+    "bytes": 13334507,
+    "lectures": [
+      "19-408st-test-oracles",
+      "20-408st-TestCase-Minimization",
+      "21-408st-Regression+Testing",
+      "22-408st-static-analysis"
+    ]
+  },
+  {
+    "file": "cs408-editable-part-05.pptx",
+    "first_slide": 987,
+    "last_slide": 1250,
+    "slides": 264,
+    "bytes": 8307351,
+    "lectures": [
+      "23-408st-final-review",
+      "03-408st-fault-error-failure",
+      "06-408st-structural-coverage-cfg",
+      "07-408st-structural-coverage-cfg",
+      "08-408st-structural-coverage-cfg",
+      "09a-408st-structural-coverage-cfg",
+      "10-408st-concurrency",
+      "13-408st-data-flow",
+      "14-408st-syntax-based-testing"
+    ]
+  },
+  {
+    "file": "cs408-editable-part-06.pptx",
+    "first_slide": 1251,
+    "last_slide": 1511,
+    "slides": 261,
+    "bytes": 8381881,
+    "lectures": [
+      "15-408st-syntax-based-testing",
+      "16-408st-syntax-based-testing",
+      "17-408st-bug-reporting",
+      "18-408st-bug-reporting",
+      "19-408st-midterm-review",
+      "20-408st-logic-coverage",
+      "21-408st-logic-coverage",
+      "22-408st-logic-coverage"
+    ]
+  },
+  {
+    "file": "cs408-editable-part-07.pptx",
+    "first_slide": 1512,
+    "last_slide": 1777,
+    "slides": 266,
+    "bytes": 7625315,
+    "lectures": [
+      "23-408st-logic-coverage",
+      "24-408st-symbolic-execution copy",
+      "25-408st-symbolic-execution",
+      "26-408st-symbolic-execution",
+      "28-408st-ml",
+      "29-408st-ml",
+      "29b-408st-ml"
+    ]
+  },
+  {
+    "file": "cs408-editable-part-08.pptx",
+    "first_slide": 1778,
+    "last_slide": 2035,
+    "slides": 258,
+    "bytes": 12422693,
+    "lectures": [
+      "30-408st-ml",
+      "31-408st-static-testing",
+      "32-408st-input-space-partitioning",
+      "33-408st-input-space-partitioning",
+      "34-408st-verification",
+      "35-408st-semantic-checker",
+      "36-408st-regression-integration-testing",
+      "37-408st-rr"
+    ]
+  },
+  {
+    "file": "cs408-editable-part-09.pptx",
+    "first_slide": 2036,
+    "last_slide": 2235,
+    "slides": 200,
+    "bytes": 10696434,
+    "lectures": [
+      "38-408st-deterministic-execution",
+      "39-408st-review",
+      "intro-lab-2"
+    ]
+  }
+]

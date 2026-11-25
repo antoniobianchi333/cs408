@@ -1,0 +1,4 @@
+pilot_page,combined_slide,role,coverage
+1,114,control,Coverage Criteria overview unchanged
+2,115,repair,Eight control-flow arrows rebuilt; original 46 pt Bebas Neue labels preserved with no wrapping or horizontal insets
+3,116,repair,Eight arrows rebuilt; true/false labels and CFG kept on one line by removing excessive insets and disabling wrapping

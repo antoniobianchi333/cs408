@@ -1,0 +1,58 @@
+section,deck,first_slide,last_slide,slide_count,source,source_kind,keynote_saved,pdf_exported,keynote_skipped,original_pdf_pages,converted_keynote_pages,selection_reason
+1,01-408st-introduction,1,40,40,01-408st-introduction.key,keynote,2026-01-13T12:08:50,2026-01-13T12:01:19,35,29,11,Latest saved Keynote; PDF is earlier or from the same export/save session.
+2,02-408st-fault-error-failure,41,83,43,02-408st-fault-error-failure.key,keynote,2026-01-20T12:32:28,2026-01-20T12:31:05,35,26,17,Latest saved Keynote; PDF is earlier or from the same export/save session.
+3,03-408st-structural-coverage-cfg,84,109,26,03-408st-structural-coverage-cfg.key,keynote,2026-01-25T11:54:08,2026-01-22T15:46:11,42,18,8,Latest saved Keynote; PDF is earlier or from the same export/save session.
+4,04-408st-structural-coverage-2,110,148,39,04-408st-structural-coverage-2.key,keynote,2026-01-27T15:09:58,2026-01-27T15:05:15,56,34,5,Latest saved Keynote; PDF is earlier or from the same export/save session.
+5,05-408st-structural-coverage-3,149,187,39,05-408st-structural-coverage-3.key,keynote,2026-03-12T10:50:24,2026-01-29T16:55:55,8,34,5,Latest saved Keynote; PDF is earlier or from the same export/save session.
+6,06-408st-concurrency,188,220,33,06-408st-concurrency.key,keynote,2026-02-03T13:22:00,2026-02-03T10:31:49,13,20,13,Latest saved Keynote; PDF is earlier or from the same export/save session.
+7,07-408st-concurrency,221,260,40,07-408st-concurrency.key,keynote,2026-02-05T13:17:10,2026-02-05T13:15:01,32,23,17,Latest saved Keynote; PDF is earlier or from the same export/save session.
+8,08-408st-data-flow,261,293,33,08-408st-data-flow.key,keynote,2026-02-15T21:34:02,2026-02-10T13:02:14,21,22,11,Latest saved Keynote; PDF is earlier or from the same export/save session.
+9,09-408st-input-space-partitioning,294,328,35,09-408st-input-space-partitioning.key,keynote,2026-02-12T16:01:26,2026-02-12T12:49:20,60,12,23,Latest saved Keynote; PDF is earlier or from the same export/save session.
+10,10-408st-randomized-testing,329,358,30,10-408st-randomized-testing.key,keynote,2026-02-17T10:37:02,2026-02-17T10:37:26,6,24,6,Latest saved Keynote; PDF is earlier or from the same export/save session.
+11,11-408st-mutation-based-randomized-testing,359,393,35,11-408st-mutation-based-randomized-testing.key,keynote,2026-02-19T15:23:26,2026-02-19T13:15:03,3,17,18,Latest saved Keynote; PDF is earlier or from the same export/save session.
+12,12-408st-mutation-testing,394,437,44,12-408st-mutation-testing.key,keynote,2026-02-25T19:42:06,2026-02-24T12:14:29,21,32,12,Latest saved Keynote; PDF is earlier or from the same export/save session.
+13,13-408st-bug-reports,438,492,55,13-408st-bug-reports.key,keynote,2026-03-01T15:30:08,2026-02-26T11:11:00,0,36,19,Latest saved Keynote; PDF is earlier or from the same export/save session.
+14,14-408st-midterm-review,493,581,89,14-408st-midterm-review.key,keynote,2026-03-05T08:57:50,2026-03-03T10:53:53,0,31,58,Latest saved Keynote; PDF is earlier or from the same export/save session.
+15,15-408st-logic-coverage,582,612,31,15-408st-logic-coverage.key,keynote,2026-04-28T13:18:04,2026-03-10T11:02:32,9,15,16,Latest saved Keynote; PDF is earlier or from the same export/save session.
+16,16-408st-active-logic-coverage,613,656,44,16-408st-active-logic-coverage.key,keynote,2026-08-07T12:58:28,2026-05-07T14:31:38,5,18,26,Latest saved Keynote; PDF is earlier or from the same export/save session.
+17,17-408st-symbolic-execution,657,702,46,pdfs/17-408st-symbolic-execution.pdf,pdf,2026-03-18T09:59:12,2026-03-26T12:58:43,0,46,0,PDF exported materially after the saved Keynote version.
+18,18-408st-concolic-execution,703,767,65,18-408st-concolic-execution.key,keynote,2026-03-31T12:09:06,2026-03-31T12:09:30,45,54,11,Latest saved Keynote; PDF is earlier or from the same export/save session.
+19,19-408st-test-oracles,768,802,35,19-408st-test-oracles.key,keynote,2026-04-02T12:55:20,2026-04-02T11:52:00,0,25,10,Latest saved Keynote; PDF is earlier or from the same export/save session.
+20,20-408st-TestCase-Minimization,803,854,52,pdfs/20-408st-TestCase-Minimization.pdf,pdf,,,0,52,0,PDF-only material.
+21,21-408st-Regression+Testing,855,884,30,21-408st-Regression+Testing.key,keynote,2026-04-09T13:29:56,2026-04-09T11:45:53,1,18,12,Latest saved Keynote; PDF is earlier or from the same export/save session.
+22,22-408st-static-analysis,885,986,102,22-408st-static-analysis.key,keynote,2026-08-07T12:57:40,2026-05-04T19:46:08,3,10,92,Latest saved Keynote; PDF is earlier or from the same export/save session.
+23,23-408st-final-review,987,1068,82,23-408st-final-review.key,keynote,2026-05-03T11:12:58,2026-05-02T14:20:20,1,54,28,Latest saved Keynote; PDF is earlier or from the same export/save session.
+24,03-408st-fault-error-failure,1069,1087,19,03-408st-fault-error-failure.key,keynote,2026-01-04T20:50:02,,0,0,19,Additional Keynote deck without a corresponding PDF.
+25,06-408st-structural-coverage-cfg,1088,1111,24,06-408st-structural-coverage-cfg.key,keynote,2026-01-25T12:58:22,,0,0,24,Additional Keynote deck without a corresponding PDF.
+26,07-408st-structural-coverage-cfg,1112,1129,18,07-408st-structural-coverage-cfg.key,keynote,2026-01-09T00:54:46,,0,0,18,Additional Keynote deck without a corresponding PDF.
+27,08-408st-structural-coverage-cfg,1130,1143,14,08-408st-structural-coverage-cfg.key,keynote,2026-01-28T18:08:04,,1,0,14,Additional Keynote deck without a corresponding PDF.
+28,09a-408st-structural-coverage-cfg,1144,1162,19,09a-408st-structural-coverage-cfg.key,keynote,2026-01-09T00:58:32,,0,0,19,Additional Keynote deck without a corresponding PDF.
+29,10-408st-concurrency,1163,1191,29,10-408st-concurrency.key,keynote,2026-02-02T08:38:56,,0,0,29,Additional Keynote deck without a corresponding PDF.
+30,13-408st-data-flow,1192,1221,30,13-408st-data-flow.key,keynote,2026-01-09T12:24:26,,0,0,30,Additional Keynote deck without a corresponding PDF.
+31,14-408st-syntax-based-testing,1222,1250,29,14-408st-syntax-based-testing.key,keynote,2026-01-09T12:24:58,,0,0,29,Additional Keynote deck without a corresponding PDF.
+32,15-408st-syntax-based-testing,1251,1284,34,15-408st-syntax-based-testing.key,keynote,2026-01-09T12:25:26,,0,0,34,Additional Keynote deck without a corresponding PDF.
+33,16-408st-syntax-based-testing,1285,1318,34,16-408st-syntax-based-testing.key,keynote,2026-01-09T12:26:08,,0,0,34,Additional Keynote deck without a corresponding PDF.
+34,17-408st-bug-reporting,1319,1352,34,17-408st-bug-reporting.key,keynote,2026-02-25T13:47:48,,0,0,34,Additional Keynote deck without a corresponding PDF.
+35,18-408st-bug-reporting,1353,1374,22,18-408st-bug-reporting.key,keynote,2026-01-09T12:27:20,,0,0,22,Additional Keynote deck without a corresponding PDF.
+36,19-408st-midterm-review,1375,1437,63,19-408st-midterm-review.key,keynote,2026-03-01T15:04:58,,0,0,63,Additional Keynote deck without a corresponding PDF.
+37,20-408st-logic-coverage,1438,1457,20,20-408st-logic-coverage.key,keynote,2026-01-09T12:28:36,,0,0,20,Additional Keynote deck without a corresponding PDF.
+38,21-408st-logic-coverage,1458,1484,27,21-408st-logic-coverage.key,keynote,2026-01-09T12:29:12,,0,0,27,Additional Keynote deck without a corresponding PDF.
+39,22-408st-logic-coverage,1485,1511,27,22-408st-logic-coverage.key,keynote,2026-01-09T12:29:52,,0,0,27,Additional Keynote deck without a corresponding PDF.
+40,23-408st-logic-coverage,1512,1544,33,23-408st-logic-coverage.key,keynote,2026-03-12T11:17:02,,0,0,33,Additional Keynote deck without a corresponding PDF.
+41,24-408st-symbolic-execution copy,1545,1578,34,24-408st-symbolic-execution copy.key,keynote,2026-03-17T11:43:36,,0,0,34,Additional Keynote deck without a corresponding PDF.
+42,25-408st-symbolic-execution,1579,1616,38,25-408st-symbolic-execution.key,keynote,2026-01-09T17:15:12,,0,0,38,Additional Keynote deck without a corresponding PDF.
+43,26-408st-symbolic-execution,1617,1660,44,26-408st-symbolic-execution.key,keynote,2026-01-09T17:15:50,,0,0,44,Additional Keynote deck without a corresponding PDF.
+44,28-408st-ml,1661,1692,32,28-408st-ml.key,keynote,2026-01-09T17:16:36,,0,0,32,Additional Keynote deck without a corresponding PDF.
+45,29-408st-ml,1693,1726,34,29-408st-ml.key,keynote,2026-01-09T17:17:08,,0,0,34,Additional Keynote deck without a corresponding PDF.
+46,29b-408st-ml,1727,1777,51,29b-408st-ml.key,keynote,2026-01-09T17:18:12,,0,0,51,Additional Keynote deck without a corresponding PDF.
+47,30-408st-ml,1778,1802,25,30-408st-ml.key,keynote,2026-01-09T17:18:42,,0,0,25,Additional Keynote deck without a corresponding PDF.
+48,31-408st-static-testing,1803,1828,26,31-408st-static-testing.key,keynote,2026-01-09T17:19:10,,0,0,26,Additional Keynote deck without a corresponding PDF.
+49,32-408st-input-space-partitioning,1829,1867,39,32-408st-input-space-partitioning.key,keynote,2026-01-09T17:19:40,,0,0,39,Additional Keynote deck without a corresponding PDF.
+50,33-408st-input-space-partitioning,1868,1916,49,33-408st-input-space-partitioning.key,keynote,2026-01-09T17:20:18,,0,0,49,Additional Keynote deck without a corresponding PDF.
+51,34-408st-verification,1917,1947,31,34-408st-verification.key,keynote,2026-01-09T17:20:50,,0,0,31,Additional Keynote deck without a corresponding PDF.
+52,35-408st-semantic-checker,1948,1965,18,35-408st-semantic-checker.key,keynote,2026-01-09T17:21:28,,0,0,18,Additional Keynote deck without a corresponding PDF.
+53,36-408st-regression-integration-testing,1966,1996,31,36-408st-regression-integration-testing.key,keynote,2026-01-09T17:22:30,,1,0,31,Additional Keynote deck without a corresponding PDF.
+54,37-408st-rr,1997,2035,39,37-408st-rr.key,keynote,2026-01-09T17:23:04,,0,0,39,Additional Keynote deck without a corresponding PDF.
+55,38-408st-deterministic-execution,2036,2083,48,38-408st-deterministic-execution.key,keynote,2026-01-09T17:24:04,,0,0,48,Additional Keynote deck without a corresponding PDF.
+56,39-408st-review,2084,2192,109,39-408st-review.key,keynote,2026-01-09T17:24:32,,0,0,109,Additional Keynote deck without a corresponding PDF.
+57,intro-lab-2,2193,2235,43,pdfs/intro-lab-2.pdf,pdf,,,0,43,0,PDF-only material.
