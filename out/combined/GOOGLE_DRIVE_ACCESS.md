@@ -5,12 +5,25 @@
 Use this guide for the part of the conversion that runs in Google. The
 local PPTX and the page map identify the exact test input. A native Google
 Slides copy and its PDF record what Google imported for that round. The
-current import evidence includes Rounds 5–11; the latest result is
+current import evidence includes Rounds 5–12. Round 12 revision 2 is a
+technical pilot for rebuilding four older TCM pages; those pages are not
+selected for final content. See the
+[readback and visual review](SLIDE_CONVERSION.md#round-12--editable-test-case-minimization-supplement).
+The latest diagram-repair pilot is
 [Round 11 revision 4](SLIDE_CONVERSION.md#round-11--cfg-label-fit-with-original-fonts).
 Native text edit/readback was separately verified on a disposable Round 10
 copy and on the requested Round 4 deck. A reversible vector-position edit
 was also tested on a disposable Round 11 copy; its line-style update failed.
 The evidence and limits are recorded below.
+
+**Current connector check (November 25, 2026):** read-only listing now works
+for the exact shared project folder. The folder listing returned its `Pilots`
+subfolder; a second paced listing returned the pilot presentations. The
+visible project root had no final batch decks in that response. The calls were
+serialized with more than five seconds between them. This supersedes the
+earlier transport failure below; it was connector-session behavior, not a
+Google permission denial or API rate limit. Continue using one Drive call at a
+time and keep the same pacing before larger imports, exports, or readbacks.
 
 ## Share and connect the folder
 
@@ -146,13 +159,64 @@ mistakenly treated as something the shell had to download. The new streaming
 fetch avoids the `files.export` 10 MB response cap; it does not itself promise
 that the returned reference is mounted into the local workspace.
 
+### Root cause, separated from size limits
+
+The missing local path is **not caused by a PDF being too large**. The same
+`include_base64: false` fetch returned a `file_uri` without `workspace_path`
+for both a 74,585-byte Round 12 PDF and a 9,898,674-byte Part 2 PDF. The Drive
+tool description says this option streams through `files.download` and returns
+a user-scoped file reference without inline bytes. The connector response is
+therefore a reference by design; this session does not automatically
+materialize every such reference as a local path the renderer can open. The
+failure is at the connector-to-workspace handoff, after Drive has produced the
+export.
+
+Google's official API docs make two separate guarantees. `files.export` returns
+the exported bytes directly and that response is limited to 10 MB. The
+`files.download` long-running operation also supports exporting Workspace
+documents, including Slides as PDF; it returns an operation and ultimately a
+download URI, which the client must retrieve. Google documents polling with
+backoff for long-running exports. The connected tool contract specifically
+says `include_base64: false` uses `files.download`, that this route is not
+subject to the `files.export` 10 MB limit, and that it returns a user-scoped
+`file_uri` without inline bytes. Neither Google's API documentation nor the
+tool contract promises that this URI will appear as a local `workspace_path`.
+So the known cause of the missing path is the transfer/materialization
+boundary, not PDF size. The 10 MB cutoff applies to direct `files.export`; the
+separate LRO route is the documented option for larger exports. This does not
+prove that an LRO export can never fail for another reason. See Google's [export
+method](https://developers.google.com/workspace/drive/api/reference/rest/v3/files/export),
+[download/export guide](https://developers.google.com/workspace/drive/api/guides/manage-downloads),
+[long-running operations guide](https://developers.google.com/workspace/drive/api/guides/long-running-operations),
+and [files.download method](https://developers.google.com/workspace/drive/api/reference/rest/v3/files/download).
+
+The connected tool surface exposes `google_drive_fetch` and
+`google_drive_export_file`, but no separate `operations.get` or
+`file_uri`-to-workspace materialization action. Therefore the API-level path
+is documented, while completion of the final local transfer still depends on
+the connector/helper or the authenticated browser. Google's long-running
+operation guide says both `files.download` and `operations.get` consume normal
+Drive API quota and recommends polling with backoff (for example, ten-second
+intervals). Save the operation name and poll it; do not start a duplicate
+export just to check progress.
+
 Use this no-curl recovery order, with one export/fetch per deck revision:
 
-1. For a PDF below Google's 10 MB `files.export` limit, use the Slides
-   export-and-render helper with the connector fetch wrapped to request
-   `include_base64: true`. The helper writes the connector-returned PDF bytes
-   locally through its bounded chunk receiver, then renders the PDF. Make one
-   Drive fetch, do not print/log the base64, and do not use the signed URL.
+1. Use one `google_drive_fetch` with `download_raw_file: true`,
+   `raw_export_mime_type: "application/pdf"`, and `include_base64: false`.
+   This is the connector's `files.download`/streaming route and its tool
+   contract says it is not subject to the 10 MB direct `files.export` response
+   limit. If it returns only a
+   `file_uri`, pass that reference to a supported connector/helper materializer
+   if available; do not treat the reference as a path or try to download it
+   with a shell client. Make one export request per deck revision; if Drive
+   returns a pending LRO, poll that operation with backoff rather than starting
+   another export.
+2. For a PDF known to be below 10 MB only, if the streamed reference cannot be
+   materialized, one explicit bounded compatibility fetch with
+   `include_base64: true` has been verified. The helper writes the returned PDF
+   bytes locally through its chunk receiver, then renders the PDF. Make one
+   fetch, do not print/log the base64, and do not use the signed URL.
    Example wrapper:
 
    ```js
@@ -181,17 +245,13 @@ Use this no-curl recovery order, with one export/fetch per deck revision:
    This uses the authenticated connector response and local stdin receiver;
    it makes no shell/network request. A successful Part 2 rev3 run is
    recorded below.
-2. For PDFs over 10 MB, use streamed `files.download` via Drive fetch with
-   `include_base64: false`; this bypasses the standard `files.export` limit
-   but may still return only a user-scoped `file_uri`. Prefer dividing the
-   course into up to 16 ordered blocks so each export fits the standard
-   limit, cutting only between whole source decks and topics. Never split an
-   original deck/topic just to hit a byte target.
-3. If one indivisible block still exceeds the limit or the connector cannot
-   materialize its reference, use the authenticated browser **File → Download
-   → PDF** path for that existing deck. If browser transfer is unavailable,
-   inspect paced native slide thumbnails and leave local PDF comparison open
-   while continuing independent work. Never substitute a shell downloader.
+3. If the connector cannot materialize the LRO result, use the authenticated
+   browser **File → Download → PDF** path for that existing deck, or continue
+   with paced native slide thumbnails while recording that local PDF
+   comparison is unavailable. Never split a source deck/topic merely to meet
+   the 10 MB direct-export cap; choose output block boundaries for whole-topic
+   packaging, import stability, and review effort. Never use a shell
+   downloader.
 
 The streamed handoff was rechecked on November 24, 2026 against Part 2 rev2.
 A fetch with `include_base64: false` returned a 9,898,674-byte PDF as a
@@ -200,6 +260,41 @@ always materialize a local file. The no-curl solution was then verified on
 rev3: one export-and-render-helper fetch with the wrapper above returned a
 9,899,270-byte PDF, which the helper wrote locally and rendered to 232 pages.
 Do not retry the stream or issue a second export merely to recover that render.
+
+On November 25, 2026, the same `include_base64: false` path again returned a
+file reference without `workspace_path` for the four-slide Round 12 rev2
+pilot. This is consistent with the option's contract, not a size failure. A
+single explicit bounded compatibility fetch with `include_base64: true`
+returned the 74,585-byte PDF; the helper's chunk receiver wrote it locally,
+and Poppler rendered four pages. The payload was not printed or persisted.
+This confirms the small-file compatibility path only. The official LRO route
+for a >10 MB Google Slides PDF is documented but still needs a >10 MB live test
+through this connector and local materializer. Do not infer that blocks must
+be kept under 10 MB; keep source decks/topics whole and size packaging by
+measured import/review constraints.
+
+For Round 13 (November 25), the known `include_base64: false` behavior was
+avoided rather than triggering a second export: the export/render helper was
+wrapped for one `include_base64: true` fetch because the local 1.5 MB PPTX was
+a small pilot. It returned a 1,017,750-byte Google PDF; the helper wrote it
+through its bounded chunk receiver and rendered 62 pages. Native order
+readback also returned 62 slides. No payload was printed, no shell network
+client was used, and no retry/export loop occurred. This strengthens the
+verified small-PDF path; it does not test the >10 MB LRO handoff.
+
+For Round 14 (November 25), a direct `export_file` call and then a
+`include_base64: false` fetch both returned file references without a local
+`workspace_path`. Because the PDF was known to be below 10 MB, one explicit
+compatibility fetch through the documented helper wrapper with
+`include_base64: true` materialized the 942,081-byte PDF locally. The helper
+rendered all 28 pages; no shell downloader or retry loop was used. This
+reconfirmed the small-file route but also used more Drive calls than necessary
+because the first direct export/stream attempt preceded the bounded fallback.
+For future PDFs known to be below 10 MB, use one helper fetch with
+`include_base64: true` from the start when the connector is known not to
+materialize `file_uri` locally. Reserve the `include_base64: false` LRO path
+for outputs that need the larger-download route, and still verify how the
+connector delivers its result.
 
 Historical pilot logs mention a bounded base64 transfer for small files.
 That is now a supported helper path only below the standard export limit;

@@ -7,7 +7,7 @@ the documented Google Drive folder.
 ## Branch facts
 
 The active branch is `spring+2027+bianchi`. It was created from
-`origin/fall+2026` at commit `900304aa07d6b7fd75bdef23e5ef8c3fc7115b60`, dated
+`others/fall+2026` at commit `900304aa07d6b7fd75bdef23e5ef8c3fc7115b60`, dated
 November 15, 2026. This is the newest of the four pre-existing branch tips
 checked on November 25, 2026. The Fall branch contains the Spring 2026 history,
 `new-lab2-dev`, and `project1-ai-policy` as ancestors; the lab and Project 1
@@ -18,17 +18,27 @@ plain `git branch` lists the full set:
 
 | Local branch | Upstream/source | Tip checked on 2026-11-25 | Relationship |
 | --- | --- | --- | --- |
-| `spring+2027+bianchi` | `origin/fall+2026` at creation | `900304aa` | Active restart-kit branch |
-| `fall+2026` | `origin/fall+2026` | `900304aa` | Newest source branch; includes merged changes below |
-| `spring+2026` | `origin/spring+2026` | `ea36051` | Ancestor of Fall |
-| `new-lab2-dev` | `origin/new-lab2-dev` | `6d030b0` | Merged into Fall |
-| `project1-ai-policy` | `origin/project1-ai-policy` | `24c05ab` | Merged into Fall |
+| `spring+2027+bianchi` | Created from `others/fall+2026` | `900304aa` at creation | Active restart-kit branch |
+| `fall+2026` | `others/fall+2026` | `900304aa` | Newest source branch; includes merged changes below |
+| `spring+2026` | `others/spring+2026` | `ea36051` | Ancestor of Fall |
+| `new-lab2-dev` | `others/new-lab2-dev` | `6d030b0` | Merged into Fall |
+| `project1-ai-policy` | `others/project1-ai-policy` | `24c05ab` | Merged into Fall |
 
 Branch-tip timestamps and ancestry are facts from this check, not a rule that
 branch names predict freshness. For future work, compare commit tips and
 ancestry before choosing a base. The `spring+2027+bianchi` branch is a
 working name; it does not assert that the content is a finalized Spring 2027
 course offering.
+
+The local Git config names `others` (`git@github.com:bendy/cs408.git`) as the
+source remote and `bianchi` (`git@github.com:antoniobianchi333/cs408.git`) as
+the Bianchi remote. **The user normally handles commits and pushes. Never
+commit or push unless the user explicitly instructs it.** Never push by
+default; if a push is explicitly requested, confirm the configured remote and
+use `bianchi` only when that remains the requested destination. The user may
+change Git config; read the current config before any future remote operation.
+Preparing selected changes in the Git index for review is acceptable; leave
+large generated artifacts unstaged, and leave commit creation to the user.
 
 ## What belongs in Git
 
@@ -75,10 +85,13 @@ be able to:
 
 1. Read [`README.md`](README.md) first and follow its links to the live plan,
    branch policy, collection guide, conversion runbook, and Drive guide.
-2. Identify the newest authoritative course source and recover Fall lecture
-   PDFs from the base branch when needed. The 20 PDFs are in
-   `origin/fall+2026:slides/f26-pdfs/`; the current local extraction is
-   temporary under `out/.build/fall-source/`.
+2. Identify the newest authoritative course source. The current branch tree
+   already contains the Fall source PDFs at `slides/f26-pdfs/` and the Keynote
+   decks at `slides/`; it is based on the Fall tip `900304aa`. The 20-PDF
+   metadata audit and 57-Keynote inventory are linked from the collection
+   guide. Use `git archive HEAD <paths>` only when a separate temporary copy
+   is useful; do not copy these large sources into `out/` or duplicate them in
+   new Git commits.
 3. Rebuild pilot/editable candidates using the tracked scripts and maps, then
    verify source order, content, animation states, package integrity, native
    Google Slides structure, and Google-rendered PDF visuals.
@@ -98,8 +111,9 @@ hub whenever a new durable project document or script is added. Keep
 
 The intended Git payload for `spring+2027+bianchi` is all project Markdown
 files (including this one), the Python conversion/repair/audit scripts, the
-source crosswalk and maps, batch manifest, pilot page maps, and the compact
-Part 2 visual-diff report. The large PDFs, PPTX files, and generated page
+source crosswalk and maps, batch manifest, Fall Keynote inventory, pilot page
+maps, and compact QA reports such as the Fall/current text-overlap table. The
+large generated PDFs, PPTX files, and page
 images remain unadded. The 20-row Fall PDF metadata audit is tracked as
 [`combined/fall-source-metadata.csv`](combined/fall-source-metadata.csv).
 

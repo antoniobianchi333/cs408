@@ -1,0 +1,5 @@
+pilot_slide,source_pdf,source_pdf_page,combined_slide,source_status,content,reconstruction
+1,slides/pdfs/20-408st-TestCase-Minimization.pdf,38,840,older PDF only; original Keynote unavailable,"Input set, edits as transformations, and HTML insertion example",native editable text and equation text; no slide image
+2,slides/pdfs/20-408st-TestCase-Minimization.pdf,39,841,older PDF only; original Keynote unavailable,Edit composition/decomposition and single-character deletion example,native editable text and equation text; no slide image
+3,slides/pdfs/20-408st-TestCase-Minimization.pdf,40,842,older PDF only; original Keynote unavailable,Character-by-character insertion decomposition,native editable text and equation text; no slide image
+4,slides/pdfs/20-408st-TestCase-Minimization.pdf,41,843,older PDF only; original Keynote unavailable,"Passing/failing inputs, edit set, and failure-preserving subsets",native editable text and equation text; no slide image

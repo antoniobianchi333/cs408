@@ -4,11 +4,20 @@
 [Google Drive access](GOOGLE_DRIVE_ACCESS.md) ·
 [Pilot folder guide](google-slides-pilot/README.md)
 
-The collection contains 2,235 visible slides from 57 decks. The Spring 2026
-lecture sequence comes first, followed by additional decks and the lab
-tutorial. Distinct decks are retained even when they revisit a topic. For
-the newer reading and exercise sequence, see the
+The source inventory contains 2,235 visible slides from 57 Spring-centered
+candidate decks. It is the comparison baseline, not the final selection.
+Recorded decisions use Fall's complete source wherever Fall covers a topic and
+include older material only as a complete topic absent from Fall. Keep older
+material within a Fall-covered topic as comparison/provenance evidence, not as
+isolated supplements. The final selected source/build map is not assembled yet.
+For the newer reading and exercise sequence, see the
 [Fall 2026 study guide](../README.md#fall-2026-study-guide).
+
+Current older-topic decisions and their evidence are recorded in the
+[older-topic selection audit](older-topic-selection-audit.csv). The audit
+identifies complete candidate units absent from Fall, records superseded
+material, and keeps unresolved comparisons explicit. It is a working selection
+map, not proof that every remaining deck has been checked.
 
 ## Test the editable import first
 
@@ -16,7 +25,8 @@ The [Round 4 PPTX](google-slides-pilot/cs408-editable-part-01-round4.pptx)
 is the current full Part 1 comparison baseline. Its
 [Google export](google-slides-pilot/cs408-editable-part-01-round4.pdf)
 has all 260 pages. Rounds 5–11 tested targeted repairs in smaller native
-decks. The latest is [Round 11 revision 4](google-slides-pilot/cs408-conversion-pilot-round11-rev4.pptx),
+decks. Round 11 revision 4 is the latest label-fit repair:
+[Round 11 PPTX](google-slides-pilot/cs408-conversion-pilot-round11-rev4.pptx),
 with its [Google PDF](google-slides-pilot/cs408-conversion-pilot-round11-rev4-google.pdf)
 and [three-page map](google-slides-pilot/cs408-conversion-pilot-round11-rev4-map.csv).
 It repairs the split `Program Text`, `CFG`, `true`, and `false` labels on
@@ -27,6 +37,44 @@ has the three mapped slides in order. The
 [conversion runbook](SLIDE_CONVERSION.md#round-11--cfg-label-fit-with-original-fonts)
 records the revisions, local font-substitution caveat, repair rule, API
 readback, and remaining work.
+
+Round 14 is the latest older-topic conversion pilot: it imports the complete
+28-slide archived concurrency-testing lab introduction. The [native deck](https://docs.google.com/presentation/d/1tAObwDTGc_EJ6aD4nXIceRTPjc3vF63hOPDdxFdZ0WE/edit),
+[Google PDF and contact sheets](google-slides-pilot/cs408-concurrency-lab-intro-round14-review/),
+and [slide map](google-slides-pilot/cs408-concurrency-lab-intro-round14-map.csv)
+record the result. Google readback found 28 slides in order; all 28 rendered
+pages were visually reviewed against a diagnostic render of the source PPTX.
+The source has no speaker-note parts or timed animation. It is an older
+supplemental topic, separate from the current Fall fuzzing project. Content
+review found the screenshots on slides 4–6 still show a `CS503 Spring 2021`
+context; update or clearly label them as archival in the final selected copy.
+
+Round 13 remains the latest Fall source-selection/conversion pilot: it imports the
+complete Fall Lab 1 tutorial (40 source slides) into a 62-slide native Google
+deck. The [native presentation](https://docs.google.com/presentation/d/1wHRFaaLfwfrOnY_fKJbG69xQf9x0Yql47D6ZFCoZb7g/edit),
+[PPTX](google-slides-pilot/cs408-fall-project-1-pilot-round13.pptx),
+[62-page Google PDF](google-slides-pilot/cs408-fall-project-1-round13-review/presentation.pdf),
+[source/build map](google-slides-pilot/cs408-fall-project-1-pilot-round13-map.csv),
+and [builder](google-slides-pilot/build_fall_lab1_pilot_round13.py) are kept
+in the pilot folder. Native readback confirmed 62 ordered slides. Speaker
+notes were cloned in the local package and read back from one static slide and
+one expanded-state slide. All 62 Google-rendered pages were inspected. The
+map expands 8/6/11 paragraph-reveal states and identifies the separate AFL
+screenshot zoom sequence on source slides 35–36. Slide 2 follows the Fall
+handout's Oct 30 date; the syllabus table says Nov 3, so retain that conflict
+for resolution before final integration.
+
+Round 12 revision 2 remains a technical conversion pilot: it reconstructs
+four older Test Case Minimization pages (combined slides 840–843) as editable
+text and equations. These pages are not selected for final content because
+Fall supplies the complete topic. Its [PPTX](google-slides-pilot/cs408-tcm-supplement-round12-rev2.pptx),
+[Google PDF](google-slides-pilot/cs408-tcm-supplement-round12-rev2-google.pdf),
+[page map](google-slides-pilot/cs408-tcm-supplement-round12-rev2-map.csv),
+[builder](google-slides-pilot/rebuild_tcm_supplement_round12.py), and
+[native Google deck](https://docs.google.com/presentation/d/1QBFgfPtlkF_UIgBuuiFzmf12lk3Kg3CJ8GheASBtBdM/edit)
+are documented in the [Round 12 log](SLIDE_CONVERSION.md#round-12--editable-test-case-minimization-supplement).
+Readback confirmed four slides with native shape text and no images. The PDF
+review caught and fixed missing Unicode letter subscripts before acceptance.
 
 Native text edit/readback has been verified on a disposable Round 10 copy and
 on the requested Round 4 deck. A reversible line-position edit/readback also
@@ -153,37 +201,162 @@ describes importing and converting PowerPoint files.
 
 ## Source selection and conversion
 
-Use the newest available version of each topic as the primary source. Keep an
-older lecture, slide, homework, or syllabus item only when its useful content
-does not appear in the newer version; note its source and why it remains.
-Do not duplicate an older version that a newer source has superseded. The
+Use the newest available version of each topic as the primary source. Apply a
+whole-topic rule: use the complete Fall source for every topic Fall covers,
+and add a complete Spring topic only when Fall does not cover it. Do not append
+isolated older slides, examples, criteria, or case studies to a Fall-covered
+topic. Record older sources in the crosswalk as provenance and comparison
+evidence. Do not duplicate an older version that a newer source has superseded. The
 current 2,235-slide map is Spring-centered and has not yet been reconciled
 topic by topic against the Fall 2026 material for final source selection.
-Complete that crosswalk before freezing the conversion set. Use the
-candidate [Fall 2026 crosswalk](source-version-crosswalk.csv) to compare
-exports with their current combined-source counterparts. Its mappings are
-topic-level candidates; content review and final keep/replace decisions are
-still open. The 20 referenced PDFs (956 pages) are present in the base branch
-`origin/fall+2026` at `slides/f26-pdfs/`, not in the active branch's checked-out
-course tree. They were extracted with `git archive` into the temporary
-`out/.build/fall-source/` folder; their validated page counts and metadata are
-in [fall-source-metadata.csv](fall-source-metadata.csv). To reproduce the
-extraction from the repository root, run:
+Complete that crosswalk before freezing the conversion set. The initial pass
+maps all 57 Spring candidate deck entries to Fall source candidates in the
+[source-deck topic audit](source-deck-topic-audit.csv): 44 by exact basename,
+12 by topic/renumbering, and the remaining 43-page Spring Lab 2 tutorial to
+Fall Lab 1 plus Fall fuzzing sources. The Fall Lab 1 tutorial is now imported
+and visually reviewed; its expanded builds, notes, and screenshot zoom are
+mapped in the Round 13 source map. Treat the Spring tutorial as superseded and
+comparison-only. The older syntax-based-testing decks (combined slides
+1222–1318) are now excluded after review: Fall Fuzzing and Mutation Testing
+cover their main grammar and program-mutation lessons; older grammar-coverage
+criteria are isolated additions. The source-deck audit now records use/exclude
+outcomes for all 57 entries. It selects the latest available Final Review
+deck with Fall-syllabus repairs; includes full older Verified Distributed
+Systems and Semantic/Latent Concurrency Bug Detection units; and excludes the
+older mixed Regression/Integration and Fall 2025 Review decks whole. Exact
+source/build maps and conversion remain open. The separate
+[older-topic selection audit](older-topic-selection-audit.csv) now records
+candidate complete older units and their current decisions; Round 14 tested
+the concurrency-testing lab introduction as a complete 28-slide import.
+Record/replay, deterministic execution, static-testing tools, verified
+distributed systems, semantic/latent concurrency-bug detection, and the
+archived concurrency lab are selected as complete older-only units. The Fall
+Final Review still needs its May 8 and HW3–5 administrative details replaced
+using the current syllabus. The mixed Regression/Integration deck and its
+17-page `Integration Testing Bad` draft are excluded in favor of the complete
+Fall Test Anatomy and Regression Testing sources. The reproducible first-pass mapper is
+[audit_source_deck_topics.py](audit_source_deck_topics.py).
+The initial pass
+identifies Fall-specific changes to Introduction policies, grading, schedule,
+and learning objectives. The Spring Keynote source has the incorrect label
+“Therac-35,” while its paired PDF page 27 scans Nancy Leveson's Therac-25
+article; Fall's complete Introduction contains no Therac example. Omit the
+isolated scan and generic casualty transition, keeping the mismatch as
+provenance only. Older slides 29–34 are not added to Fall Fault/Error/Failure
+or Regression Testing. Fall Test Anatomy is the complete selected source; do
+not append the older 1979–1980 overview. Older slides 1831–1838 are JPL
+LOC-1–LOC-6 coding-standard excerpts for Mars Science Laboratory flight
+software, not Mars Climate Orbiter code; slides 1839–1840 show Clang/cppcheck.
+Fall also has a current Static Analysis Keynote. The Fall
+`22-408st-static-analysis.key` exists, but its PDF export is absent from the
+20-PDF set; three agenda-slide variants still mention April 24 Project 2/HW5
+deadlines. Replace them with Fall values (HW6: Dec 4 at 6 PM; Project 2: Dec
+6). Export and inspect the complete Fall Static Analysis source; do not append
+older examples individually. The candidate audit explicitly excludes row 24,
+`03-408st-fault-error-failure`: it is an older Fall 2025 version superseded
+by the complete Fall 2026 source in `02-408st-fault-error-failure.key` and
+its PDF. See the
+[Static Analysis review](SLIDE_CONVERSION.md#static-analysis-and-coding-standards-source-review).
+Fault/Error/Failure adds an ordered program-state
+modeling sequence in Fall PDF pages 31–62, then updated RIPR/revealability and
+other builds through page 78; its older 2025 candidate section mostly repeats
+material present in Fall 2026. The selected source decisions are recorded in
+the [source-deck audit](source-deck-topic-audit.csv) and
+[older-topic audit](older-topic-selection-audit.csv). Use the candidate
+[Fall 2026 crosswalk](source-version-crosswalk.csv) for page-level provenance
+and source mapping; slide/build reconciliation is still open. The 20
+referenced PDFs (956 pages) are present in the current
+checkout at `slides/f26-pdfs/`, because this branch is based on Fall 2026. The
+matching Keynote decks are under `slides/`; 57 Keynote files are listed in
+[fall-keynote-inventory.csv](fall-keynote-inventory.csv). The PDFs' validated
+page counts and metadata are in
+[fall-source-metadata.csv](fall-source-metadata.csv). If a future checkout
+does not contain the source branch files directly, extract only the required
+sources from the current Fall base with:
 
 ```sh
-git archive --format=tar origin/fall+2026 slides/f26-pdfs | tar -xf - -C out/.build/fall-source
+git archive --format=tar HEAD slides/f26-pdfs slides/01-408st-introduction.key | tar -xf - -C out/.build/fall-source
 ```
 
-Use the slide-level source maps below to preserve provenance, and check the
-current syllabus and course order when deciding where unique older material
-belongs. Do not switch branches just to inspect Fall PDFs; the archive command
-keeps the current working branch intact.
+The [branch blob comparison](source-branch-diff-audit.csv), generated by
+[audit_source_branch_diffs.py](audit_source_branch_diffs.py), compares each
+candidate's recorded Spring source with its mapped Fall source at the two
+branch tips. It found 36 byte-identical source pairs and 25 changed pairs
+across 61 mapped paths. The four Fall sources mapped to the older Lab 2 PDF
+are separate files, and the fuzzing topic maps to two Fall decks. Blob identity
+is provenance evidence only: it does not establish topic equivalence, current
+course relevance, or a keep/replace decision. Use the content crosswalk and
+source review for those decisions.
 
-The source files have checkout timestamps, so selection used dates embedded
-inside the Keynote archives and PDF metadata, with PDF UTC dates converted to
-the local time zone. Modern Keynote slide order and skip flags were read
-directly from the IWA archives; the flags match the existing PDF slide counts
-for the corresponding unchanged decks.
+The Fall Test Case Minimization PDF/Keynote is the primary lesson. A visual
+review of all 49 Fall pages against the 52-page older PDF found four
+consecutive older slides (source pages 38–41, combined slides 840–843) with a
+useful formal model of edits and failing-input construction that Fall omits.
+The equations have been visually checked for the conversion pilot. The pages
+are not selected as an isolated supplement inside Fall's complete TCM topic.
+The Spring branch has no old Keynote, so the pilot mapped each source PDF page
+one-to-one to an editable static slide;
+the old pages in the combined deck are raster images. Round 12 revision 2
+reconstructs only the four selected older pages; it is not the full Fall
+lecture conversion. The pilot demonstrated the editable reconstruction in
+Google Slides: subscripted labels render legibly and each page is mapped
+one-to-one. The older Spring Keynote remains unavailable, so notes and
+animation build states cannot be recovered from the older PDF. The rest of
+the old deck is superseded or duplicated. See the
+[crosswalk](source-version-crosswalk.csv) and
+[runbook findings](SLIDE_CONVERSION.md#test-case-minimization-source-review)
+and [Round 12 conversion log](SLIDE_CONVERSION.md#round-12--editable-test-case-minimization-supplement).
+
+The older symbolic-execution candidate includes three additional Keynotes
+whose combined slides cross topic boundaries. Their 1545–1660 span is not all
+symbolic execution: pages 1545–1559 cover logic/CACC, 1560–1589 and 1617–1620
+cover symbolic execution, 1590–1616 and 1621–1645 cover concolic execution,
+and 1646–1660 contain a MultiNyx hypervisor case study. These ranges have
+been corrected in the [crosswalk](source-version-crosswalk.csv). Since Fall
+covers both topics, these older candidate sections are comparison/provenance
+only and are not selected. See the
+[runbook review](SLIDE_CONVERSION.md#symbolic-execution-and-concolic-source-review).
+
+The older ISP material contains Multiple Base Choice Coverage (slides
+1889–1890) and an Iterator characteristics/test-generation exercise (slides
+1896–1916), but these are isolated additions inside the Fall-covered topic.
+They are comparison/provenance only and are not selected. The broad old
+range also contains JPL coding-standard and Clang/cppcheck material before ISP
+actually begins at 1841. See the
+[corrected crosswalk](source-version-crosswalk.csv) and
+[detailed review](SLIDE_CONVERSION.md#input-space-partitioning-source-review).
+
+Use the slide-level source maps below to preserve provenance, and check the
+current syllabus and course order when placing complete older topics absent
+from Fall. Do not switch branches just to inspect Fall sources; the archive
+command keeps the working branch intact.
+
+**Source-version rule:** the Fall PDFs carry August–November 2026 export dates;
+the Spring-centered Keynote candidates carry January–August 2026 save dates.
+Use the Fall Keynote and its Fall PDF export as the newest source pair: use the
+Keynote for editable objects, notes, visibility, and build order, and its PDF
+for the selected Fall appearance. Use the Spring-centered Keynote/PPTX only as
+a reconstruction reference or comparison baseline. It must not override Fall
+content. Compare each page and meaningful build state for source QA, but select
+older material only as a complete topic when Fall does not cover it. The
+17-page `Integration Testing Bad` draft has been compared and excluded whole:
+Fall Test Anatomy pages 32–34 mark the traditional strategies as old/broken,
+and pages 35–36 replace them with explicit contracts.
+
+For reproducible page-level triage, see the [Fall-to-current report](fall-current-text-overlap.csv),
+the [current-to-Fall report](current-fall-text-overlap.csv), and the
+[per-topic summary](fall-topic-overlap-summary.csv), generated by
+[audit_fall_text_overlap.py](audit_fall_text_overlap.py). These lexical
+matches identify candidates for review; they do not decide whether a page is
+equivalent, superseded, unique, or image-only. The [conversion runbook](SLIDE_CONVERSION.md#fall-2026-source-audit-and-first-text-crosswalk)
+records the command and current findings.
+
+The Spring-centered candidate's source inventory uses save/export dates
+embedded inside the Keynote archives and PDF metadata; PDF UTC dates were
+converted to the local time zone. Those dates describe that candidate only
+and do not supersede the later Fall 2026 PDF exports. Modern Keynote slide
+order and skip flags were read directly from the IWA archives; the flags match
+the existing PDF slide counts for the corresponding unchanged decks.
 
 Within this Spring-centered candidate set, the latest saved Keynote supplies
 each deck, except symbolic execution (`17`), whose March 26 PDF is newer and
