@@ -9,7 +9,9 @@ patches on slides 4–5, empty agenda bullets on slides 7 and 38, and the
 restored blank code row on slide 25. The local audit passes package/order/PDF
 page/text checks and confirms unchanged slide 6 as the control. Slide 21's
 newer System test material is retained although it is absent from the older
-September PDF. Next, create the 16-batch boundary outline, then complete
+September PDF. The 16-batch boundary outline is recorded. Each final batch
+will have a plain, editable divider before every original source deck,
+labeled with that exact filename and the following topic. Next, complete
 Batch 1 end to end before starting Batch 2. Source selection is already
 closed; do not repeat the 57-deck analysis. See the
 [Round 16 record](combined/SLIDE_CONVERSION.md#round-16--test-anatomy-repairs-and-google-review).
@@ -234,8 +236,8 @@ behavior and for full-deck visual review.
 | 7 | **Complete 2026-11-25 (source/conversion pilot).** Import the complete Fall Lab 1 tutorial, expand and map its builds, verify native order/notes, and inspect the Google PDF. | 45–90 min active · medium | Complete: 40 source slides became 62 ordered slides; paragraph states 8/6/11 and the AFL screenshot zoom pair are mapped. All 62 Google PDF pages were inspected. Spring Lab 2 tutorial is comparison-only. The Oct 30 handout vs Nov 3 syllabus deadline conflict remains open. See [Round 13](combined/SLIDE_CONVERSION.md#round-13--fall-lab-1-fuzzing-source-and-build-mapping). |
 | 8 | **Complete 2026-11-25 (older-topic import pilot).** Import the complete archived concurrency-testing lab introduction, map it, and compare every Google-rendered page with the PPTX source. | 45–90 min active · medium | Complete: 28 ordered slides and 28 Google PDF pages; all pages visually reviewed against the source's local diagnostic PDF. No layout repair needed. The source has no notes or timed animation. See [Round 14](combined/SLIDE_CONVERSION.md#round-14--older-concurrency-testing-lab-introduction). |
 | 9 | **Complete 2026-11-26.** Review all 38 pages of the Round 16 Google export against the current Keynote-derived deck and September PDF where applicable; repair verified defects. | Complete · 0 min remaining | All 38 map rows have close review. Repairs cover slide 1's banner, slide 2's empty bullets and line fit, diagram regions on slides 4–5, agenda bullets on 7 and 38, and the blank code row on 25. Google shows `3.` on the restored blank row; source PDF leaves it unnumbered. The audit passes page order/count, requested text, and slide 6's unchanged XML/pixel control. See [Round 16](combined/SLIDE_CONVERSION.md#round-16--test-anatomy-repairs-and-google-review). |
-| 10 | Write the ordered boundary outline for exactly 16 conceptual batches using the already-selected source decks/topics and the course schedule/homework sequence. | 2–4 hours · medium | Each boundary falls between complete original decks and topics; the batch sizes may vary. This is placement work, not a second content-selection audit. |
-| 11 | Complete Batch 1 end to end: detailed source/build map, conversion, repairs, local package checks, upload to the shared Drive root, native readback, Google PDF export, page-by-page visual review, and documentation. | Initial estimate 1–3 working days · low | Batch 1 passes every check before work starts on Batch 2. Re-estimate remaining batches from measured time and defect rate. |
+| 10 | **Complete 2026-11-26.** Set the 16 conceptual boundaries from the closed selection audit and Fall syllabus. | Complete · 0 min remaining | [BATCH_BOUNDARIES.md](combined/BATCH_BOUNDARIES.md) records the ordered groups, complete source topics, Week 12 source gap, and six older-only units. Every final batch gets a plain, editable divider before each original deck, labeled with its exact filename and following topic; map each divider separately. |
+| 11 | Complete Batch 1 end to end: detailed source/build map, source-deck dividers, conversion, repairs, local package checks, upload to the shared Drive root, native readback, Google PDF export, page-by-page visual review, and documentation. | Initial estimate 1–3 working days · low | Batch 1 passes every check before work starts on Batch 2. Re-estimate remaining batches from measured time and defect rate. |
 | 12 | Complete Batches 2–16 in order, repeating the full Batch 1 workflow; start each only after the previous batch is accepted. | Initial estimate 1–3 working days per batch (15–45 days total) · low; recalibrate after Batch 1 | All 16 final decks are directly in the shared Drive root (above `Pilots`), with complete maps, native readbacks, reviewed Google PDFs, and current documentation. |
 | 13 | Use the no-curl large-PDF fallback only if a real batch export exceeds the direct response limit. | Conditional: 30–90 min if needed | Try the documented `files.download` LRO or authenticated browser route for that batch. Do not run a standalone size test and do not split a whole deck/topic just to fit the limit. |
 
@@ -493,16 +495,18 @@ behavior and for full-deck visual review.
 
 ## Next action
 
-1. Write the ordered outline for 16 contiguous conceptual batches. Use the
-   already-closed selection audit and the syllabus/homework sequence; keep
-   every original source deck and topic whole. Do not reopen the 57-deck
-   content analysis.
-2. Start Batch 1. Build its detailed source/build map, convert all its selected
-   material, expand meaningful animations into ordered static slides, repair
+1. The ordered boundary outline is complete in
+   [BATCH_BOUNDARIES.md](combined/BATCH_BOUNDARIES.md). Use its topic order and
+   complete source-deck boundaries; do not reopen the 57-deck content analysis.
+2. Start Batch 1. Build its detailed source/build map and add one plain,
+   editable divider before every original source deck, including the first.
+   Label each with its exact filename and the topic of the following slides.
+   Convert all selected material, expand meaningful animations into ordered
+   static slides, repair
    defects, run local package checks, upload the final batch directly to the
    shared Drive root (the parent folder of `Pilots`), read it back, export its
    Google PDF, inspect every page, and update the manifest and documentation.
-4. Begin Batch 2 only after Batch 1 passes all checks. Repeat this complete,
+3. Begin Batch 2 only after Batch 1 passes all checks. Repeat this complete,
    ordered process through Batch 16. Keep pilots and disposable test decks in
    `Pilots`; do not store final batches there.
 

@@ -825,18 +825,22 @@ finish each batch 100% before beginning the next.
    `google-slides-pilot/cs408-fall-test-anatomy-round16-review/`. Slide 6's
    quote/build and slide 21's system-test material are kept as newer content
    from the Keynote-derived source; the September PDF predates them.
-2. Create one ordered outline of **16 contiguous conceptual batches**. Keep
+2. **Complete:** The ordered outline of **16 contiguous conceptual batches**
+   is recorded in [BATCH_BOUNDARIES.md](BATCH_BOUNDARIES.md). Keep
    original source decks and topics whole and in source order. Use the course
    schedule and homework sequence to place boundaries roughly by lecture week;
    place related syllabus/homework material with its topic where order allows.
    Counts and sizes vary; do not target 559 slides or move material to make
    equal blocks.
 3. Work on Batch 1 only. Create its detailed output-to-source/build map,
-   expand meaningful animations into ordered static states, convert the
-   selected source material, and carry forward only repair rules that fit the
-   source/layout. Fix text-fit issues by inspecting box geometry and font size;
-   use image fallback only for the smallest unreliable element as a last
-   resort.
+   add one plain, editable source/topic divider before every original source
+   deck, including the first deck in the batch, and map each divider as a
+   generated slide. Divider text must name the exact source filename and the
+   topic of the following slides. Expand meaningful animations into ordered
+   static states, convert the selected source material, and carry forward
+   only repair rules that fit the source/layout. Fix text-fit issues by
+   inspecting box geometry and font size; use image fallback only for the
+   smallest unreliable element as a last resort.
 4. Validate the current batch locally: package integrity, relationships,
    notes, slide count/order, and its page map. Import the batch's final Google
    Slides deck directly into the shared Drive root (the parent folder above

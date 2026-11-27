@@ -61,7 +61,7 @@ Keynote. The exact gaps and the Round 15/16 diagnostic and repair are in the
 | Step | Instructions | What to keep |
 | --- | --- | --- |
 | 1. Locate the source | Use the [combined collection guide](combined/README.md) to map a combined slide number to its source deck, saved build, and editable batch. | The matching Keynote or PowerPoint, source PDF, and combined slide numbers. |
-| 2. Build or repair the current batch | Follow the [conversion runbook](combined/SLIDE_CONVERSION.md). Reuse verified rules; create a small pilot only for an unfamiliar slide family. Map and repair the current batch without building later batches in parallel. | The current batch PPTX, its ordered source/build map, and local diagnostics. |
+| 2. Build or repair the current batch | Follow the [conversion runbook](combined/SLIDE_CONVERSION.md). Reuse verified rules; create a small pilot only for an unfamiliar slide family. Add one plain, editable divider before every original source deck, labeled with its exact filename and the topic of the following slides. Map each divider separately. | The current batch PPTX, its ordered source/build map, divider rows, and local diagnostics. |
 | 3. Upload and verify in Google | Use the [Google Drive guide](combined/GOOGLE_DRIVE_ACCESS.md) for paced imports, native readback, PDF export, and the browser fallback. Put pilots in `Pilots`; put final numbered batches directly in the shared folder root. | The batch's native deck URL, structural readback, Google PDF, and page-by-page review. |
 | 4. Compare and improve | Follow the [roundtrip checks](combined/SLIDE_CONVERSION.md#run-and-evaluate-a-google-roundtrip) and run the [local audit script](combined/google-slides-pilot/audit_conversion_pilot.py). Check page order, content and code, image crops, graph endpoints, and actual editability. Record where each defect first appeared and retest the smallest repair. | The comparison result, a reusable repair rule, any exceptions, and what remains open. |
 | 5. Apply verified repairs to the batch | Use the [integration instructions](combined/SLIDE_CONVERSION.md#integrate-verified-repairs-into-a-full-batch) to assemble a new full-size candidate and verify its Google export. | A versioned full-batch candidate, its PDF comparison, and an updated runbook. |
@@ -72,6 +72,7 @@ Keynote. The exact gaps and the Round 15/16 diagnostic and repair are in the
 - [Last-resort manual Keynote-to-PDF request list](MANUALLYCONVERT.md)
 - [Branch, restart-kit, and artifact-tracking policy](BRANCH_AND_HANDOFF.md)
 - [Combined slide collection and source map](combined/README.md)
+- [Final 16-batch boundaries and deck/topic sequence](combined/BATCH_BOUNDARIES.md)
 - [Conversion runbook, pilot logs, and reusable repair rules](combined/SLIDE_CONVERSION.md)
 - [Google Drive access and paced upload/export workflow](combined/GOOGLE_DRIVE_ACCESS.md)
 
@@ -228,9 +229,12 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
 - **Next.** Round 16 is complete. The content-selection gate is closed for all
   57 candidate rows; do not repeat that analysis. Use Fall sources for
   covered topics and include the six complete older-only topics recorded in
-  the audit. Create the ordered 16-batch boundary outline using the
-  syllabus/homework sequence while keeping whole decks and topics intact.
-  Then map, convert, repair, upload, and verify Batch 1 completely before
+  the audit. The ordered 16-batch boundary outline is in
+  [BATCH_BOUNDARIES.md](combined/BATCH_BOUNDARIES.md). Put one minimal, plain,
+  editable divider before every original source deck in each final batch,
+  labeled with its exact filename and the topic of the following slides; map
+  each divider separately from source slides and build states. Then map,
+  convert, repair, upload, and verify Batch 1 completely before
   starting Batch 2. Resolve source-reference gaps when they affect the batch
   in progress; use existing
   PDFs first and consult `MANUALLYCONVERT.md` only as a last resort. Aim for a

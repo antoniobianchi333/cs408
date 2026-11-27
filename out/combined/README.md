@@ -415,11 +415,14 @@ The PDF retains its original page dimensions and vector text where available.
 ## Current status and batch order
 
 Round 16's full 38-page review, exact page map, final Google PDF, and refreshed
-contact sheets are complete. Next create the ordered boundary outline for
-exactly 16 conceptual batches using the already-settled
-source choices, whole-deck/topic boundaries, and the syllabus/homework
-sequence. Do not repeat content selection or build detailed maps for all
-batches before starting conversion.
+contact sheets are complete. The ordered boundary outline is in
+[BATCH_BOUNDARIES.md](BATCH_BOUNDARIES.md), based on the closed source choices,
+whole-deck/topic boundaries, and syllabus sequence. Do not repeat content
+selection or build detailed maps for all batches before starting conversion.
+
+For every final batch, add a plain, editable divider before each original
+source deck. Each divider names the exact filename and topic of the following
+slides and receives its own source-map row.
 
 Then finish Batch 1 end to end: create its source/build map, convert and repair
 its selected material, validate the local package, upload the final native
