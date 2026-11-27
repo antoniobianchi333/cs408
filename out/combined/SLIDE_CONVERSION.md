@@ -10,9 +10,13 @@ dimensions, and meaningful layout while keeping text, code, and ordinary
 shapes editable. Update the roundtrip log after each test.
 
 [Round 4](#round-4--checked) is the complete Part 1 comparison baseline.
+[Round 16](#round-16--test-anatomy-repairs-and-google-review) is the current
+`.key` repair pilot; native readback and the exact 38-slide map are complete.
+The latest Google PDF is saved; close visual review is complete for slides 6,
+9, 23, 26, 30–32, and 36–37, with other pages still pending.
 [Round 14](#round-14--older-concurrency-testing-lab-introduction) is the
 latest older-topic import pilot; [Round 13](#round-13--fall-lab-1-fuzzing-source-and-build-mapping)
-is the latest Fall source-selection pilot.
+is the latest accepted Fall source-selection pilot.
 [Round 12 revision 2](#round-12--editable-test-case-minimization-supplement)
 is the previous math/editability pilot. Rounds 5–14 imported through the connector and
 exported Google PDFs for local review. Native text editing/readback passed
@@ -21,7 +25,7 @@ line-position edit/readback passed on a disposable Round 11 copy; a line
 style update was rejected for its imported arrow. See the
 [Google API records](GOOGLE_DRIVE_ACCESS.md#verified-live-text-edits) and
 [vector edit record](GOOGLE_DRIVE_ACCESS.md#verified-native-vector-object-edit).
-Use the [current open-work list](#open-work-after-round-14) before extending
+Use the [current open-work list](#open-work-after-round-16) before extending
 repairs across Part 1 or the full collection.
 
 ## File-transfer invariant (current)
@@ -32,14 +36,16 @@ Drive `files.download` long-running operation and returns a user-scoped
 `file_uri`; this response is not itself a local path. Google's direct
 `files.export` response is limited to 10 MB, while `files.download` supports
 Workspace export (including Slides PDF) through an operation that returns a
-download URI. The open technical task is to verify that this connector can
-materialize a >10 MB LRO result into a local file. For PDFs below 10 MB, one
-bounded `include_base64: true` compatibility fetch has been verified; write
-its bytes through the helper's chunk receiver without printing them. Do not
-split a deck/topic to meet the `files.export` cap. Packaging can use up to 16
-ordered blocks, cut only at complete source-deck and topic boundaries, when
-import stability or review effort requires it. Native slide thumbnails and
-the authenticated browser are alternatives if local materialization fails.
+download URI. The >10 MB LRO handoff remains untested, but a standalone test
+is not required. For PDFs below 10 MB, one bounded `include_base64: true`
+compatibility fetch has been verified; write its bytes through the helper's
+chunk receiver without printing them. Aim for small batch PDFs when whole
+topic/deck boundaries allow; if an actual batch exceeds the direct export
+limit, use the documented LRO or authenticated-browser fallback. Never split
+a deck/topic to meet the cap. The final delivery target is 16 ordered
+conceptual batches, roughly one lecture week each, cut only at complete
+source-deck and topic boundaries. Native slide thumbnails are another visual
+fallback if local materialization fails.
 The current connector result and detailed recovery order are recorded in the
 [Drive guide](GOOGLE_DRIVE_ACCESS.md#download-the-google-rendered-pdf).
 
@@ -147,13 +153,15 @@ different meaningful animation family during source reconciliation.
    Fall does not cover it. Do not append isolated old slides, examples,
    criteria, or case studies to an overlapping Fall topic. Keep older sources
    in the crosswalk for comparison and provenance.
-   The Fall 2026 PDFs postdate the Spring-centered Keynote candidates in this
-   repository. Use each Fall Keynote/PDF pair as the newest source: the
-   Keynote provides editable source objects, notes, visibility, and build
-   order; the PDF shows the selected Fall appearance. Use older Spring
+   The Fall 2026 PDFs generally postdate Spring-centered Keynote candidates,
+   but not every selected Fall Keynote has a PDF and some available pairs may
+   differ by revision. Use the complete Fall Keynote for editable source
+   objects, notes, visibility, and build order. Use a Fall PDF for appearance
+   only after checking its revision and page mapping; use it as a comparison
+   baseline and record deltas when it predates the Keynote. Use older Spring
    Keynotes only as reconstruction references, never to restore superseded
-   content. Compare page-by-page for QA and provenance. Treat the separately named `Integration Testing Bad` file as
-   an untrusted draft until its content is reviewed.
+   content. Treat the separately named `Integration Testing Bad` file as an
+   untrusted draft until its content is reviewed.
    Use the current syllabus and source dates to place complete older-only
    topics. Never keep a superseded duplicate or an isolated older supplement.
 3. Preserve the original files. Write new tests to
@@ -183,6 +191,48 @@ slide](fall-current-text-overlap.csv) and [current slide to Fall
 page](current-fall-text-overlap.csv), plus the [per-topic
 summary](fall-topic-overlap-summary.csv), were generated by
 [audit_fall_text_overlap.py](audit_fall_text_overlap.py):
+
+### Fall PDF coverage and Keynote preview limits
+
+There are 20 files under `slides/f26-pdfs/`: 19 lesson PDFs and the
+untrusted, excluded `Integration+Testing+Bad.pdf` draft. The 57 `.key`
+packages are not all paired with a Fall PDF. Among the selected Fall sources,
+there is no full-deck PDF in `f26-pdfs/` for these Keynote files:
+
+- Concurrency: `06-408st-concurrency.key`, `07-408st-concurrency.key`, and
+  `10-408st-concurrency.key`.
+- `13-408st-bug-reports.key` (Fall Bug Reports and Triage, updated October
+  25, 2026).
+- `22-408st-static-analysis.key`.
+- `23-408st-final-review.key` (the August 31, 2026 latest review source).
+- Testing AI / ML for bug detection: `28-408st-ml.key`, `29-408st-ml.key`,
+  `29b-408st-ml.key`, and `30-408st-ml.key`.
+
+Older full-deck PDFs do exist for some gaps under `slides/pdfs/`: Concurrency
+06 and 07 (February 3 and 5), Bug Reports (February 26), Static Analysis
+(May 4), and Final Review (May 2). Treat them as comparison candidates, not
+automatic visual authorities: confirm that each PDF matches the selected
+Keynote revision and map pages before relying on it. No complete deck PDF for
+the four AI / ML Keynotes was found in either PDF folder. Several complete
+older-only supplemental Keynote topics also have no Fall PDF because they
+were not part of the Fall export set; track those separately in the topic
+crosswalk.
+
+The Fall Test Anatomy PDF is present and useful as a full-deck baseline, but
+its metadata date is September 1, 2026, while the latest Keynote package
+contains an October 6 member. Both have 37 slides/pages, but matching counts
+do not establish an exact revision match. Use the PDF for page-by-page visual
+comparison and mark any content/build state that exists only in the later
+Keynote as a source delta; do not discard the whole PDF because of the date.
+
+All 57 local `.key` archives contain `preview.jpg` and smaller preview
+variants. In the Test Anatomy package, `preview.jpg` is a 1024×768 image of
+the title slide. It is a useful single-slide checkpoint, not a deck reference.
+PDF files under a Keynote archive's `Data/` directory are placed PDF assets,
+not a rendered export of all slides. Do not count either resource as a
+complete visual reference. A full-deck PDF also shows only the exported
+static pages: inspect Keynote visibility, notes, skipped-slide metadata, and
+builds separately.
 
 ```sh
 python3 out/combined/audit_fall_text_overlap.py \
@@ -368,10 +418,10 @@ the Spring announcement copies and show only the Fall announcements relevant
 to each lecture date.
 
 A diagnostic `libreoffice --headless --convert-to pdf` attempt produced no
-file for this `.key`, consistent with the failed `.key` conversions recorded
-above. The no-install route remains browser Keynote for iCloud to export a
-PPTX copy, then import to Google Slides; it has not yet been tested on this
-deck. Do not treat the lack of a PDF as evidence that Fall omitted the lesson.
+file for this `.key`, consistent with the failed direct `.key`-to-PDF
+conversions recorded above. The explicit `.key`-to-PPTX route was later
+tested in Round 15; it produced an importable deck but is not yet accepted.
+Do not treat the lack of a PDF as evidence that Fall omitted the lesson.
 The local Keynote slide data contains no JPL/LOC/MISRA or Clang/cppcheck
 references, while older combined slides 1831–1838 contain JPL's LOC-1 through
 LOC-6 standards for Mars Science Laboratory flight software and slides
@@ -410,35 +460,20 @@ useful. Some repeated “Who” and “Modeling Computations” pages may be
 incremental build states; map each state to the original Keynote and the
 selected Fall PDF before deciding.
 
-The LibreOffice rendering visibly damages some layouts (including the
-Introduction schedule and grading tables), so it is not visual acceptance
-evidence. Use the original Fall PDF for appearance and inspect Keynote
-visibility, notes, and build order independently. LibreOffice produced no ODP
-or PPTX output from the same `.key` input in the attempted headless
-conversions. A direct headless LibreOffice PDF-to-PPTX conversion of the
-30-page Fall Introduction PDF also produced no PPTX in an isolated output
-folder. A second test on the Fall `Test Anatomy` PDF (37 pages) returned
-`no export filter` for the requested PPTX output and created no file. These
-results do not provide an editable import route from either `.key` or PDF via
-headless LibreOffice; do not count an empty output folder as a conversion. A
-no-install route is available to test: Apple's Keynote for
-iCloud runs in a supported browser and can download a Keynote document as a
-PowerPoint copy. Google Drive can store `.key` files, but its documented
-Slides import formats are PowerPoint and OpenDocument Presentation; Drive
-does not convert `.key` directly into Slides. See [Apple's browser export
-instructions](https://support.apple.com/en-us/105050), [Google Drive stored
-file types](https://support.google.com/drive/answer/37603), and the [Drive API
-import formats](https://developers.google.com/workspace/drive/api/guides/manage-uploads).
-This route has not yet been tested on our course decks. Before scaling it,
-export one representative Fall Keynote to PPTX in Keynote for iCloud, then
-check source/build order, notes, object editability, media, and appearance
-after importing that PPTX into Google Slides. Apple documents PDF export with
-“Print each stage of builds” as a way to preserve each build on its own page;
-do not assume the PPTX export expands animations the same way until verified
-on the pilot. Keep the Fall PDF as the appearance/build reference. If the
-browser export is unsuitable, use an already available native Keynote export
-from the user; do not install a Linux converter while a no-install route is
-still available.
+The initial LibreOffice Keynote attempts used the default filter and failed;
+Round 15 later established that an explicit PPTX filter and isolated
+LibreOffice profile can convert a `.key` file on Linux. The resulting PPTX
+imports into Google Slides with native editable objects, but Round 15 has
+layout defects and an unmatched build/quote page, so it is a diagnostic route,
+not a production rule. Keep LibreOffice's local render diagnostic only; it
+can damage layouts. Use the matching full-deck source PDF for appearance when
+available, and verify exact revisions before treating it as authoritative.
+Where no matching PDF exists, test an older PDF against the exact Keynote or
+find a renderer that can be compared to an independent Keynote-generated
+reference. Google Drive stores `.key` files but does not convert `.key`
+directly to Slides; its import formats include PowerPoint and OpenDocument
+Presentation. See [Google Drive stored file types](https://support.google.com/drive/answer/37603)
+and the [Drive API import formats](https://developers.google.com/workspace/drive/api/guides/manage-uploads).
 
 ## Prepare a reproducible pilot on Linux
 
@@ -489,17 +524,17 @@ before sending it to the shared folder.
 
 ## Produce an editable PowerPoint on Linux
 
-1. Use a matching editable Keynote source when available. First test Apple
-   Keynote for iCloud in a supported browser to download a PPTX copy; it does
-   not require installing a Linux converter. Google Drive can store `.key`
-   files but cannot directly convert them to Google Slides. The attempted
-   LibreOffice headless `.key` to `.pptx` conversion produced no output, so do
-   not treat that command as a viable route unless a later version is
-   independently proven. If the user supplies a native Keynote PowerPoint
-   export, use it as a conversion candidate. Compare it against the Fall PDF.
-   Google Slides import and its PDF determine acceptance; a local render is
-   diagnostic and may substitute fonts unavailable on Linux. Keep existing
-   good slide XML and assets when a tested editable package is available.
+1. Use the matching editable Keynote source when available. On Linux, Round 15
+   proved that LibreOffice 7.3.7.2 with an explicit `.key`-to-PPTX export
+   filter and isolated profile can produce an importable editable deck. This
+   is not accepted for scale yet: the Test Anatomy pilot has visible defects
+   and an unmatched page. Google Drive can store `.key` files but cannot
+   directly convert them to Slides. Compare every candidate with the exact
+   Fall PDF when one exists; use older PDFs only after matching revisions and
+   page order. Google Slides import and its PDF determine acceptance; a local
+   render is diagnostic and may substitute fonts unavailable on Linux. Keep
+   existing good slide XML and assets when a tested editable package is
+   available.
 2. Keep editable text in text boxes with explicit sizes, paragraph breaks,
    and room for the longest line. Preserve bold, italics, links, and code
    formatting where they carry meaning. Google used Bebas Neue,
@@ -551,12 +586,13 @@ before sending it to the shared folder.
    generated slide to its source slide and build state, and keep the whole
    sequence in the same deck/topic group; output count may grow. The existing
    [editable batch manifest](editable-parts-manifest.json) covers all 2,235
-   slides in nine files of at most 275 slides and under the Google Slides
-   100 MB conversion limit. The batch packages were checked locally, and
-   their boundaries align with complete source decks. They are baseline
-   packaging units; check topic spans before reusing them as final upload
-   blocks. Batch 3 rendered all 275 slides in Impress. A pilot import does
-   not establish that the full deck or each batch will import.
+   candidate slides in nine legacy files of at most 275 slides and under the
+   Google Slides 100 MB conversion limit. The batch packages were checked
+   locally, and their boundaries align with complete source decks. These nine
+   files are baselines, not the final 16 conceptual batches. Rebuild the
+   selected Fall-plus-older-only content into 16 roughly weekly groups without
+   splitting topics or decks. A pilot import does not establish that a full
+   batch will import.
 
 ### Repair by symptom
 
@@ -754,61 +790,56 @@ the new baseline after that audit and carry forward any remaining
 issues. Apply the same process to the other batches and establish each
 batch's own reference and regression controls.
 
-## Scale the conversion across all 2,235 slides
+## Convert the selected collection in order
 
-Do not move from a successful pilot directly to one large upload. First
-reconcile source versions, then finish family-level pilots against the
-selected sources. Integrate and verify the Part 1 candidate afterward; its
-slide count may grow if meaningful build states are expanded. For the
-collection, use topic-aligned blocks and keep every
-slide in original order:
+The source-selection decision is complete for all 57 candidate rows. Use Fall's
+complete source wherever Fall covers a topic, plus the six complete older-only
+topics recorded in `older-topic-selection-audit.csv`. Do not repeat the topic
+analysis or build all final batches at once. Complete the current pilot, make
+only the high-level boundary outline needed for the 16-batch sequence, then
+finish each batch 100% before beginning the next.
 
-1. Reconcile the Spring-centered 2,235-slide set topic by topic against the
-   Fall 2026 material and any other newer source. Use the complete newest
-   source for every covered topic; include a complete Spring topic only if
-   newer sources do not cover it. Do not append isolated older supplements to
-   overlapping topics. Then build an ordered inventory
-   from the source map, recording each original source deck's complete slide
-   range and topic tags before grouping.
-2. Mark permissible cuts only where both conditions hold: the preceding
-   original deck is complete, and the preceding topic is complete. When a
-   topic spans adjacent decks, keep that run together. When a deck spans
-   several topics, keep all of them together and group adjacent topic runs
-   around it. Preserve the current collection order; do not move slides to
-   manufacture cleaner or equal-sized blocks.
-3. Partition those ordered, indivisible groups into four contiguous blocks
-   as the first packaging assessment. Do not target 559 slides per block.
-   Balance sizes only among the permissible cuts, considering actual PPTX
-   bytes, slide count, topic sequence, and validation effort.
-4. If measured import size or review effort calls for more divisions, assess
-   eight and then up to sixteen blocks. Add a cut only at another permissible
-   deck-and-topic boundary. The block count is a capacity choice, not a
-   requirement to divide slides or topics evenly. If a single indivisible
-   group exceeds a limit, investigate a different import, export, or storage
-   path before changing its boundaries.
-5. At sixteen blocks, use the previous course's syllabus, lecture order, and
-   homework timing to estimate roughly one class week per block. Treat weeks
-   as a planning aid: a topic that crosses an estimated week stays whole.
-   Place a syllabus, homework, or supplemental item beside the topic it
-   supports when the current source order allows it, without splitting a
-   source deck or moving material out of order.
-6. Make a block manifest with its exact slide range, complete source deck
-   IDs, lecture/topic labels, estimated week where useful, PPTX size, slide
-   count, and associated homework or syllabus items. The manifest should
-   make it possible to verify mechanically that no source deck was divided;
-   record the topic-boundary rationale for each cut. Preserve one-based
-   combined-slide numbers and exact order in every page map.
-7. Verify ZIP integrity, internal relationships, notes, page count, page
-   order, and the imported native deck before accepting a block. Export and
-   inspect its Google PDF before uploading the next one. For PDFs above the
-   standard export limit, use the Drive streaming fetch or authenticated
-   browser download. If size still requires smaller units, use up to 16
-   ordered blocks at whole source-deck/topic boundaries. Never use a shell
-   downloader or split a deck/topic to meet a byte target.
+1. Finish Round 16's close visual review. Its exact 38-slide page map and
+   latest Google PDF are saved in
+   `google-slides-pilot/cs408-fall-test-anatomy-round16-review/`. Full-size
+   checks confirm slides 6, 9, 23, 26, 30–32, and 36–37; close-review the
+   remaining pages against the later Keynote and September PDF where they
+   match. Record slide 6's Keynote-only quote/build as valid newer source
+   content. Round 16 is not accepted until every page has close review.
+2. Create one ordered outline of **16 contiguous conceptual batches**. Keep
+   original source decks and topics whole and in source order. Use the course
+   schedule and homework sequence to place boundaries roughly by lecture week;
+   place related syllabus/homework material with its topic where order allows.
+   Counts and sizes vary; do not target 559 slides or move material to make
+   equal blocks.
+3. Work on Batch 1 only. Create its detailed output-to-source/build map,
+   expand meaningful animations into ordered static states, convert the
+   selected source material, and carry forward only repair rules that fit the
+   source/layout. Fix text-fit issues by inspecting box geometry and font size;
+   use image fallback only for the smallest unreliable element as a last
+   resort.
+4. Validate the current batch locally: package integrity, relationships,
+   notes, slide count/order, and its page map. Import the batch's final Google
+   Slides deck directly into the shared Drive root (the parent folder above
+   `Pilots`), then check native slide order, object editability, and notes.
+5. Export that batch's Google PDF and inspect every page against the best
+   available exact-revision source. Repair any defects, update the map and
+   reusable rules, and accept the batch only when every check passes. Keep
+   diagnostic pilots/disposable decks in `Pilots`; final batch decks go in the
+   shared root.
+6. Only after Batch 1 is accepted, repeat the same full process for Batch 2;
+   continue sequentially through Batch 16. Do not upload a later final batch
+   before completing the current one.
+7. Aim to keep each batch PDF below 10 MB when the whole-topic boundaries
+   naturally permit it. If a real batch exceeds the direct export limit, use
+   the documented no-curl LRO or authenticated-browser route for that batch.
+   Do not run a separate >10 MB test, use a shell downloader, or split a deck
+   or topic solely to meet the byte limit.
 
-Block sizes are expected to vary. Complete original decks and topics, source
-order, and verifiable imports matter more than equal counts. Do not exceed
-sixteen blocks without rechecking size and review assumptions with the user.
+The manifest records each batch's exact source decks, topic labels, slide
+range, count, PPTX size, map, associated syllabus/homework materials, and cut
+rationale. Existing nine-part files are legacy comparison artifacts; they are
+not the new 16 final batch definitions.
 
 ## Roundtrip log
 
@@ -910,7 +941,7 @@ and a diagram element.
 
 All 260 pages were rendered and scanned. The following are representative
 defects found at the end of Round 3 outside the six repaired examples.
-Use the [current open-work list](#open-work-after-round-14) for
+Use the [current open-work list](#open-work-after-round-16) for
 remaining Part 1 work.
 
 | Slide(s) | Finding | Repair to try |
@@ -1141,7 +1172,7 @@ structure with different title and text styling.
 #### Open-work snapshot after Round 7 (superseded by Round 8)
 
 This is the queue as it stood before Round 8. Slides 77–78 were repaired in
-that round; use the [current open-work list](#open-work-after-round-14) for
+that round; use the [current open-work list](#open-work-after-round-16) for
 remaining work.
 
 - Merge the Google-verified repairs from Rounds 5–7 into a new 260-slide
@@ -1552,11 +1583,95 @@ the 232-page diff. For future large renders, poll the returned `session_id`
 with `write_stdin` until it exits; do not repeat a Google export because the
 local renderer exceeded its first wait.
 
+### Round 15 — Fall Test Anatomy Linux Keynote diagnostic
+
+Round 15 tested an explicit LibreOffice `.key`-to-PPTX export with an
+isolated profile, then imported the PPTX as native Google Slides. This proves
+that Linux can produce an editable import candidate from a Keynote archive;
+it does **not** establish a reliable conversion rule yet.
+
+- [Editable PPTX](google-slides-pilot/cs408-fall-test-anatomy-round15.pptx)
+- [Native Google Slides deck](https://docs.google.com/presentation/d/1JC2rK8jAj1pJg9UAhahCvJZoWVTaa-o8xHpG7WDrsz8/edit)
+- [Google-rendered PDF and reviewed contact sheets](google-slides-pilot/cs408-fall-test-anatomy-round15-review/)
+- [Provisional page map](google-slides-pilot/cs408-fall-test-anatomy-round15-map.csv)
+- Source Keynote: `slides/03-408st-Test-Anatomy.key`
+- Full-deck reference: [`slides/f26-pdfs/03-408st-Test-Anatomy.pdf`](../../slides/f26-pdfs/03-408st-Test-Anatomy.pdf)
+
+The package has 37 numbered `Index/Slide-*.iwa` parts plus `Slide.iwa` (38
+slide records total), while the Fall PDF has 37 pages. The PDF metadata is
+dated September 1, 2026, and the latest Keynote archive contains an October 6,
+2026 member. Its embedded `preview.jpg` is only a 1024×768 title slide, not a
+full-deck reference. Round 16 confirms that the additional quote/build page
+is valid newer Keynote content rather than an import-added slide.
+
+Google readback returned 38 ordered slides (`p1`–`p38`). Package inspection
+found 141 text-bearing shapes, 42 pictures, 31 notes parts, and no connectors
+or timed animation. Google exported a 38-page PDF of 4,916,129 bytes. Visual
+review found clear defects: slide 3 duplicates and overlays the
+“When to stop testing?” question while changing the code layout; slide 9
+places a code box over the “Is this a test?” meme. Google slide 6 is a newer
+quote/build page absent from the September PDF. Round 15 remains the diagnostic
+baseline; the targeted repair is recorded in Round 16 below.
+
+The source and Google contact sheets and the two discrepancy crops are kept
+in the linked review folder. The corrected Google PDF transfer used the
+connected Drive export helper with base64 materialization and no shell
+downloader; preserve the working procedure in the [Drive guide](GOOGLE_DRIVE_ACCESS.md#download-the-google-rendered-pdf).
+
+### Round 16 — Test Anatomy repairs and Google review
+
+Round 16 applies localized repairs to the Round 15 PPTX while preserving
+native slide content. Google native readback returned 38 ordered slides
+(`p1`–`p38`), 251 shape elements, 42 images, 3 groups, and 34 other elements.
+Each page has a speaker-notes object; 31 contain note text. The Google
+readback includes 57 text runs requesting `Roboto Mono` for the code overlay.
+
+- [Repaired editable PPTX](google-slides-pilot/cs408-fall-test-anatomy-round16.pptx)
+- [Repair script](google-slides-pilot/repair_round15_keynote_layout.py)
+- [38-slide Google-to-source map](google-slides-pilot/cs408-fall-test-anatomy-round16-map.csv)
+- [Native Google Slides deck](https://docs.google.com/presentation/d/1QvRYYjInRSlz_2ZU7RUPd2lqcNRUGsw-BVzuhIqIaLk/edit)
+- Source Keynote: `slides/03-408st-Test-Anatomy.key`
+- September comparison PDF: [`slides/f26-pdfs/03-408st-Test-Anatomy.pdf`](../../slides/f26-pdfs/03-408st-Test-Anatomy.pdf)
+- Local diagnostic PDF: `out/.build/round16-local/cs408-fall-test-anatomy-round16.pdf` (38 pages; not the Google acceptance render)
+- [Google-rendered PDF and overview contact sheets](google-slides-pilot/cs408-fall-test-anatomy-round16-review/); the latest PDF is 4,944,273 bytes and has 38 pages
+
+The repair script keeps the “When to stop testing? How much testing is
+necessary?” question on source slides/Google pages 3–5 and removes 27
+unsupported repeated copies. On slide 9 it restores the code overlay to the
+reference polygon, rotates the code text 9 degrees counterclockwise, and sets
+the requested font to Roboto Mono. It moves titles in front of the anatomy
+image and applies a 72% white wash to 21 image-backed pages. Slide 26's Observe
+banner is rebuilt as editable two-line text. On slide 30, `25%` is reduced to
+50 pt and the caption is rebuilt as editable two-line text beside it; slides
+31–32 use the same 50 pt percentage repair. Slide 36 restores the missing
+Docker/CI logos with a small transparent crop and removes the opaque white
+matte from the existing chain-logo image. Slide 37's title is reduced to 48 pt
+to keep it on one line. The script preserves the original Round 15 PPTX and
+validates the edited package. Local diagnostic text extraction shows the
+question only on pages 3–5.
+
+The page relationship is now understood: Google slides 1–5 correspond to
+September PDF pages 1–5; Google slide 6 is a valid Keynote-only quote/build
+from the later revision; Google slides 7–38 correspond to PDF pages 6–37.
+Google slide 9 therefore compares with PDF page 8. The [38-slide page map](google-slides-pilot/cs408-fall-test-anatomy-round16-map.csv)
+records this offset. The exact page map is complete. Full-size Google-PDF
+checks confirm slides 6, 9, 23, 26, 30–32, and 36–37; slides 1–5, 7–8,
+10–22, 24–25, 27–29, 33–35, and 38 have overview checks only. Slide 31's
+struck-through “are,” “were,” and superscript 3 are present in its September
+PDF reference and were kept. The latest 38-page PDF is 4,944,273 bytes. The
+export helper reported a `pdftoppm` error after saving the PDF and an initial
+partial set of page images; all 38 images were later present, and the missing
+tail was also rendered locally. Check the existing PDF and image count before
+exporting again. **Round 16 remains in progress:** close-review the pages
+still marked pending in the [page map](google-slides-pilot/cs408-fall-test-anatomy-round16-map.csv)
+before accepting the route. Do not treat the local LibreOffice PDF or
+structural readback as visual acceptance.
+
 #### Open-work snapshot after Round 8 (superseded by Round 9)
 
 This queue is preserved as the state before the CFG round. Slide 99–102 arrow
 repairs, slide 99 labels, and slide 102's code-frame fit have since been
-addressed. Use the [current open-work list](#open-work-after-round-14).
+addressed. Use the [current open-work list](#open-work-after-round-16).
 
 - Merge verified repairs from Rounds 5–8 into a new 260-slide Part 1
   candidate. Round 8 adds no media or relationships. Use the
@@ -1650,84 +1765,68 @@ addressed. Use the [current open-work list](#open-work-after-round-14).
   its topic where source order permits. Verify a block completely before
   uploading the next one.
 
-#### Open work after Round 14
+#### Open work after Round 16
 
-- Reconcile the remaining Spring candidate entries topic by topic against
-  Fall 2026 and other newer course sources. Round 13 selects the complete Fall
-  Lab 1/fuzzing material and excludes the superseded Spring Lab 2 tutorial.
-  Round 14 confirms that the separate concurrency-testing lab introduction
-  can be imported as a complete, editable 28-slide supplemental unit. The
-  [older-topic audit](older-topic-selection-audit.csv) records candidate
-  complete additions such as record/replay, deterministic execution, and
-  static-testing tools. The 97-slide syntax-based-testing unit is excluded
-  after content comparison: Fall Fuzzing covers grammar-based input
-  generation and invalid-input grammar mutation, and Fall Mutation Testing
-  covers program mutants and test-suite effectiveness. The older TSC/PDC/DC
-  grammar-coverage criteria are isolated additions within these covered
-  topics. See the row-level evidence in the
-  [source-deck audit](source-deck-topic-audit.csv). Continue selecting the
-  complete latest source for covered topics and complete older topics only
-  where newer offerings lack them. Current Fall concurrency sources were
-  checked against the older Record and Replay and Deterministic Execution
-  decks: their full lessons are not present in Fall; the final-review Keynote
-  has only a brief record/replay recap. The older 26-slide Static Testing
-  Tools deck is a distinct survey of named tools, while Fall Static Analysis
-  teaches analysis methods. The source-deck audit records these whole-deck
-  decisions; conversion remains pending.
-- The older 56-slide Bug Reporting pair (combined slides 1319–1374) is now
-  comparison-only. Although the Fall syllabus has no dedicated bug-reporting
-  lecture, the Fall branch retains a complete newer Bug Reports and Triage
-  Keynote (Git commit `9d0c583`, October 25, 2026) with reporting guidance and
-  the lifecycle/triage sequence. Its deck still has
-  February Project 1 and March midterm announcements; correct those from the
-  Fall syllabus before final conversion. The selection rationale is in the
-  [older-topic audit](older-topic-selection-audit.csv).
-- Before integrating the Round 14 older concurrency-lab unit, update or mark
-  the `CS503 Spring 2021` screenshots on slides 4–6 as archival. The Spring
-  2026 handout is already included immediately after the slides in the study
-  guide; its due date and Classroom URL match the slide deck, so do not
-  duplicate that handout as slides.
-- Resolve the Project 1 deadline discrepancy before final integration: the
-  current handout says October 30, while the syllabus table says November 3.
-  Round 13 follows the explicit handout date and records this as unresolved.
-- For any *other* animation family found during source reconciliation, map
-  meaningful build states and create a new small pilot only if the existing
-  Google roundtrips do not already cover the family. The 205–206 concurrency
-  sequence is resolved: the latest Keynote export and Round 4 Google PDF
-  both show first-panel then full-comic states. Preserve this as the first
-  verified build-expansion example; do not spend another import on it.
-- Build the Part 1 candidate from selected latest sources. Carry forward the
-  repairs in Rounds 5–11 only where their source slide remains current and
-  equivalent, using the [integration table](#integrate-verified-repairs-into-a-full-batch).
-  Do not include the Round 12 pages in final content; they are a technical
-  conversion pilot only. Convert the complete Fall TCM topic.
-  Preserve notes, relationships, exact order, and untouched controls. The
-  Round 4 260-slide file is a comparison baseline; the selected candidate may
-  differ if the crosswalk identifies newer content.
-- Continue the visual queue for slides 70, 117–125, 128, 176–182, 186, 238,
-  244, and 253. Slides 115–116 now have a verified local repair; validate
-  that fit method on another layout before applying it more broadly.
-- Inspect the empty bullet paragraphs on control slide 153 and related list
-  layouts. Preserve meaningful nested list formatting.
-- Continue native API checks on disposable copies. Text replacement and one
-  line-position edit/readback are verified. The imported arrow's
-  `updateLineProperties` request failed; other shapes, image crops, tables,
-  equations, and speaker notes still need separate edit/readback evidence.
-- Validate the no-curl transfer for a Google PDF above 10 MB using Drive's
-  `files.download` LRO and local materialization. Do not split solely to fit
-  `files.export`'s 10 MB response cap; use up to 16 ordered blocks only when
-  import/review constraints call for them, at whole-deck/topic boundaries.
-  Never use a shell downloader; if local transfer is unavailable, use paced
-  native thumbnails and continue independent work while recording PDF
-  comparison as open.
-- Complete the version-aware inventory and topic-boundary map for the
-  selected input slides. Confirm the nine existing batch boundaries at topic
-  level; they are known to end at complete source decks. Meaningful animation
-  expansion may increase the output count.
-- Build variable-sized, contiguous upload blocks from complete deck/topic
-  groups. Assess four blocks first, then eight or sixteen only if measured
-  import size and review effort require them. Keep each block's exact source,
-  topic, build-state, and syllabus/homework mapping in its manifest.
+1. **Finish Round 16.** The repaired 38-slide deck is imported, its native
+   structure has been read back, and the exact page map is complete. Its
+   38-page Google PDF and overview contact sheets are saved. Full-size checks
+   confirm slides 6, 9, 23, 26, 30–32, and 36–37; inspect the remaining pages
+   against the Keynote and September PDF where they match. The local
+   LibreOffice PDF is diagnostic only. The new quote/build is valid Keynote
+   content; the question appears only on slides 3–5; the slide 9 overlay and
+   later callout/logo repairs have been checked in the Google PDF.
+2. **Do not reopen content selection.** Outcomes for all 57 candidate rows are
+   recorded. Use complete Fall sources for Fall-covered topics. The selected
+   complete older-only topics are: archived concurrency-testing lab
+   introduction, Verified Distributed Systems, Semantic/Latent Concurrency
+   Bug Detection, Record and Replay, Deterministic Execution, and Static
+   Testing Tools. The separate concurrency-lab handout remains companion
+   reading, not another slide deck.
+3. **Set 16 conceptual boundaries once.** Use the selected source-deck/topic
+   sequence and syllabus/homework timing. Keep original decks and topics
+   complete and in order; let slide counts and file sizes vary. The nine
+   existing editable-part files are legacy comparisons, not final batch
+   definitions.
+4. **Complete Batch 1 before Batch 2.** For the active batch, build its exact
+   source/build map, convert its content, expand meaningful animation states,
+   repair issues, check package structure/order/notes locally, upload its final
+   native deck directly to the shared Drive root (the parent of `Pilots`),
+   read it back, export its Google PDF, inspect every page, and update the
+   manifest and runbook. Only begin the next batch after this full acceptance
+   gate passes. Keep pilots and disposable tests under `Pilots`; no completed
+   batch belongs there.
+5. **Resolve references when the active batch needs them.** Full-deck Fall
+   PDFs are absent for Concurrency 06/07/10, Bug Reports and Triage 13, Static
+   Analysis 22, Final Review 23, and Testing AI/ML 28/29/29b/30. Some older
+   references exist and need revision checks; the AI/ML decks have no complete
+   PDF in the local PDF folders. Use a matching existing PDF first, then the
+   Keynote/source package and available conversion evidence. Ask for a manual
+   PDF only after other methods fail; `MANUALLYCONVERT.md` is currently empty.
+6. Correct dated course details when those selected decks are converted:
+   Fall Final Review still has May 8/HW3–5 administration; Bug Reports and
+   Triage has February Project 1/March midterm notices; Fall Static Analysis
+   has April Project 2/HW5 notices; the archived concurrency-lab screenshots
+   on slides 4–6 show `CS503 Spring 2021`; and the Fall Lab 1 handout's Oct 30
+   due date conflicts with the syllabus table's Nov 3 date. Keep each issue
+   with its relevant batch rather than making a separate global conversion
+   gate.
+7. **Transfer fallback is conditional.** A no-curl local transfer is verified
+   for PDFs below 10 MB; the connector's >10 MB LRO materialization is not.
+   Aim for a small Google PDF when the whole-topic boundaries naturally allow
+   it. If a real batch exceeds the direct export response limit, use the
+   documented `files.download` LRO or authenticated-browser route. Do not run
+   a standalone >10 MB test, split a deck/topic to fit the cap, or use a shell
+   downloader.
+8. Reuse verified repair rules where their source/layout matches. Native text
+   replacement and one line-position edit/readback are verified; the imported
+   arrow's line-style update failed. Check unfamiliar object editability in
+   the batch where it occurs; do not delay Batch 1 for tests of every possible
+   object type. Legacy issues on slides 70, 115–128, 153–186, 238, 244, and 253
+   are only relevant if the selected current source includes those objects.
+
+The current batch, its source maps, Drive location, export PDF, and page-review
+result are the working state to update after each batch. Continue in order
+through Batch 16; do not treat a pilot or a later partial upload as completion.
 
 Rebuild the pilots from the Round 4 PPTX and combined
 reference. The script requires Python, pikepdf, lxml, Pillow, and

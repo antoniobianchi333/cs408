@@ -5,9 +5,11 @@
 Use this guide for the part of the conversion that runs in Google. The
 local PPTX and the page map identify the exact test input. A native Google
 Slides copy and its PDF record what Google imported for that round. The
-current import evidence includes Rounds 5–12. Round 12 revision 2 is a
-technical pilot for rebuilding four older TCM pages; those pages are not
-selected for final content. See the
+current import evidence includes Rounds 5–16. Round 16 is the current
+Test Anatomy repair pilot; its native structure was read back, but its Google
+PDF still needs page-by-page review. Round 12 revision 2 is a technical pilot
+for rebuilding four older TCM pages; those pages are not selected for final
+content. See the
 [readback and visual review](SLIDE_CONVERSION.md#round-12--editable-test-case-minimization-supplement).
 The latest diagram-repair pilot is
 [Round 11 revision 4](SLIDE_CONVERSION.md#round-11--cfg-label-fit-with-original-fonts).
@@ -202,56 +204,37 @@ export just to check progress.
 
 Use this no-curl recovery order, with one export/fetch per deck revision:
 
-1. Use one `google_drive_fetch` with `download_raw_file: true`,
-   `raw_export_mime_type: "application/pdf"`, and `include_base64: false`.
-   This is the connector's `files.download`/streaming route and its tool
-   contract says it is not subject to the 10 MB direct `files.export` response
-   limit. If it returns only a
-   `file_uri`, pass that reference to a supported connector/helper materializer
-   if available; do not treat the reference as a path or try to download it
-   with a shell client. Make one export request per deck revision; if Drive
-   returns a pending LRO, poll that operation with backoff rather than starting
-   another export.
-2. For a PDF known to be below 10 MB only, if the streamed reference cannot be
-   materialized, one explicit bounded compatibility fetch with
-   `include_base64: true` has been verified. The helper writes the returned PDF
-   bytes locally through its chunk receiver, then renders the PDF. Make one
-   fetch, do not print/log the base64, and do not use the signed URL.
-   Example wrapper:
+1. For a PDF known to be below 10 MB, call the export/render helper once and
+   wrap only `google_drive_fetch` to set `include_base64: true`. Do not wrap
+   `exec_command` with a generic wait/poll function; the helper uses a TTY
+   receiver that must return immediately to accept PDF chunks. Example:
 
    ```js
    const fetchName = "mcp__codex_apps__google_drive_fetch";
-   async function execAndWait(args) {
-     let result = await tools.exec_command(args);
-     while (result.session_id && result.exit_code == null) {
-       result = await tools.write_stdin({
-         session_id: result.session_id, chars: "",
-         yield_time_ms: 10000, max_output_tokens: 5000,
-       });
-     }
-     return result;
-   }
-   const noCurlTools = {
+   const smallPdfTools = {
      ...tools,
      [fetchName]: (args) => tools[fetchName]({ ...args, include_base64: true }),
-     exec_command: execAndWait,
    };
    const result = await exportAndRenderSlides({
      presentationId, outputDir, workspaceRoot, skillRoot,
-     pdftoppmPath, dpi: 120, tools: noCurlTools,
+     pdftoppmPath, dpi: 120, tools: smallPdfTools,
    });
    ```
 
-   This uses the authenticated connector response and local stdin receiver;
-   it makes no shell/network request. A successful Part 2 rev3 run is
-   recorded below.
-3. If the connector cannot materialize the LRO result, use the authenticated
-   browser **File → Download → PDF** path for that existing deck, or continue
-   with paced native slide thumbnails while recording that local PDF
-   comparison is unavailable. Never split a source deck/topic merely to meet
-   the 10 MB direct-export cap; choose output block boundaries for whole-topic
-   packaging, import stability, and review effort. Never use a shell
-   downloader.
+   This uses the authenticated connector response and local chunk receiver;
+   it makes no shell/network request. Never print or persist the base64. The
+   verified small-PDF use cases are recorded below.
+2. For a PDF over 10 MB, use the documented `files.download` long-running
+   operation route with `include_base64: false`, polling only a returned
+   operation with backoff. The connector may return a `file_uri` without a
+   local `workspace_path`; this session has no separate materializer for that
+   URI. The over-10-MB local transfer is still unverified. If it cannot be
+   materialized through the supported helper, use the authenticated browser
+   **File → Download → PDF** path or paced native thumbnails and record the
+   limitation. Never use a shell downloader.
+3. Do not split a source deck or topic to fit the 10 MB direct-export cap.
+   Choose batch boundaries from complete source decks and topics, and measure
+   import/review needs separately.
 
 The streamed handoff was rechecked on November 24, 2026 against Part 2 rev2.
 A fetch with `include_base64: false` returned a 9,898,674-byte PDF as a
@@ -268,10 +251,12 @@ single explicit bounded compatibility fetch with `include_base64: true`
 returned the 74,585-byte PDF; the helper's chunk receiver wrote it locally,
 and Poppler rendered four pages. The payload was not printed or persisted.
 This confirms the small-file compatibility path only. The official LRO route
-for a >10 MB Google Slides PDF is documented but still needs a >10 MB live test
-through this connector and local materializer. Do not infer that blocks must
-be kept under 10 MB; keep source decks/topics whole and size packaging by
-measured import/review constraints.
+for a >10 MB Google Slides PDF is documented but has not been tested through
+this connector and local materializer. A separate large-file test is not a
+project gate. Aim for batch PDFs below 10 MB where whole-topic boundaries
+naturally allow; if an actual complete batch exceeds the direct export limit,
+use the LRO or authenticated-browser route for that batch. Keep source
+decks/topics whole.
 
 For Round 13 (November 25), the known `include_base64: false` behavior was
 avoided rather than triggering a second export: the export/render helper was
@@ -291,10 +276,39 @@ rendered all 28 pages; no shell downloader or retry loop was used. This
 reconfirmed the small-file route but also used more Drive calls than necessary
 because the first direct export/stream attempt preceded the bounded fallback.
 For future PDFs known to be below 10 MB, use one helper fetch with
-`include_base64: true` from the start when the connector is known not to
-materialize `file_uri` locally. Reserve the `include_base64: false` LRO path
-for outputs that need the larger-download route, and still verify how the
-connector delivers its result.
+`include_base64: true` from the start. Reserve `include_base64: false` for the
+larger-download route and verify how the connector delivers its result.
+
+Round 15's first local PDF attempt stalled because an `exec_command` wrapper
+waited for the helper's TTY receiver session to finish before returning
+control. The helper was waiting for that receiver to accept streamed PDF
+chunks, so both sides waited. The corrected run removed the generic wait
+wrapper and retained only the `google_drive_fetch` base64 option wrapper. It
+materialized a 4,916,129-byte Google PDF and rendered 38 pages in about
+44 seconds. This demonstrates a helper/TTY handoff issue, not a PDF-size
+failure. Do not poll the helper's TTY receiver inside the wrapper; for a
+separate non-TTY command that returns a `session_id`, polling with
+`write_stdin` remains appropriate.
+
+For Round 16 (November 26), the helper's default `include_base64: false`
+fetch again returned a file reference without a local `workspace_path`. The
+known small-file route was used once for the final 4,944,273-byte PDF: wrap
+only `google_drive_fetch` to set `include_base64: true` and let the helper
+write the PDF through its bounded receiver. The export produced a valid
+38-page PDF without `curl` or another shell network client.
+
+The same run exposed a separate local-renderer timeout symptom. The helper
+reported `pdftoppm failed:` with no diagnostic text after 35 page images had
+appeared; the PDF itself was intact, and all 38 images appeared after the
+renderer finished. The last pages were also rendered directly from that
+saved PDF. The likely cause is that a 38-page 120-dpi render exceeded the
+helper's 30-second `exec_command` yield window, so the helper saw no completed
+exit code while Poppler continued writing files. This is an inference from
+the saved PDF and image set. On this error, check the PDF with `pdfinfo`, count
+the existing page images, and render only missing pages locally. Do not make
+another Drive export call unless the deck has changed. This renderer behavior
+does not require `curl` and is separate from the missing `workspace_path`
+issue.
 
 Historical pilot logs mention a bounded base64 transfer for small files.
 That is now a supported helper path only below the standard export limit;
@@ -466,8 +480,9 @@ is complete; its scale import remains a pilot, not a final course batch.
 
 The import, structural readback, and PDF export were serial; no rate-limit
 response occurred. The resulting deck is a scale-validation artifact, not
-yet an accepted final course block. The full set still requires source
-reconciliation, animation-state handling, and per-page verification.
+one of the final course batches. The whole-topic source choices are complete;
+the remaining work is the 16-batch boundary outline and sequential batch
+conversion, animation-state handling, and page-by-page verification.
 
 ## Pilot and final-batch folder organization
 
@@ -483,4 +498,8 @@ its [`Pilots` subfolder](https://drive.google.com/drive/folders/1PHuKHahwY2PxviN
 On November 24, 2026, all 17 presentations in the shared root were confirmed
 to be pilots or test copies; their parent metadata was read before they were
 moved into `Pilots`. New pilot rounds follow the same organization; final
-batch decks stay at the shared root.
+batch decks stay at the shared root, one level above `Pilots`. Upload and
+complete Batch 1 there before starting Batch 2; continue in order through all
+16 batches. Each final batch must pass its native readback and Google PDF
+page review before beginning the next. Do not place a completed batch deck in
+`Pilots`.

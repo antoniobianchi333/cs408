@@ -6,18 +6,21 @@
 
 The source inventory contains 2,235 visible slides from 57 Spring-centered
 candidate decks. It is the comparison baseline, not the final selection.
-Recorded decisions use Fall's complete source wherever Fall covers a topic and
-include older material only as a complete topic absent from Fall. Keep older
-material within a Fall-covered topic as comparison/provenance evidence, not as
-isolated supplements. The final selected source/build map is not assembled yet.
+Content selection is closed for all 57 candidates: use Fall's complete source
+wherever Fall covers a topic and include older material only as a complete
+topic absent from Fall. Keep older material within a Fall-covered topic as
+comparison/provenance evidence, not as isolated supplements. Final source/build
+maps are being made batch by batch.
 For the newer reading and exercise sequence, see the
 [Fall 2026 study guide](../README.md#fall-2026-study-guide).
 
 Current older-topic decisions and their evidence are recorded in the
 [older-topic selection audit](older-topic-selection-audit.csv). The audit
-identifies complete candidate units absent from Fall, records superseded
-material, and keeps unresolved comparisons explicit. It is a working selection
-map, not proof that every remaining deck has been checked.
+records final whole-topic choices and exclusions. Six older-only slide units
+are selected: the concurrency-testing lab introduction, Verified Distributed
+Systems, Semantic/Latent Concurrency Bug Detection, Record and Replay,
+Deterministic Execution, and Static Testing Tools. Conversion and source/build
+mapping remain to be completed in their assigned batches.
 
 ## Test the editable import first
 
@@ -37,6 +40,16 @@ has the three mapped slides in order. The
 [conversion runbook](SLIDE_CONVERSION.md#round-11--cfg-label-fit-with-original-fonts)
 records the revisions, local font-substitution caveat, repair rule, API
 readback, and remaining work.
+
+Round 16 is the current `.key` repair pilot. Its readback confirms 38 ordered
+native Slides pages and editable objects. The exact map and latest 38-page
+Google PDF (4,944,273 bytes) are saved with overview contact sheets. Full-size
+checks confirm slides 6, 9, 23, 26, 30–32, and 36–37; all other pages still
+need close review. The 37-page Fall PDF is dated September 1 and predates the
+October Keynote revision; slide 6 is valid newer Keynote content. See the
+[Round 15 baseline](SLIDE_CONVERSION.md#round-15--fall-test-anatomy-linux-keynote-diagnostic),
+[Round 16 review](SLIDE_CONVERSION.md#round-16--test-anatomy-repairs-and-google-review),
+and [PDF coverage audit](SLIDE_CONVERSION.md#fall-pdf-coverage-and-keynote-preview-limits).
 
 Round 14 is the latest older-topic conversion pilot: it imports the complete
 28-slide archived concurrency-testing lab introduction. The [native deck](https://docs.google.com/presentation/d/1tAObwDTGc_EJ6aD4nXIceRTPjc3vF63hOPDdxFdZ0WE/edit),
@@ -203,14 +216,13 @@ describes importing and converting PowerPoint files.
 
 Use the newest available version of each topic as the primary source. Apply a
 whole-topic rule: use the complete Fall source for every topic Fall covers,
-and add a complete Spring topic only when Fall does not cover it. Do not append
+and add a complete older topic only when Fall does not cover it. Do not append
 isolated older slides, examples, criteria, or case studies to a Fall-covered
 topic. Record older sources in the crosswalk as provenance and comparison
-evidence. Do not duplicate an older version that a newer source has superseded. The
-current 2,235-slide map is Spring-centered and has not yet been reconciled
-topic by topic against the Fall 2026 material for final source selection.
-Complete that crosswalk before freezing the conversion set. The initial pass
-maps all 57 Spring candidate deck entries to Fall source candidates in the
+evidence. Content selection is complete; do not redo it. The current 2,235-
+slide map is Spring-centered, but the 57-row audit records final use/exclude
+decisions. The initial pass maps all 57 candidate deck entries to Fall sources
+in the
 [source-deck topic audit](source-deck-topic-audit.csv): 44 by exact basename,
 12 by topic/renumbering, and the remaining 43-page Spring Lab 2 tutorial to
 Fall Lab 1 plus Fall fuzzing sources. The Fall Lab 1 tutorial is now imported
@@ -331,15 +343,17 @@ current syllabus and course order when placing complete older topics absent
 from Fall. Do not switch branches just to inspect Fall sources; the archive
 command keeps the working branch intact.
 
-**Source-version rule:** the Fall PDFs carry August–November 2026 export dates;
-the Spring-centered Keynote candidates carry January–August 2026 save dates.
-Use the Fall Keynote and its Fall PDF export as the newest source pair: use the
-Keynote for editable objects, notes, visibility, and build order, and its PDF
-for the selected Fall appearance. Use the Spring-centered Keynote/PPTX only as
-a reconstruction reference or comparison baseline. It must not override Fall
-content. Compare each page and meaningful build state for source QA, but select
-older material only as a complete topic when Fall does not cover it. The
-17-page `Integration Testing Bad` draft has been compared and excluded whole:
+**Source-version rule:** use the complete Fall source wherever Fall covers a
+topic. When an exact-revision Fall PDF exists, use it for page-by-page visual
+comparison; use the Keynote for editable objects, notes, visibility, and
+build order. Not every selected Fall Keynote has a paired PDF, and Test
+Anatomy's available PDF predates its latest Keynote revision. Check the
+[PDF coverage audit](SLIDE_CONVERSION.md#fall-pdf-coverage-and-keynote-preview-limits)
+before assuming a pair is complete or current. Use older PDFs and
+Spring-centered Keynote/PPTX sources only as revision-checked reconstruction
+references; they must not override newer Fall content. Compare each page and
+meaningful build state for source QA, but select older material only as a
+complete topic when Fall does not cover it. The 17-page `Integration Testing Bad` draft has been compared and excluded whole:
 Fall Test Anatomy pages 32–34 mark the traditional strategies as old/broken,
 and pages 35–36 replace them with explicit contracts.
 
@@ -394,6 +408,29 @@ The two image-based import parts render the final PDF, using slide images up
 to 1,100 pixels wide and extracted slide text in the speaker notes. The lab's
 widescreen pages are centered without distortion on the 4:3 PowerPoint canvas.
 The PDF retains its original page dimensions and vector text where available.
+
+## Current status and batch order
+
+Round 16's exact page map, latest 38-page Google PDF, and overview contact
+sheets are saved. Full-size checks confirm slides 6, 9, 23, 26, 30–32, and
+36–37; close-review the remaining pages before accepting the pilot. Then create the ordered
+boundary outline for exactly 16 conceptual batches using the already-settled
+source choices, whole-deck/topic boundaries, and the syllabus/homework
+sequence. Do not repeat content selection or build detailed maps for all
+batches before starting conversion.
+
+Then finish Batch 1 end to end: create its source/build map, convert and repair
+its selected material, validate the local package, upload the final native
+Slides deck directly to the shared Drive root (the parent folder of `Pilots`),
+read it back, export the Google PDF, inspect every page, and document the
+result. Start Batch 2 only after Batch 1 passes all checks. Continue in order;
+completed final batches belong in the shared root, while pilots and disposable
+tests belong in `Pilots`.
+
+Aim for each batch PDF to stay below 10 MB when whole-topic boundaries allow.
+Do not run a separate large-PDF transfer test. If an actual complete batch
+exceeds the direct export limit, use the documented no-curl LRO or
+authenticated-browser fallback; never split a deck or topic to fit.
 
 ## Verification
 

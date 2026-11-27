@@ -67,15 +67,18 @@ profiles, or other rebuildable scratch files merely to make the checkout look
 complete. Keep temporary material in `out/.build/` and untracked. Keep large
 durable processed artifacts in the Google Drive project folder when their
 Drive copies have been verified. Store pilots and disposable tests under the
-Drive `Pilots` subfolder; reserve the Drive root for final batch decks.
+Drive `Pilots` subfolder; put final batch decks directly in the shared Drive
+root, one level above `Pilots`. A completed final batch must never be stored
+in `Pilots`.
 
 Do not infer that an untracked local file is safely preserved in Drive. Before
 relying on a large artifact as handoff storage, confirm its exact Drive file
 name, ID, type, parent folder, and size through the connector, then record the
 link and evidence in the relevant README/runbook entry. If no verified Drive
-copy exists and the artifact is needed to reproduce or review a result, upload
-it to `Pilots` before omitting it from Git. Avoid duplicate uploads; inspect
-the folder and metadata first, and pace all Drive operations as described in
+copy exists and a pilot artifact is needed to reproduce or review a result,
+upload it to `Pilots` before omitting it from Git. Final batch decks go directly
+in the shared folder root, not `Pilots`. Avoid duplicate uploads; inspect the
+folder and metadata first, and pace all Drive operations as described in
 [`combined/GOOGLE_DRIVE_ACCESS.md`](combined/GOOGLE_DRIVE_ACCESS.md).
 
 ## What a restarting agent must be able to do
@@ -98,9 +101,25 @@ be able to:
 4. Find verified durable pilot artifacts in Drive `Pilots` and distinguish
    them from final decks in the Drive root. Use the Drive guide for account
    setup, low-rate API calls, no-curl transfer, and export limits.
-5. Continue source reconciliation and full conversion without treating an
-   existing pilot, local generated file, or partially uploaded batch as
-   project completion.
+5. Finish Round 16's Google PDF page review; native readback has passed. Then
+   use the completed 57-row source-selection audit—do not redo topic
+   selection. Fall sources are selected for topics Fall covers, with six
+   complete older-only topics recorded in the older-topic audit. Make the
+   ordered outline for exactly 16 conceptual batches, keeping decks/topics
+   whole and using the syllabus/homework sequence for placement.
+6. Complete Batch 1 end to end before starting Batch 2. For each batch, map,
+   convert, repair, validate locally, upload its final Google Slides deck to
+   the shared folder root above `Pilots`, read back its structure, export the
+   Google PDF, inspect every page, and update the manifest/docs. Keep only
+   pilots and disposable tests in `Pilots`. Continue in order through Batch
+   16; a pilot or partial batch is not project completion.
+7. Resolve missing source references as they affect the active batch; manual
+   PDF exports are a last resort, and [`MANUALLYCONVERT.md`](MANUALLYCONVERT.md)
+   currently has no requests.
+8. Aim for batch PDFs below 10 MB where whole-topic boundaries allow. Do not
+   run a standalone large-file test. If a real complete batch exceeds the
+   direct export limit, use the documented no-curl LRO or authenticated
+   browser route; never split a source deck/topic or use a shell downloader.
 
 The root [`README.md`](README.md) is the navigation hub and must link to every
 relevant project Markdown file, script, map, and artifact folder. Update that

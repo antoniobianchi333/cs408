@@ -8,12 +8,23 @@ state—have been converted to Google Slides and verified against their
 sources and Google exports. Do not stop after documentation, planning,
 pilots, or partial batches.**
 
+The final delivery target is **16 conceptual batches**, roughly one lecture
+week each. Keep every original source deck and topic whole; adjust batch slide
+counts to preserve those boundaries.
+
+**Finish batches in order.** Complete Batch 1 end to end—source/build map,
+conversion, repairs, local checks, Google import, native readback, Google PDF,
+page-by-page review, and documentation—before beginning Batch 2. Apply the
+same gate to each following batch. Final batch decks belong directly in the
+shared Google Drive folder root, one level above `Pilots`; only experiments
+and disposable test decks belong in `Pilots`.
+
 **Google file-transfer rule:** Never use `curl` or another shell/network
 downloader for Drive files or signed references. Use the connected Drive
-stream, authenticated browser download, or paced native thumbnails. If size
-requires smaller work units, use up to 16 ordered blocks, cutting only
-between complete source decks and topics. The exact cause and recovery steps
-are in [the Drive access guide](combined/GOOGLE_DRIVE_ACCESS.md#download-the-google-rendered-pdf).
+stream, authenticated browser download, or paced native thumbnails. Keep Drive
+requests paced and cut batches only between complete source decks and topics.
+The exact cause and recovery steps are in
+[the Drive access guide](combined/GOOGLE_DRIVE_ACCESS.md#download-the-google-rendered-pdf).
 
 # CS 408 Software Testing materials
 
@@ -22,11 +33,12 @@ This directory holds two CS 408 resources:
 - The Fall 2026 study guide is a reading PDF with lectures, exercises, and
   course maps.
 - The editable Slides project starts from a 2,235-slide candidate collection
-  built around the Spring 2026 sequence and earlier material. That inventory
-  is being reconciled topic by topic against Fall 2026: use Fall's complete
-  source wherever it covers a topic, and retain Spring material only for a
-  complete topic Fall does not cover. The candidate collection is not the
-  final selected slide set.
+  built around the Spring 2026 sequence and earlier material. Source selection
+  is complete: use the full Fall 2026 source wherever it covers a topic, and
+  add only complete older topics absent from Fall. The 57-deck decisions and
+  six older-only topics are recorded in the [source-deck audit](combined/source-deck-topic-audit.csv)
+  and [older-topic audit](combined/older-topic-selection-audit.csv). The
+  2,235 slides are a comparison baseline, not the final selected output.
 
 The conversion goal is to preserve lesson content, slide order, and notes
 while keeping text, code, diagrams, and pictures usable as separate objects
@@ -35,26 +47,29 @@ sequential static slides in build order, with each generated slide mapped to
 its source slide and build state. The delivered slide count may therefore
 exceed the 2,235-slide source count.
 
-For `.key` source files on Linux, avoid installing a converter while a
-browser-based option is available: Apple Keynote for iCloud can export a PPTX
-copy, which can then be imported into Google Slides. Google Drive can store a
-`.key` file but does not list it among the formats it converts to Slides. This
-route still needs a representative pilot; see the
-[runbook](combined/SLIDE_CONVERSION.md#produce-an-editable-powerpoint-on-linux).
+For `.key` source files on Linux, use a matching full-deck PDF as the main
+visual reference wherever one exists. The 57 Keynote packages include a
+single-slide `preview.jpg`, not a full-deck PDF; PDFs embedded under `Data/`
+are individual placed assets. The 20 files in `slides/f26-pdfs/` include 19
+lesson PDFs and the excluded `Integration+Testing+Bad` draft. They do not cover
+every selected Fall Keynote, and the Test Anatomy PDF predates the latest
+Keynote. The exact gaps and the Round 15/16 diagnostic and repair are in the
+[runbook](combined/SLIDE_CONVERSION.md#fall-pdf-coverage-and-keynote-preview-limits).
 
 ## Documentation and workflow
 
 | Step | Instructions | What to keep |
 | --- | --- | --- |
 | 1. Locate the source | Use the [combined collection guide](combined/README.md) to map a combined slide number to its source deck, saved build, and editable batch. | The matching Keynote or PowerPoint, source PDF, and combined slide numbers. |
-| 2. Build a small editable test | Follow the [conversion runbook](combined/SLIDE_CONVERSION.md). Start from the latest full batch, add a representative slide from another layout, and include an unaffected control. A local LibreOffice render is optional diagnostic evidence; Google’s PDF is the acceptance render. | A new PPTX, the ordered pilot-to-source page map, and available local and Google PDFs. |
-| 3. Upload and export in Google | Use the [Google Drive guide](combined/GOOGLE_DRIVE_ACCESS.md) for connector setup, a paced native import and PDF export, and the browser fallback. Use a separate deck in the shared test folder for each revision. | The verified native deck URL and a Google-generated PDF in the pilot directory. |
+| 2. Build or repair the current batch | Follow the [conversion runbook](combined/SLIDE_CONVERSION.md). Reuse verified rules; create a small pilot only for an unfamiliar slide family. Map and repair the current batch without building later batches in parallel. | The current batch PPTX, its ordered source/build map, and local diagnostics. |
+| 3. Upload and verify in Google | Use the [Google Drive guide](combined/GOOGLE_DRIVE_ACCESS.md) for paced imports, native readback, PDF export, and the browser fallback. Put pilots in `Pilots`; put final numbered batches directly in the shared folder root. | The batch's native deck URL, structural readback, Google PDF, and page-by-page review. |
 | 4. Compare and improve | Follow the [roundtrip checks](combined/SLIDE_CONVERSION.md#run-and-evaluate-a-google-roundtrip) and run the [local audit script](combined/google-slides-pilot/audit_conversion_pilot.py). Check page order, content and code, image crops, graph endpoints, and actual editability. Record where each defect first appeared and retest the smallest repair. | The comparison result, a reusable repair rule, any exceptions, and what remains open. |
 | 5. Apply verified repairs to the batch | Use the [integration instructions](combined/SLIDE_CONVERSION.md#integrate-verified-repairs-into-a-full-batch) to assemble a new full-size candidate and verify its Google export. | A versioned full-batch candidate, its PDF comparison, and an updated runbook. |
 
 ## Project documents
 
 - [Live plan and time estimates](PLAN.md)
+- [Last-resort manual Keynote-to-PDF request list](MANUALLYCONVERT.md)
 - [Branch, restart-kit, and artifact-tracking policy](BRANCH_AND_HANDOFF.md)
 - [Combined slide collection and source map](combined/README.md)
 - [Conversion runbook, pilot logs, and reusable repair rules](combined/SLIDE_CONVERSION.md)
@@ -105,9 +120,10 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   [Fall-page-to-current-slide report](combined/fall-current-text-overlap.csv),
   [current-slide-to-Fall-page report](combined/current-fall-text-overlap.csv),
   and [per-topic overlap summary](combined/fall-topic-overlap-summary.csv)
-- [Final editable batches](combined/) and their
+- [Legacy editable batch baselines](combined/) and their
   [batch manifest](combined/editable-parts-manifest.json). Each of the nine
-  `cs408-editable-part-*.pptx` files stays directly in `combined/`.
+  `cs408-editable-part-*.pptx` files stays directly in `combined/`; these are
+  comparison inputs, not the final 16 Google Drive batches.
 - [Pilot artifacts folder](combined/google-slides-pilot/), including the
   [pilot folder guide](combined/google-slides-pilot/README.md),
   [Round 2 rebuild](combined/google-slides-pilot/rebuild_round2.py),
@@ -120,6 +136,10 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   and [Round 13 slide/build map](combined/google-slides-pilot/cs408-fall-project-1-pilot-round13-map.csv),
   [Round 14 older-topic map](combined/google-slides-pilot/cs408-concurrency-lab-intro-round14-map.csv)
   and [Round 14 review folder](combined/google-slides-pilot/cs408-concurrency-lab-intro-round14-review/),
+  [Round 14 rev2 builder](combined/google-slides-pilot/build_concurrency_lab_round14_rev2.py),
+  and [Round 14 rev3 builder](combined/google-slides-pilot/build_concurrency_lab_round14_rev3.py),
+  [Round 15-to-16 repair script](combined/google-slides-pilot/repair_round15_keynote_layout.py)
+  and [Round 16 PPTX](combined/google-slides-pilot/cs408-fall-test-anatomy-round16.pptx),
   [Fall text-overlap audit script](combined/audit_fall_text_overlap.py),
   [source-deck topic audit script](combined/audit_source_deck_topics.py), and
   [older-topic selection audit](combined/older-topic-selection-audit.csv), plus
@@ -139,7 +159,19 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
 - **Latest full baseline.** [Round 4 Part 1](combined/google-slides-pilot/cs408-editable-part-01-round4.pptx)
   contains combined slides 1–260. The [Round 4 Google PDF](combined/google-slides-pilot/cs408-editable-part-01-round4.pdf)
   gives the full-batch comparison baseline.
-- **Latest source-selection/Google import pilot.** [Round 14](combined/SLIDE_CONVERSION.md#round-14--older-concurrency-testing-lab-introduction)
+- **Current `.key` conversion pilot.** [Round 16](combined/SLIDE_CONVERSION.md#round-16--test-anatomy-repairs-and-google-review)
+  applies targeted repairs to the 38-slide Round 15 import. Google native
+  readback confirmed 38 ordered slides and editable objects, with notes on
+  all pages. Its [38-page Google PDF and overview contact sheets](combined/google-slides-pilot/cs408-fall-test-anatomy-round16-review/)
+  are saved, as is the [page map](combined/google-slides-pilot/cs408-fall-test-anatomy-round16-map.csv).
+  The latest Google PDF is 4,944,273 bytes and has 38 pages. Full-size checks
+  confirmed slides 6, 9, 23, 26, 30–32, and 36–37; the remaining pages have
+  overview checks only and still need close review before the pilot is accepted.
+  Slide 30's callout is now readable on two lines, and slide 36's chain mark has
+  a transparent background. The September 1 Fall Test
+  Anatomy PDF predates the October 6 Keynote revision; the page 6 quote/build
+  slide is valid newer Keynote content, and slides 7–38 map to PDF pages 6–37.
+- **Latest source-selection pilot before Round 15.** [Round 14](combined/SLIDE_CONVERSION.md#round-14--older-concurrency-testing-lab-introduction)
   imports the complete 28-slide archived concurrency-testing lab introduction
   as a native Google deck. Google readback found 28 slides in source order and
   preserved native text and slide objects; all 28 Google-rendered PDF pages
@@ -181,32 +213,28 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   are saved locally. Native readback confirmed `p1`–`p232` in order. The
   [visual regression report](combined/google-slides-pilot/cs408-editable-part-02-scale-rev3-visual-diff.csv)
   shows only the two intended panel repairs (slides 214 and 216) differ from
-  rev2; text remains editable. This pilot does not complete the final source
-  reconciliation or full collection. The successful no-curl transfer method
+  rev2; text remains editable. This pilot does not complete any of the final
+  16-batch map, conversion, or review work. The successful no-curl transfer method
   and root cause are in the
   [Drive guide](combined/GOOGLE_DRIVE_ACCESS.md#download-the-google-rendered-pdf).
-- **Pending.** Reconcile the Spring-centered slide set topic by topic against
-  the newer Fall 2026 material. Use Fall's complete source for topics it
-  covers; include complete Spring topics only where Fall has no corresponding
-  topic. Do not append older individual slides or examples to covered topics.
-  Apply the verified 205–206 build-state rule and test other animation/build
-  families when found. Carry forward only applicable repairs from Rounds 5–11;
-  Round 12 is a technical pilot, not selected content. Continue validating
-  no-curl PDF transfer through Drive's documented `files.download` LRO for
-  files over 10 MB; the connector's local materialization remains untested at
-  that size. Do not split topics or decks solely to meet the separate 10 MB
-  `files.export` response cap. If the overall
-  collection needs smaller blocks, use up to 16
-  while preserving whole source-deck and topic boundaries. The
-  plan starts by assessing four contiguous blocks, then can expand to eight
-  or sixteen if measured constraints require it. Block sizes may vary: every
-  original source deck and topic must remain whole, and each cut must satisfy
-  both boundaries. Use the prior course syllabus and schedule to estimate weeks,
-  never to override those boundaries. Native text edits and a reversible
+- **Next.** Finish Round 16's close visual review. The exact map and 38-page
+  Google PDF are complete; full-size checks confirm slides 6, 9, 23, 26, 30–32,
+  and 36–37. Then begin Batch 1. The content-selection gate is closed for all 57 candidate
+  rows; do not repeat that analysis. Use Fall sources for covered topics and
+  include the six complete older-only topics recorded in the audit. Create
+  only the ordered 16-batch boundary outline needed to place whole decks and
+  topics against the syllabus/homework sequence. Then map, convert, repair,
+  upload, and verify Batch 1 completely before starting Batch 2. Resolve
+  source-reference gaps when they affect the batch in progress; use existing
+  PDFs first and consult `MANUALLYCONVERT.md` only as a last resort. Aim for a
+  Google PDF below 10 MB when conceptual boundaries naturally allow it; if a
+  complete batch is larger, use the documented no-curl fallback rather than
+  splitting a deck or topic. Only final numbered batch decks go in the shared
+  Drive root above `Pilots`. Native text edits and a reversible
   native line-position edit/readback have passed; a line-style update was
   rejected for the imported arrow object. Other object types still need
-  editability tests. See the
-  [current open-work list](combined/SLIDE_CONVERSION.md#open-work-after-round-14).
+  editability checks as they occur in each batch. See the
+  [current open-work list](combined/SLIDE_CONVERSION.md#open-work-after-round-16).
 
 Keep final editable batch PowerPoints directly in `out/combined/`. Keep every
 local pilot input, revision, page map, reference render, and Google PDF in

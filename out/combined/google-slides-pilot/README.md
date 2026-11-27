@@ -16,7 +16,10 @@ put final batch PowerPoints in this pilot folder.
 The user's shared CS408 folder is
 [the Drive root for this project](https://drive.google.com/drive/folders/16vTRNocHa1rlPN1bii_w0b8Ce90XrFbn).
 Keep pilots and disposable API/edit tests in its [`Pilots` subfolder](https://drive.google.com/drive/folders/1PHuKHahwY2PxviNWTM2f8kYmb7K-37Dj).
-Upload final batch decks directly to the shared folder root, not to `Pilots`.
+Upload each completed final batch deck directly to the shared folder root,
+one level above `Pilots`, not into `Pilots`. Complete Batch 1—including its
+Google readback, exported PDF, and page-by-page review—before beginning Batch
+2; keep all final batch decks at the shared root as they are accepted.
 As of November 24, 2026, all 17 presentations previously listed at the shared
 root were pilot/test decks and have been moved into `Pilots`; the shared root
 is reserved for final batches.
@@ -111,3 +114,68 @@ against the preserved handout and study-guide pages before final integration.
 The due date and assignment URL match the Spring 2026 handout, but screenshots
 on slides 4–6 still show `CS503 Spring 2021` and old assignment screens. Update
 or label those screenshots as archival before final integration.
+
+## Round 15: Fall Test Anatomy Keynote diagnostic
+
+Round 15 establishes that LibreOffice 7.3.7.2 can export this `.key` archive
+to an importable PPTX when given an explicit filter and isolated profile.
+Google readback found 38 slides with editable objects, but visible layout
+defects on slides 3 and 9 plus a then-unmapped quote/build page on slide 6
+kept the Round 15 revision from acceptance. Round 16 later identified slide 6
+as valid Keynote-only content and applies targeted repairs to slides 3 and 9.
+
+- [PPTX](cs408-fall-test-anatomy-round15.pptx)
+- [Google Slides deck](https://docs.google.com/presentation/d/1JC2rK8jAj1pJg9UAhahCvJZoWVTaa-o8xHpG7WDrsz8/edit)
+- [Google PDF, contact sheets, and discrepancy crops](cs408-fall-test-anatomy-round15-review/)
+- [Provisional page map](cs408-fall-test-anatomy-round15-map.csv)
+- Source: `slides/03-408st-Test-Anatomy.key`
+- Comparison PDF: `slides/f26-pdfs/03-408st-Test-Anatomy.pdf`
+
+The package has 37 numbered `Slide-*.iwa` records plus `Slide.iwa` (38 total),
+while the PDF has 37 pages. The PDF is dated September 1 and the latest Keynote
+archive member is dated October 6, 2026. Round 16 identified the additional
+quote/build at slide 6 as valid newer Keynote content. The Keynote's
+`preview.jpg` is only the 1024×768 title slide; it cannot replace the full PDF.
+Details and the broader list of missing PDF references are in the
+[conversion runbook](../SLIDE_CONVERSION.md#fall-pdf-coverage-and-keynote-preview-limits).
+
+## Round 16: Test Anatomy repair review in progress
+
+The [Round 16 PPTX](cs408-fall-test-anatomy-round16.pptx) applies the
+targeted repairs from Round 15. Its [repair script](repair_round15_keynote_layout.py)
+keeps the repeated test-stopping question only on slides 3–5 and repairs the
+slide 9 code overlay's shape, rotation, and requested `Roboto Mono` font. The
+native Google deck is
+[here](https://docs.google.com/presentation/d/1QvRYYjInRSlz_2ZU7RUPd2lqcNRUGsw-BVzuhIqIaLk/edit).
+Readback confirmed 38 ordered slides, editable objects, notes objects on all
+pages, and 31 pages with note text. A local diagnostic PDF exists under
+`out/.build/round16-local/`; it is not the acceptance render.
+
+The latest Google PDF is saved at
+[`google-presentation.pdf`](cs408-fall-test-anatomy-round16-review/google-presentation.pdf)
+(4,944,273 bytes; 38 pages). Google and source overview contact sheets are in
+the same review folder. The exact map covers every Google slide; the source
+relationship is slides 1–5 to September PDF pages 1–5, slide 6 to the newer
+October Keynote build, and slides 7–38 to September PDF pages 6–37. Full-size
+checks confirm slides 6, 9, 23, 26, 30–32, and 36–37. The remaining pages have
+overview checks only and still need close review before Round 16 is accepted.
+
+The final repair pass fits slide 26's editable Observe banner, keeps slide
+30's `25%` on one line and puts its editable two-line caption beside it,
+reduces the same percentage on slides 31–32 to 50 pt, restores the missing
+Docker/CI logos, and removes the white matte behind the existing chain mark.
+The export used one bounded `include_base64: true` connector fetch for this
+sub-10 MB PDF; no shell downloader was used. The renderer reported a
+`pdftoppm` error after saving the PDF and an initial partial set of images, but
+all 38 page images were later present. Check the existing PDF and image count
+before exporting again. After Round 16 review, move to the 16-batch boundary
+outline and finish Batch 1 end to end before starting Batch 2. Final batches go
+directly in the shared folder root above `Pilots`; this folder remains for
+pilots and their evidence.
+
+The [Round 16 page map](cs408-fall-test-anatomy-round16-map.csv) records the
+38-slide relationship and per-page review status. Full-size visual checks
+have confirmed the newer quote/build on slide 6, the repaired code overlay on
+slide 9, the intact quote on slide 23, the Observe and percentage callouts on
+slides 26 and 30–32, and the restored title/logos on slides 36–37. The map
+marks the other pages as overview-reviewed and still pending close review.
