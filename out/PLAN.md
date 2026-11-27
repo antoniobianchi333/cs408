@@ -372,12 +372,12 @@ behavior and for full-deck visual review.
   limit, use the documented fallback. Never split a whole deck/topic for
   size, and never use `curl` or another shell/network downloader. See the
   [Drive transfer guide](combined/GOOGLE_DRIVE_ACCESS.md#download-the-google-rendered-pdf).
-- The November 27 read-only listing of the designated Drive folder succeeds:
-  its visible root contains the `Pilots` subfolder, and the nested listing
-  includes the Round 17 Introduction page 17 pilot. No final batch deck
-  appeared in the root listing. Calls were serialized with more than five
-  seconds between them. This supersedes the earlier transient connector
-  failure. See
+- The November 27 read-only listing of the designated Drive folder succeeded
+  before the Round 23 full-batch upload: the visible root then contained only
+  the `Pilots` subfolder, and the nested listing included the Round 17
+  Introduction page 17 pilot. The 142-slide Batch 1 WIP deck is now in the
+  shared root. Calls were serialized with more than five seconds between them.
+  This supersedes the earlier transient connector failure. See
   the [Drive guide](combined/GOOGLE_DRIVE_ACCESS.md#share-and-connect-the-folder).
 - The nine legacy editable files are only comparison material; do not assume
   their boundaries match the new 16 conceptual batches.

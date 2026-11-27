@@ -20,8 +20,10 @@ now in the shared Drive root as
 native outline readback confirmed 142 ordered slides. The user reports a brief
 visual check found about 90% of slides looking fine. Full build classification,
 remaining repairs, and full-batch Google PDF inspection remain open.
-Local-first is the default; native Google repair is the documented per-slide
-fallback. See the [route decision](../SLIDE_CONVERSION.md#repair-route-decision-local-first-default-google-first-fallback),
+Keep the local PPTX and maps as the reproducible source; use the full native
+Google deck as the working surface for iterative visual fixes. Apply confirmed
+repairs in that deck, rebuilding locally only when a content or structural
+change requires it. See the [route decision](../SLIDE_CONVERSION.md#repair-route-decision-local-first-default-google-first-fallback),
 [Round 17 repair pilot](../SLIDE_CONVERSION.md#round-17--introduction-page-17-repair-pilot),
 [Round 21 build pilot](../SLIDE_CONVERSION.md#round-21--batch-1-introduction-mixed-bannerquestion-build),
 [Round 22 build pilot](../SLIDE_CONVERSION.md#round-22--batch-1-introduction-page-18-imageheadline-build),

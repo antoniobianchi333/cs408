@@ -4,8 +4,10 @@ This folder holds the durable, compact maps and acceptance records for the
 16 final course batches. The complete batch and topic boundaries are in
 [`../BATCH_BOUNDARIES.md`](../BATCH_BOUNDARIES.md). Full-size working PPTX,
 rendered PDFs, and disposable images stay in ignored `out/.build/` while a
-batch is under construction; the accepted native Google Slides decks belong
-in the shared Drive project root above `Pilots`.
+batch is under construction. Every full-size native Google Slides batch deck,
+including a WIP deck that still needs fixes, belongs in the shared Drive root
+above `Pilots`. Use a title such as `WIP - needs fixes` until acceptance;
+reserve `Pilots` for small isolated test decks.
 
 ## Required batch artifacts
 
