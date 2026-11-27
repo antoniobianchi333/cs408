@@ -425,6 +425,10 @@ visual findings are in its
 [diagnostic record](final-batches/batch-01-diagnostic.md). The initial
 unmatched-slide review sheets can be regenerated with
 [render_unmatched_contact_sheets.py](render_unmatched_contact_sheets.py).
+The current local Batch 1 repairs are implemented by
+[repair_batch01_introduction.py](repair_batch01_introduction.py) and
+[repair_batch01_fault_error.py](repair_batch01_fault_error.py); their evidence
+and limitations are recorded in the diagnostic and conversion runbook.
 
 For every final batch, add a plain, editable divider before each original
 source deck. Each divider names the exact filename and topic of the following

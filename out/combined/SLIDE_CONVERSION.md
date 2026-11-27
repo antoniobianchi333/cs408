@@ -148,6 +148,44 @@ scores alone do not justify extra slides. The 32/37 record counts in the
 [Batch 1 diagnostic](final-batches/batch-01-diagnostic.md) are review leads,
 not the number of states to add.
 
+**Batch 1 visual repairs (November 26, 2026):** Introduction page 2 had a
+34 pt imported text block that collided with portraits and wrapped into the
+WHERE/WHEN rows. A 475 pt center-column box, zero horizontal insets, aligned
+label/value rows, and a local reduction to 28 pt now render cleanly in
+LibreOffice while keeping text and photos editable. The source says
+`Now - Depths of Winter`; the visible value is changed to `Fall 2026` from the
+current syllabus. Google import/export must confirm the fit.
+
+Fault/Error page 68 had a correct image but two overlay labels split across
+lines. The editable labels now use wider centered boxes, a 40 pt Arial fallback,
+uppercase text, and 15-degree rotation to follow the photographed signs.
+Correct an overlay before replacing an image when the underlying picture
+already matches the reference.
+
+Fault/Error pages 76–77 show two successive teaching states. The blank imported
+9-row tables are rebuilt as native editable cells: page 76 presents the three
+input columns and question; page 77 adds the `Possible?` answer column. The
+reference values are restored with green `#1DB100` No cells, coral `#FF644E`
+Yes cells, and yellow `#F8BA00` possible-Yes cells. Keep both pages in order;
+the second page adds an answer state instead of duplicating the first.
+
+**User-owned schedule edit (November 26, 2026):** leave the Introduction
+course schedule slide unchanged during conversion and repair. The user will
+make that edit directly; it is not an agent repair task or a blocker for the
+other Batch 1 work. This exception concerns the slide's schedule content only;
+the syllabus/course sequence remains useful for grouping whole topics into
+conceptual batches.
+
+For Fault/Error pages 65, 73, and 74, LibreOffice converted connector paths
+with coordinates outside the 1024 pt slide (for example, a path starting at
+negative x and extending beyond 1,800 pt). Repositioning those paths by eye
+would risk changing the graph meaning. The local repair therefore uses only
+the diagram region from each exact Fall reference PDF page at 150 dpi and keeps
+the title editable; it does not rasterize the whole slide. This is a documented
+last-resort fallback for these diagrams. Check the image regions after Google
+import/export before accepting the batch. The reusable implementation is
+[`repair_batch01_fault_error.py`](repair_batch01_fault_error.py).
+
 ## Pick the source and define the scope
 
 1. Confirm which offering and slide range the user wants. This pilot is

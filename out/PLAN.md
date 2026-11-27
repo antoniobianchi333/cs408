@@ -13,8 +13,10 @@ September PDF. The 16-batch boundary outline is recorded. Each final batch
 will have a plain, editable divider before every original source deck,
 labeled with that exact filename and the following topic. Batch 1 local
 Keynote conversions, preliminary source-PDF alignments, and visual contact
-sheets now exist; many unmatched slides still need build/visibility review
-and mapped defects need repair. Keynote IWA scans found effect markers in
+sheets now exist; many unmatched slides still need build/visibility review.
+Local repairs now cover Introduction page 2 and Fault/Error pages 65, 68, 73,
+74, 76, and 77; the three graph-region crops are documented last resorts.
+Other mapped defects remain. Keynote IWA scans found effect markers in
 32 Introduction and 37 Fault/Error slide records, while the local PPTX
 exports contain no PowerPoint timing parts; actual build sequences still
 need review and static expansion where meaningful. Next, complete Batch 1
@@ -107,6 +109,9 @@ batch size, API behavior, and review effort become measurable.
 - Use the current syllabus and course sequence to place batches. Consult the
   previous course schedule to estimate roughly one class week per batch; keep
   a topic whole when it spans the estimated week boundary.
+- The Introduction course schedule slide is user-owned. Do not edit its
+  schedule content or let that slide block agent work; the user will make that
+  correction directly.
 - Preserve text, code, shapes, diagrams, pictures, and notes as editable
   objects where reliable. For text-fit problems, inspect width, height, and
   insets before reducing font size. Keep an image fallback limited to the
@@ -245,7 +250,7 @@ behavior and for full-deck visual review.
 | 8 | **Complete 2026-11-25 (older-topic import pilot).** Import the complete archived concurrency-testing lab introduction, map it, and compare every Google-rendered page with the PPTX source. | 45–90 min active · medium | Complete: 28 ordered slides and 28 Google PDF pages; all pages visually reviewed against the source's local diagnostic PDF. No layout repair needed. The source has no notes or timed animation. See [Round 14](combined/SLIDE_CONVERSION.md#round-14--older-concurrency-testing-lab-introduction). |
 | 9 | **Complete 2026-11-26.** Review all 38 pages of the Round 16 Google export against the current Keynote-derived deck and September PDF where applicable; repair verified defects. | Complete · 0 min remaining | All 38 map rows have close review. Repairs cover slide 1's banner, slide 2's empty bullets and line fit, diagram regions on slides 4–5, agenda bullets on 7 and 38, and the blank code row on 25. Google shows `3.` on the restored blank row; source PDF leaves it unnumbered. The audit passes page order/count, requested text, and slide 6's unchanged XML/pixel control. See [Round 16](combined/SLIDE_CONVERSION.md#round-16--test-anatomy-repairs-and-google-review). |
 | 10 | **Complete 2026-11-26.** Set the 16 conceptual boundaries from the closed selection audit and Fall syllabus. | Complete · 0 min remaining | [BATCH_BOUNDARIES.md](combined/BATCH_BOUNDARIES.md) records the ordered groups, complete source topics, Week 12 Midterm 2 review and Week 15 Floyd/Dafny source gaps, and six older-only units. Confirm those source gaps before the affected batches; do not substitute an unrelated topic. Every final batch gets a plain, editable divider before each original deck, labeled with its exact filename and following topic; map each divider separately. |
-| 11 | **In progress.** Complete Batch 1 end to end: inspect every current source/build candidate, finalize the source/build map, add source-deck dividers, repair defects, assemble and check locally, upload to the shared Drive root, read back native order/editability, export the Google PDF, inspect every page, and document acceptance. | Remaining estimate 2–4 working days · low | Two source Keynotes are converted; provisional alignment CSVs, contact sheets, and a 111-page local assembly exist. Introduction source page 2 has a local text-fit repair, including 34-to-28 pt body reduction; its labels, TA text, portraits, and updated Fall 2026 term render cleanly. Candidate PPTX counts (92/108) still differ from reference PDF counts (30/79); unmatched slides, meaningful build states, and other repairs remain unresolved. No final Drive upload or page-by-page Google PDF review has happened. Batch 1 must pass every check before Batch 2. Re-estimate later batches from the measured defect rate. |
+| 11 | **In progress.** Complete Batch 1 end to end: inspect every current source/build candidate, finalize the source/build map, add source-deck dividers, repair defects, assemble and check locally, upload to the shared Drive root, read back native order/editability, export the Google PDF, inspect every page, and document acceptance. | Remaining estimate 5–8 working days · low | Two source Keynotes are converted; provisional alignment CSVs, contact sheets, and a 111-page local assembly exist. Introduction page 2 and Fault/Error pages 65, 68, 73, 74, 76, and 77 have local repairs; the three graph-region crops are documented last resorts. The video labels and tables remain editable. Candidate PPTX counts (92/108) still differ from reference PDF counts (30/79); unmatched slides, meaningful build states, and other repairs remain unresolved. The course schedule slide is user-owned and not an agent blocker. No final Drive upload or page-by-page Google PDF review has happened. Batch 1 must pass every agent-owned check before Batch 2. Re-estimate later batches from the measured defect rate. |
 | 12 | Complete Batches 2–16 in order, repeating the full Batch 1 workflow; start each only after the previous batch is accepted. | Initial estimate 1–3 working days per batch (15–45 days total) · low; recalibrate after Batch 1 | All 16 final decks are directly in the shared Drive root (above `Pilots`), with complete maps, native readbacks, reviewed Google PDFs, and current documentation. |
 | 13 | Use the no-curl large-PDF fallback only if a real batch export exceeds the direct response limit. | Conditional: 30–90 min if needed | Try the documented `files.download` LRO or authenticated browser route for that batch. Do not run a standalone size test and do not split a whole deck/topic just to fit the limit. |
 

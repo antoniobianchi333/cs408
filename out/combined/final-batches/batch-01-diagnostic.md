@@ -2,9 +2,13 @@
 
 **Updated:** 2026-11-26  
 **Status:** A provisional 111-page local assembly exists, and the Introduction
-page 2 text-fit repair now renders cleanly locally. Source/build disposition,
-remaining repairs, final assembly, Google import, and visual acceptance remain
-open.
+page 2 text-fit repair plus six Fault/Error page repairs now render cleanly
+locally. Source/build disposition, remaining repairs, final assembly, Google
+import, and visual acceptance remain open.
+
+**User-owned exception:** Do not edit or repair the Introduction course
+schedule slide. The user will correct that slide directly; it is outside the
+agent's repair scope and is not a reason to delay the other Batch 1 work.
 
 ## Scope and source of truth
 
@@ -62,9 +66,10 @@ disposition; unmatched candidates still need Keynote visibility/build review.
 - The provisional map flags low-text or image-heavy reference pages 7–9,
   13, 20, and 23 for direct visual/source-package review.
 - Initial comparison found empty grading tables where the Fall PDF has values,
-  a stale `Two-Step Submission` overlay, an obsolete schedule, a clipped
-  objectives callout, and a distorted diagram. Rebuild these as native text,
-  tables, and shapes where practical.
+  a stale `Two-Step Submission` overlay, a clipped objectives callout, and a
+  distorted diagram. Rebuild these as native text, tables, and shapes where
+  practical. The course schedule slide is user-owned: leave it unchanged and
+  do not count its schedule content as an agent repair or acceptance blocker.
 - The current Introduction source page 2 still says `Now - Depths of Winter`
   in both the Keynote-derived slide and the reference PDF. The current syllabus
   identifies Fall 2026; the batch repair replaces that stale seasonal phrase
@@ -94,23 +99,27 @@ disposition; unmatched candidates still need Keynote visibility/build review.
 - Pages 33–43 (modeling computations and number-state examples) mostly retain
   their content. Check code/table legibility at full size and preserve any
   meaningful state sequence.
-- Reference page 68 has a poor image/video composition in the candidate
-  (candidate slide 94); investigate the source crop/build. Keep accompanying
-  instructional text editable and use only the smallest necessary image
-  replacement.
-- Reference page 65 (candidate slide 90) has a distorted RIRP diagram: arrows
-  cross labels and shapes. Rebuild its geometry as native shapes/connectors.
-- Reference page 74 (candidate slide 102) has scientific-method arrows
-  crossing the diagram text; repair the native diagram and verify endpoints.
-- Reference page 75 (candidate slide 103) has overlapping/misplaced diagram
-  arrows. Repair the diagram natively and compare every connection to the PDF.
-- Reference page 76 (candidate slide 104) is missing the colored outcome
-  table and has poor text/table layout. Restore the table as native cells or
-  shapes and fit the adjacent prompt.
-- Reference pages 77–78 (candidate slides 105–106) have blank comparison
-  matrices where the references contain colored/labelled values. Restore the
-  correct values and color states separately; do not assume the pages are
-  duplicates.
+- Reference page 68 (candidate slide 94) has a correct underlying photo, but
+  the editable `Testing`/`Debugging` labels wrapped and lost the source
+  lettering. The local repair uses one-line, uppercase, rotated text shapes;
+  the latest render matches the photographed signs closely. Keep these labels
+  editable and check the Google render.
+- Reference page 65 (candidate slide 90) and pages 73–74 (candidate slides
+  101–102) have connector geometry extending far beyond the 1024 pt slide
+  canvas, causing arrows to cross diagram text. The local repair replaces only
+  each diagram region with a 150 dpi crop from its matching Fall PDF page; the
+  titles remain editable. This is a last-resort, diagram-only image fallback
+  because the converted connector paths are corrupted. Latest local renders
+  visually match the references; verify these crops in Google.
+- Reference page 76 (candidate slide 104) and page 77 (candidate slide 105)
+  were separate teaching states: the first shows the three input columns and
+  asks which combinations are possible; the next adds the `Possible?` answer
+  column. Their blank 9-row tables have been restored as native editable table
+  cells with the reference Yes/No values and colors. The local renders match
+  the PDF; keep both pages and verify Google's table import.
+- Reference page 75 (candidate slide 103) is the text-only Bugs-versus-Faults
+  definitions page; it has no diagram arrows. Review its typography at full
+  size alongside the remaining code/example pages before acceptance.
 - Several code/example pages near the end need full-size inspection for text
   collisions and clipping. Adjust text boxes or font sizes before considering
   image fallback.
@@ -192,7 +201,10 @@ creating cumulative static states.
    and topic.
 4. Repair the confirmed diagrams, tables, text fit, image composition, and
    any further defects. Preserve notes where present and map all static build
-   states to their source.
+   states to their source. The page 65/73/74 diagram crops, page 68 labels, and
+   page 76/77 native tables are repaired locally; they still require Google
+   export verification. Leave the course schedule slide untouched for the
+   user to edit.
 5. Assemble and audit the local final PPTX; only then import it into the
    shared Drive root. Read back native order/editability, export one paced
    Google PDF, and inspect every page before accepting Batch 1.
@@ -207,3 +219,6 @@ creating cumulative static states.
   package/assembly path retain them?
 - Has every final Google-exported page been visually reviewed against the
   exact reference? **Not yet.** No final Batch 1 deck has been uploaded.
+- The Introduction course schedule slide is not an open agent issue. The user
+  will update it directly; continue Batch 1 work without changing its schedule
+  text.

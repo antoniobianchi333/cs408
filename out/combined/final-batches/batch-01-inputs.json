@@ -12,7 +12,7 @@
     {
       "source_filename": "02-408st-fault-error-failure.key",
       "topic": "Faults, Errors, and Failures",
-      "candidate_pptx": "out/.build/batch-01/source-pptx/02-408st-fault-error-failure.pptx",
+      "candidate_pptx": "out/.build/batch-01/source-pptx/02-408st-fault-error-failure-repaired.pptx",
       "page_map": "out/combined/final-batches/batch-01-fault-error-provisional-page-map.csv",
       "build_marker_audit": "out/combined/final-batches/batch-01-fault-error-build-marker-audit.csv"
     }

@@ -131,6 +131,7 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   [batch-candidate builder](combined/build_batch_candidate.py) with its
   [Batch 1 input manifest](combined/final-batches/batch-01-inputs.json), plus
   [Batch 1 Introduction text repair](combined/repair_batch01_introduction.py)
+  and [Batch 1 Fault/Error repairs](combined/repair_batch01_fault_error.py)
 - [Legacy editable batch baselines](combined/) and their
   [batch manifest](combined/editable-parts-manifest.json). Each of the nine
   `cs408-editable-part-*.pptx` files stays directly in `combined/`; these are
@@ -178,11 +179,15 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   Fault/Error diagrams, video composition, and colored outcome tables. A
   provisional 111-page local candidate now includes editable source-deck
   dividers; Introduction source page 2's labels, body fit, and seasonal text
-  have been repaired and checked in a local render. Meaningful builds, other
-  repairs, the final map, and Google verification remain open. No final Batch 1
-  file has been accepted or uploaded yet. See the
+  have been repaired and checked in a local render. Fault/Error pages 65, 68,
+  73, 74, 76, and 77 also have local repairs; three diagram-only image crops
+  are documented last resorts. Meaningful builds, other repairs, the final
+  map, and Google verification remain open. No final Batch 1 file has been
+  accepted or uploaded yet. See the
   [Batch 1 diagnostic](combined/final-batches/batch-01-diagnostic.md) and
-  [provisional maps](combined/final-batches/README.md).
+  [provisional maps](combined/final-batches/README.md). The Introduction
+  course schedule slide is user-owned: leave its schedule content alone while
+  completing other Batch 1 work; the user will edit it.
 - **Latest full baseline.** [Round 4 Part 1](combined/google-slides-pilot/cs408-editable-part-01-round4.pptx)
   contains combined slides 1–260. The [Round 4 Google PDF](combined/google-slides-pilot/cs408-editable-part-01-round4.pdf)
   gives the full-batch comparison baseline.

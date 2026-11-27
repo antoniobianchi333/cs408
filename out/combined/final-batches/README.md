@@ -66,7 +66,15 @@ for Introduction source page 2 is
 overlapping labels and the portrait collision and replaces a stale winter
 phrase using the Fall 2026 syllabus. Its latest local render has readable body
 text, aligned labels and values, and clear space around the portraits. The
-Google render has not yet been checked.
+Google render has not yet been checked. The source-specific Fault/Error repair
+is [`repair_batch01_fault_error.py`](../repair_batch01_fault_error.py). It
+restores two pages of native table cells, repairs two editable video labels,
+and uses diagram-only crops from the matching Fall PDF for three corrupted
+connector diagrams. The current local 111-page candidate has been rendered;
+these repairs match the references locally but have not been checked through
+Google import/export. The Introduction course schedule slide is user-owned:
+leave it unchanged and continue other Batch 1 work; the user will make that
+edit directly. It is not an agent repair blocker.
 Nothing in this folder represents an uploaded or accepted final batch yet.
 
 ## Acceptance tracking
