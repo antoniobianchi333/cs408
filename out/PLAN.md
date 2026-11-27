@@ -15,8 +15,8 @@ leaves it slightly shorter vertically. The page 6 `~24` line remains
 unwrapped; page 17's Google-only coarse banner dash was repaired with a native
 `DOT` outline update on all six states. Page 16's one-chunk All at Once build
 stays a single static slide. The 142-slide WIP deck is now in the shared Drive
-root with `needs fixes` in its title. Native outline readback confirmed 142
-ordered slides. The user reports that a brief visual check found about 90% of
+root as the [WIP - needs fixes Batch 1 deck](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit).
+Native outline readback confirmed 142 ordered slides. The user reports that a brief visual check found about 90% of
 slides looking fine; the full Google PDF review is still pending, so Batch 1
 is not accepted.
 
@@ -302,7 +302,7 @@ behavior and for full-deck visual review.
 | 8 | **Complete 2026-11-25 (older-topic import pilot).** Import the complete archived concurrency-testing lab introduction, map it, and compare every Google-rendered page with the PPTX source. | 45–90 min active · medium | Complete: 28 ordered slides and 28 Google PDF pages; all pages visually reviewed against the source's local diagnostic PDF. No layout repair needed. The source has no notes or timed animation. See [Round 14](combined/SLIDE_CONVERSION.md#round-14--older-concurrency-testing-lab-introduction). |
 | 9 | **Complete 2026-11-26.** Review all 38 pages of the Round 16 Google export against the current Keynote-derived deck and September PDF where applicable; repair verified defects. | Complete · 0 min remaining | All 38 map rows have close review. Repairs cover slide 1's banner, slide 2's empty bullets and line fit, diagram regions on slides 4–5, agenda bullets on 7 and 38, and the blank code row on 25. Google shows `3.` on the restored blank row; source PDF leaves it unnumbered. The audit passes page order/count, requested text, and slide 6's unchanged XML/pixel control. See [Round 16](combined/SLIDE_CONVERSION.md#round-16--test-anatomy-repairs-and-google-review). |
 | 10 | **Complete 2026-11-26.** Set the 16 conceptual boundaries from the closed selection audit and Fall syllabus. | Complete · 0 min remaining | [BATCH_BOUNDARIES.md](combined/BATCH_BOUNDARIES.md) records the ordered groups, complete source topics, Week 12 Midterm 2 review and Week 15 Floyd/Dafny source gaps, and six older-only units. Confirm those source gaps before the affected batches; do not substitute an unrelated topic. Every final batch gets a plain, editable divider before each original deck, labeled with its exact filename and following topic; map each divider separately. |
-| 11 | **In progress.** Complete Batch 1 end to end: inspect every source/build candidate, finalize the map, expand meaningful states, repair, assemble, upload to the shared Drive root, read back native order/editability, export one Google PDF, inspect every page, and document acceptance. | Remaining estimate 4–7 working days · low | Two source Keynotes are converted. The decoded show trees confirm 30 active Introduction slides and 79 active Fault/Error slides, each matching their Fall PDF and PPTX candidate in order. The baseline assembly is 111 pages; the current partial expansion is 142 pages after six build expansions for Introduction PDF pages 4, 6, 12, 15, 17, and 18 (11, 7, 2, 9, 6, and 2 states). All 37 generated states passed local review and separate native Google PDF review. Round 23's page 12 fonts, bullets, order, and line breaks survived Google import without a Google-side repair; page 18 still has a small font-substitution height difference after its native font/position adjustment. Page 16 has one All at Once chunk and needs no extra state. Seven of 52 build-containing slides are classified; 45 remain. The decoded sequence logs report 113 Introduction and 185 Fault/Error build chunks across 52 active slides; chunk counts are review leads, not final slide counts. Local repair families include Introduction pages 2, 6, 12, 15, and 17 plus Fault/Error pages 65, 68, 73, 74, 76, and 77. Keep local-first as default; use native Google repair as a documented per-family backup. Page 17's native title and dotted-outline fallback still need integrated-batch verification. Repairs on pages 65, 73, 74, 76, and 77 still need integrated Google-export checks; diagram crops remain last resorts. The user owns the schedule slide and will edit it. No final Batch 1 deck or full-batch Google PDF has been uploaded or reviewed. Do not start Batch 2 until Batch 1 passes every acceptance check. Re-estimate later batches from measured defect rates. |
+| 11 | **In progress.** Complete Batch 1 end to end: inspect every source/build candidate, finalize the map, expand meaningful states, repair, assemble, iteratively fix the full Google deck, export its PDF, inspect every page, and document acceptance. | Remaining estimate 4–7 working days · low | Two source Keynotes are converted. The decoded show trees confirm 30 active Introduction slides and 79 active Fault/Error slides, each matching their Fall PDF and PPTX candidate in order. The baseline assembly is 111 pages; the current partial expansion is 142 pages after six build expansions for Introduction PDF pages 4, 6, 12, 15, 17, and 18 (11, 7, 2, 9, 6, and 2 states). All 37 generated states passed local review and separate native Google PDF review. Round 23's page 12 fonts, bullets, order, and line breaks survived Google import without a Google-side repair; page 18 still has a small font-substitution height difference after its native font/position adjustment. Page 16 has one All at Once chunk and needs no extra state. Seven of 52 build-containing slides are classified; 45 remain. The decoded sequence logs report 113 Introduction and 185 Fault/Error build chunks across 52 active slides; chunk counts are review leads, not final slide counts. The full 142-slide WIP deck is in the shared Drive root as [CS408 Batch 1 - WIP - needs fixes](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit); native outline readback confirmed slide count and order. The user reports a brief check found about 90% of slides looking fine; full-deck PDF review is pending. Local repairs cover Introduction pages 2, 6, 12, 15, and 17 plus Fault/Error pages 65, 68, 73, 74, 76, and 77. Use local repairs to build reproducible source content, then make confirmed visual fixes in the same native Google working deck. Page 17's native title and dotted-outline fallback still need full-deck verification. Repairs on pages 65, 73, 74, 76, and 77 still need Google-export checks; diagram crops remain last resorts. The user owns the schedule slide and will edit it. The WIP deck is not accepted; do not start Batch 2 until Batch 1 passes every acceptance check. Re-estimate later batches from measured defect rates. |
 | 12 | Complete Batches 2–16 in order, repeating the full Batch 1 workflow; start each only after the previous batch is accepted. | Initial estimate 1–3 working days per batch (15–45 days total) · low; recalibrate after Batch 1 | All 16 final decks are directly in the shared Drive root (above `Pilots`), with complete maps, native readbacks, reviewed Google PDFs, and current documentation. |
 | 13 | Use the no-curl large-PDF fallback only if a real batch export exceeds the direct response limit. | Conditional: 30–90 min if needed | Try the documented `files.download` LRO or authenticated browser route for that batch. Do not run a standalone size test and do not split a whole deck/topic just to fit the limit. |
 
@@ -563,18 +563,20 @@ behavior and for full-deck visual review.
 ## Next action
 
 1. Continue reviewing the remaining Batch 1 build chunks in decoded playback
-   order. Introduction PDF pages 4, 6, 15, and 17 have verified expansions of
-   11, 7, 9, and 6 cumulative states; page 16's one-chunk All at Once build
-   adds no extra slide. Classify the remaining 47 build-bearing slides and map
-   every meaningful state.
+   order. Introduction PDF pages 4, 6, 12, 15, 17, and 18 have verified
+   expansions of 11, 7, 2, 9, 6, and 2 cumulative states; page 16's one-chunk
+   All at Once build adds no extra slide. Seven of 52 build-bearing slides are
+   classified; 45 remain. Map every meaningful state.
 2. Finalize the complete ordered map, expand meaningful states, resolve the
    remaining page defects, then rebuild and audit the full local PPTX. Keep each
    source deck and topic whole and retain the required editable dividers.
-3. Only after the local Batch 1 map and repairs pass, upload the final deck to
-   the shared Drive root, read back native order/editability, export one paced
-   Google PDF, inspect every page, and update the manifest and documentation.
-   Begin Batch 2 only after Batch 1 passes all checks. Repeat the complete
-   ordered process through Batch 16; keep pilots in `Pilots`.
+3. The current full-size WIP deck is already in the shared Drive root. Export
+   one paced Google PDF, inspect every page, and make confirmed visual fixes in
+   that same native deck. Keep the local PPTX and maps as the reproducible
+   source. If build classification changes the structure, update the working
+   deck and verify the affected order and pages. Rename it as accepted only
+   after native order/editability, notes, and the full Google PDF pass. Begin
+   Batch 2 only after that gate; keep `Pilots` for small test sets.
 
 When a batch needs a visual reference, first use a matching existing PDF or
 inspect the Keynote/source package and its builds. The PDF coverage audit
@@ -600,8 +602,10 @@ order, editability, and notes, export a Google PDF, and compare every page
 with an exact-revision source PDF or the best available verified reference.
 Repair defects, record reusable conversion rules, and update the linked
 Markdown and maps. Finish Batch 1 completely before starting Batch 2, and
-continue in order. Put final batch decks directly in the shared Drive root,
-one level above Pilots; use Pilots only for diagnostic and disposable decks.
+continue in order. Put every full batch deck, including WIP copies, directly
+in the shared Drive root, one level above Pilots. Name unfinished decks `WIP -
+needs fixes`; keep improving the same native Google Slides deck there and
+rename it after acceptance. Use Pilots only for small isolated test decks.
 Use existing PDFs first; consult out/MANUALLYCONVERT.md only after other
 reference options fail. Aim for batch PDFs below 10 MB when natural
 boundaries allow; use the no-curl large-export fallback only if a real batch

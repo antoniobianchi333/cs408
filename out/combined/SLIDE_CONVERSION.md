@@ -1061,14 +1061,14 @@ finish each batch 100% before beginning the next.
    inspecting box geometry and font size; use image fallback only for the
    smallest unreliable element as a last resort.
 4. Validate the current batch locally: package integrity, relationships,
-   notes, slide count/order, and its page map. Import the batch's final Google
-   Slides deck directly into the shared Drive root (the parent folder above
-   `Pilots`), then check native slide order, object editability, and notes.
-5. Export that batch's Google PDF and inspect every page against the best
-   available exact-revision source. Repair any defects, update the map and
-   reusable rules, and accept the batch only when every check passes. Keep
-   diagnostic pilots/disposable decks in `Pilots`; final batch decks go in the
-   shared root.
+   notes, slide count/order, and its page map. Import one full-size native
+   working deck directly into the shared Drive root (the parent folder above
+   `Pilots`) and label it `WIP - needs fixes`. Read back slide order,
+   editability, and notes. Use `Pilots` only for small isolated test sets.
+5. Export the WIP deck's Google PDF and inspect every page against the best
+   available exact-revision source. Apply confirmed fixes in that same native
+   deck, then refresh the affected PDF checks and update the map and reusable
+   rules. Rename the deck as accepted only after the full acceptance gate.
 6. Only after Batch 1 is accepted, repeat the same full process for Batch 2;
    continue sequentially through Batch 16. Do not upload a later final batch
    before completing the current one.
@@ -2053,12 +2053,12 @@ acceptance work below is still open.
    definitions.
 4. **Complete Batch 1 before Batch 2.** For the active batch, build its exact
    source/build map, convert its content, expand meaningful animation states,
-   repair issues, check package structure/order/notes locally, upload its final
-   native deck directly to the shared Drive root (the parent of `Pilots`),
-   read it back, export its Google PDF, inspect every page, and update the
-   manifest and runbook. Only begin the next batch after this full acceptance
-   gate passes. Keep pilots and disposable tests under `Pilots`; no completed
-   batch belongs there.
+   repair locally, and check package structure/order/notes. Keep one full-size
+   WIP deck at the shared Drive root (the parent of `Pilots`), read it back,
+   export its Google PDF, and iteratively apply confirmed repairs to that same
+   native deck. Keep the WIP label until its manifest, order, editability,
+   notes, and every PDF page pass. Then rename it as accepted. Keep `Pilots`
+   only for small tests; no full-batch deck belongs there.
 5. **Resolve references when the active batch needs them.** Full-deck Fall
    PDFs are absent for Concurrency 06/07/10, Bug Reports and Triage 13, Static
    Analysis 22, Final Review 23, and Testing AI/ML 28/29/29b/30. Some older
@@ -2469,3 +2469,39 @@ indentation rather than leaving a typed bullet or rasterizing the list. This
 pilot shows that a targeted local repair can pass Google import without a
 second edit route. Seven of 52 build-bearing slides are now classified; 45
 remain.
+
+## Full-batch working-deck workflow
+
+The full local candidate is the reproducible assembly source; the native
+Google Slides deck is the live surface for visual review and iterative fixes
+after the first import. Put every full-size batch deck—including an
+unfinished working copy—in the shared Drive root above `Pilots`. Label an
+unfinished file `WIP - needs fixes`; keep that same native deck there through
+review and rename it as the accepted batch only after the complete acceptance
+gate passes. Reserve `Pilots` for small, isolated test decks and disposable
+API/edit checks. Do not put a full batch in `Pilots` even when it is
+provisional.
+
+Workflow:
+
+1. Build and repair the source PPTX locally so its structure, notes, and maps
+   can be reproduced. Import one full-size WIP deck to the shared Drive root.
+2. Read back native slide order, text editability, notes, and slide count.
+   Export one full Google PDF and inspect every page against the source.
+3. Apply each confirmed visual repair directly to the same native Google deck
+   in a small, targeted update. Read back the edited objects, export a fresh
+   Google PDF after the repair set, and inspect the affected pages. Keep a
+   record of which changes were local and which were Google-native.
+4. When build classification adds or changes static states, update the WIP
+   deck's structure and order, then verify the affected slides and full count
+   again. Keep the local PPTX and source/build maps as the reproducible record.
+   Do not mark the deck accepted until the final full-PDF pass is complete.
+
+The current [Batch 1 WIP deck](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit)
+was imported from the 142-page local candidate and remains at the shared
+root. Native outline readback confirmed 142 ordered slides. The user reports
+that a brief visual check found about 90% of pages looking fine; the full
+Google PDF comparison and systematic defect fixes remain open. The local
+first-round conversion evidence still guides repairs: use native Google edits
+for defects that appear or remain after import, and preserve local repair
+sources for reproducibility.

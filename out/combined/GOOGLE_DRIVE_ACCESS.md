@@ -22,10 +22,11 @@ failed. Rounds 17 and 21 verified native `DOT` outline updates on freeform
 banner shapes. Round 21 applied the repair to all six slides in a mixed-build
 pilot; the evidence and limits are recorded below.
 
-**Current connector check (November 27, 2026):** read-only listing works
+**Connector check before the Round 23 full-deck upload (November 27, 2026):** read-only listing works
 for the exact shared project folder. The folder listing returned its `Pilots`
 subfolder; a second paced listing returned the pilot presentations. The
-visible project root had no final batch decks in that response; the nested
+visible project root had no batch deck at the time, before the full working
+copy was uploaded; the nested
 `Pilots` folder includes the Introduction page 4, 6, 15, 17, and 18 build pilots,
 the separate page 17 repair pilot, and the Fault/Error page 68 repair pilot. The calls were
 serialized with at least six seconds between Drive operations. This supersedes the
@@ -548,11 +549,13 @@ Google PDF page review before renaming it as accepted. Never place a full-size
 working or completed batch deck in `Pilots`.
 
 Before the Round 23 full-deck import on November 27, 2026, the root listing
-showed only `Pilots`. The 142-slide working Batch 1 deck is now at the shared
-root, with title `CS408 Batch 1 - WIP - needs fixes - 142 slides (Round 23)`.
+showed only `Pilots`. The [142-slide working Batch 1 deck](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit)
+is now at the shared root, with title `CS408 Batch 1 - WIP - needs fixes - 142 slides (Round 23)`.
 Its metadata confirms the shared root as its parent; native outline readback
 confirmed 142 ordered slides. It is not yet accepted: its full Google PDF has
-not been exported and inspected. Small page-level build and repair sets remain
+not been exported and inspected. The user reports that a brief visual check
+found about 90% of slides looking fine; full-page inspection is still pending.
+Small page-level build and repair sets remain
 in `Pilots`, including Introduction pages 4, 6, 12, 15, 17, and 18 and the
 Fault/Error page 68 repair trials.
 

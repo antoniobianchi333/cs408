@@ -213,9 +213,9 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   Google pilot, and the provisional candidate was rebuilt with that change;
   its local output page 100 was reviewed. Meaningful builds, other repairs, the final
   remaining build classifications, the final map, and full-batch Google
-  verification remain open. The 142-slide working deck is uploaded at the
-  shared Drive root as `WIP - needs fixes`; native outline readback confirmed
-  142 ordered slides. The user reports that a brief visual check found about
+  verification remain open. The 142-slide [working deck](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit)
+  is uploaded at the shared Drive root as `WIP - needs fixes`; native outline
+  readback confirmed 142 ordered slides. The user reports that a brief visual check found about
   90% of slides looking fine; systematic full-PDF review remains pending, so
   the batch is not accepted. A one-slide page 17 Drive pilot confirmed the
   editable text and banner/list repairs after import. A native fallback

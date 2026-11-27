@@ -14,9 +14,12 @@ readback, and page-by-page PDF inspection. Round 23's local Arial and bullet
 repair for page 12 survived Google import without a native correction.
 The Round 21 Google import needed a targeted native `DOT` outline update on
 its six banner shapes. Round 22 needed a 31 pt native headline plus a 75,000
-EMU vertical adjustment after Google import. Full build classification,
-remaining repairs, final assembly, and full-batch Google visual acceptance
-remain open.
+EMU vertical adjustment after Google import. The full 142-slide WIP deck is
+now in the shared Drive root as
+[CS408 Batch 1 - WIP - needs fixes](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit);
+native outline readback confirmed 142 ordered slides. The user reports a brief
+visual check found about 90% of slides looking fine. Full build classification,
+remaining repairs, and full-batch Google PDF inspection remain open.
 Local-first is the default; native Google repair is the documented per-slide
 fallback. See the [route decision](../SLIDE_CONVERSION.md#repair-route-decision-local-first-default-google-first-fallback),
 [Round 17 repair pilot](../SLIDE_CONVERSION.md#round-17--introduction-page-17-repair-pilot),
@@ -359,9 +362,12 @@ records for the native Google links and PDF renders.
    content, including pages 65,
    73, 74, 76, and 77, in the final batch. Leave the course schedule slide
    untouched for the user to edit.
-5. Assemble and audit the local final PPTX; only then import it into the
-   shared Drive root. Read back native order/editability, export one paced
-   Google PDF, and inspect every page before accepting Batch 1.
+5. Keep the full-size WIP deck at the shared Drive root and improve that same
+   native presentation in place. Export the initial full Google PDF, compare
+   all pages with the references, and apply confirmed visual fixes directly in
+   Google Slides. Use the local PPTX and maps as the reproducible source; if a
+   later build-state change alters structure, update the WIP deck and verify
+   its affected order/pages. Rename it as accepted only after the full review.
 
 ## Open questions and acceptance blockers
 
@@ -372,8 +378,10 @@ records for the native Google links and PDF renders.
   image discrepancy requires checking the package revision and embedded media.
 - Which notes are present on the selected source slides, and does the planned
   package/assembly path retain them?
-- Has every final Google-exported page been visually reviewed against the
-  exact reference? **Not yet.** No final Batch 1 deck has been uploaded.
+- Has every Google-exported page been visually reviewed against the exact
+  reference? **Not yet.** The WIP deck is uploaded, but its full Google PDF has
+  not yet been exported and inspected. The user's brief visual check found
+  about 90% of pages looking fine; that is preliminary feedback, not acceptance.
 - The Introduction course schedule slide is not an open agent issue. The user
   will update it directly; continue Batch 1 work without changing its schedule
   text.

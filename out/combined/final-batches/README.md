@@ -69,7 +69,12 @@ Objectives states, five net states for the page 17 mixed build, and one net
 state for each of the page 12 and page 18 two-state builds to the 111-page
 baseline; its
 output map is `out/.build/batch-01/assembled/batch-01-expanded-map.csv`. The full expanded
-deck has not yet been imported into Google Slides. Pruned 11-slide,
+deck has been imported to the shared Drive root as the
+[142-slide WIP Batch 1 deck](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit).
+Native outline readback confirmed 142 ordered slides. The user reports a brief
+visual check found about 90% looking fine; a full Google PDF export and
+systematic page review are still pending, so the deck is not accepted. Pruned
+11-slide,
 7-slide, 2-slide, 9-slide, 6-slide, and two 2-slide state subsets were imported
 as native Google pilots and verified; see the [Round 18](../SLIDE_CONVERSION.md#round-18--batch-1-introduction-paragraph-build-pilot),
 [Round 19](../SLIDE_CONVERSION.md#round-19--batch-1-course-grading-paragraph-build-pilot),
