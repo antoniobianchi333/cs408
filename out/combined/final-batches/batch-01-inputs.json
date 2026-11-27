@@ -1,0 +1,20 @@
+{
+  "batch": 1,
+  "status": "provisional local assembly input; animation expansion and repairs are pending",
+  "decks": [
+    {
+      "source_filename": "01-408st-introduction.key",
+      "topic": "Introduction and administrivia",
+      "candidate_pptx": "out/.build/batch-01/source-pptx/01-408st-introduction.pptx",
+      "page_map": "out/combined/final-batches/batch-01-introduction-provisional-page-map.csv",
+      "build_marker_audit": "out/combined/final-batches/batch-01-introduction-build-marker-audit.csv"
+    },
+    {
+      "source_filename": "02-408st-fault-error-failure.key",
+      "topic": "Faults, Errors, and Failures",
+      "candidate_pptx": "out/.build/batch-01/source-pptx/02-408st-fault-error-failure.pptx",
+      "page_map": "out/combined/final-batches/batch-01-fault-error-provisional-page-map.csv",
+      "build_marker_audit": "out/combined/final-batches/batch-01-fault-error-build-marker-audit.csv"
+    }
+  ]
+}
