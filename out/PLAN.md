@@ -14,8 +14,11 @@ will have a plain, editable divider before every original source deck,
 labeled with that exact filename and the following topic. Batch 1 local
 Keynote conversions, preliminary source-PDF alignments, and visual contact
 sheets now exist; many unmatched slides still need build/visibility review
-and mapped defects need repair. Next, complete Batch 1 end to end before
-starting Batch 2. Source selection is already closed; do not repeat the
+and mapped defects need repair. Keynote IWA scans found effect markers in
+32 Introduction and 37 Fault/Error slide records, while the local PPTX
+exports contain no PowerPoint timing parts; actual build sequences still
+need review and static expansion where meaningful. Next, complete Batch 1
+end to end before starting Batch 2. Source selection is already closed; do not repeat the
 57-deck analysis. See the
 [Round 16 record](combined/SLIDE_CONVERSION.md#round-16--test-anatomy-repairs-and-google-review).
 Batch 1's evidence and open defects are in the

@@ -140,10 +140,28 @@ The `.key` IWA records contain explicit effect markers, including
 Introduction package also contains an `apple:magic-move-implied-motion-path`
 marker. In contrast, both generated PPTX files contain zero `<p:timing>` slide
 records. LibreOffice therefore does not preserve those Keynote effects in the
-current candidates. The marker-to-slide audit is a text-based locator only;
-inspect affected source slides and reconstruct meaningful animation states
-as separate static slides in build order. Do not claim the effects were
-preserved just because their slide text was converted.
+current candidates. The [Introduction audit](batch-01-introduction-build-marker-audit.csv)
+and [Fault/Error audit](batch-01-fault-error-build-marker-audit.csv) found 32
+and 37 slide records with effect markers, respectively. These counts include
+transition effects and do **not** equal the number of additional static
+slides required. Grouping hints such as `By Paragraph`, `By Bullet Group`,
+and `By Row`, plus text-based candidate slide/page matches, help locate the
+source content but do not decode full Keynote build order. Inspect affected
+source slides and reconstruct meaningful animation states as separate static
+slides in build order. Do not claim the effects were preserved just because
+their slide text was converted.
+
+The locator currently links effect-marked records to these reference pages:
+
+- Introduction: 2–6, 12, 14–17, and 25–30.
+- Fault/Error: 2, 7, 12, 14, 19–21, 23, 26–27, 30, 32–33, 35, 37, 42, 60,
+  64–65, 69–73, 75–77, and 79.
+
+These are **review targets, not an expansion count or a final animation map**.
+Some markers describe slide transitions; multiple records can point to the
+same page; low lexical scores and image-heavy slides make some matches weak.
+Resolve actual object grouping and sequence from the Keynote records before
+creating cumulative static states.
 
 ## Next actions for this batch
 

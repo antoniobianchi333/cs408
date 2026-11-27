@@ -124,7 +124,7 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   and [per-topic overlap summary](combined/fall-topic-overlap-summary.csv)
 - [Final batch workspace](combined/final-batches/), including the
   [Batch 1 diagnostic findings](combined/final-batches/batch-01-diagnostic.md),
-  four durable provisional page/candidate maps, and the
+  durable provisional page maps and candidate/build audits, plus the
   [alignment audit script](combined/audit_batch_source_alignment.py) and
   [unmatched-slide contact-sheet script](combined/render_unmatched_contact_sheets.py),
   plus the [Keynote build-marker audit](combined/audit_keynote_build_markers.py)

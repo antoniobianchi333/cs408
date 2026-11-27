@@ -131,6 +131,23 @@ The latest Keynote export and Round 4 Google PDF show the first comic panel,
 then the complete comic. Do not spend another round on this sequence; find a
 different meaningful animation family during source reconciliation.
 
+**Batch 1 conversion finding (November 26, 2026):** the two current `.key`
+packages contain Apple effect markers in their `Index/Slide-*.iwa` records,
+including `apple:bc-appear`, `apple:appear`, `apple:dissolve`, and
+`apple:dropbuild`; some records also identify grouping such as `By Paragraph`
+or `By Bullet Group`. Their LibreOffice-generated PPTX candidates contain no
+`p:timing` elements. The local PPTX route therefore does not preserve these
+Keynote effects as PowerPoint timing. The
+[`audit_keynote_build_markers.py`](audit_keynote_build_markers.py) helper
+locates effect-marked source records and suggests corresponding candidate
+slides/PDF pages by text overlap. It does not decode the complete IWA object
+graph or build sequence, and its suggestions are not proof of a build mapping.
+Use it to focus source review, then map meaningful states individually and
+rebuild them as ordered static slides. Transition markers and text-overlap
+scores alone do not justify extra slides. The 32/37 record counts in the
+[Batch 1 diagnostic](final-batches/batch-01-diagnostic.md) are review leads,
+not the number of states to add.
+
 ## Pick the source and define the scope
 
 1. Confirm which offering and slide range the user wants. This pilot is

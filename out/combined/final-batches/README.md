@@ -37,8 +37,10 @@ animation/build states.
 - [Batch 1 diagnostic and visual findings](batch-01-diagnostic.md)
 - [Introduction reference-page candidates](batch-01-introduction-provisional-page-map.csv)
 - [Introduction converted-slide audit](batch-01-introduction-candidate-audit.csv)
+- [Introduction Keynote effect/build-marker audit](batch-01-introduction-build-marker-audit.csv)
 - [Fault/Error reference-page candidates](batch-01-fault-error-provisional-page-map.csv)
 - [Fault/Error converted-slide audit](batch-01-fault-error-candidate-audit.csv)
+- [Fault/Error Keynote effect/build-marker audit](batch-01-fault-error-build-marker-audit.csv)
 
 The corresponding PDFs are `slides/f26-pdfs/01-408st-introduction.pdf` and
 `slides/f26-pdfs/02-408st-fault-error-failure.pdf`. Diagnostic PPTX files,

@@ -32,6 +32,7 @@ from audit_fall_text_overlap import first_lines, ordered_pptx_text, pdf_pages, t
 
 EFFECT_RE = re.compile(rb"apple:[A-Za-z0-9_-]+")
 PRINTABLE_RE = re.compile(rb"[ -~]{4,}")
+BUILD_GROUP_HINTS = (b"By Paragraph", b"By Bullet Group", b"By Row", b"All at Once")
 
 
 def record_text(data: bytes) -> str:
@@ -78,6 +79,9 @@ def main() -> int:
             markers = sorted(set(marker.decode("ascii") for marker in EFFECT_RE.findall(data)))
             if not markers:
                 continue
+            grouping_hints = [
+                hint.decode("ascii") for hint in BUILD_GROUP_HINTS if hint in data
+            ]
             text = record_text(data)
             pptx_ranks = rank_matches(text, pptx_texts)
             pdf_ranks = rank_matches(text, pdf_texts)
@@ -88,6 +92,7 @@ def main() -> int:
                 {
                     "keynote_iwa_record": name,
                     "effect_markers": ";".join(markers),
+                    "build_grouping_hints": ";".join(grouping_hints),
                     "mapped_reference_pdf_pages": directly_mapped,
                     "candidate_pptx_slide": best_pptx,
                     "pptx_text_f1": f"{pptx_score:.4f}",
@@ -108,6 +113,7 @@ def main() -> int:
             fieldnames=[
                 "keynote_iwa_record",
                 "effect_markers",
+                "build_grouping_hints",
                 "mapped_reference_pdf_pages",
                 "candidate_pptx_slide",
                 "pptx_text_f1",
