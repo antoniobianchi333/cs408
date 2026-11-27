@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Repair confirmed layout defects in the Fall Introduction PPTX candidate.
 
-This script normalizes text geometry and font sizes, restores two editable
-grading tables, removes a stale overlay, restores two source-PDF screenshots,
-and replaces one corrupted diagram region with a reference crop. It does not
-alter the course schedule slide: that is a user-owned edit. The repairs are
-deliberately limited to source pages where the imported result visibly differs
-from the current Fall PDF.
+This script normalizes text geometry and font sizes, repairs the homework
+list's empty bullet glyphs/font substitution, restores two editable grading
+tables, removes a stale overlay, restores two source-PDF screenshots, repairs
+the rotated poll banner, and replaces one corrupted diagram region with a
+reference crop. It does not alter the course schedule slide: that is a
+user-owned edit. The repairs are deliberately limited to source pages where
+the imported result visibly differs from the current Fall PDF.
 
 Example:
   python3 out/combined/repair_batch01_introduction.py \
@@ -99,6 +100,29 @@ def set_font_size(shape: etree._Element, points: float) -> None:
         raise ValueError("target shape has no editable font properties")
     for run in runs:
         run.set("sz", size)
+
+
+def set_native_bullets(shape: etree._Element, *, font_family: str = "Arial",
+                       size_percent: int | None = None) -> None:
+    """Replace missing imported bullet font/glyph with an explicit native bullet."""
+    for paragraph in shape.findall("./p:txBody/a:p", NS):
+        ppr = paragraph.find("./a:pPr", NS)
+        if ppr is None:
+            ppr = etree.Element(f"{{{A}}}pPr")
+            paragraph.insert(0, ppr)
+        bullet_font = ppr.find("./a:buFont", NS)
+        if bullet_font is None:
+            bullet_font = etree.SubElement(ppr, f"{{{A}}}buFont")
+        bullet_font.set("typeface", font_family)
+        bullet = ppr.find("./a:buChar", NS)
+        if bullet is None:
+            bullet = etree.SubElement(ppr, f"{{{A}}}buChar")
+        bullet.set("char", "•")
+        if size_percent is not None:
+            bullet_size = ppr.find("./a:buSzPct", NS)
+            if bullet_size is None:
+                bullet_size = etree.SubElement(ppr, f"{{{A}}}buSzPct")
+            bullet_size.set("val", str(size_percent * 1000))
 
 
 def scale_font_sizes(shape: etree._Element, factor: float) -> None:
@@ -398,6 +422,124 @@ def repair(pptx_in: Path, pptx_out: Path) -> None:
     set_font_size(lectures, 24)
     parts[part4] = etree.tostring(slide4, xml_declaration=True, encoding="UTF-8", standalone=True)
 
+    # Source page 4: LibreOffice left the Keynote bullet font/character empty,
+    # producing hollow boxes. Its Source Sans Pro fallback also wraps two
+    # long list items that fit on one line in the Fall PDF. Use editable Arial
+    # runs and native bullet formatting. Explicit 27.5 pt text prevents
+    # LibreOffice's variable auto-fit from changing font size between
+    # cumulative states and fits the two longest lines. Bold/italic runs stay.
+    part5, slide5, _ = load_slide(5)
+    homework = find_text_shape(
+        slide5, lambda text: text.startswith("Five pen+paper assignments"), "homework list"
+    )
+    set_font_size(homework, 27.5)
+    body = homework.find("./p:txBody/a:bodyPr", NS)
+    if body is not None:
+        for child in list(body):
+            if etree.QName(child).localname in ("normAutofit", "spAutoFit", "noAutofit"):
+                body.remove(child)
+        etree.SubElement(body, f"{{{A}}}noAutofit")
+    for run_style in homework.findall(".//a:rPr", NS) + homework.findall(".//a:defRPr", NS) + homework.findall(".//a:endParaRPr", NS):
+        for tag in ("latin", "ea", "cs"):
+            font = run_style.find(f"./a:{tag}", NS)
+            if font is None:
+                font = etree.SubElement(run_style, f"{{{A}}}{tag}")
+            font.set("typeface", "Arial")
+    set_native_bullets(homework, size_percent=75)
+    parts[part5] = etree.tostring(slide5, xml_declaration=True, encoding="UTF-8", standalone=True)
+
+    # Source page 6: the attendance-policy list has seven ordered paragraph
+    # builds. The imported body list has an empty bullet character/font and
+    # substitutes Source Sans Pro on Linux. Keep the seven editable paragraphs,
+    # runs, colors, and nesting, while supplying the actual native bullet.
+    part7, slide7, _ = load_slide(7)
+    course_title = find_text_shape(slide7, lambda text: text == "Course Grading", "Course Grading title")
+    for run_style in course_title.findall(".//a:rPr", NS) + course_title.findall(".//a:defRPr", NS) + course_title.findall(".//a:endParaRPr", NS):
+        for tag in ("latin", "ea", "cs"):
+            font = run_style.find(f"./a:{tag}", NS)
+            if font is None:
+                font = etree.SubElement(run_style, f"{{{A}}}{tag}")
+            font.set("typeface", "Arial")
+    set_font_size(course_title, 72)
+    attendance_heading = find_text_shape(
+        slide7, lambda text: text.startswith("Attendance Policy:"), "attendance-policy heading"
+    )
+    heading_body = attendance_heading.find("./p:txBody/a:bodyPr", NS)
+    if heading_body is None:
+        raise ValueError("attendance-policy heading has no text-body properties")
+    for child in list(heading_body):
+        if etree.QName(child).localname in ("normAutofit", "spAutoFit", "noAutofit"):
+            heading_body.remove(child)
+    etree.SubElement(heading_body, f"{{{A}}}noAutofit")
+    heading_body.set("lIns", str(round(4 * EMU)))
+    heading_body.set("rIns", "0")
+    heading_body.set("tIns", "45000")
+    heading_body.set("bIns", "0")
+    heading_paragraphs = attendance_heading.findall("./p:txBody/a:p", NS)
+    if len(heading_paragraphs) != 2 or "".join(heading_paragraphs[0].xpath(".//a:t/text()", namespaces=NS)).strip():
+        raise ValueError("attendance-policy heading no longer has its expected blank lead paragraph")
+    attendance_heading.find("./p:txBody", NS).remove(heading_paragraphs[0])
+    heading_paragraph = attendance_heading.find("./p:txBody/a:p", NS)
+    heading_ppr = heading_paragraph.find("./a:pPr", NS)
+    if heading_ppr is None:
+        heading_ppr = etree.Element(f"{{{A}}}pPr")
+        heading_paragraph.insert(0, heading_ppr)
+    for key in ("lvl", "marL", "indent"):
+        heading_ppr.attrib.pop(key, None)
+    for child in list(heading_ppr):
+        if etree.QName(child).localname.startswith("bu"):
+            heading_ppr.remove(child)
+    etree.SubElement(heading_ppr, f"{{{A}}}buNone")
+    for run_style in heading_paragraph.findall(".//a:rPr", NS) + heading_paragraph.findall("./a:endParaRPr", NS):
+        for tag in ("latin", "ea", "cs"):
+            font = run_style.find(f"./a:{tag}", NS)
+            if font is None:
+                font = etree.SubElement(run_style, f"{{{A}}}{tag}")
+            font.set("typeface", "Roboto Condensed")
+        run_style.set("spc", "75")
+    heading_transform = attendance_heading.find("./p:spPr/a:xfrm", NS)
+    heading_offset = heading_transform.find("./a:off", NS) if heading_transform is not None else None
+    if heading_offset is None:
+        raise ValueError("attendance-policy heading has no slide position")
+    heading_offset.set("y", str(round((2297520 / EMU + 7.53) * EMU)))
+    attendance = find_text_shape(
+        slide7,
+        lambda text: text.startswith("Each student individually opts in or opts out"),
+        "attendance-policy list",
+    )
+    set_font_size(attendance, 34)
+    # Match the reference's text starts and bullet column. The imported list
+    # used 36.6 pt top-level and 63.6 pt nested margins, shifting every word
+    # right while leaving the bullet positions almost unchanged.
+    for paragraph in attendance.findall("./p:txBody/a:p", NS):
+        ppr = paragraph.find("./a:pPr", NS)
+        if ppr is None:
+            ppr = etree.Element(f"{{{A}}}pPr")
+            paragraph.insert(0, ppr)
+        nested = ppr.get("lvl") == "1"
+        ppr.set("marL", str(587375 if nested else 244475))
+        ppr.set("indent", "-283464")
+        line_spacing = ppr.find("./a:lnSpc", NS)
+        if line_spacing is None:
+            line_spacing = etree.Element(f"{{{A}}}lnSpc")
+            ppr.insert(0, line_spacing)
+        for child in list(line_spacing):
+            line_spacing.remove(child)
+        etree.SubElement(line_spacing, f"{{{A}}}spcPts", val="4500")
+    attendance_transform = attendance.find("./p:spPr/a:xfrm", NS)
+    attendance_offset = attendance_transform.find("./a:off", NS) if attendance_transform is not None else None
+    if attendance_offset is None:
+        raise ValueError("attendance-policy list has no slide position")
+    attendance_offset.set("y", str(round((3023280 / EMU - 5.116) * EMU)))
+    for run_style in attendance.findall(".//a:rPr", NS) + attendance.findall(".//a:defRPr", NS) + attendance.findall(".//a:endParaRPr", NS):
+        for tag in ("latin", "ea", "cs"):
+            font = run_style.find(f"./a:{tag}", NS)
+            if font is None:
+                font = etree.SubElement(run_style, f"{{{A}}}{tag}")
+            font.set("typeface", "Arial")
+    set_native_bullets(attendance, size_percent=75)
+    parts[part7] = etree.tostring(slide7, xml_declaration=True, encoding="UTF-8", standalone=True)
+
     # Source page 5: one-line section labels and body sizing recover the
     # reference's hierarchy without replacing any text with an image.
     part6, slide6, _ = load_slide(6)
@@ -448,6 +590,99 @@ def repair(pptx_in: Path, pptx_out: Path) -> None:
     callout = find_text_shape(slide17, lambda text: text.startswith("Turn to the person next to you"), "turn-to-person callout")
     set_font_size(callout, 24)
     parts[part17] = etree.tostring(slide17, xml_declaration=True, encoding="UTF-8", standalone=True)
+
+    # Source page 17: LibreOffice imported the blue "Hum if your answer is
+    # yes!" banner as a correctly placed background shape plus a horizontal
+    # text box below the canvas. Rebuild only the editable text box, rotating
+    # it to match the source PDF and using an explicit line break so the two
+    # lines stay centered inside the original native blue shape.
+    part20, slide20, _ = load_slide(20)
+    # The heading's substituted DejaVu face is too wide. Keep its separate
+    # blue/bold runs and use Arial (the stable local/Google match) at 91% of
+    # the source sizes; this matches the PDF's centered title width without
+    # disturbing the mixed styling.
+    poll_title = find_text_shape(slide20, lambda text: text.startswith("Who") and "you today" in text, "poll title")
+    scale_font_sizes(poll_title, 0.91)
+    for run_style in poll_title.findall(".//a:rPr", NS) + poll_title.findall(".//a:defRPr", NS) + poll_title.findall(".//a:endParaRPr", NS):
+        for tag in ("latin", "ea", "cs"):
+            font = run_style.find(f"./a:{tag}", NS)
+            if font is None:
+                font = etree.SubElement(run_style, f"{{{A}}}{tag}")
+            font.set("typeface", "Arial")
+    poll_questions = find_text_shape(slide20, lambda text: text.startswith("Do you use unit testing tools"), "poll questions")
+    set_font_size(poll_questions, 33.5)
+    set_bounds(poll_questions, 75, 200.3, 874, 495)
+    question_body = poll_questions.find("./p:txBody/a:bodyPr", NS)
+    if question_body is None:
+        raise ValueError("poll questions have no text-body properties")
+    question_body.set("lIns", str(4 * EMU))
+    question_body.set("rIns", "0")
+    question_body.set("tIns", "0")
+    for run_style in poll_questions.findall(".//a:rPr", NS) + poll_questions.findall(".//a:defRPr", NS) + poll_questions.findall(".//a:endParaRPr", NS):
+        for tag in ("latin", "ea", "cs"):
+            font = run_style.find(f"./a:{tag}", NS)
+            if font is None:
+                font = etree.SubElement(run_style, f"{{{A}}}{tag}")
+            font.set("typeface", "Arial")
+    for paragraph in poll_questions.findall("./p:txBody/a:p", NS):
+        ppr = paragraph.find("./a:pPr", NS)
+        if ppr is None:
+            ppr = etree.Element(f"{{{A}}}pPr")
+            paragraph.insert(0, ppr)
+        # Keep the bullet at x≈79 pt and the text at x≈103 pt, matching the
+        # reference PDF, while replacing the empty imported bullet glyph.
+        ppr.set("marL", str(24 * EMU))
+        ppr.set("indent", str(-24 * EMU))
+        line_spacing = ppr.find("./a:lnSpc", NS)
+        if line_spacing is None:
+            line_spacing = etree.Element(f"{{{A}}}lnSpc")
+            ppr.insert(0, line_spacing)
+        for child in list(line_spacing):
+            line_spacing.remove(child)
+        etree.SubElement(line_spacing, f"{{{A}}}spcPct", val="112000")
+        bullet_font = ppr.find("./a:buFont", NS)
+        if bullet_font is None:
+            bullet_font = etree.SubElement(ppr, f"{{{A}}}buFont")
+        bullet_font.set("typeface", "Arial")
+        bullet_size = ppr.find("./a:buSzPct", NS)
+        if bullet_size is None:
+            bullet_size = etree.SubElement(ppr, f"{{{A}}}buSzPct")
+        bullet_size.set("val", "100000")
+        bullet = ppr.find("./a:buChar", NS)
+        if bullet is None:
+            bullet = etree.SubElement(ppr, f"{{{A}}}buChar")
+        bullet.set("char", "•")
+    banner = find_text_shape(slide20, lambda text: text.startswith("Hum if your answer is yes!"), "poll banner text")
+    set_bounds(banner, 566, 545, 420, 136)
+    xfrm = banner.find("./p:spPr/a:xfrm", NS)
+    if xfrm is None:
+        raise ValueError("poll banner text has no shape transform")
+    xfrm.set("rot", str(350 * 60_000))
+    body = banner.find("./p:txBody/a:bodyPr", NS)
+    if body is None:
+        raise ValueError("poll banner text has no body properties")
+    for key in ("lIns", "rIns", "tIns", "bIns"):
+        body.set(key, "0")
+    body.set("anchor", "ctr")
+    tx_body = banner.find("./p:txBody", NS)
+    for paragraph in list(tx_body.findall("./a:p", NS)):
+        tx_body.remove(paragraph)
+    for line in ("Hum if your", "answer is yes!"):
+        paragraph = etree.SubElement(tx_body, f"{{{A}}}p")
+        ppr = etree.SubElement(paragraph, f"{{{A}}}pPr", algn="ctr")
+        etree.SubElement(ppr, f"{{{A}}}lnSpc")
+        ppr[-1].append(etree.Element(f"{{{A}}}spcPct", val="90000"))
+        etree.SubElement(ppr, f"{{{A}}}buNone")
+        run = etree.SubElement(paragraph, f"{{{A}}}r")
+        rpr = etree.SubElement(run, f"{{{A}}}rPr", lang="en-US", sz="6000")
+        solid = etree.SubElement(rpr, f"{{{A}}}solidFill")
+        etree.SubElement(solid, f"{{{A}}}srgbClr", val="FFFFFF")
+        etree.SubElement(rpr, f"{{{A}}}latin", typeface="Arial")
+        etree.SubElement(rpr, f"{{{A}}}ea", typeface="Arial")
+        etree.SubElement(run, f"{{{A}}}t").text = line
+        end = etree.SubElement(paragraph, f"{{{A}}}endParaRPr", lang="en-US", sz="6000")
+        etree.SubElement(end, f"{{{A}}}latin", typeface="Arial")
+    parts[part20] = etree.tostring(slide20, xml_declaration=True, encoding="UTF-8", standalone=True)
 
     # Source page 18: restore the missing embedded article screenshot as an
     # image object. It is intrinsically a screenshot; surrounding title and

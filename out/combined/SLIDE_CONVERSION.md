@@ -11,8 +11,9 @@ shapes editable. Update the roundtrip log after each test.
 
 [Round 4](#round-4--checked) is the complete Part 1 comparison baseline.
 [Round 16](#round-16--test-anatomy-repairs-and-google-review) completed the
-`.key` repair pilot; native readback, the exact 38-slide map, full visual
-review, and the current Google PDF are complete.
+38-slide Test Anatomy diagnostic. [Round 18](#round-18--batch-1-introduction-paragraph-build-pilot)
+is the latest build-state pilot; [Round 17](#round-17--introduction-page-17-repair-pilot)
+is the latest one-slide repair pilot. Batch 1 is active and not yet accepted.
 [Round 14](#round-14--older-concurrency-testing-lab-introduction) is the
 latest older-topic import pilot; [Round 13](#round-13--fall-lab-1-fuzzing-source-and-build-mapping)
 is the latest accepted Fall source-selection pilot.
@@ -24,8 +25,9 @@ line-position edit/readback passed on a disposable Round 11 copy; a line
 style update was rejected for its imported arrow. See the
 [Google API records](GOOGLE_DRIVE_ACCESS.md#verified-live-text-edits) and
 [vector edit record](GOOGLE_DRIVE_ACCESS.md#verified-native-vector-object-edit).
-Use the [current open-work list](#open-work-after-round-16) before extending
-repairs across Part 1 or the full collection.
+Use the [Batch 1 diagnostic](final-batches/batch-01-diagnostic.md) for current
+source/build, repair, and acceptance work. The archived
+[post-Round-16 snapshot](#open-work-after-round-16) is superseded by Round 17.
 
 ## File-transfer invariant (current)
 
@@ -107,12 +109,32 @@ then imported as a new native Google Slides pilot; the Google-created PDF is
 words on one line. The same 36 pt rule is now in
 repair_batch01_fault_error.py.
 
+Round 17 adds a narrower exception, not a route change. The Introduction page
+17 local repair keeps the poll list, title, blue banner, and banner text as
+editable objects and visually matches the reference locally. Its first
+one-slide import confirmed that the question list and banner geometry survived,
+but Google mapped the source font to Arial and interpreted the custom dotted
+outline as coarse dashes. A targeted native title-size adjustment and
+`outline.dashStyle = DOT` made the Google PDF closely match the source. This is
+evidence for native fallback on Google-only font/line-style conversion defects;
+the corresponding local title repair is still included in the batch candidate
+and must be checked in the integrated batch PDF.
+
+The first animation-family pilot reinforces local-first for a different reason:
+locally repaired editable paragraph states imported as an 11-slide native
+Google deck with the progressive order, text, bullet hierarchy, emphasis, and
+line fit intact. The Google PDF's final state matches the Fall reference. This
+does not eliminate the native fallback; it shows that the route should be
+chosen per defect family and checked in the Google export.
+
 **Paired pilot evidence**
 
 - Introduction page 2, Google-first: [native repair trial](https://docs.google.com/presentation/d/1yhrGmrHhiEwHjgbCooEVu9yCuAEi1iGiqf8WZfwlvIk/edit).
 - Introduction page 2, local-first: [imported repair pilot](https://docs.google.com/presentation/d/1rl6eUwRK5sLYTXqKEhrqGSMr5xYM53t240ixyzO9_M0/edit).
 - Fault/Error page 68, Google-first: [native repair trial](https://docs.google.com/presentation/d/1qwyDAAGXg6MQ-AayhuXGvphtgcVT8nXpqFFIa5vT6WI/edit).
 - Fault/Error page 68, local-first at 36 pt: [imported repair pilot](https://docs.google.com/presentation/d/1oDK5YbmbDGM3L8oX4-y8g_lTOq9sgsXWsmL2y5JqSkU/edit).
+- Introduction page 17, local banner/list import plus native title/outline fallback: [single-slide Google pilot](https://docs.google.com/presentation/d/1Gat0ZLl5w5iSrU4tDtZOgEEwQnvEIANW3pUV2vsqw48/edit).
+- Introduction page 4, local paragraph-state repair: [11-slide native Google pilot](https://docs.google.com/presentation/d/1mCf3kvK2-08EIXOmxRONiD6JmH27N35ykvc8XwqXtoI/edit).
 - Google-created PDFs, renders, and one-slide PPTX samples are under `out/.build/repair-route-pilot/`.
 
 For each new defect family, keep the local repair as the first candidate and
@@ -180,22 +202,73 @@ The latest Keynote export and Round 4 Google PDF show the first comic panel,
 then the complete comic. Do not spend another round on this sequence; find a
 different meaningful animation family during source reconciliation.
 
-**Batch 1 conversion finding (November 26, 2026):** the two current `.key`
-packages contain Apple effect markers in their `Index/Slide-*.iwa` records,
-including `apple:bc-appear`, `apple:appear`, `apple:dissolve`, and
-`apple:dropbuild`; some records also identify grouping such as `By Paragraph`
-or `By Bullet Group`. Their LibreOffice-generated PPTX candidates contain no
-`p:timing` elements. The local PPTX route therefore does not preserve these
-Keynote effects as PowerPoint timing. The
-[`audit_keynote_build_markers.py`](audit_keynote_build_markers.py) helper
-locates effect-marked source records and suggests corresponding candidate
-slides/PDF pages by text overlap. It does not decode the complete IWA object
-graph or build sequence, and its suggestions are not proof of a build mapping.
-Use it to focus source review, then map meaningful states individually and
-rebuild them as ordered static slides. Transition markers and text-overlap
-scores alone do not justify extra slides. The 32/37 record counts in the
-[Batch 1 diagnostic](final-batches/batch-01-diagnostic.md) are review leads,
-not the number of states to add.
+**Batch 1 conversion finding (November 27, 2026):** the two current `.key`
+packages contain Apple effect markers such as `apple:bc-appear`,
+`apple:appear`, `apple:dissolve`, and `apple:dropbuild`; some identify grouping
+such as `By Paragraph` or `By Bullet Group`. Their LibreOffice-generated PPTX
+candidates contain no `p:timing` elements, so the local PPTX route does not
+preserve those Keynote effects as PowerPoint timing. The
+[`audit_keynote_build_markers.py`](audit_keynote_build_markers.py) remains a
+text-based locator only. The new
+[`audit_keynote_build_sequences.py`](audit_keynote_build_sequences.py) decodes
+the Keynote show-tree order, slide skip flags, `KN.BuildArchive` records, and
+the ordered `KN.BuildChunkArchive` references. The two `.key` packages record
+Keynote 14.4 and 15.3.1 in their build history; the field map used by the
+decoder is cross-checked against this
+[reverse-engineered Keynote archive implementation](https://docs.rs/iwork/latest/src/iwork/keynote.rs.html).
+
+For Batch 1, the 92 Introduction nodes contain 62 skipped nodes and 30 active
+slides; the 108 Fault/Error nodes contain 29 skipped and 79 active slides. The
+unskipped sequence exactly matches all 30 and 79 current PDF pages and the
+candidate-slide maps in order. That explains the earlier count discrepancy.
+The local candidate's baseline count is 111 pages including its two required
+dividers; meaningful static build states may increase it.
+
+The sequence CSVs are linked from the
+[Batch 1 workspace index](final-batches/README.md#batch-1-current-state). They
+record 113 build chunks across 17 active Introduction slides and 185 across 35
+active Fault/Error slides. These are not expansion counts: a slide can have
+many chunks for one animation, and some chunk effects may be automatic or
+decorative. The Keynote nodes' cached `hasBuilds` and `buildEventCount` fields
+are stale or inconsistent in these packages; do not treat them as the build
+map. Read `SlideArchive.buildChunks` in order, then inspect the visible change
+of each chunk and keep separate static slides only for meaningful instructional
+states. The audit does not render intermediate states or establish their
+meaning by itself.
+
+#### First Batch 1 build family: Introduction PDF page 4
+
+The active source slide has one `By Paragraph` text build: its 11 ordered
+chunks correspond to the 11 visible bullet paragraphs. Keep 11 cumulative
+static states in source order, following the already reviewed [Round 13
+paragraph-state method](#round-13--fall-lab-1-fuzzing-source-and-build-mapping).
+Apple's [Keynote build-order guide](https://support.apple.com/en-ie/guide/keynote/tan3ad5f8d82/mac)
+describes paragraph delivery and the order/timing of builds. The exact
+Batch 1 decision and chunk IDs are in
+[`batch-01-build-expansion.json`](final-batches/batch-01-build-expansion.json).
+
+The [reusable PPTX expander](expand_batch_build_states.py) creates cumulative
+paragraph and object-visibility states and writes an output map. For this
+slide, output pages 5–15 are states 1/11 through 11/11; each cumulative text
+state was reviewed in the LibreOffice PDF, and output page 15 matches Fall PDF
+page 4. The source text and emphasis remain editable. LibreOffice had imported
+empty bullet-font/character attributes, which appeared as hollow boxes, and
+used variable auto-fit that changed the typography between states. The local
+repair sets native Arial bullets, uses explicit 27.5 pt text with auto-fit
+disabled, and preserves the original bold/italic/color runs; this fixes the
+bullet glyph and keeps the longest lines on one line across all states. The
+current expanded candidate has 121 pages (111 baseline pages plus ten added
+states). A pruned 11-slide PPTX containing only output pages 5–15 was imported
+as a native Google pilot. Structural readback returned 11 ordered slides with
+editable cumulative text. The Google PDF contains 11 pages; all were inspected
+and show the intended progressive reveal with consistent typography, bullet
+hierarchy, emphasis, and line fit. Its final page matches Fall reference page
+4. The full 121-page candidate and integrated Batch 1 repairs have not yet been
+imported or reviewed. Local pilot PDF and page renders are under
+`out/.build/batch-01/pilots/google-render-2026-11-27/`; the Drive deck is linked
+in [Round 18](#round-18--batch-1-introduction-paragraph-build-pilot). The
+output map is generated at
+`out/.build/batch-01/assembled/batch-01-expanded-map.csv`.
 
 **Batch 1 visual repairs (November 26, 2026):** Introduction page 2 had a
 34 pt imported text block that collided with portraits and wrapped into the
@@ -552,19 +625,16 @@ source order and map each intermediate state. The Fall 2025 section around
 current slides 1069–1087 contains older versions of these concepts and is not
 an extra lesson to append.
 
-For two sample Fall Keynotes, LibreOffice 7.3.7.2 exported PDFs with 92 pages
-for Introduction and 108 pages for Fault/Error/Failure, versus the original
-Fall PDFs' 30 and 79 pages. The extra LO pages are a mixture of content absent
-from the selected Fall PDF and possible build states; page counts alone do not
-identify animation. For example, the LO Introduction export has a
-“Two-Step Submission” slide missing from the 30-page Fall PDF and a second
-Admin/Teaching Staff section after the recap. The LO Fault/Error/Failure
-export starts with an Admin/schedule/office-hours/review block before the
-current Game Plan. Do not include these extra sections unless the source
-visibility/build metadata and the syllabus establish that they are current and
-useful. Some repeated “Who” and “Modeling Computations” pages may be
-incremental build states; map each state to the original Keynote and the
-selected Fall PDF before deciding.
+For two sample Fall Keynotes, LibreOffice 7.3.7.2 exported 92 Introduction
+slides and 108 Fault/Error/Failure slides, versus 30 and 79 active pages in the
+current Fall PDFs. The Keynote show-tree decoder explains the count: 62 and 29
+nodes are marked skipped, and every unskipped node maps in order to the PDF
+page map and candidate slide. This identifies whole-slide records outside the
+current show, including the Introduction submission/Admin material and the
+Fault/Error Admin/review block. Do not append those skipped records as builds.
+Animation build chunks attached to active slides remain a separate review;
+repeated “Who” or “Modeling Computations” text alone does not establish an
+additional meaningful state.
 
 The initial LibreOffice Keynote attempts used the default filter and failed;
 Round 15 later established that an explicit PPTX filter and isolated
@@ -1913,7 +1983,12 @@ addressed. Use the [current open-work list](#open-work-after-round-16).
   its topic where source order permits. Verify a block completely before
   uploading the next one.
 
-#### Open work after Round 16
+#### Open work after Round 16 (superseded by Round 17)
+
+This was the status snapshot before the Round 17 Introduction page 17 pilot.
+Use the newer [Round 17 record](#round-17--introduction-page-17-repair-pilot)
+for the current page 17 findings; the remaining source/build and full-batch
+acceptance work below is still open.
 
 1. **Round 16 complete.** Its repaired 38-slide native deck has full readback,
    page mapping, close visual review on all 38 pages, and a passing audit. The
@@ -1966,10 +2041,12 @@ addressed. Use the [current open-work list](#open-work-after-round-16).
    downloader.
 8. Reuse verified repair rules where their source/layout matches. Native text
    replacement and one line-position edit/readback are verified; the imported
-   arrow's line-style update failed. Check unfamiliar object editability in
-   the batch where it occurs; do not delay Batch 1 for tests of every possible
-   object type. Legacy issues on slides 70, 115–128, 153–186, 238, 244, and 253
-   are only relevant if the selected current source includes those objects.
+   Round 11 arrow's line-style update failed. Round 17 separately verified a
+   `DOT` outline update on the Introduction poll banner. Check unfamiliar
+   object editability in the batch where it occurs; do not delay Batch 1 for
+   tests of every possible object type. Legacy issues on slides 70, 115–128,
+   153–186, 238, 244, and 253 are relevant only if the selected current source
+   includes those objects.
 
 The current batch, its source maps, Drive location, export PDF, and page-review
 result are the working state to update after each batch. Continue in order
@@ -1991,3 +2068,111 @@ For a local PDF, the saved approval prefix is
 `libreoffice --headless --convert-to pdf`. Put any per-run
 `-env:UserInstallation=file:///...` and `--outdir` arguments after
 that prefix and use a temporary profile.
+
+### Round 17 — Introduction page 17 repair pilot
+
+**Status:** the single-slide repair pilot is visually checked; integration in
+the final Batch 1 Google deck is still required. The local batch candidate was
+rebuilt and its output page 18 was compared against Introduction reference PDF
+page 17. It closely matches the reference. The separate Google pilot is
+[in the shared `Pilots` folder](https://docs.google.com/presentation/d/1Gat0ZLl5w5iSrU4tDtZOgEEwQnvEIANW3pUV2vsqw48/edit).
+It contains one ordered slide, `p1`, with editable title, question list,
+banner text, and native blue shape. The final Google PDF is 39,981 bytes and
+has one page. This is a repair-method pilot, not a final batch.
+
+**Local repair and the defect measurements**
+
+- The LibreOffice-converted page was candidate slide 20; the batch map places
+  the selected PDF page at output slide 18 after its source-deck divider.
+  Candidate 19 remains unclassified; its incomplete poll list and effect
+  marker do not establish a valid build state.
+- Linux has no Source Sans Pro font installed. `fc-match
+  SourceSansPro-Regular` resolves to DejaVu Sans, which made the mixed-size
+  title too wide. The repair keeps the separate blue `Who`, regular phrase,
+  and bold blue `you` runs; it selects Arial and scales those existing runs to
+  91%. The local PDF text bbox is 571.6 pt wide, close to the reference's
+  573.5 pt. Do not flatten the rich title to one uniform text run.
+- The five native question paragraphs now use 33.5 pt Arial, visible `•`
+  bullets at full run size, a 24 pt hanging indent, and 112% line spacing.
+  Their line starts and wraps align with the PDF: the measured first-line
+  y-positions are 205, 250, 340, 385, and 475 pt in both the reference and
+  local render (the wrapped continuation lines remain at 298 and 433 pt).
+  This repairs the imported empty bullet character, the too-wide fallback
+  font, and the compressed vertical spacing without replacing the list by an
+  image.
+- The banner background was already a correct editable freeform shape; its
+  separate editable text box was below the slide and horizontal. The local
+  repair moves the text box to `(566, 545)` with a `420 × 136 pt` box, rotates
+  it 350 degrees, uses 60 pt white Arial, and inserts the source's two lines
+  `Hum if your` / `answer is yes!`. It stays inside the original blue shape.
+
+**Google import and the native fallback**
+
+The first Google import used the local banner and question-list fixes but
+preceded the local title-size correction. Google readback confirmed one slide
+and native text objects. Its initial 39,984-byte PDF exposed two import-only
+differences: the title remained too wide, and the custom dotted outline became
+coarse dashes. The pilot was repaired with two targeted native changes:
+
+- `updateTextStyle` on title object `p1_i271` set range `[0, 4)` to 72.8 pt and
+  range `[4, 19)` to 58.2 pt, preserving the existing mixed-run colors and
+  weight. The resulting text bbox is 571 pt wide, close to the 573.5 pt source.
+- `updateShapeProperties` on the blue freeform `p1_i273` set
+  `outline.dashStyle` to `DOT`. Google documents `DOT` as a dotted line in its
+  [DashStyle enum](https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations.pages/other#DashStyle).
+
+The final one-page Google PDF is 39,981 bytes and was visually reviewed beside
+the reference. The dotted pattern is still not an exact pixel match, but the
+coarse dash conversion is corrected without rasterizing the banner. The final
+local batch script also contains the 91% title adjustment; that local version
+has not yet been re-imported separately. Verify the integrated local title and
+the outline in the final Batch 1 PDF before acceptance.
+
+**Reusable rules:** measure the source text bounds before adjusting font
+sizes; check both Linux font substitution and Google Slides readback; preserve
+mixed title runs; set list line spacing from measured reference baselines;
+keep native paragraph bullets; and try a single native `DOT` outline repair
+when a PowerPoint custom dash imports as a coarse dash. The Drive calls for
+this pilot were serialized with at least six seconds between them, and the
+39,981-byte PDF was fetched through the Slides render helper's bounded
+`include_base64: true` compatibility path. No `curl` or shell downloader was
+used.
+
+### Round 18 — Batch 1 Introduction paragraph-build pilot
+
+**Status:** the first build family passed local review, native Google Slides
+readback, and page-by-page Google PDF review. This verifies the conversion
+method for this `By Paragraph` family; it does not accept Batch 1. The native
+pilot is [in the shared `Pilots` folder](https://docs.google.com/presentation/d/1mCf3kvK2-08EIXOmxRONiD6JmH27N35ykvc8XwqXtoI/edit).
+It has 11 ordered slides (`p1`–`p11`), editable text and bullets, and cumulative
+states matching the source build order. The final Google PDF has 11 pages and
+is saved locally at
+`out/.build/batch-01/pilots/google-render-2026-11-27/presentation.pdf`; its
+rendered pages and ordered slide IDs are in the same folder.
+
+The source is `01-408st-introduction.key`, Keynote slide order 5 / Fall PDF
+page 4 / candidate slide 5. Its one text object has 11 visible paragraphs and
+11 ordered `By Paragraph` chunks. The local repair uses 27.5 pt Arial, native
+`•` bullets, fixed text sizing, and preserved bold, italic, and color runs.
+The local output pages 5–15 and all 11 Google-rendered pilot pages were
+reviewed. Each state reveals the next paragraph; the final state preserves the
+nested bullet hierarchy, colored score ranges, bold/italic runs, and one-line
+longest items visible in the reference.
+
+**Export-transfer observation:** the first helper call used
+`include_base64: false` and received a PDF file reference without
+`workspace_path`, so it could not save a local PDF. One bounded compatibility
+fetch with `include_base64: true` returned the 69,135-byte PDF; it was written
+locally and rendered without printing or retaining the base64 and without a
+shell/network downloader. This is another small-export confirmation of the
+connector-to-workspace handoff behavior in the [Drive guide](GOOGLE_DRIVE_ACCESS.md#download-the-google-rendered-pdf).
+For future small exports, use the documented one-fetch helper wrapper with
+`include_base64: true` from the start. Do not repeat the failed default fetch.
+
+**Reusable rule:** for a genuine paragraph reveal, preserve the ordered
+paragraph build as cumulative static slides. Repair imported bullet-font and
+auto-fit defects before expansion, keep emphasis runs editable, then verify
+every Google-rendered state for progression, hierarchy, clipping, and
+consistency. This rule is limited to content-bearing paragraph builds; do not
+turn effect markers or decorative changes into slides without inspecting the
+actual build states.

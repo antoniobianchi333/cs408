@@ -1,0 +1,55 @@
+{
+  "batch": 1,
+  "status": "two content-bearing paragraph-build families passed local and native Google Slides review; 50 other build-containing slides still need classification; full-batch integration and review remain pending",
+  "policy": "Each selected state is cumulative and stays adjacent to its source slide within the original deck. Do not expand a decorative-only effect. Do not infer instructional meaning from chunk count alone.",
+  "expansions": [
+    {
+      "output_slide": 5,
+      "source_filename": "01-408st-introduction.key",
+      "source_topic": "Introduction and administrivia",
+      "source_keynote_slide_order": 5,
+      "reference_pdf_page": 4,
+      "converted_pptx_slide": 5,
+      "decision": "The active Keynote slide has one By Paragraph text build with 11 ordered chunks, corresponding to its 11 visible bullet paragraphs. Preserve the teaching reveal as 11 cumulative static states, following the already reviewed Round 13 paragraph-state method.",
+      "build_status": "11 cumulative paragraph states; each state reveals the next Keynote build chunk",
+      "review_status": "Local output pages 5-15 and all 11 pages of the native Google PDF pilot inspected for cumulative text, order, bullet hierarchy, emphasis, and line fit. Google slide p11 matches Fall PDF page 4. Editable bullet styling and line fit repaired. The full Batch 1 deck and integrated repairs still need review.",
+      "google_pilot_url": "https://docs.google.com/presentation/d/1mCf3kvK2-08EIXOmxRONiD6JmH27N35ykvc8XwqXtoI/edit",
+      "google_pdf_review": "11 pages; visually inspected page by page; final state matches the Fall reference. Local export: out/.build/batch-01/pilots/google-render-2026-11-27/presentation.pdf",
+      "states": [
+        {"label": "1/11", "build_chunk_ids": ["1408961"], "operations": {"visible_paragraphs": {"194": 1}}},
+        {"label": "2/11", "build_chunk_ids": ["1408962"], "operations": {"visible_paragraphs": {"194": 2}}},
+        {"label": "3/11", "build_chunk_ids": ["1408963"], "operations": {"visible_paragraphs": {"194": 3}}},
+        {"label": "4/11", "build_chunk_ids": ["1408964"], "operations": {"visible_paragraphs": {"194": 4}}},
+        {"label": "5/11", "build_chunk_ids": ["1408965"], "operations": {"visible_paragraphs": {"194": 5}}},
+        {"label": "6/11", "build_chunk_ids": ["1408966"], "operations": {"visible_paragraphs": {"194": 6}}},
+        {"label": "7/11", "build_chunk_ids": ["1408967"], "operations": {"visible_paragraphs": {"194": 7}}},
+        {"label": "8/11", "build_chunk_ids": ["1408968"], "operations": {"visible_paragraphs": {"194": 8}}},
+        {"label": "9/11", "build_chunk_ids": ["1408969"], "operations": {"visible_paragraphs": {"194": 9}}},
+        {"label": "10/11", "build_chunk_ids": ["1408970"], "operations": {"visible_paragraphs": {"194": 10}}},
+        {"label": "11/11", "build_chunk_ids": ["1459667"], "operations": {"visible_paragraphs": {"194": 11}}}
+      ]
+    },
+    {
+      "output_slide": 7,
+      "source_filename": "01-408st-introduction.key",
+      "source_topic": "Introduction and administrivia",
+      "source_keynote_slide_order": 7,
+      "reference_pdf_page": 6,
+      "converted_pptx_slide": 7,
+      "decision": "The active Keynote slide has one By Paragraph text build with seven ordered chunks matching the seven editable attendance-policy paragraphs. Preserve the teaching reveal as seven cumulative static states. This is a second example of the same content-bearing paragraph-build family.",
+      "build_status": "7 cumulative paragraph states; each state reveals the next Keynote build chunk",
+      "review_status": "All seven local candidate states and all seven native Google Slides PDF pages were inspected in order against Fall PDF page 6. The final state preserves the source hierarchy, colored opt-in/out emphasis, visible native bullets, and the ~24 line without wrapping. Full-batch integration remains pending.",
+      "google_pilot_url": "https://docs.google.com/presentation/d/1GXnEv1AfcqdL2rVJEqtDkvLmh0SCdVXOi0CzmePTstI/edit",
+      "google_pdf_review": "7 pages; all states visually inspected. Export: 65,752 bytes. Local render: out/.build/batch-01/pilots/course-grading-google-render/presentation.pdf",
+      "states": [
+        {"label": "1/7", "build_chunk_ids": ["1587748"], "operations": {"visible_paragraphs": {"207": 1}}},
+        {"label": "2/7", "build_chunk_ids": ["1587749"], "operations": {"visible_paragraphs": {"207": 2}}},
+        {"label": "3/7", "build_chunk_ids": ["1587750"], "operations": {"visible_paragraphs": {"207": 3}}},
+        {"label": "4/7", "build_chunk_ids": ["1587751"], "operations": {"visible_paragraphs": {"207": 4}}},
+        {"label": "5/7", "build_chunk_ids": ["1587752"], "operations": {"visible_paragraphs": {"207": 5}}},
+        {"label": "6/7", "build_chunk_ids": ["1587753"], "operations": {"visible_paragraphs": {"207": 6}}},
+        {"label": "7/7", "build_chunk_ids": ["1587754"], "operations": {"visible_paragraphs": {"207": 7}}}
+      ]
+    }
+  ]
+}

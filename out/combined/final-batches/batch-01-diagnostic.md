@@ -1,13 +1,23 @@
 # Batch 1 diagnostic: Week 1
 
 **Updated:** 2026-11-27  
-**Status:** A provisional 111-page local assembly exists, and the Introduction
-page 2 text-fit repair plus six Fault/Error page repairs now render cleanly
-locally. Source/build disposition, remaining repairs, final assembly, Google
-import, and visual acceptance remain open. The local repairs are evidence for
-a planned local-first versus Google-first comparison; they do not establish
-the preferred repair route. See the
-[paired-test plan](../SLIDE_CONVERSION.md#choose-where-repairs-happen-decision-pending).
+**Status:** The Keynote show order and active-slide sequence are now decoded.
+The Introduction package has 92 ordered nodes, 62 marked skipped, and 30
+active; Fault/Error has 108 nodes, 29 skipped, and 79 active. Each active
+sequence matches its full Fall PDF page map and LibreOffice candidate slides
+in exact order. A provisional 111-page local assembly exists and has been rebuilt
+with the latest Introduction and Fault/Error repairs. The local PDF's output
+page 18 (Introduction page 17) and output page 100 (Fault/Error page 68) now
+closely match their references. A one-slide Introduction page 17 pilot was
+imported and visually checked in Google Slides; the imported question list and
+banner remain editable. A native fallback corrected the title sizing and
+dotted outline in that pilot. The final integrated local page 17 title repair
+still needs a full-batch Google roundtrip. The structural build/chunk order is
+decoded; deciding which build stages add meaningful static slides, remaining
+repairs, final assembly, and full-batch Google visual acceptance remain open.
+Local-first remains the default, with native Google repair as the fallback.
+See the [route decision](../SLIDE_CONVERSION.md#repair-route-decision-local-first-default-google-first-fallback)
+and [Round 17 pilot record](../SLIDE_CONVERSION.md#round-17--introduction-page-17-repair-pilot).
 
 **User-owned exception:** Do not edit or repair the Introduction course
 schedule slide. The user will correct that slide directly; it is outside the
@@ -24,10 +34,10 @@ The matching current Fall references are
 [`01-408st-introduction.pdf`](../../../slides/f26-pdfs/01-408st-introduction.pdf)
 (30 pages) and
 [`02-408st-fault-error-failure.pdf`](../../../slides/f26-pdfs/02-408st-fault-error-failure.pdf)
-(79 pages). The PDFs are the main visual references, subject to confirming
-that each page reflects the selected Keynote revision. Preserve the newest
-Fall content and use the source package to resolve content absent from an
-older PDF.
+(79 pages). The source packages' unskipped Keynote nodes match those PDF pages
+in order; visual checks remain required to confirm page-level fidelity.
+Preserve the newest Fall content and use the source package to resolve content
+absent from an older PDF.
 
 ## Conversion and alignment evidence
 
@@ -38,10 +48,12 @@ The candidates are ignored work files:
 - `out/.build/batch-01/source-pptx/02-408st-fault-error-failure.pptx`
 
 The generated PPTX files contain 92 and 108 slides, while the corresponding
-current Fall PDFs contain 30 and 79 pages. These counts are not equivalent:
-the `.key` packages contain saved/old records and possible build states, and
-the PDF may show only one state. Therefore, neither deleting all unmatched
-slides nor keeping every LibreOffice page is justified by page counts alone.
+current Fall PDFs contain 30 and 79 pages. A structural decoder now reads the
+Keynote show tree and `isSkipped` values directly. The 62 skipped Introduction
+nodes and 29 skipped Fault/Error nodes account for the count difference; the
+remaining 30 and 79 nodes match every PDF page-map candidate in order. This
+settles which slide records are in the active show. Animation states still
+need a separate review because one active slide can have many build chunks.
 
 [`audit_batch_source_alignment.py`](../audit_batch_source_alignment.py)
 produced an ordered text-based page alignment. It proposes 30 Introduction
@@ -54,18 +66,49 @@ Current visual work files, including local PDF renders and side-by-side
 contact sheets, are under ignored `out/.build/batch-01/`. They are diagnostic
 and must be regenerated if absent. The Fault/Error sheets covering reference
 pages 33–79 and contact sheets of every unmatched candidate have now been
-generated and inspected. This is first-pass visual triage, not a source/build
-disposition; unmatched candidates still need Keynote visibility/build review.
+generated and inspected. The source-order/skip audit resolves active versus
+skipped records; unmatched visual candidates still need comparison with the
+current source to decide whether any unique instructional content is retained.
+
+## Decoded Keynote order and build metadata
+
+[`audit_keynote_build_sequences.py`](../audit_keynote_build_sequences.py)
+reads the ordered slide tree, each slide node's skip flag, the slide's build
+archives, and its build chunks. It uses the system Snappy library through
+Python `ctypes`; it does not install a Python package or edit a source file.
+The two source packages record Keynote 14.4 and 15.3.1 in their build history.
+The audit's relevant type and field numbers match the reverse-engineered
+[Keynote archive map and build-order notes](https://docs.rs/iwork/latest/src/iwork/keynote.rs.html).
+
+| Source deck | Ordered Keynote nodes | Skipped | Active | Fall PDF pages | Page-map sequence | Active slides with builds | Active build archives / chunks |
+| --- | ---: | ---: | ---: | ---: | --- | ---: | ---: |
+| Introduction | 92 | 62 | 30 | 30 | 30/30 match candidate order | 17 | 74 / 113 |
+| Fault/Error/Failure | 108 | 29 | 79 | 79 | 79/79 match candidate order | 35 | 92 / 185 |
+
+The full ordered records are in the [Introduction build-sequence audit](batch-01-introduction-build-sequences.csv)
+and [Fault/Error build-sequence audit](batch-01-fault-error-build-sequences.csv).
+The page-map check assigns each unskipped source slide to the same-numbered
+LibreOffice candidate slide, and the source-order audit confirms every mapped
+PDF page. This explains the prior 92/108 versus 30/79 count difference.
+
+**Do not use cached node counters as the build map.** In these packages,
+`hasBuilds` remains false even on slides with decoded builds, and cached
+`buildEventCount` often differs from the number of chunks. The ordered
+`SlideArchive.buildChunks` references are the sequence signal. The audit
+records each chunk's build, delivery/effect, order, automatic flag, and source
+slide; it does not render the intermediate states or prove that every chunk
+changes meaningful instructional content. Review those states and retain
+separate slides only for meaningful visible changes.
 
 ## Confirmed findings so far
 
 ### Introduction
 
-- The first converted slide is a stale Fall 2025 title. The current Fall PDF
-  title aligns to converted candidate slide 2.
-- The current 30-page PDF maps in order to candidate slides, but many other
-  converted slides remain unmatched. Do not carry over old administration or
-  duplicate pages solely because they are present in the package.
+- Candidate slide 1 is marked skipped in the Keynote show tree. The current
+  Fall PDF page 1 maps to active candidate slide 2.
+- The current 30-page PDF maps in order to all 30 unskipped slides. The other
+  62 candidate records are marked skipped; do not carry them over merely
+  because LibreOffice rendered them.
 - The provisional map flags low-text or image-heavy reference pages 7–9,
   13, 20, and 23 for direct visual/source-package review.
 - Initial comparison found empty grading tables where the Fall PDF has values,
@@ -86,31 +129,48 @@ disposition; unmatched candidates still need Keynote visibility/build review.
   values occupy separate aligned rows, and the portraits remain visible. The
   imported 34 pt body text was reduced to 28 pt to fit. A separate one-slide
   Google Pilot confirms the local repair survived import and the Google PDF
-  renders all these rows cleanly. This verifies only the page-2 repair, not the
-  full batch. The paired native Google repair remains close but has small
-  styling/position differences; see the
-  [route-comparison record](../SLIDE_CONVERSION.md#choose-where-repairs-happen-decision-pending).
+  renders all these rows cleanly. The final two-pass native Google repair is
+  also readable but renders Fall 2026 in black instead of the local repair's
+  orange; see the
+  [route decision record](../SLIDE_CONVERSION.md#repair-route-decision-local-first-default-google-first-fallback).
+- Source page 17 is now repaired locally with editable text and shapes. The
+  blue response banner's text was below the canvas and horizontal; the repair
+  positions and rotates it over the existing native blue freeform, uses an
+  explicit two-line break, and corrects its dotted outline for the local PDF.
+  The question list now uses a visible native bullet, a font size that matches
+  the reference wrapping, and measured 112% line spacing. Arial at 91% of the
+  imported mixed title sizes closely matches the reference width while keeping
+  its separate blue, bold, and regular text runs. The full local candidate's
+  output page 18 visually matches reference PDF page 17. The Google pilot was
+  first imported before the local title adjustment; native text-size and
+  `DOT` outline updates then corrected that pilot. It has one editable slide
+  and a one-page 39,981-byte Google PDF. The pilot is
+  [in the shared Pilots folder](https://docs.google.com/presentation/d/1Gat0ZLl5w5iSrU4tDtZOgEEwQnvEIANW3pUV2vsqw48/edit).
+  This proves the native fallback for the tested title and outline, not that
+  the final local title change has survived a full-batch import; verify it in
+  the integrated Batch 1 Google PDF.
 - One current Fall screenshot/image page is absent or materially different
   in the `.key` conversion. Check the exact source revision and embedded media
   before deciding whether a small image crop is required.
 
 ### Faults, Errors, and Failures
 
-- Candidate slide 1 is a stale Fall 2025 title. Current PDF page 1 aligns to
-  candidate slide 2. Converted slides 3–19 contain old administration and
-  review material, but unmatched-page/build inspection is still needed before
-  exclusion is final.
-- The ordered map proposes current PDF pages 1–79. Several skipped converted
-  slides inside that range may be animation/build states; inspect their source
-  build records and visual sequence rather than discarding them automatically.
+- Candidate slide 1 and slides 3–19 are marked skipped in the Keynote show
+  tree. Current PDF page 1 aligns to active candidate slide 2; the current PDF
+  page sequence then resumes at candidate slide 20.
+- The 79 current PDF pages map in order to the 79 unskipped slides. The other
+  29 candidate records are skipped slides; active-slide build chunks are
+  recorded separately in the sequence audit.
 - Pages 33–43 (modeling computations and number-state examples) mostly retain
   their content. Check code/table legibility at full size and preserve any
   meaningful state sequence.
 - Reference page 68 (candidate slide 94) has a correct underlying photo, but
   the editable `Testing`/`Debugging` labels wrapped and lost the source
-  lettering. The local repair uses one-line, uppercase, rotated text shapes;
-  the latest render matches the photographed signs closely. Keep these labels
-  editable and check the Google render.
+  lettering. A 40 pt local repair still wrapped the final G in `DEBUGGING`.
+  Reducing that label to 36 pt produced a Google-exported page with the photo
+  visible and both underlined, rotated labels on one line. The corresponding
+  Google-first PDF instead has a black field where the photo belongs. Keep the
+  36 pt local rule and verify it again in the integrated batch.
 - Reference page 65 (candidate slide 90) and pages 73–74 (candidate slides
   101–102) have connector geometry extending far beyond the 1024 pt slide
   canvas, causing arrows to cross diagram text. The local repair replaces only
@@ -143,12 +203,11 @@ PDFs and candidate-audit CSVs.
 - **Introduction:** candidate 1 is the Fall 2025 title and is obsolete.
   Candidates 18–19 add objective/interactivity content around the selected
   `Who` pages; their relation to current builds is unresolved. Candidates
-  34–43 include polls, `When to test?`, reliability images, and a space-error
-  image/quote sequence. Some are likely older content, but the image/quote
-  pages can be related build states because their visual/text content overlaps
-  current reference pages. Candidates 44–70 include older duplicate
-  testing/failure slides, while 71–90 include a prior recap and old admin,
-  staffing, policy, and schedule pages. Candidates 91–92 are image-only
+  34–70 are a mixture of polls, `When to test?`, reliability images,
+  duplicate teaching content, and images/text that resemble current reference
+  pages. The focused review below shows why they cannot be bulk classified as
+  either current builds or stale records. Candidates 71–90 include a prior
+  recap and old admin, staffing, policy, and schedule pages. Candidates 91–92 are image-only
   records. Do not bulk-delete these ranges until each potentially current
   build/image state is reconciled with the Keynote slide order and PDF.
 - **Fault/Error:** candidates 1 and 3–19 are clearly a Fall 2025 title and
@@ -165,7 +224,7 @@ PDFs and candidate-audit CSVs.
 The full numbered inventory and text scores are in the linked candidate-audit
 CSVs. An image-only candidate can have a zero text score, and a high text
 score can describe an obsolete duplicate; both require visual/source evidence.
-The `.key` IWA records contain explicit effect markers, including
+The earlier raw-byte `.key` IWA locator found explicit effect markers, including
 `apple:bc-appear`, `apple:appear`, `apple:dissolve`, and `apple:dropbuild`; the
 Introduction package also contains an `apple:magic-move-implied-motion-path`
 marker. In contrast, both generated PPTX files contain zero `<p:timing>` slide
@@ -174,9 +233,8 @@ current candidates. The [Introduction audit](batch-01-introduction-build-marker-
 and [Fault/Error audit](batch-01-fault-error-build-marker-audit.csv) found 32
 and 37 slide records with effect markers, respectively. These counts include
 transition effects and do **not** equal the number of additional static
-slides required. Grouping hints such as `By Paragraph`, `By Bullet Group`,
-and `By Row`, plus text-based candidate slide/page matches, help locate the
-source content but do not decode full Keynote build order. Inspect affected
+slides required. The structural audit now resolves Keynote slide and chunk
+order; the raw-marker audits remain useful locators only. Inspect affected
 source slides and reconstruct meaningful animation states as separate static
 slides in build order. Do not claim the effects were preserved just because
 their slide text was converted.
@@ -190,36 +248,81 @@ The locator currently links effect-marked records to these reference pages:
 These are **review targets, not an expansion count or a final animation map**.
 Some markers describe slide transitions; multiple records can point to the
 same page; low lexical scores and image-heavy slides make some matches weak.
-Resolve actual object grouping and sequence from the Keynote records before
-creating cumulative static states.
+Use the new sequence CSVs for active source order and review each chunk's
+visible effect before creating cumulative static states.
+
+### Focused Introduction review: reference pages 16–23
+
+The current 30-page Fall PDF maps monotonically to unskipped candidates
+2–17 and 20–33. The review below compares skipped candidate records 18–19 and
+42–53 with nearby PDF pages. Their skip status is now established by the
+Keynote show tree; these whole-slide records are not active build states. Any
+additional states must come from the build chunks attached to an active slide.
+
+| Fall PDF page | Provisional candidate | Unmatched records visually checked | Observation and disposition |
+| ---: | ---: | --- | --- |
+| 16 | 17 | 18 | Candidate 18 combines older learning objectives with the previous class-prompt banner. It is marked skipped in the Keynote show tree and is not a current-page build state. |
+| 17 | 20 | 19 | Candidate 19 shows an incomplete poll list under the previous prompt banner and is marked skipped. Candidate 20 is active and matches the reference. Its clipped banner, font substitution, question wrapping, and empty bullet glyphs are repaired locally; output page 18 now matches reference page 17. The Google pilot exposed a wide title and coarse custom border, both corrected with native fallback edits. Verify the integrated local title repair in the final batch import. |
+| 18 | 21 | 42–43 | Candidate 42 shows the rocket image with a short claim; candidate 43 shows a separate quote-only state. Both whole-slide records are skipped in the Keynote show tree. Active candidate 21 contains the full image and article excerpt. |
+| 19 | 22 | 44 | Candidate 44 repeats the “What if I don’t care about rockets?” question. It is visually redundant with the selected PDF page; do not add it without evidence of a distinct intended teaching state. |
+| 20 | 23 | 45 | Candidate 45 is the same satellite image as the image-only PDF page and selected candidate 23; it is a skipped whole-slide record, not an active build state. |
+| 21 | 24 | 46–48 | These show an annotated blackout map, a text-led blackout summary, and two satellite maps. Candidate 24 matches the current PDF page. The other whole-slide records are marked skipped. |
+| 22 | 25 | 49 | Candidate 49 repeats the “What if I don’t care about the power grid?” question and is visually redundant with the selected page. |
+| 23 | 26 | 50–53 | Candidate 50 is blank; 51 is a server-room photo; 52 is a casualty statement; 53 says “Therac-35.” They are marked skipped; the active candidate 26 is the AWS outage article screenshot in the current PDF. |
+
+The active Keynote order confirms the current 30-page reference sequence.
+Skipped records are outside the show; active-slide build chunks are the path
+for any additional static states. Keep the Introduction image discrepancy
+and any page-level differences open for visual/source review. Do not use the
+raw 92-slide LibreOffice count as the final output count. Meaningful build
+expansion may increase the 111-page baseline. The first classified build is
+Introduction PDF page 4: its 11 paragraph chunks become 11 cumulative states
+at output pages 5–15, producing a 121-page local expansion candidate. All 11
+states were visually reviewed for cumulative text, order, and layout; page 15
+matches reference PDF page 4. An 11-slide subset has now passed native Google
+readback and page-by-page Google PDF review; it preserves the progression,
+editable text, bullet hierarchy, emphasis, and line fit, and its final slide
+matches the reference. The full 121-page candidate is still unimported. The
+editable list uses explicit 27.5 pt Arial with native bullets to fix empty
+bullet glyphs and line wrapping. The decision is in
+[`batch-01-build-expansion.json`](batch-01-build-expansion.json), and the
+reusable implementation is
+[`expand_batch_build_states.py`](../expand_batch_build_states.py).
+The [Round 18 record](../SLIDE_CONVERSION.md#round-18--batch-1-introduction-paragraph-build-pilot)
+links to the Google pilot and local Google PDF render.
 
 ## Next actions for this batch
 
-1. Inspect all unmatched converted slides against Keynote order/build metadata
-   to classify current
-   pages, meaningful builds, stale slides, and duplicate records.
+1. Continue classifying active build chunks into meaningful instructional
+   states versus decorative effects; update output mappings for every state
+   that should become a separate static slide. The Introduction homework
+   reveal is the first confirmed family; the other decoded slides remain
+   unclassified.
 2. Resolve the low-confidence and image-heavy page matches against the source
    package and PDF. Record a final page/build disposition for every candidate.
-3. Finalize the ordered source/build map. A provisional candidate currently
-   has 111 pages: one editable divider plus 30 mapped reference pages for
+3. Finalize the ordered source/build map. The 111-page candidate remains the
+   baseline: one editable divider plus 30 mapped reference pages for
    Introduction, then one divider plus 79 mapped reference pages for
-   Fault/Error. These are baseline pages only; add verified meaningful build
-   states before calling the map final. Both dividers show the exact filename
-   and topic.
+   Fault/Error. A separate 121-page expansion candidate adds the first ten
+   homework states; later confirmed states will increase the count further.
+   Both dividers show the exact filename and topic.
 4. Repair the confirmed diagrams, tables, text fit, image composition, and
    any further defects. Preserve notes where present and map all static build
-   states to their source. The page 65/73/74 diagram crops, page 68 labels, and
-   page 76/77 native tables are repaired locally; they still require Google
-   export verification. Leave the course schedule slide untouched for the
-   user to edit.
+   states to their source. The page 17 local fix appears at output page 18 and
+   page 68 at output page 100 in the rebuilt local candidate. Google has
+   checked isolated pilots for the page 4 build family, page 17 repair, and
+   page 68 label repair; verify all integrated content, including pages 65,
+   73, 74, 76, and 77, in the final batch. Leave the course schedule slide
+   untouched for the user to edit.
 5. Assemble and audit the local final PPTX; only then import it into the
    shared Drive root. Read back native order/editability, export one paced
    Google PDF, and inspect every page before accepting Batch 1.
 
 ## Open questions and acceptance blockers
 
-- Which unmatched converted slides represent meaningful build states, and
-  which are stale/hidden Keynote records?
+- Which decoded build chunks change meaningful content and therefore need
+  separate static slides? The chunk order is available; the visual state
+  classification is still open.
 - Does each current Fall PDF exactly match its `.key` revision? The Introduction
   image discrepancy requires checking the package revision and embedded media.
 - Which notes are present on the selected source slides, and does the planned

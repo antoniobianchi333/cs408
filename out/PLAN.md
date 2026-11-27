@@ -1,36 +1,54 @@
 # CS 408 slide conversion plan
 
 **Updated:** 2026-11-27
-**Status:** Round 16 is complete. Google native readback confirmed 38 ordered
-editable slides and notes on every page. All 38 pages have close visual
-review; the latest 38-page Google PDF is 5,101,352 bytes. Repairs now cover
-the missing slide 1 banner, slide 2's empty bullets and HW1 fit, diagram-only
-patches on slides 4–5, empty agenda bullets on slides 7 and 38, and the
-restored blank code row on slide 25. The local audit passes package/order/PDF
-page/text checks and confirms unchanged slide 6 as the control. Slide 21's
-newer System test material is retained although it is absent from the older
-September PDF. The 16-batch boundary outline is recorded. Each final batch
-will have a plain, editable divider before every original source deck,
-labeled with that exact filename and the following topic. Batch 1 local
-Keynote conversions, preliminary source-PDF alignments, and visual contact
-sheets now exist; many unmatched slides still need build/visibility review.
-Local repairs now cover Introduction page 2 and Fault/Error pages 65, 68, 73,
-74, 76, and 77; the three graph-region crops are documented last resorts.
-Whether repairs should generally happen in the local PPTX before import or in
-native Google Slides after import is undecided. The November 27 paired
-Introduction page 2 pilot shows the local repair survived Google import and
-produced a clean Google PDF. A two-pass native Google repair reached the same
-content but still differs in color and small label positioning. Test another
-defect family before choosing; keep both routes available in the meantime.
-Other mapped defects remain. Keynote IWA scans found effect markers in
-32 Introduction and 37 Fault/Error slide records, while the local PPTX
-exports contain no PowerPoint timing parts; actual build sequences still
-need review and static expansion where meaningful. Next, complete Batch 1
-end to end before starting Batch 2. Source selection is already closed; do not repeat the
-57-deck analysis. See the
-[Round 16 record](combined/SLIDE_CONVERSION.md#round-16--test-anatomy-repairs-and-google-review).
-Batch 1's evidence and open defects are in the
-[diagnostic record](combined/final-batches/batch-01-diagnostic.md).
+**Status:** Round 16 is complete; Batch 1 is active and remains unaccepted.
+Its provisional 111-page local candidate has been rebuilt after recent text
+repairs. Local review confirms Introduction PDF page 17 at candidate output
+page 18 and Fault/Error page 68 at output page 100. Round 17 also imported a
+one-slide page 17 pilot into native Google Slides, verified editable text and
+the one-page export, and tested a native fallback for title sizing and the
+dotted banner outline. The pilot's final Google PDF is 39,981 bytes. The
+integrated local page 17 title adjustment has not yet been checked in a full
+batch import. Introduction PDF page 4 is the first expanded build family: its
+11-state local repair passed a separate 11-slide native Google pilot and
+page-by-page PDF review. The full batch is still not uploaded or accepted.
+
+The Keynote show trees are now decoded: Introduction has 92 ordered nodes,
+62 skipped, and 30 active; Fault/Error has 108 nodes, 29 skipped, and 79
+active. Every unskipped slide matches its Fall PDF page and LibreOffice
+candidate slide in order. This resolves the earlier count mismatch and active
+slide order. The Introduction homework reveal on PDF page 4 has been expanded
+into 11 cumulative static states and reviewed locally and in an 11-slide
+native Google pilot. The 69,135-byte export has 11 pages; every page was
+visually checked, and the final state matches the Fall reference. This raises
+the separate partial candidate from 111 to 121 pages. The remaining 51
+build-containing slides still need visual classification, state expansion,
+and Google verification.
+
+Round 16 remains the completed 38-slide diagnostic: native readback confirmed
+ordered editable slides and notes on every page; all 38 pages have close
+visual review, and the local audit passes package/order/PDF-page/text checks
+with slide 6 as the control. Slide 21's newer System test material is retained
+although it is absent from the older September PDF. The 16-batch boundary
+outline is recorded. Each final batch gets a plain, editable divider before
+every original source deck, labeled with its exact filename and following
+topic.
+
+Batch 1 local repairs cover Introduction pages 2 and 17 and Fault/Error pages
+65, 68, 73, 74, 76, and 77; the three diagram-region crops are documented last
+resorts. Local-first remains the default; native Google repair is the fallback
+when an import defect persists or a specific repair is better handled there.
+Introduction page 2's local repair retains the orange Fall 2026 value; its
+final two-pass native repair is readable but renders that value black. On
+Fault/Error page 68, Google-first loses the source photo, while the local-first
+36 pt label repair preserves it and keeps both labels on one line. Keynote IWA
+scans found effect markers in 32 Introduction and 37 Fault/Error slide
+records; these are locator counts, not animation counts. Structural build
+order is decoded; meaningful static expansion remains open. Do not repeat the closed
+57-deck content-selection analysis. See the
+[Round 16 record](combined/SLIDE_CONVERSION.md#round-16--test-anatomy-repairs-and-google-review),
+[Round 17 record](combined/SLIDE_CONVERSION.md#round-17--introduction-page-17-repair-pilot),
+and [Batch 1 diagnostic](combined/final-batches/batch-01-diagnostic.md).
 
 Round 14 imported the complete 28-slide archived concurrency-
 testing lab introduction into native Google Slides. Google readback returned
@@ -73,8 +91,9 @@ resolved on 2026-11-25: select the latest available Final Review deck with
 Fall schedule repairs; include complete older Verified Distributed Systems
 and Semantic/Latent Concurrency Bug Detection units; exclude the older mixed
 Regression/Integration and Fall 2025 Review decks. Slide/build maps and
-conversion remain open. The read-only Drive listing
-shows the Pilots folder and no final batches in the visible project root.
+conversion remain open. The November 27 read-only Drive root listing returned
+only the `Pilots` folder; no final batches are uploaded in the visible project
+root.
 
 **Working branch:** `spring+2027+bianchi`, based on the newest available
 course branch, `others/fall+2026` at `900304aa` (2026-11-15). Its selected
@@ -123,6 +142,11 @@ batch size, API behavior, and review effort become measurable.
   insets before reducing font size. Keep an image fallback limited to the
   smallest element that remains unreliable; whole-slide images are a last
   resort.
+- **Repair route:** use local-first edits by default, import the repaired PPTX
+  as native Google Slides, and verify the Google PDF. Use native Google Slides
+  repair as the fallback for a family where the local roundtrip fails or
+  performs worse. Paired Introduction page 2 and Fault/Error page 68 evidence
+  and pilot links are in the [conversion runbook](combined/SLIDE_CONVERSION.md#repair-route-decision-local-first-default-google-first-fallback).
 - Convert meaningful instructional animation or reveal builds into
   sequential static slides in the original build order. Map every generated
   slide to its source slide and build state. Keep the expanded sequence within
@@ -256,7 +280,7 @@ behavior and for full-deck visual review.
 | 8 | **Complete 2026-11-25 (older-topic import pilot).** Import the complete archived concurrency-testing lab introduction, map it, and compare every Google-rendered page with the PPTX source. | 45–90 min active · medium | Complete: 28 ordered slides and 28 Google PDF pages; all pages visually reviewed against the source's local diagnostic PDF. No layout repair needed. The source has no notes or timed animation. See [Round 14](combined/SLIDE_CONVERSION.md#round-14--older-concurrency-testing-lab-introduction). |
 | 9 | **Complete 2026-11-26.** Review all 38 pages of the Round 16 Google export against the current Keynote-derived deck and September PDF where applicable; repair verified defects. | Complete · 0 min remaining | All 38 map rows have close review. Repairs cover slide 1's banner, slide 2's empty bullets and line fit, diagram regions on slides 4–5, agenda bullets on 7 and 38, and the blank code row on 25. Google shows `3.` on the restored blank row; source PDF leaves it unnumbered. The audit passes page order/count, requested text, and slide 6's unchanged XML/pixel control. See [Round 16](combined/SLIDE_CONVERSION.md#round-16--test-anatomy-repairs-and-google-review). |
 | 10 | **Complete 2026-11-26.** Set the 16 conceptual boundaries from the closed selection audit and Fall syllabus. | Complete · 0 min remaining | [BATCH_BOUNDARIES.md](combined/BATCH_BOUNDARIES.md) records the ordered groups, complete source topics, Week 12 Midterm 2 review and Week 15 Floyd/Dafny source gaps, and six older-only units. Confirm those source gaps before the affected batches; do not substitute an unrelated topic. Every final batch gets a plain, editable divider before each original deck, labeled with its exact filename and following topic; map each divider separately. |
-| 11 | **In progress.** Complete Batch 1 end to end: inspect every current source/build candidate, finalize the source/build map, add source-deck dividers, run the paired local-first versus Google-first repair comparison, then complete repairs using the better-supported route; assemble, upload to the shared Drive root, read back native order/editability, export the Google PDF, inspect every page, and document acceptance. | Remaining estimate 5–8 working days · low | Two source Keynotes are converted; provisional alignment CSVs, contact sheets, and a 111-page local assembly exist. The one-slide Introduction page 2 pilot confirms the local repair survived Google import and produces a clean PDF; the Google-first native repair is close but still has minor styling/placement differences. Both routes remain under evaluation. Introduction page 2 and Fault/Error pages 65, 68, 73, 74, 76, and 77 have local repairs; these are comparison evidence, not full-batch acceptance. The three graph-region crops are documented last resorts. Candidate PPTX counts (92/108) still differ from reference PDF counts (30/79); unmatched slides, meaningful build states, and other repairs remain unresolved. The course schedule slide is user-owned and not an agent blocker. No final Batch 1 Drive upload or full-batch Google PDF review has happened. Batch 1 must pass every agent-owned check before Batch 2. Re-estimate later batches from the measured defect rate. |
+| 11 | **In progress.** Complete Batch 1 end to end: inspect every source/build candidate, finalize the map, expand meaningful states, apply local-first repairs (Google-native fallback when evidence supports it), assemble, upload to the shared Drive root, read back native order/editability, export one Google PDF, inspect every page, and document acceptance. | Remaining estimate 4–7 working days · low | Two source Keynotes are converted; the structural order/skip audit confirms 30 active Introduction slides and 79 active Fault/Error slides, each matching the reference PDF and candidate sequence in order. The 111-page baseline local assembly remains, and the first expanded local candidate has 121 pages after Introduction PDF page 4 became 11 cumulative states (10 additional pages). All 11 homework states passed local review and an 11-slide Google pilot; every Google page was inspected, text progression, bullet hierarchy, emphasis, and line fit passed, and the final state matches the reference. Full-batch import remains pending. The sequence audit reports 113 chunks on 17 active Introduction slides and 185 chunks on 35 active Fault/Error slides; these are review leads, not added-slide counts. One of 52 build-containing slides is classified; the other 51 remain. Local Introduction pages 2 and 17 and Fault/Error page 68 have visual pilot evidence; page 17's integrated local repair is at output page 18, while page 68 is at output page 100. The one-slide page 17 pilot confirms editable text after import; its title sizing and dotted outline were corrected natively as fallback. The final batch still needs import verification of all integrated repairs. Local repairs on Fault/Error pages 65, 73, 74, 76, and 77 need integrated Google-export checks; diagram crops remain last resorts. Cached Keynote build flags/counters disagree with decoded build references and cannot be treated as the state count. The course schedule slide is user-owned and not an agent blocker. No final Batch 1 Drive upload or full-batch Google PDF review has happened. Do not start Batch 2 until every agent-owned check passes. Re-estimate later batches from the measured defect rate. |
 | 12 | Complete Batches 2–16 in order, repeating the full Batch 1 workflow; start each only after the previous batch is accepted. | Initial estimate 1–3 working days per batch (15–45 days total) · low; recalibrate after Batch 1 | All 16 final decks are directly in the shared Drive root (above `Pilots`), with complete maps, native readbacks, reviewed Google PDFs, and current documentation. |
 | 13 | Use the no-curl large-PDF fallback only if a real batch export exceeds the direct response limit. | Conditional: 30–90 min if needed | Try the documented `files.download` LRO or authenticated browser route for that batch. Do not run a standalone size test and do not split a whole deck/topic just to fit the limit. |
 
@@ -279,8 +303,7 @@ behavior and for full-deck visual review.
 - Carry forward Round 11's CFG-label repair only when the same object/layout
   appears in a selected batch. Other legacy Part 1 visual issues are not a
   separate pre-batch gate; check relevant layouts during that batch and use
-  the [runbook](combined/SLIDE_CONVERSION.md#open-work-after-round-16) for the
-  repair evidence.
+  the [route decision and repair evidence](combined/SLIDE_CONVERSION.md#repair-route-decision-local-first-default-google-first-fallback).
 - Before integrating the Round 14 older concurrency-lab unit, update or mark
   the `CS503 Spring 2021` screenshots on slides 4–6 as archival. Its full
   Spring 2026 handout is already in the study guide; the date and Classroom
@@ -304,14 +327,14 @@ behavior and for full-deck visual review.
   The separate 17-page Integration Testing Bad draft is also excluded: Fall
   Test Anatomy labels its older integration strategies as old/broken and
   replaces them with explicit contracts.
-- Round 15 established an explicit Linux `.key`-to-PPTX import route; Round 16
-  is testing targeted repairs. The conversion rule is not accepted until the
-  Round 16 Google PDF has been reviewed, but no Apple account or separate
+- Round 15 established an explicit Linux `.key`-to-PPTX import route; Round 16's
+  38-slide diagnostic and review are complete. Round 17 tested one Introduction
+  page repair through native Google Slides. No Apple account or separate
   iCloud route is planned.
-- Native text replacement and the tested line-position transform are
-  verified. Native line-style updates, other diagram types, freeform path
-  edits, image crops, tables, equations, and speaker-note edits need separate
-  tests on disposable copies.
+- Native text replacement, the line-position transform, and a native outline
+  dash-style update (`DOT`) are verified on pilots. Other diagram types,
+  freeform path edits, image crops, tables, equations, and speaker-note edits
+  need separate tests on disposable copies.
 - The official Drive docs distinguish direct `files.export` (10 MB response
   cap) from `files.download` (LRO, supports Workspace export including Slides
   PDF). The connected fetch tool says `include_base64: false` uses the LRO
@@ -327,19 +350,20 @@ behavior and for full-deck visual review.
   limit, use the documented fallback. Never split a whole deck/topic for
   size, and never use `curl` or another shell/network downloader. See the
   [Drive transfer guide](combined/GOOGLE_DRIVE_ACCESS.md#download-the-google-rendered-pdf).
-- The November 25 read-only listing of the designated Drive folder now
-  succeeds: its visible root contains the `Pilots` subfolder, and the nested
-  listing returns the pilot presentations. No final batch deck appeared in
-  the root listing. Two calls were serialized with more than five seconds
-  between them. This supersedes the earlier transient connector failure. See
+- The November 27 read-only listing of the designated Drive folder succeeds:
+  its visible root contains the `Pilots` subfolder, and the nested listing
+  includes the Round 17 Introduction page 17 pilot. No final batch deck
+  appeared in the root listing. Calls were serialized with more than five
+  seconds between them. This supersedes the earlier transient connector
+  failure. See
   the [Drive guide](combined/GOOGLE_DRIVE_ACCESS.md#share-and-connect-the-folder).
 - The nine legacy editable files are only comparison material; do not assume
   their boundaries match the new 16 conceptual batches.
-- The final source-selection decisions are recorded, but the 16-batch
-  boundary outline and final source/build maps are not assembled. First finish
-  Round 16's Google PDF review, then create the boundary outline and work on
-  Batch 1 only. Detailed page/build mapping is done for the active batch;
-  later batches wait until the current batch is accepted.
+- The final source-selection decisions and 16-batch boundary outline are
+  recorded. Batch 1's active Keynote order and source/PDF alignment are
+  decoded; its final output map is not assembled because meaningful animation
+  states, visual repairs, and integrated Google checks remain. Finish Batch 1
+  before starting later batches.
 - The [Fall source crosswalk](combined/source-version-crosswalk.csv) references
   20 PDFs under `slides/f26-pdfs/`. They are present on
   the current checkout because `spring+2027+bianchi` is based on the Fall
@@ -495,11 +519,13 @@ behavior and for full-deck visual review.
   The report is heuristic; human page/build comparison remains required.
 - Local LibreOffice exports from the Fall Introduction and Fault/Error/Failure
   Keynotes yielded 92 and 108 pages, versus 30 and 79 pages in the original
-  Fall PDFs. LO also included material absent from the selected PDFs: an
-  Introduction submission slide and extra Admin/Teaching Staff slides, plus
-  an Admin/review block before Fault/Error/Failure's Game Plan. Some repeated
-  pages may be animation states; confirm using Keynote visibility/build data
-  before including them. LO damaged the schedule and grading tables, so its
+  Fall PDFs. The Keynote show tree marks exactly 62 and 29 nodes skipped;
+  every unskipped slide maps in order to a current PDF page and the LO
+  candidate. LO also rendered skipped material, including an Introduction
+  submission slide and old Admin/Teaching Staff pages, plus an Admin/review
+  block before Fault/Error/Failure's Game Plan. Do not add skipped records to
+  the current show without evidence that a complete selected topic needs them.
+  Active build chunks still need review for meaningful static states. LO damaged the schedule and grading tables, so its
   PDF is not acceptance visual evidence. Round 15 later proved an explicit
   `.key`-to-PPTX export can import into Google Slides, but its visible defects
   and unmatched page mean the route remains diagnostic, not accepted.
@@ -514,20 +540,18 @@ behavior and for full-deck visual review.
 
 ## Next action
 
-1. The ordered boundary outline is complete in
-   [BATCH_BOUNDARIES.md](combined/BATCH_BOUNDARIES.md). Use its topic order and
-   complete source-deck boundaries; do not reopen the 57-deck content analysis.
-2. Start Batch 1. Build its detailed source/build map and add one plain,
-   editable divider before every original source deck, including the first.
-   Label each with its exact filename and the topic of the following slides.
-   Convert all selected material, expand meaningful animations into ordered
-   static slides, repair
-   defects, run local package checks, upload the final batch directly to the
-   shared Drive root (the parent folder of `Pilots`), read it back, export its
+1. Continue reviewing build chunks on the active Batch 1 slides in their
+   decoded playback order. Introduction PDF page 4 is the first classified
+   family: 11 paragraph chunks became 11 cumulative static states. Classify the
+   remaining 51 build-containing slides and map every meaningful state.
+2. Finalize the complete ordered map, expand meaningful states, resolve the
+   remaining page defects, then rebuild and audit the full local PPTX. Keep each
+   source deck and topic whole and retain the required editable dividers.
+3. Only after the local Batch 1 map and repairs pass, upload the final deck to
+   the shared Drive root, read back native order/editability, export one paced
    Google PDF, inspect every page, and update the manifest and documentation.
-3. Begin Batch 2 only after Batch 1 passes all checks. Repeat this complete,
-   ordered process through Batch 16. Keep pilots and disposable test decks in
-   `Pilots`; do not store final batches there.
+   Begin Batch 2 only after Batch 1 passes all checks. Repeat the complete
+   ordered process through Batch 16; keep pilots in `Pilots`.
 
 When a batch needs a visual reference, first use a matching existing PDF or
 inspect the Keynote/source package and its builds. The PDF coverage audit

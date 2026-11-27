@@ -30,29 +30,52 @@ boundaries.
 Batch 1 covers Week 1: Introduction and administrivia, followed by Faults,
 Errors, and Failures. Its current maps are provisional alignment proposals,
 not final output-page maps. They map each reference PDF page to a candidate
-slide in the LibreOffice-generated PPTX. They do not yet decide which
-unmatched slides are stale records, hidden Keynote content, or meaningful
-animation/build states.
+slide in the LibreOffice-generated PPTX. Keynote order/skip decoding shows the
+30 and 79 unskipped slides map one-to-one, in order, to the two reference PDFs
+and candidate slides. Other candidates are skipped in the Keynote slide tree.
+The active slides' build chunks are decoded. Introduction PDF page 4 is the
+first classified family: 11 paragraph chunks became 11 cumulative static
+states. The 11-state subset passed native Google readback and page-by-page
+Google PDF review; this does not verify the full batch. The remaining 51
+build-containing slides need visual classification to determine which
+meaningful states become additional static slides.
 
 - [Batch 1 diagnostic and visual findings](batch-01-diagnostic.md)
 - [Introduction reference-page candidates](batch-01-introduction-provisional-page-map.csv)
 - [Introduction converted-slide audit](batch-01-introduction-candidate-audit.csv)
 - [Introduction Keynote effect/build-marker audit](batch-01-introduction-build-marker-audit.csv)
+- [Introduction Keynote slide/build sequence](batch-01-introduction-build-sequences.csv)
 - [Fault/Error reference-page candidates](batch-01-fault-error-provisional-page-map.csv)
 - [Fault/Error converted-slide audit](batch-01-fault-error-candidate-audit.csv)
 - [Fault/Error Keynote effect/build-marker audit](batch-01-fault-error-build-marker-audit.csv)
+- [Fault/Error Keynote slide/build sequence](batch-01-fault-error-build-sequences.csv)
 - [Batch 1 input manifest](batch-01-inputs.json)
+- [First build-state decision and chunk map](batch-01-build-expansion.json)
 
 The corresponding PDFs are `slides/f26-pdfs/01-408st-introduction.pdf` and
 `slides/f26-pdfs/02-408st-fault-error-failure.pdf`. Diagnostic PPTX files,
 PDFs, and contact sheets are under ignored `out/.build/batch-01/` and must be
-regenerated if that directory is cleared. The unmatched candidate contact
+regenerated if that directory is cleared. The reusable
+[`expand_batch_build_states.py`](../expand_batch_build_states.py) creates
+cumulative paragraph or object-visibility states from the manifest above.
+The ignored 121-page local candidate
+`out/.build/batch-01/assembled/batch-01-expanded-candidate.pptx` adds the first
+ten homework states to the 111-page baseline; its output map is
+`out/.build/batch-01/assembled/batch-01-expanded-map.csv`. The full expanded
+deck has not yet been imported into Google Slides. A pruned 11-slide
+paragraph-state subset was imported as a pilot and verified; see the
+[Round 18 record](../SLIDE_CONVERSION.md#round-18--batch-1-introduction-paragraph-build-pilot).
+The unmatched candidate contact
 sheets are under `out/.build/batch-01/unmatched-review/`; the
 [`render_unmatched_contact_sheets.py`](../render_unmatched_contact_sheets.py)
 script regenerates them from the local diagnostic PDF and slide-audit CSV.
-The Keynote package build-marker scan can be regenerated with
+The raw effect-marker locator can be regenerated with
 [`audit_keynote_build_markers.py`](../audit_keynote_build_markers.py); it is
-only a locator and does not decode complete build order.
+only a locator and does not decode complete build order. The structural slide
+order, skip flags, build archives, and playback-ordered build chunks can be
+regenerated with
+[`audit_keynote_build_sequences.py`](../audit_keynote_build_sequences.py),
+using the page maps in ignored `.build/batch-01/` to check sequence alignment.
 The provisional editable package can be assembled with
 [`build_batch_candidate.py`](../build_batch_candidate.py), which adds the
 required plain dividers, selects mapped reference-page candidates, and records
@@ -60,14 +83,24 @@ notes and build-marker hints. It explicitly leaves animation expansion and
 remaining visual repair pending. The current ignored local candidate is
 `out/.build/batch-01/assembled/batch-01-static-candidate.pptx`; its output map
 and a local PDF render are in the same `out/.build/batch-01/` workspace. It has
-111 baseline pages before any verified build expansion. The editable repair
+111 baseline pages before build expansion. The editable repair
 for Introduction source page 2 is
 [`repair_batch01_introduction.py`](../repair_batch01_introduction.py); it fixes
 overlapping labels and the portrait collision and replaces a stale winter
 phrase using the Fall 2026 syllabus. Its latest local render has readable body
 text, aligned labels and values, and clear space around the portraits. A
 separate one-slide Google Pilot confirms this local repair survives import and
-renders cleanly. The full 111-page candidate has not been accepted. The
+renders cleanly. The same repair script now fixes Introduction source page 17:
+the editable poll banner and title, question wrapping, visible bullets, and
+line spacing. In the rebuilt candidate, source PDF page 17 is output page 18;
+output page 18 was visually compared with the reference and matches closely.
+A one-slide Google pilot confirmed the local question list/banner import and
+editable text, then native fallback edits corrected the title sizing and the
+custom border's dotted style. That pilot's final Google PDF is one page and
+39,981 bytes; the integrated local title fix still needs verification in the
+full-batch import. The pilot is
+[in the shared Pilots folder](https://docs.google.com/presentation/d/1Gat0ZLl5w5iSrU4tDtZOgEEwQnvEIANW3pUV2vsqw48/edit).
+The full 111-page candidate has not been accepted. The
 source-specific Fault/Error repair
 is [`repair_batch01_fault_error.py`](../repair_batch01_fault_error.py). It
 restores two pages of native table cells, repairs two editable video labels,
@@ -81,7 +114,12 @@ is therefore local-first by default, with native Google Slides repair as a
 fallback for a slide family where the local roundtrip fails or performs worse.
 See the tested evidence in the
 [conversion runbook](../SLIDE_CONVERSION.md#repair-route-decision-local-first-default-google-first-fallback).
-The provisional full batch remains unaccepted. The Introduction course schedule slide is user-owned:
+The provisional 111-page candidate was rebuilt after this 36 pt update, and
+its local output page 100 was reviewed with the photo and both labels visible.
+Output page 18 (Introduction page 17) and page 100 have both been checked in
+the rebuilt local PDF. These are local checks; the provisional full batch
+remains unaccepted and has not been uploaded as a final batch.
+The Introduction course schedule slide is user-owned:
 leave it unchanged and continue other Batch 1 work; the user will make that
 edit directly. It is not an agent repair blocker.
 Nothing in this folder represents an uploaded or accepted final batch yet.

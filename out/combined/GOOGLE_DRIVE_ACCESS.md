@@ -5,7 +5,7 @@
 Use this guide for the part of the conversion that runs in Google. The
 local PPTX and the page map identify the exact test input. A native Google
 Slides copy and its PDF record what Google imported for that round. The
-current import evidence includes Rounds 5–16. Round 16's Test Anatomy repair
+current import evidence includes Rounds 5–17. Round 16's Test Anatomy repair
 pilot is complete: native readback confirms 38 ordered slides, and all 38
 Google PDF pages have close visual review. Its final PDF is 5,101,352 bytes;
 the map, contact sheets, and slide 25 repair comparison are saved with the
@@ -17,14 +17,16 @@ The latest diagram-repair pilot is
 [Round 11 revision 4](SLIDE_CONVERSION.md#round-11--cfg-label-fit-with-original-fonts).
 Native text edit/readback was separately verified on a disposable Round 10
 copy and on the requested Round 4 deck. A reversible vector-position edit
-was also tested on a disposable Round 11 copy; its line-style update failed.
-The evidence and limits are recorded below.
+was also tested on a disposable Round 11 copy; its arrow line-style update
+failed. Round 17 later verified a native `DOT` outline update on a different
+freeform shape. The evidence and limits are recorded below.
 
-**Current connector check (November 25, 2026):** read-only listing now works
+**Current connector check (November 27, 2026):** read-only listing works
 for the exact shared project folder. The folder listing returned its `Pilots`
 subfolder; a second paced listing returned the pilot presentations. The
-visible project root had no final batch decks in that response. The calls were
-serialized with more than five seconds between them. This supersedes the
+visible project root had no final batch decks in that response; the nested
+`Pilots` folder includes the new Introduction page 17 pilot. The calls were
+serialized with at least six seconds between Drive operations. This supersedes the
 earlier transport failure below; it was connector-session behavior, not a
 Google permission denial or API rate limit. Continue using one Drive call at a
 time and keep the same pacing before larger imports, exports, or readbacks.
@@ -300,6 +302,18 @@ helper write the PDF through its bounded receiver. The 72-dpi render completed
 all 38 pages. This bounded compatibility fetch is the current workaround for
 the missing local path; no `curl` or other shell network client was used.
 
+For the Batch 1 Introduction paragraph-build pilot (November 27), the render
+helper's default fetch again returned a PDF file reference with no
+`workspace_path`. One bounded compatibility fetch with `include_base64: true`
+returned the 69,135-byte, 11-page PDF. It was saved and rendered locally; the
+payload was not printed or retained, and no shell/network downloader was used.
+This is consistent with the same connector-to-workspace handoff seen on
+smaller and larger PDFs, not evidence of a size threshold. The pilot's full
+transfer and visual result are recorded in [Round 18](SLIDE_CONVERSION.md#round-18--batch-1-introduction-paragraph-build-pilot).
+For future small PDFs, start with one helper fetch wrapped to use
+`include_base64: true`; do not first make a default fetch that is expected to
+return a local path.
+
 The same round exposed a separate local-renderer timeout symptom. In the
 first 120-dpi render, the helper reported `pdftoppm failed:` after 32 page
 images had appeared. The PDF was intact; only pages 33–38 were rendered
@@ -310,6 +324,16 @@ check the PDF with `pdfinfo`, count the existing page images, and render only
 missing pages locally. Do not make another Drive export call unless the deck
 has changed. This behavior does not require `curl` and is separate from the
 missing `workspace_path` issue.
+
+For Round 17 (November 27), a one-slide Introduction repair pilot was imported
+to `Pilots`. One native readback confirmed slide `p1` and editable text. The
+final Google export was 39,981 bytes and rendered to one page. Each PDF fetch
+used the Slides export/render helper with its bounded `include_base64: true`
+compatibility wrapper; no shell downloader was used. Import, native repair,
+and export calls were serialized with at least six seconds between them. The
+pilot needed a title-size update and one outline-style update after import;
+those visual findings are documented in the
+[Round 17 runbook entry](SLIDE_CONVERSION.md#round-17--introduction-page-17-repair-pilot).
 
 Historical pilot logs mention a bounded base64 transfer for small files.
 That is now a supported helper path only below the standard export limit;
@@ -504,3 +528,9 @@ complete Batch 1 there before starting Batch 2; continue in order through all
 16 batches. Each final batch must pass its native readback and Google PDF
 page review before beginning the next. Do not place a completed batch deck in
 `Pilots`.
+
+On November 27, 2026, a read-only listing of the shared root returned only
+the `Pilots` folder; no final batch deck is uploaded there yet. The Pilots
+folder includes the Introduction page 4 build-state, Introduction page 17
+repair, and Fault/Error page 68 repair trials. Keep those as pilots; the first
+final batch has not passed its full-deck acceptance checks.

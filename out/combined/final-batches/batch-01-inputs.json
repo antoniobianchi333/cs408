@@ -1,20 +1,22 @@
 {
   "batch": 1,
-  "status": "provisional local assembly input; animation expansion and repairs are pending",
+  "status": "provisional local assembly input; source order and skipped-slide disposition are structurally decoded and match the Fall PDF page maps; meaningful build-state expansion, remaining Google checks, and final-batch acceptance are pending",
   "decks": [
     {
       "source_filename": "01-408st-introduction.key",
       "topic": "Introduction and administrivia",
       "candidate_pptx": "out/.build/batch-01/source-pptx/01-408st-introduction-repaired.pptx",
       "page_map": "out/combined/final-batches/batch-01-introduction-provisional-page-map.csv",
-      "build_marker_audit": "out/combined/final-batches/batch-01-introduction-build-marker-audit.csv"
+      "build_marker_audit": "out/combined/final-batches/batch-01-introduction-build-marker-audit.csv",
+      "build_sequence_audit": "out/combined/final-batches/batch-01-introduction-build-sequences.csv"
     },
     {
       "source_filename": "02-408st-fault-error-failure.key",
       "topic": "Faults, Errors, and Failures",
       "candidate_pptx": "out/.build/batch-01/source-pptx/02-408st-fault-error-failure-repaired.pptx",
       "page_map": "out/combined/final-batches/batch-01-fault-error-provisional-page-map.csv",
-      "build_marker_audit": "out/combined/final-batches/batch-01-fault-error-build-marker-audit.csv"
+      "build_marker_audit": "out/combined/final-batches/batch-01-fault-error-build-marker-audit.csv",
+      "build_sequence_audit": "out/combined/final-batches/batch-01-fault-error-build-sequences.csv"
     }
   ]
 }

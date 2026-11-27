@@ -53,7 +53,7 @@ single-slide `preview.jpg`, not a full-deck PDF; PDFs embedded under `Data/`
 are individual placed assets. The 20 files in `slides/f26-pdfs/` include 19
 lesson PDFs and the excluded `Integration+Testing+Bad` draft. They do not cover
 every selected Fall Keynote, and the Test Anatomy PDF predates the latest
-Keynote. The exact gaps and the Round 15/16 diagnostic and repair are in the
+Keynote. The exact gaps and the Round 15–17 diagnostics and repairs are in the
 [runbook](combined/SLIDE_CONVERSION.md#fall-pdf-coverage-and-keynote-preview-limits).
 
 ## Documentation and workflow
@@ -74,6 +74,12 @@ Keynote. The exact gaps and the Round 15/16 diagnostic and repair are in the
 - [Combined slide collection and source map](combined/README.md)
 - [Final 16-batch boundaries and deck/topic sequence](combined/BATCH_BOUNDARIES.md)
 - [Final batch workspace and acceptance records](combined/final-batches/README.md)
+- [Batch 1 Keynote order/build decoder](combined/audit_keynote_build_sequences.py),
+  with [Introduction sequence audit](combined/final-batches/batch-01-introduction-build-sequences.csv)
+  and [Fault/Error sequence audit](combined/final-batches/batch-01-fault-error-build-sequences.csv)
+- [Build-state expander](combined/expand_batch_build_states.py),
+  [small-pilot PPTX slide/package pruner](combined/prune_pptx_slides.py), and
+  [Batch 1 build-expansion manifest](combined/final-batches/batch-01-build-expansion.json)
 - [Conversion runbook, pilot logs, and reusable repair rules](combined/SLIDE_CONVERSION.md)
 - [Google Drive access and paced upload/export workflow](combined/GOOGLE_DRIVE_ACCESS.md)
 
@@ -172,18 +178,45 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
 
 - **Batch 1 local diagnostics are underway; local-first is the default repair route, with native Google Slides repair as the fallback.** The current Fall Introduction
   and Fault/Error/Failure Keynote sources convert to 92 and 108 LibreOffice
-  PPTX slides, while their reference PDFs contain 30 and 79 pages. Preliminary
-  ordered maps and contact sheets exist; unmatched pages may be stale records
-  or meaningful build states and are not being discarded by count alone.
+  PPTX slides, while their reference PDFs contain 30 and 79 pages. A structural
+  IWA decoder now confirms 62 Introduction nodes and 29 Fault/Error nodes are
+  marked skipped; the remaining 30 and 79 active slides match every reference
+  PDF page and candidate slide in order. This resolves the earlier count
+  mismatch. Build stages on 17 Introduction slides and 35 Fault/Error slides
+  are decoded (74/113 Introduction build archives/chunks and 92/185 for
+  Fault/Error). Two content-bearing paragraph-build families are confirmed on
+  Introduction PDF pages 4 and 6: 11 and 7 ordered chunks became cumulative
+  editable states. The other 50 build-containing slides still need
+  classification.
   Confirmed repair areas include Introduction tables/text/diagram fit and
   Fault/Error diagrams, video composition, and colored outcome tables. A
-  provisional 111-page local candidate now includes editable source-deck
-  dividers; Introduction source page 2's labels, body fit, and seasonal text
-  have been repaired and checked in a local render. Fault/Error pages 65, 68,
+  111-page local baseline includes editable source-deck dividers; the current
+  expanded candidate has 127 pages after adding 10 states for page 4 and 6
+  states for page 6. All 18 states were inspected locally and in separate
+  native Google pilots. Their PDFs confirmed editable text, correct
+  progression, bullet hierarchy, emphasis, and line fit; both final states
+  match their Fall references. The page 6 `~24` line stays on one line after
+  import. Introduction source pages 2 and 17 have local text/layout repairs
+  and were checked in local renders. Page 17's title width, question wrapping,
+  bullets, and rotated blue response banner now closely match the reference.
+  Fault/Error pages 65, 68,
   73, 74, 76, and 77 also have local repairs; three diagram-only image crops
-  are documented last resorts. Meaningful builds, other repairs, the final
-  map, and Google verification remain open. No final Batch 1 file has been
-  accepted or uploaded yet. One-slide pilots show that both routes can repair
+  are documented last resorts. The 36 pt page 68 label repair has passed a
+  Google pilot, and the provisional candidate was rebuilt with that change;
+  its local output page 100 was reviewed. Meaningful builds, other repairs, the final
+  remaining build classifications, the final map, and full-batch Google
+  verification remain open. No final Batch 1 file has been
+  accepted or uploaded yet. A one-slide page 17 Drive pilot confirmed the
+  editable text and banner/list repairs after import. A native fallback
+  corrected the substituted-font title size and the banner's dotted outline;
+  its one-page Google PDF was visually checked. That pilot is in `Pilots`; the
+  integrated local page 17 repair still needs final-batch Google verification.
+  The separate 11-slide page 4 and 7-slide page 6 build-state pilots are in
+  Drive `Pilots`; their export and repair notes are in the [Round 18](combined/SLIDE_CONVERSION.md#round-18--batch-1-introduction-paragraph-build-pilot)
+  and [Round 19](combined/SLIDE_CONVERSION.md#round-19--batch-1-course-grading-paragraph-build-pilot) logs.
+  A November 27 Drive root listing showed only `Pilots`, with no final batch
+  uploaded yet.
+  Earlier one-slide pilots show that both routes can repair
   Introduction page 2: the local-first Google PDF retains the orange Fall
   2026 styling, while the final two-pass native repair is readable but makes
   that value black. On Fault/Error page 68, the 36 pt local-first repair
@@ -191,17 +224,34 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   Google-first export has a black field where the photo belongs. This evidence
   sets local-first as the default and native Google Slides repair as the
   fallback for a family where the local roundtrip fails or performs worse.
-  See the [conversion route decision](combined/SLIDE_CONVERSION.md#repair-route-decision-local-first-default-google-first-fallback).
+  See the [conversion route decision and Round 17 record](combined/SLIDE_CONVERSION.md#round-17--introduction-page-17-repair-pilot).
   See the
-  [Batch 1 diagnostic](combined/final-batches/batch-01-diagnostic.md) and
-  [provisional maps](combined/final-batches/README.md). The Introduction
+  [Batch 1 diagnostic](combined/final-batches/batch-01-diagnostic.md),
+  [provisional maps](combined/final-batches/README.md), and the ordered
+  [build-sequence audits](combined/final-batches/README.md#batch-1-current-state).
+  The [static-state expander](combined/expand_batch_build_states.py),
+  [pilot package pruner](combined/prune_pptx_slides.py), and
+  [build-expansion decisions](combined/final-batches/batch-01-build-expansion.json)
+  document how to reproduce and isolate these reveal conversions.
+  The Introduction
   course schedule slide is user-owned: leave its schedule content alone while
   completing other Batch 1 work; the user will edit it.
 - **Latest full baseline.** [Round 4 Part 1](combined/google-slides-pilot/cs408-editable-part-01-round4.pptx)
   contains combined slides 1–260. The [Round 4 Google PDF](combined/google-slides-pilot/cs408-editable-part-01-round4.pdf)
   gives the full-batch comparison baseline.
-- **Current `.key` conversion pilot.** [Round 16](combined/SLIDE_CONVERSION.md#round-16--test-anatomy-repairs-and-google-review)
-  completed the targeted repair and review of the 38-slide Round 15 import.
+- **Most recent `.key` build-conversion pilot.** [Round 19](combined/SLIDE_CONVERSION.md#round-19--batch-1-course-grading-paragraph-build-pilot)
+  verified a second paragraph-build family with seven cumulative editable
+  Course Grading states and page-by-page Google PDF review. [Round 18](combined/SLIDE_CONVERSION.md#round-18--batch-1-introduction-paragraph-build-pilot)
+  verified the 11-state homework reveal. The most recent single-slide repair
+  pilot remains [Round 17](combined/SLIDE_CONVERSION.md#round-17--introduction-page-17-repair-pilot).
+  
+  [Round 16](combined/SLIDE_CONVERSION.md#round-16--test-anatomy-repairs-and-google-review)
+  tested a one-slide Introduction page 17 repair in native Google Slides.
+  Its editable list/banner survived import; native title sizing and a `DOT`
+  outline update repaired two Google-only differences. The one-page Google PDF
+  was visually checked. The integrated local title-size repair still needs
+  verification in the full Batch 1 import. [Round 16](combined/SLIDE_CONVERSION.md#round-16--test-anatomy-repairs-and-google-review)
+  remains the completed 38-slide diagnostic immediately before it.
   Google native readback confirmed 38 ordered editable slides and notes on
   every page. All 38 pages now have close visual review in the [page map](combined/google-slides-pilot/cs408-fall-test-anatomy-round16-map.csv)
   and [review folder](combined/google-slides-pilot/cs408-fall-test-anatomy-round16-review/).
@@ -264,7 +314,8 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   16-batch map, conversion, or review work. The successful no-curl transfer method
   and root cause are in the
   [Drive guide](combined/GOOGLE_DRIVE_ACCESS.md#download-the-google-rendered-pdf).
-- **Next.** Round 16 is complete. The content-selection gate is closed for all
+- **Next.** Round 17 is complete as a one-slide repair pilot; its integration
+  in Batch 1 remains open. The content-selection gate is closed for all
   57 candidate rows; do not repeat that analysis. Use Fall sources for
   covered topics and include the six complete older-only topics recorded in
   the audit. The ordered 16-batch boundary outline is in
@@ -283,7 +334,7 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   native line-position edit/readback have passed; a line-style update was
   rejected for the imported arrow object. Other object types still need
   editability checks as they occur in each batch. See the
-  [current open-work list](combined/SLIDE_CONVERSION.md#open-work-after-round-16).
+  [current Batch 1 open work](combined/final-batches/batch-01-diagnostic.md#next-actions-for-this-batch).
 
 Keep final editable batch PowerPoints directly in `out/combined/`. Keep every
 local pilot input, revision, page map, reference render, and Google PDF in
