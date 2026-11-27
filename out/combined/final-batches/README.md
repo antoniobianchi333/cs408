@@ -43,8 +43,14 @@ animation/build states.
 The corresponding PDFs are `slides/f26-pdfs/01-408st-introduction.pdf` and
 `slides/f26-pdfs/02-408st-fault-error-failure.pdf`. Diagnostic PPTX files,
 PDFs, and contact sheets are under ignored `out/.build/batch-01/` and must be
-regenerated if that directory is cleared. Nothing in this folder represents
-an uploaded or accepted final batch yet.
+regenerated if that directory is cleared. The unmatched candidate contact
+sheets are under `out/.build/batch-01/unmatched-review/`; the
+[`render_unmatched_contact_sheets.py`](../render_unmatched_contact_sheets.py)
+script regenerates them from the local diagnostic PDF and slide-audit CSV.
+The Keynote package build-marker scan can be regenerated with
+[`audit_keynote_build_markers.py`](../audit_keynote_build_markers.py); it is
+only a locator and does not decode complete build order.
+Nothing in this folder represents an uploaded or accepted final batch yet.
 
 ## Acceptance tracking
 

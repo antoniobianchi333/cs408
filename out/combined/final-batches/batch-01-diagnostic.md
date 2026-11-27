@@ -45,8 +45,9 @@ they do not prove visual correctness or source visibility.
 Current visual work files, including local PDF renders and side-by-side
 contact sheets, are under ignored `out/.build/batch-01/`. They are diagnostic
 and must be regenerated if absent. The Fault/Error sheets covering reference
-pages 33–79 have now been inspected. Review of the other sheets and every
-unmatched candidate slide is still required before final selection.
+pages 33–79 and contact sheets of every unmatched candidate have now been
+generated and inspected. This is first-pass visual triage, not a source/build
+disposition; unmatched candidates still need Keynote visibility/build review.
 
 ## Confirmed findings so far
 
@@ -100,10 +101,54 @@ unmatched candidate slide is still required before final selection.
   collisions and clipping. Adjust text boxes or font sizes before considering
   image fallback.
 
+## Visual triage of unmatched candidates
+
+The reusable
+[`render_unmatched_contact_sheets.py`](../render_unmatched_contact_sheets.py)
+script generated contact sheets for all 62 unmatched Introduction candidates
+and all 29 unmatched Fault/Error candidates. They are in ignored
+`out/.build/batch-01/unmatched-review/` and can be regenerated from the local
+PDFs and candidate-audit CSVs.
+
+- **Introduction:** candidate 1 is the Fall 2025 title and is obsolete.
+  Candidates 18–19 add objective/interactivity content around the selected
+  `Who` pages; their relation to current builds is unresolved. Candidates
+  34–43 include polls, `When to test?`, reliability images, and a space-error
+  image/quote sequence. Some are likely older content, but the image/quote
+  pages can be related build states because their visual/text content overlaps
+  current reference pages. Candidates 44–70 include older duplicate
+  testing/failure slides, while 71–90 include a prior recap and old admin,
+  staffing, policy, and schedule pages. Candidates 91–92 are image-only
+  records. Do not bulk-delete these ranges until each potentially current
+  build/image state is reconciled with the Keynote slide order and PDF.
+- **Fault/Error:** candidates 1 and 3–19 are clearly a Fall 2025 title and
+  outdated admin/review material. Candidate 40 (`Defect, incorrect`) and
+  candidates 45, 84–86 are alternate/duplicate teaching pages; compare with
+  the selected current Fall pages before exclusion. Candidates 92 (`Exercise
+  (cont.)`) and 98 (`Finding Faults`) have substantial content overlap with
+  current PDF pages 63–64, so they need source/build review rather than
+  automatic exclusion. Candidate 87 overlaps the selected crash/failure
+  discussion. Candidate 99 is an alternate RIRP diagram. Candidate 108 is an
+  unselected summary after the current PDF recap. The selected Fall PDF remains
+  the content baseline; preserve only verified current content/build states.
+
+The full numbered inventory and text scores are in the linked candidate-audit
+CSVs. An image-only candidate can have a zero text score, and a high text
+score can describe an obsolete duplicate; both require visual/source evidence.
+The `.key` IWA records contain explicit effect markers, including
+`apple:bc-appear`, `apple:appear`, `apple:dissolve`, and `apple:dropbuild`; the
+Introduction package also contains an `apple:magic-move-implied-motion-path`
+marker. In contrast, both generated PPTX files contain zero `<p:timing>` slide
+records. LibreOffice therefore does not preserve those Keynote effects in the
+current candidates. The marker-to-slide audit is a text-based locator only;
+inspect affected source slides and reconstruct meaningful animation states
+as separate static slides in build order. Do not claim the effects were
+preserved just because their slide text was converted.
+
 ## Next actions for this batch
 
-1. Review all remaining contact sheets and inspect all unmatched converted
-   slides, including Keynote visibility/build metadata, to classify current
+1. Inspect all unmatched converted slides against Keynote order/build metadata
+   to classify current
    pages, meaningful builds, stale slides, and duplicate records.
 2. Resolve the low-confidence and image-heavy page matches against the source
    package and PDF. Record a final page/build disposition for every candidate.
