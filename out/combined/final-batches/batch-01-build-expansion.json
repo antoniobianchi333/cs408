@@ -1,6 +1,6 @@
 {
   "batch": 1,
-  "status": "five build-bearing slides are classified: three paragraph reveals, one single-chunk All at Once slide that needs no extra state, and one mixed six-state banner/question build. All four expansions passed local and native Google Slides review; 47 of the 52 build-containing slides remain unclassified; full-batch integration and review remain pending",
+  "status": "Seven of 52 build-bearing slides are structurally classified: three paragraph reveals, one single-chunk All at Once slide that needs no extra state, one two-state AI-policy subtitle/list build, one mixed six-state banner/question build, and one two-state article-image/headline build. The six expanded slides account for 37 states and a 142-page partial candidate. Introduction PDF page 12's local repair and native Google pilot passed review without a Google-side fix. The earlier five expansions, representing 35 states, had already passed native Google PDF review; 45 build-bearing slides remain unclassified. Full-batch integration and review remain pending.",
   "policy": "Each selected state is cumulative and stays adjacent to its source slide within the original deck. Do not expand a decorative-only effect. Do not infer instructional meaning from chunk count alone.",
   "non_expansions": [
     {
@@ -64,6 +64,32 @@
       ]
     },
     {
+      "output_slide": 13,
+      "source_filename": "01-408st-introduction.key",
+      "source_topic": "Introduction and administrivia",
+      "source_keynote_slide_order": 13,
+      "reference_pdf_page": 12,
+      "converted_pptx_slide": 13,
+      "decision": "The actual playback order is two All at Once chunks: first the subtitle object 'Only when explicitly permitted', then the AI-policy list. Keep the title static, make state 1 title plus subtitle, and reveal the four-paragraph list as state 2.",
+      "build_status": "Two object-level cumulative states; subtitle first, then the full AI-policy list.",
+      "review_status": "The local repair sets Arial title/subtitle/body to 72/61/33 pt, restores native bullet glyphs and indentation, and matches the Fall PDF's line breaks. Both local states and both native Google PDF pages passed visual review at matching 512 x 384 resolution. Google retained the editable text and layout; no Google-side repair was needed.",
+      "google_pilot_url": "https://docs.google.com/presentation/d/1muNbqcniyME0GVQnnwVEM2oi2WpGUOapIpsVQ9pnJ88/edit",
+      "google_pdf_review": "Two native slides read back in order with the title, subtitle, four-paragraph policy list, and speaker notes retained. Final Google PDF: 44,489 bytes; both pages visually inspected against Fall PDF page 12. Page 1 has title and subtitle only; page 2 adds the editable list. No wrapping, clipping, or Google-only repair. Render: out/.build/batch-01/round23-google-render/",
+      "build_target_ids": ["1394224", "1391987"],
+      "states": [
+        {
+          "label": "1/2",
+          "build_chunk_ids": ["1410287"],
+          "operations": {"hidden_shape_ids": ["225"]}
+        },
+        {
+          "label": "2/2",
+          "build_chunk_ids": ["1410288"],
+          "operations": {}
+        }
+      ]
+    },
+    {
       "output_slide": 16,
       "source_filename": "01-408st-introduction.key",
       "source_topic": "Introduction and administrivia",
@@ -106,6 +132,32 @@
         {"label": "4/6", "build_chunk_ids": ["1580583"], "operations": {"visible_paragraphs": {"272": 3}}},
         {"label": "5/6", "build_chunk_ids": ["1580549"], "operations": {"visible_paragraphs": {"272": 4}}},
         {"label": "6/6", "build_chunk_ids": ["1593231"], "operations": {"visible_paragraphs": {"272": 5}}}
+      ]
+    },
+    {
+      "output_slide": 19,
+      "source_filename": "01-408st-introduction.key",
+      "source_topic": "Introduction and administrivia",
+      "source_keynote_slide_order": 21,
+      "reference_pdf_page": 18,
+      "converted_pptx_slide": 21,
+      "decision": "The decoded order is an article-image build followed by a headline text build. Restore the source article image from Data/pasted-image-4629.tiff and keep the article headline as a native editable text shape. Preserve two cumulative states: article image first, headline second.",
+      "build_status": "Two-object appear build; 2 cumulative states: scanned article excerpt, then the editable headline.",
+      "review_status": "Both local and native Google two-page PDFs were inspected. The source screenshot is restored from the embedded Keynote asset with a 20.2% top crop; the editable headline is the second state. Google imported the 27 pt local headline 13% narrower than the source line, so one native edit set 31 pt and moved the text box up 75,000 EMU. The final line fits on one line and its PDF baseline and width closely match the Fall reference; its rendered height is 31 pt versus 35.9 pt in the reference. Full Batch 1 integration remains pending.",
+      "build_target_ids": ["1513790", "1514058"],
+      "google_pilot_url": "https://docs.google.com/presentation/d/1v2k50MCauNUHFpSalMdhsQTmCK227KzTSJBN8pw2FkU/edit",
+      "google_pdf_review": "Two native slides read back in order. Final Google PDF: 183,530 bytes; both pages inspected. Page 1 shows the article scan without its headline; page 2 adds the editable headline. Its measured PDF bounds are x=335.7–1023.2 pt, y=434.1–465.1 pt, versus source x=330.2–1020.1 pt, y=433.9–469.8 pt. The line is readable, on one line, and not clipped. Render: out/.build/batch-01/round22-google-render-rev2/",
+      "states": [
+        {
+          "label": "1/2",
+          "build_chunk_ids": ["1513933"],
+          "operations": {"hidden_shape_ids": ["278"]}
+        },
+        {
+          "label": "2/2",
+          "build_chunk_ids": ["1514037"],
+          "operations": {}
+        }
       ]
     }
   ]

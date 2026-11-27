@@ -5,17 +5,24 @@
 Introduction has 92 ordered nodes, 62 marked skipped, and 30 active;
 Fault/Error has 108 nodes, 29 skipped, and 79 active. Each active sequence
 matches its Fall PDF page map and LibreOffice candidate in order. The 111-page
-baseline now has a 140-page partial expansion. Five of 52 build-bearing slides
-are classified: three paragraph reveals, one single-chunk All at Once slide
-with no additional state, and one six-state mixed banner/question build. The
-33 expanded states passed local review, native Google readback, and page-by-page
-PDF inspection. The Round 21 Google import needed a targeted native `DOT`
-outline update on its six banner shapes. Full build classification, remaining
-repairs, final assembly, and full-batch Google visual acceptance remain open.
+baseline now has a 142-page partial expansion. Seven of 52 build-bearing slides
+are classified: three paragraph reveals, one two-state AI-policy subtitle/list
+build, one single-chunk All at Once slide with no additional state, one
+six-state mixed banner/question build, and one two-state image/headline build.
+The 37 states across the six expanded slides passed local review, native Google
+readback, and page-by-page PDF inspection. Round 23's local Arial and bullet
+repair for page 12 survived Google import without a native correction.
+The Round 21 Google import needed a targeted native `DOT` outline update on
+its six banner shapes. Round 22 needed a 31 pt native headline plus a 75,000
+EMU vertical adjustment after Google import. Full build classification,
+remaining repairs, final assembly, and full-batch Google visual acceptance
+remain open.
 Local-first is the default; native Google repair is the documented per-slide
 fallback. See the [route decision](../SLIDE_CONVERSION.md#repair-route-decision-local-first-default-google-first-fallback),
 [Round 17 repair pilot](../SLIDE_CONVERSION.md#round-17--introduction-page-17-repair-pilot),
-and [Round 21 build pilot](../SLIDE_CONVERSION.md#round-21--batch-1-introduction-mixed-bannerquestion-build).
+[Round 21 build pilot](../SLIDE_CONVERSION.md#round-21--batch-1-introduction-mixed-bannerquestion-build),
+[Round 22 build pilot](../SLIDE_CONVERSION.md#round-22--batch-1-introduction-page-18-imageheadline-build),
+and [Round 23 build pilot](../SLIDE_CONVERSION.md#round-23--batch-1-introduction-page-12-ai-policy-build).
 
 **User-owned exception:** Do not edit or repair the Introduction course
 schedule slide. The user will correct that slide directly; it is outside the
@@ -273,7 +280,7 @@ Skipped records are outside the show; active-slide build chunks are the path
 for any additional static states. Keep the Introduction image discrepancy
 and any page-level differences open for visual/source review. Do not use the
 raw 92-slide LibreOffice count as the final output count. Meaningful build
-expansion raises the 111-page baseline. Four build expansions and one
+expansion raises the 111-page baseline. Six build expansions and one
 no-expansion decision are now classified:
 
 - Introduction PDF page 4 has 11 chunks and 11 cumulative states at output
@@ -286,47 +293,62 @@ no-expansion decision are now classified:
   heading/body box sizes and visible native bullets; the long `~24` line stays
   on one line after Google import. Bold/color emphasis and the source's bullet
   hierarchy remain editable.
+- Introduction PDF page 12 has two ordered `All at Once` builds: first the
+  subtitle “Only when explicitly permitted,” then the AI-policy list. Its two
+  cumulative states occupy output pages 29–30. The local repair sets explicit
+  Arial sizes and native bullet indentation; both native Google pages retained
+  the line breaks and editable text without further correction.
 - Introduction PDF page 15, Course Objectives, has 9 ordered chunks and 9
-  cumulative states at output pages 32–40. Every local and Google state was
+  cumulative states at output pages 33–41. Every local and Google state was
   reviewed; the final state matches reference page 15. Explicit Arial fonts,
   native bullets, and paragraph spacing preserve hierarchy, emphasis, and line
   fit through the Google import.
 - Introduction PDF page 16 has one `All at Once` pop chunk. It remains one
   static slide, with no additional output state.
 - Introduction PDF page 17, the mixed response-banner and question build, has
-  six ordered states at output pages 42–47: banner first, then five cumulative
+  six ordered states at output pages 43–48: banner first, then five cumulative
   question reveals. All local and Google states were reviewed. A native Google
   `DOT` outline update fixes the coarse dashed border that appeared after
   import; text, title, and banner stay as native elements.
+- Introduction PDF page 18 has two ordered `All at Once` builds: first the
+  scanned article excerpt from `Data/pasted-image-4629.tiff`, then the
+  separate editable headline. The page 18 reconstruction script restores the
+  Keynote image and editable text rather than flattening both into a PDF crop.
+  Both local states and both Google PDF pages passed review. Google required
+  a 31 pt headline and a 75,000 EMU upward position adjustment; it remains
+  editable and one line, with a small residual glyph-height difference.
 
-The 11-slide page 4, 7-slide page 6, 9-slide page 15, and 6-slide page 17
-subsets passed native Google readback and page-by-page PDF review. The current
-140-page expanded candidate remains unimported as a full batch. The
-[build-expansion manifest](batch-01-build-expansion.json) records all four
-expansions, the page 16 no-expansion decision, and their chunk IDs; the
+The 11-slide page 4, 7-slide page 6, 2-slide page 12, 9-slide page 15,
+6-slide page 17, and 2-slide page 18 subsets passed native Google readback and
+page-by-page PDF review. The current 142-page expanded candidate remains
+unimported as a full batch. The [build-expansion manifest](batch-01-build-expansion.json) records
+all six expansions, the page 16 no-expansion decision, and their chunk IDs; the
 [`expand_batch_build_states.py`](../expand_batch_build_states.py) creates the
 cumulative states, and [`prune_pptx_slides.py`](../prune_pptx_slides.py)
 creates compact package-preserving pilot subsets. See the [Round 18](../SLIDE_CONVERSION.md#round-18--batch-1-introduction-paragraph-build-pilot),
 [Round 19](../SLIDE_CONVERSION.md#round-19--batch-1-course-grading-paragraph-build-pilot),
  [Round 20](../SLIDE_CONVERSION.md#round-20--batch-1-course-objectives-paragraph-build-pilot),
-and [Round 21](../SLIDE_CONVERSION.md#round-21--batch-1-introduction-mixed-bannerquestion-build)
+[Round 21](../SLIDE_CONVERSION.md#round-21--batch-1-introduction-mixed-bannerquestion-build),
+[Round 22](../SLIDE_CONVERSION.md#round-22--batch-1-introduction-page-18-imageheadline-build),
+and [Round 23](../SLIDE_CONVERSION.md#round-23--batch-1-introduction-page-12-ai-policy-build)
 records for the native Google links and PDF renders.
 
 ## Next actions for this batch
 
 1. Continue classifying active build chunks into meaningful instructional
    states versus decorative effects; update output mappings for every state
-   that should become a separate static slide. Five build-bearing slides are
-   classified; 47 of 52 remain unclassified.
+   that should become a separate static slide. Seven build-bearing slides are
+   classified; 45 of 52 remain unclassified.
 2. Resolve the low-confidence and image-heavy page matches against the source
    package and PDF. Record a final page/build disposition for every candidate.
 3. Finalize the ordered source/build map. The 111-page candidate remains the
    baseline: one editable divider plus 30 mapped reference pages for
    Introduction, then one divider plus 79 mapped reference pages for
-   Fault/Error. The current 140-page expansion candidate adds ten homework
-   states, six Course Grading states, eight Course Objectives states, and five
-   net slides for the six-state page 17 build; later states may increase the
-   count further. Both dividers show the
+   Fault/Error. The current 142-page expansion candidate adds ten homework
+   states, six Course Grading states, one AI-policy state, eight Course
+   Objectives states, five net slides for the six-state page 17 build, and one
+   net slide each for the two-state page 12 and page 18 builds; later states
+   may increase the count further. Both dividers show the
    exact filename and topic.
 4. Repair the confirmed diagrams, tables, text fit, image composition, and
    any further defects. Preserve notes where present and map all static build

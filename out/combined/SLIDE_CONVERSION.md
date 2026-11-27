@@ -11,7 +11,7 @@ shapes editable. Update the roundtrip log after each test.
 
 [Round 4](#round-4--checked) is the complete Part 1 comparison baseline.
 [Round 16](#round-16--test-anatomy-repairs-and-google-review) completed the
-38-slide Test Anatomy diagnostic. [Round 21](#round-21--batch-1-introduction-mixed-bannerquestion-build)
+38-slide Test Anatomy diagnostic. [Round 22](#round-22--batch-1-introduction-page-18-imageheadline-build)
 is the latest build-state pilot; [Round 17](#round-17--introduction-page-17-repair-pilot)
 is the latest one-slide repair pilot. Batch 1 is active and not yet accepted.
 [Round 14](#round-14--older-concurrency-testing-lab-introduction) is the
@@ -2355,4 +2355,117 @@ sequence, then inspect Google's import. When the only remaining mismatch is
 Google's conversion of a native shape property, repair that property in Google
 on each duplicated state and verify the full exported PDF. This supplements
 the local-first default with a measured, targeted native fallback. Five of 52
-build-bearing slides are now classified; 47 remain unclassified.
+build-bearing slides were classified at the end of Round 21; 47 remained then.
+
+### Round 22 — Batch 1 Introduction page 18 image/headline build
+
+**Status:** Introduction PDF page 18 passed local review, native Google
+structure readback, a targeted native text correction, and visual review of
+both pages of the final Google PDF. The [Round 22 rev2 pilot](https://docs.google.com/presentation/d/1v2k50MCauNUHFpSalMdhsQTmCK227KzTSJBN8pw2FkU/edit)
+is in the Drive `Pilots` folder. This pilot classifies one more of the 52
+build-bearing slides; Batch 1 remains unaccepted.
+
+The source is `01-408st-introduction.key`, PDF page 18, Keynote slide order
+21, converted PPTX slide 21. It has two ordered `All at Once` builds: chunk
+`1513933` reveals the article excerpt image, then chunk `1514037` reveals its
+editable headline, “A space error: $370 million for an integer overflow.”
+The image is the package asset `Data/pasted-image-4629.tiff`; the headline is
+a separate editable text shape. The original static photo, title, and other
+slide objects remain visible in both states. The source build IDs, chunks,
+and hidden-shape mapping are in
+[`batch-01-build-expansion.json`](final-batches/batch-01-build-expansion.json).
+
+The local reconstruction starts with the Keynote asset rather than a crop of
+the PDF page, so the two build states do not flatten the image and headline
+together. [`prepare_intro_page18_build.py`](prepare_intro_page18_build.py)
+converts that TIFF asset to PNG without changing its pixels, crops the
+unneeded upper portion using a source rectangle, and restores the headline as
+native text. The local version uses 27 pt text after checking the rendered
+line fit; its headline PDF bounding box closely matches the Fall reference.
+The article image uses a 20.2% top crop from the Keynote asset.
+The two-slide candidate was pruned with the existing
+[`prune_pptx_slides.py`](prune_pptx_slides.py) utility, preserving package
+relationships and notes.
+
+Google imported both slides in order and retained the headline as a native
+text shape. The first Google PDF render showed that the imported headline was
+too small and slightly low. One revision-guarded native update changed its
+font to 31 pt and moved it up 75,000 EMU. A following structure readback
+confirmed the shape and transform. The final Google PDF is 183,530 bytes and
+has two inspected pages: page 1 has the article scan without the headline;
+page 2 adds the editable one-line headline. Its width and baseline are close
+to the Fall reference and it is neither wrapped nor clipped. Google's
+exported text bounding box is about 31.0 pt high, compared with 35.9 pt in
+the reference. Font substitution leaves a small residual height difference;
+record it rather than rasterizing the editable text.
+
+The final PDF was exported with the Slides helper's one-call compatibility
+path (`include_base64: true`) and its chunk receiver. We did not use `curl`,
+a shell downloader, or a failed preliminary fetch. Drive operations were
+serialized with at least 5.5 seconds between calls.
+
+**Reusable rules:** decode build target IDs and playback order before
+classifying a slide from its effect names. Resolve each target ID to its real
+embedded asset or native shape; a PDF screenshot that combines two reveal
+states is not a valid substitute for an editable build sequence. Reuse the
+source image asset for the image state, then reveal text as a separate native
+object. If local PowerPoint rendering needs a fixed font size to avoid
+auto-fit or wrapping, compare its measured text box with the source, then
+repeat the check in Google's exported PDF because font substitution can
+change size and baseline again. A small Google-only geometry mismatch can be
+repaired natively with a guarded, minimal update and then verified by a fresh
+export. Six of 52 build-bearing slides were classified at the end of Round 22;
+46 remained then.
+
+### Round 23 — Batch 1 Introduction page 12 AI-policy build
+
+**Status:** The two-state AI-policy build passed local review, native Google
+readback, and visual comparison of both Google PDF pages with the Fall
+reference. The [Round 23 pilot](https://docs.google.com/presentation/d/1muNbqcniyME0GVQnnwVEM2oi2WpGUOapIpsVQ9pnJ88/edit)
+is in Drive `Pilots`. Google retained the slide order, editable text, speaker
+notes, title/subtitle/list hierarchy, and source line breaks. No Google-only
+repair was needed.
+
+The source is `01-408st-introduction.key`, PDF page 12, Keynote slide order 13,
+converted PPTX slide 13. The decoded playback order has two `All at Once`
+chunks: `1410287` reveals the subtitle “Only when explicitly permitted,” then
+`1410288` reveals the four-paragraph AI-policy list. Build target IDs
+`1394224` and `1391987` resolve to the subtitle and list. The title remains
+static. Keep two cumulative states: title plus subtitle, then title, subtitle,
+and the complete list. They occupy output pages 29–30 in the current expanded
+candidate. The target IDs, hidden-shape operation, and state labels are in the
+[build-expansion manifest](final-batches/batch-01-build-expansion.json).
+
+The original converted slide wrapped the title and subtitle, let them overlap
+the body, and had an empty bullet glyph. The reproducible repair in
+[`repair_batch01_introduction.py`](repair_batch01_introduction.py) sets the
+title, subtitle, and body to Arial 72, 61, and 33 pt, respectively, adjusts
+their text boxes, disables text auto-fit, restores native bullet formatting
+and indentation, and uses 45 pt line spacing. This keeps all content editable
+and matches the Fall reference's five-line list layout. Both local states
+passed inspection.
+
+The native Google pilot contains two ordered slides. Structure readback found
+the title and subtitle on both, with the editable four-paragraph list added on
+the second; the title, body, underline, and subtitle remained separate native
+objects. The final Google PDF is 44,489 bytes. At 36 dpi its two page images
+are 512 × 384 pixels, matching the Fall reference raster size; both states
+were inspected side by side. State 1 has only the title and subtitle; state 2
+adds the full list. Neither state wraps or clips, and font, bullet indentation,
+bold/color emphasis, and line breaks closely match the source.
+
+The Slides export helper used its bounded `include_base64: true` compatibility
+path from the outset and wrote the PDF through its chunk receiver. No `curl`,
+shell downloader, or failed preliminary fetch was used; Google calls were
+serialized with at least 5.5 seconds between them.
+
+**Reusable rules:** decode target IDs and build playback order before creating
+static states. Keep text-bearing reveals editable. When import damages line
+fit, first set the intended font family and a measured size, resize the text
+box, and disable auto-fit; verify source wrapping and hierarchy in the local
+render, then confirm that Google's import preserves them. If imported bullets
+are empty or missing, use paragraph bullet formatting with explicit
+indentation rather than leaving a typed bullet or rasterizing the list. This
+pilot shows that a targeted local repair can pass Google import without a
+second edit route. Seven of 52 build-bearing slides are now classified; 45
+remain.

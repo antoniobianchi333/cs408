@@ -185,17 +185,22 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   mismatch. Build stages on 17 Introduction slides and 35 Fault/Error slides
   are decoded (74/113 Introduction build archives/chunks and 92/185 for
   Fault/Error). Three paragraph-build families are confirmed on Introduction
-  PDF pages 4, 6, and 15, and a mixed banner/question build on page 17 is also
-  converted. The single-chunk All at Once build on page 16 needs no extra
-  slide. Five of 52 build-bearing slides are classified; 47 remain.
+  PDF pages 4, 6, and 15, and a mixed banner/question build on page 17 are also
+  converted. Introduction PDF page 12's two-step AI-policy build is now
+  classified: its subtitle appears first, then its editable policy list. The
+  single-chunk All at Once build on page 16 needs no extra slide. Seven of 52
+  build-bearing slides are classified; 45 remain.
   Confirmed repair areas include Introduction tables/text/diagram fit and
   Fault/Error diagrams, video composition, and colored outcome tables. A
   111-page local baseline includes editable source-deck dividers; the current
-  expanded candidate has 140 pages after adding 10, 6, 8, and 5 states for
-  pages 4, 6, 15, and 17. All 33 expanded states were inspected locally and
-  in separate native Google pilots. Their PDFs confirmed ordered progression,
-  bullet hierarchy, emphasis, and line fit; all four final states match their
-  Fall references. On page 17, the Google-only coarse border dash was repaired
+  expanded candidate has 142 pages after adding 10, 6, 1, 8, 5, and 1 net
+  state for pages 4, 6, 12, 15, 17, and 18. All 37 expanded states were
+  inspected locally and in separate native Google pilots. Their PDFs confirmed
+  ordered progression, bullet hierarchy, emphasis, and line fit. The final
+  states closely match their Fall references; page 12's explicit Arial sizes
+  and native bullets survived Google import without a Google-side patch, while
+  page 18 retains a small Google
+  font-substitution height difference. On page 17, the Google-only coarse border dash was repaired
   by a native `DOT` outline update across all six states. The page 6 `~24`
   line stays on one line after
   import. Introduction source pages 2 and 17 have local text/layout repairs
@@ -213,13 +218,18 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   corrected the substituted-font title size and the banner's dotted outline;
   its one-page Google PDF was visually checked. That pilot is in `Pilots`; the
   integrated local page 17 repair still needs final-batch Google verification.
-  The separate 11-slide page 4, 7-slide page 6, 9-slide page 15, and 6-slide
-  page 17 build-state pilots are in
+  The separate 11-slide page 4, 7-slide page 6, 2-slide page 12, 9-slide page
+  15, 6-slide page 17, and 2-slide page 18 build-state pilots are in
   Drive `Pilots`; their export and repair notes are in the [Round 18](combined/SLIDE_CONVERSION.md#round-18--batch-1-introduction-paragraph-build-pilot)
   [Round 19](combined/SLIDE_CONVERSION.md#round-19--batch-1-course-grading-paragraph-build-pilot),
   [Round 20](combined/SLIDE_CONVERSION.md#round-20--batch-1-course-objectives-paragraph-build-pilot),
   and [Round 21](combined/SLIDE_CONVERSION.md#round-21--batch-1-introduction-mixed-bannerquestion-build)
-  logs.
+  logs. Round 23 verifies the AI-policy subtitle/list build and its locally
+  repaired editable typography through Google import without a native fix; see
+  the [Round 23 record](combined/SLIDE_CONVERSION.md#round-23--batch-1-introduction-page-12-ai-policy-build).
+  Round 22 recovers the article scan from the Keynote package, reveals it
+  before its editable headline, and records the Google-specific text sizing
+  repair; see the [Round 22 record](combined/SLIDE_CONVERSION.md#round-22--batch-1-introduction-page-18-imageheadline-build).
   A November 27 Drive root listing showed only `Pilots`, with no final batch
   uploaded yet.
   Earlier one-slide pilots show that both routes can repair
@@ -237,6 +247,7 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   [build-sequence audits](combined/final-batches/README.md#batch-1-current-state).
   The [static-state expander](combined/expand_batch_build_states.py),
   [pilot package pruner](combined/prune_pptx_slides.py), and
+  [page 18 source-asset reconstruction](combined/prepare_intro_page18_build.py),
   [build-expansion decisions](combined/final-batches/batch-01-build-expansion.json)
   document how to reproduce and isolate these reveal conversions.
   The Introduction
@@ -245,9 +256,14 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
 - **Latest full baseline.** [Round 4 Part 1](combined/google-slides-pilot/cs408-editable-part-01-round4.pptx)
   contains combined slides 1–260. The [Round 4 Google PDF](combined/google-slides-pilot/cs408-editable-part-01-round4.pdf)
   gives the full-batch comparison baseline.
-- **Most recent `.key` build-conversion pilot.** [Round 21](combined/SLIDE_CONVERSION.md#round-21--batch-1-introduction-mixed-bannerquestion-build)
-  verified a six-state mixed banner/question reveal. Its native Google outline
-  repair also documents the local-first backup decision. [Round 20](combined/SLIDE_CONVERSION.md#round-20--batch-1-course-objectives-paragraph-build-pilot),
+- **Most recent `.key` build-conversion pilot.** [Round 23](combined/SLIDE_CONVERSION.md#round-23--batch-1-introduction-page-12-ai-policy-build)
+  tests the AI-policy subtitle/list sequence; locally repaired fonts and
+  bullets survived import and remained editable without a Google-side patch.
+  [Round 22](combined/SLIDE_CONVERSION.md#round-22--batch-1-introduction-page-18-imageheadline-build)
+  tests the scanned article image followed by its editable headline, with a
+  targeted Google-native font/position correction after import. [Round 21](combined/SLIDE_CONVERSION.md#round-21--batch-1-introduction-mixed-bannerquestion-build)
+  verified a six-state mixed banner/question reveal; its dotted outline needed
+  a Google-native property correction. [Round 20](combined/SLIDE_CONVERSION.md#round-20--batch-1-course-objectives-paragraph-build-pilot),
   [Round 19](combined/SLIDE_CONVERSION.md#round-19--batch-1-course-grading-paragraph-build-pilot),
   and [Round 18](combined/SLIDE_CONVERSION.md#round-18--batch-1-introduction-paragraph-build-pilot)
   cover the nine-state Course Objectives, seven-state Course Grading, and

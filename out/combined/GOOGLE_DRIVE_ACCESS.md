@@ -5,7 +5,7 @@
 Use this guide for the part of the conversion that runs in Google. The
 local PPTX and the page map identify the exact test input. A native Google
 Slides copy and its PDF record what Google imported for that round. The
-current import evidence includes Rounds 5–21. Round 16's Test Anatomy repair
+current import evidence includes Rounds 5–22. Round 16's Test Anatomy repair
 pilot is complete: native readback confirms 38 ordered slides, and all 38
 Google PDF pages have close visual review. Its final PDF is 5,101,352 bytes;
 the map, contact sheets, and slide 25 repair comparison are saved with the
@@ -26,7 +26,7 @@ pilot; the evidence and limits are recorded below.
 for the exact shared project folder. The folder listing returned its `Pilots`
 subfolder; a second paced listing returned the pilot presentations. The
 visible project root had no final batch decks in that response; the nested
-`Pilots` folder includes the Introduction page 4, 6, 15, and 17 build pilots,
+`Pilots` folder includes the Introduction page 4, 6, 15, 17, and 18 build pilots,
 the separate page 17 repair pilot, and the Fault/Error page 68 repair pilot. The calls were
 serialized with at least six seconds between Drive operations. This supersedes the
 earlier transport failure below; it was connector-session behavior, not a
@@ -528,24 +528,33 @@ is `combined/editable-parts-manifest.json`.
 
 In Google Drive, use the shared CS408 folder
 [`16vTRNocHa1rlPN1bii_w0b8Ce90XrFbn`](https://drive.google.com/drive/folders/16vTRNocHa1rlPN1bii_w0b8Ce90XrFbn)
-for final batches. Keep pilot imports, revisions, and disposable edit tests in
-its [`Pilots` subfolder](https://drive.google.com/drive/folders/1PHuKHahwY2PxviNWTM2f8kYmb7K-37Dj).
+for every full batch deck, including a working copy that still needs fixes.
+Put each batch at the shared root level and mark an unfinished deck clearly in
+its title (for example, `WIP - needs fixes`). Keep the deck there while it is
+improved; rename it as the accepted batch only after every acceptance check
+passes. The [`Pilots` subfolder](https://drive.google.com/drive/folders/1PHuKHahwY2PxviNWTM2f8kYmb7K-37Dj)
+is only for small, isolated test decks and disposable edit tests, never a
+full-batch working copy.
 On November 24, 2026, all 17 presentations in the shared root were confirmed
 to be pilots or test copies; their parent metadata was read before they were
 moved into `Pilots`. New pilot rounds follow the same organization; final
-batch decks stay at the shared root, one level above `Pilots`. Upload and
-complete Batch 1 there before starting Batch 2; continue in order through all
-16 batches. Each final batch must pass its native readback and Google PDF
-page review before beginning the next. Do not place a completed batch deck in
-`Pilots`.
+batch decks stay at the shared root, one level above `Pilots`. Keep one
+full-size working deck per active batch and improve that native Google Slides
+deck in place after the initial import. Keep the local PPTX and maps as the
+reproducible source. Use small pilot decks only when testing an unfamiliar
+conversion or repair. Complete Batch 1 there before starting Batch 2; continue
+in order through all 16 batches. Each batch must pass its native readback and
+Google PDF page review before renaming it as accepted. Never place a full-size
+working or completed batch deck in `Pilots`.
 
-On November 27, 2026, a read-only listing of the shared root returned only
-the `Pilots` folder; no final batch deck is uploaded there yet. The Pilots
-folder includes the Introduction page 4, page 6, page 15, and page 17
-build-state pilots, the separate page 17 repair pilot, and the Fault/Error
-page 68 repair trials. Keep
-those as pilots; the first final batch has not passed its full-deck acceptance
-checks.
+Before the Round 23 full-deck import on November 27, 2026, the root listing
+showed only `Pilots`. The 142-slide working Batch 1 deck is now at the shared
+root, with title `CS408 Batch 1 - WIP - needs fixes - 142 slides (Round 23)`.
+Its metadata confirms the shared root as its parent; native outline readback
+confirmed 142 ordered slides. It is not yet accepted: its full Google PDF has
+not been exported and inspected. Small page-level build and repair sets remain
+in `Pilots`, including Introduction pages 4, 6, 12, 15, 17, and 18 and the
+Fault/Error page 68 repair trials.
 
 ## Round 21: mixed-build import and native outline repair
 
@@ -571,3 +580,52 @@ calls were serialized with at least 5.5 seconds between Drive operations.
 The PDF was exported with the Slides helper and its bounded compatibility
 fetch enabled from the start (`include_base64: true`); it was materialized and
 rendered without `curl` or a shell/network downloader.
+
+## Round 22: article-image and editable-headline build
+
+The [Round 22 rev2 native Google pilot](https://docs.google.com/presentation/d/1v2k50MCauNUHFpSalMdhsQTmCK227KzTSJBN8pw2FkU/edit)
+contains two cumulative states from Introduction PDF page 18. Native slide
+readback confirmed both pages in order and retained the headline as a text
+shape. The first state shows the scanned article excerpt; the second adds the
+editable headline. This verifies that replacing the screenshot crop with the
+Keynote package's image asset locally can preserve the image/text separation
+through Google import.
+
+The first Google PDF showed the headline slightly too small and low. A single
+revision-guarded native update changed the shape to 31 pt and moved it up
+75,000 EMU. A subsequent native readback confirmed both values. The final
+Google PDF is 183,530 bytes and two pages; both pages were rendered and
+visually reviewed. The headline remains on one line and editable, with a
+small residual glyph-height difference from the Fall PDF after Google's font
+substitution. The repair did not flatten the title or other slide objects.
+
+For this small PDF, the export helper was run with its `include_base64: false`
+setting replaced in memory with `include_base64: true`, then the helper's
+chunked receiver wrote the returned bytes to the workspace. This is the
+bounded compatibility path for the connector's file reference without a
+local path; no `curl`, shell downloader, or extra retry call was used. The
+two slides were exported and inspected after the native edit, and Drive calls
+were serialized at least 5.5 seconds apart. See the detailed source/build,
+local render, and geometry comparison in the
+[Round 22 conversion record](SLIDE_CONVERSION.md#round-22--batch-1-introduction-page-18-imageheadline-build).
+
+## Round 23: AI-policy subtitle/list build
+
+The [Round 23 native Google pilot](https://docs.google.com/presentation/d/1muNbqcniyME0GVQnnwVEM2oi2WpGUOapIpsVQ9pnJ88/edit)
+contains the two ordered cumulative states from Introduction PDF page 12:
+title plus subtitle, then the same content with the policy list revealed.
+Native readback confirmed both slides, the four-paragraph editable list on
+slide 2, and preserved speaker notes.
+
+The local repair fixed title and subtitle wrapping, overlap with the body, and
+missing bullet glyphs by using explicit Arial sizes, fitted text boxes,
+paragraph bullets, and measured line spacing. The Google import retained this
+layout and line breaks; no Google-native correction was needed. Both PDF pages
+were visually reviewed against the Fall source at equal 512 × 384 raster
+dimensions. The PDF is 44,489 bytes. See the [Round 23 conversion record](SLIDE_CONVERSION.md#round-23--batch-1-introduction-page-12-ai-policy-build)
+for exact build IDs, shape properties, and repair details.
+
+The PDF export used the Slides helper's bounded `include_base64: true`
+compatibility path from the outset and its chunk receiver. It required no
+`curl`, shell downloader, or preliminary failed fetch. Drive operations were
+serialized with at least 5.5 seconds between calls.

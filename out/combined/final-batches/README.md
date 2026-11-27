@@ -33,14 +33,16 @@ not final output-page maps. They map each reference PDF page to a candidate
 slide in the LibreOffice-generated PPTX. Keynote order/skip decoding shows the
 30 and 79 unskipped slides map one-to-one, in order, to the two reference PDFs
 and candidate slides. Other candidates are skipped in the Keynote slide tree.
-The active slides' build chunks are decoded. Five of 52 build-bearing slides
+The active slides' build chunks are decoded. Seven of 52 build-bearing slides
 are classified: Introduction PDF pages 4, 6, and 15 have 11, 7, and 9
-paragraph states; page 16 has a one-chunk All at Once build and needs no extra
-state; page 17 has a six-state banner-first, five-question build. All 33
-expanded states passed native Google readback and page-by-page Google PDF
-review; this does not verify the full batch. The other 47 build-containing
-slides need classification to determine which meaningful states become
-additional static slides.
+paragraph states; page 12 has a two-state AI-policy subtitle/list build;
+page 16 has a one-chunk All at Once build and needs no extra state; page 17
+has a six-state banner-first, five-question build; page 18 has a two-state
+article-image then editable-headline build. All 37 states across the six
+expanded slides passed local review, native Google readback, and page-by-page
+Google PDF review; this does not verify the full batch. The other 45
+build-containing slides need classification to determine which meaningful
+states become additional static slides.
 
 - [Batch 1 diagnostic and visual findings](batch-01-diagnostic.md)
 - [Introduction reference-page candidates](batch-01-introduction-provisional-page-map.csv)
@@ -60,21 +62,29 @@ PDFs, and contact sheets are under ignored `out/.build/batch-01/` and must be
 regenerated if that directory is cleared. The reusable
 [`expand_batch_build_states.py`](../expand_batch_build_states.py) creates
 cumulative paragraph or object-visibility states from the manifest above.
-The current ignored 140-page local candidate
+The current ignored 142-page local candidate
 `out/.build/batch-01/assembled/batch-01-expanded-candidate.pptx` adds ten
-homework states, six Course Grading states, eight Course Objectives states,
-and five net states for the page 17 mixed build to the 111-page baseline; its
+homework states, six Course Grading states, one AI-policy state, eight Course
+Objectives states, five net states for the page 17 mixed build, and one net
+state for each of the page 12 and page 18 two-state builds to the 111-page
+baseline; its
 output map is `out/.build/batch-01/assembled/batch-01-expanded-map.csv`. The full expanded
 deck has not yet been imported into Google Slides. Pruned 11-slide,
-7-slide, 9-slide, and 6-slide state subsets were imported as native Google
-pilots and verified; see the [Round 18](../SLIDE_CONVERSION.md#round-18--batch-1-introduction-paragraph-build-pilot),
+7-slide, 2-slide, 9-slide, 6-slide, and two 2-slide state subsets were imported
+as native Google pilots and verified; see the [Round 18](../SLIDE_CONVERSION.md#round-18--batch-1-introduction-paragraph-build-pilot),
 [Round 19](../SLIDE_CONVERSION.md#round-19--batch-1-course-grading-paragraph-build-pilot),
 [Round 20](../SLIDE_CONVERSION.md#round-20--batch-1-course-objectives-paragraph-build-pilot),
-and [Round 21](../SLIDE_CONVERSION.md#round-21--batch-1-introduction-mixed-bannerquestion-build)
+ [Round 21](../SLIDE_CONVERSION.md#round-21--batch-1-introduction-mixed-bannerquestion-build),
+[Round 22](../SLIDE_CONVERSION.md#round-22--batch-1-introduction-page-18-imageheadline-build),
+and [Round 23](../SLIDE_CONVERSION.md#round-23--batch-1-introduction-page-12-ai-policy-build)
 records. The
 [`prune_pptx_slides.py`](../prune_pptx_slides.py) utility creates compact
 editable pilot packages from selected slide ranges while retaining referenced
 layouts, media, notes, and other package relationships.
+The page 18 asset reconstruction is reproducible with
+[`prepare_intro_page18_build.py`](../prepare_intro_page18_build.py); it uses
+the TIFF stored in the Keynote package and restores the headline as editable
+text before the two slide states are pruned.
 The unmatched candidate contact
 sheets are under `out/.build/batch-01/unmatched-review/`; the
 [`render_unmatched_contact_sheets.py`](../render_unmatched_contact_sheets.py)

@@ -102,6 +102,25 @@ def set_font_size(shape: etree._Element, points: float) -> None:
         run.set("sz", size)
 
 
+def set_font_family(shape: etree._Element, family: str) -> None:
+    for run in shape.findall(".//a:rPr", NS) + shape.findall(".//a:defRPr", NS) + shape.findall(".//a:endParaRPr", NS):
+        for tag in ("latin", "ea", "cs"):
+            font = run.find(f"./a:{tag}", NS)
+            if font is None:
+                font = etree.SubElement(run, f"{{{A}}}{tag}")
+            font.set("typeface", family)
+
+
+def disable_text_autofit(shape: etree._Element) -> None:
+    body = shape.find("./p:txBody/a:bodyPr", NS)
+    if body is None:
+        raise ValueError("target text shape has no text-body properties")
+    for child in list(body):
+        if etree.QName(child).localname in ("normAutofit", "spAutoFit", "noAutofit"):
+            body.remove(child)
+    etree.SubElement(body, f"{{{A}}}noAutofit")
+
+
 def set_native_bullets(shape: etree._Element, *, font_family: str = "Arial",
                        size_percent: int | None = None) -> None:
     """Replace missing imported bullet font/glyph with an explicit native bullet."""
@@ -584,6 +603,55 @@ def repair(pptx_in: Path, pptx_out: Path) -> None:
         etree.SubElement(line_spacing, f"{{{A}}}spcPts", val="4500")
     set_native_bullets(objectives, size_percent=75)
     parts[part16] = etree.tostring(slide16, xml_declaration=True, encoding="UTF-8", standalone=True)
+
+    # Source page 12: retain the subtitle-first, AI-policy-second build. The
+    # imported title and subtitle wrap at their converted sizes and overlap
+    # the list; the list also has an empty bullet glyph. Fixed Arial sizes,
+    # explicit bullet geometry, and 45 pt line spacing recover the source's
+    # one-line headings and five-line body without flattening any text.
+    part13, slide13, _ = load_slide(13)
+    ai_title = find_text_shape(slide13, lambda text: text == "How to use AI in CS408", "AI policy title")
+    set_shape_box(ai_title, 75, 48, 874, 110)
+    set_font_size(ai_title, 72)
+    set_font_family(ai_title, "Arial")
+    disable_text_autofit(ai_title)
+
+    ai_subtitle = find_text_shape(
+        slide13, lambda text: text == "Only when explicitly permitted", "AI policy subtitle"
+    )
+    set_shape_box(ai_subtitle, 103, 228, 921, 88)
+    set_font_size(ai_subtitle, 61)
+    set_font_family(ai_subtitle, "Arial")
+    disable_text_autofit(ai_subtitle)
+
+    ai_body = find_text_shape(
+        slide13,
+        lambda text: text.startswith("The use of AI or ML tools that generate text or code is forbidden"),
+        "AI policy list",
+    )
+    if len(ai_body.findall("./p:txBody/a:p", NS)) != 4:
+        raise ValueError("AI policy list no longer has four paragraphs")
+    set_shape_box(ai_body, 79, 334, 874, 350)
+    set_font_size(ai_body, 33)
+    set_font_family(ai_body, "Arial")
+    disable_text_autofit(ai_body)
+    set_native_bullets(ai_body, font_family="Arial", size_percent=75)
+    for paragraph in ai_body.findall("./p:txBody/a:p", NS):
+        ppr = paragraph.find("./a:pPr", NS)
+        if ppr is None:
+            ppr = etree.Element(f"{{{A}}}pPr")
+            paragraph.insert(0, ppr)
+        nested = ppr.get("lvl") == "1"
+        ppr.set("marL", str((54 if nested else 24) * EMU))
+        ppr.set("indent", str(-24 * EMU))
+        line_spacing = ppr.find("./a:lnSpc", NS)
+        if line_spacing is None:
+            line_spacing = etree.Element(f"{{{A}}}lnSpc")
+            ppr.insert(0, line_spacing)
+        for child in list(line_spacing):
+            line_spacing.remove(child)
+        etree.SubElement(line_spacing, f"{{{A}}}spcPts", val="4500")
+    parts[part13] = etree.tostring(slide13, xml_declaration=True, encoding="UTF-8", standalone=True)
 
     # Source page 5: one-line section labels and body sizing recover the
     # reference's hierarchy without replacing any text with an image.
