@@ -127,7 +127,10 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   durable provisional page maps and candidate/build audits, plus the
   [alignment audit script](combined/audit_batch_source_alignment.py) and
   [unmatched-slide contact-sheet script](combined/render_unmatched_contact_sheets.py),
-  plus the [Keynote build-marker audit](combined/audit_keynote_build_markers.py)
+  [Keynote build-marker audit](combined/audit_keynote_build_markers.py), and
+  [batch-candidate builder](combined/build_batch_candidate.py) with its
+  [Batch 1 input manifest](combined/final-batches/batch-01-inputs.json), plus
+  [Batch 1 Introduction text repair](combined/repair_batch01_introduction.py)
 - [Legacy editable batch baselines](combined/) and their
   [batch manifest](combined/editable-parts-manifest.json). Each of the nine
   `cs408-editable-part-*.pptx` files stays directly in `combined/`; these are

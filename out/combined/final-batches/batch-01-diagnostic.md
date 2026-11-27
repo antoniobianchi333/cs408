@@ -64,6 +64,13 @@ disposition; unmatched candidates still need Keynote visibility/build review.
   a stale `Two-Step Submission` overlay, an obsolete schedule, a clipped
   objectives callout, and a distorted diagram. Rebuild these as native text,
   tables, and shapes where practical.
+- The current Introduction source page 2 still says `Now - Depths of Winter`
+  in both the Keynote-derived slide and the reference PDF. The current syllabus
+  identifies Fall 2026; the batch repair replaces that stale seasonal phrase
+  with `Fall 2026` and fixes the overlapping WHO/WHERE/WHEN labels, portrait
+  collision, and body-text width while keeping the text and photos editable.
+  This is an intentional content correction based on the syllabus, not a claim
+  that the source PDF already has the repaired wording.
 - One current Fall screenshot/image page is absent or materially different
   in the `.key` conversion. Check the exact source revision and embedded media
   before deciding whether a small image crop is required.

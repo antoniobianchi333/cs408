@@ -41,6 +41,7 @@ animation/build states.
 - [Fault/Error reference-page candidates](batch-01-fault-error-provisional-page-map.csv)
 - [Fault/Error converted-slide audit](batch-01-fault-error-candidate-audit.csv)
 - [Fault/Error Keynote effect/build-marker audit](batch-01-fault-error-build-marker-audit.csv)
+- [Batch 1 input manifest](batch-01-inputs.json)
 
 The corresponding PDFs are `slides/f26-pdfs/01-408st-introduction.pdf` and
 `slides/f26-pdfs/02-408st-fault-error-failure.pdf`. Diagnostic PPTX files,
@@ -52,6 +53,14 @@ script regenerates them from the local diagnostic PDF and slide-audit CSV.
 The Keynote package build-marker scan can be regenerated with
 [`audit_keynote_build_markers.py`](../audit_keynote_build_markers.py); it is
 only a locator and does not decode complete build order.
+The provisional editable package can be assembled with
+[`build_batch_candidate.py`](../build_batch_candidate.py), which adds the
+required plain dividers, selects mapped reference-page candidates, and records
+notes and build-marker hints. It explicitly leaves animation expansion and
+visual repair pending. The editable repair for Introduction source page 2 is
+[`repair_batch01_introduction.py`](../repair_batch01_introduction.py); it fixes
+overlapping labels and the portrait collision and replaces a stale winter
+phrase using the Fall 2026 syllabus.
 Nothing in this folder represents an uploaded or accepted final batch yet.
 
 ## Acceptance tracking

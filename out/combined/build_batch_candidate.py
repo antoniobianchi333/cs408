@@ -42,11 +42,14 @@ NS = {"p": P, "a": A, "r": R, "rel": REL, "ct": CT}
 SLIDE_REL = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/slide"
 LAYOUT_REL = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout"
 MASTER_REL = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideMaster"
+PRES_MASTER_REL = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideMaster"
+THEME_REL = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme"
 NOTES_REL = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/notesSlide"
 NOTES_MASTER_REL = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/notesMaster"
 IMAGE_REL = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image"
 SLIDE_CT = "application/vnd.openxmlformats-officedocument.presentationml.slide+xml"
 LAYOUT_CT = "application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml"
+MASTER_CT = "application/vnd.openxmlformats-officedocument.presentationml.slideMaster+xml"
 NOTES_CT = "application/vnd.openxmlformats-officedocument.presentationml.notesSlide+xml"
 
 
@@ -167,22 +170,45 @@ def find_single_part(parts: dict[str, bytes], pattern: str, what: str) -> str:
     return matches[0]
 
 
-def check_shared_design(base: dict[str, bytes], other: dict[str, bytes], label: str) -> str:
-    base_master = find_single_part(base, r"ppt/slideMasters/slideMaster\d+\.xml", "base slide master")
-    other_master = find_single_part(other, r"ppt/slideMasters/slideMaster\d+\.xml", f"{label} slide master")
-    base_theme = find_single_part(base, r"ppt/theme/theme\d+\.xml", "base theme")
-    other_theme = find_single_part(other, r"ppt/theme/theme\d+\.xml", f"{label} theme")
-    for kind, left, right in (("slide master", base[base_master], other[other_master]),
-                              ("theme", base[base_theme], other[other_theme])):
-        if hashlib.sha256(left).digest() != hashlib.sha256(right).digest():
-            raise ValueError(f"{label}: {kind} differs from the base PPTX; refusing unsafe merge")
+def parts_matching(parts: dict[str, bytes], pattern: str, what: str) -> list[str]:
+    matches = sorted(name for name in parts if re.fullmatch(pattern, name))
+    if not matches:
+        raise ValueError(f"no {what} parts found")
+    return matches
+
+
+def check_shared_design(base: dict[str, bytes], other: dict[str, bytes], label: str) -> None:
+    base_themes = parts_matching(base, r"ppt/theme/theme\d+\.xml", "base theme")
+    other_themes = parts_matching(other, r"ppt/theme/theme\d+\.xml", f"{label} theme")
+    base_theme_hashes = {hashlib.sha256(base[name]).digest() for name in base_themes}
+    if any(hashlib.sha256(other[name]).digest() not in base_theme_hashes for name in other_themes):
+        raise ValueError(f"{label}: theme differs from the base PPTX; refusing unsafe merge")
     base_root = etree.fromstring(base["ppt/presentation.xml"])
     other_root = etree.fromstring(other["ppt/presentation.xml"])
     base_size = base_root.find("p:sldSz", NS)
     other_size = other_root.find("p:sldSz", NS)
     if base_size is None or other_size is None or (base_size.get("cx"), base_size.get("cy")) != (other_size.get("cx"), other_size.get("cy")):
         raise ValueError(f"{label}: slide dimensions differ from the base PPTX")
-    return base_master
+
+
+def add_presentation_master(pres_root: etree._Element, pres_rels: etree._Element,
+                            target_part: str, rel_serial: list[int],
+                            master_id_serial: list[int]) -> None:
+    master_list = pres_root.find("p:sldMasterIdLst", NS)
+    if master_list is None:
+        raise ValueError("presentation has no p:sldMasterIdLst")
+    rel_serial[0] += 1
+    rel_id = f"rId{rel_serial[0]}"
+    etree.SubElement(
+        pres_rels,
+        f"{{{REL}}}Relationship",
+        Id=rel_id,
+        Type=PRES_MASTER_REL,
+        Target=relative_target("ppt/presentation.xml", target_part),
+    )
+    master_id_serial[0] += 1
+    node = etree.SubElement(master_list, f"{{{P}}}sldMasterId", id=str(master_id_serial[0]))
+    node.set(f"{{{R}}}id", rel_id)
 
 
 def next_part_number(parts: dict[str, bytes], regex: str) -> int:
@@ -210,7 +236,11 @@ def image_copy(source: dict[str, bytes], output: dict[str, bytes], source_part: 
 
 def copy_layout(source: dict[str, bytes], output: dict[str, bytes], source_part: str,
                 layout_cache: dict[str, str], deck_index: int, layout_serial: list[int],
-                image_cache: dict[str, str], image_serial: list[int], base_master: str) -> str:
+                image_cache: dict[str, str], image_serial: list[int],
+                master_cache: dict[str, str], master_serial: list[int],
+                master_id_serial: list[int], base_masters_by_hash: dict[bytes, str],
+                base_theme: str, pres_root: etree._Element, pres_rels: etree._Element,
+                rel_serial: list[int]) -> str:
     cache_key = f"{deck_index}:{source_part}"
     if cache_key in layout_cache:
         return layout_cache[cache_key]
@@ -226,7 +256,12 @@ def copy_layout(source: dict[str, bytes], output: dict[str, bytes], source_part:
         rel_type = rel.get("Type")
         source_target = resolve_target(source_part, rel.get("Target"))
         if rel_type == MASTER_REL:
-            copied.set("Target", relative_target(target_part, base_master))
+            master_part = copy_master(
+                source, output, source_target, master_cache, deck_index, master_serial,
+                master_id_serial, layout_cache, layout_serial, image_cache, image_serial,
+                base_masters_by_hash, base_theme, pres_root, pres_rels, rel_serial,
+            )
+            copied.set("Target", relative_target(target_part, master_part))
         elif rel_type == IMAGE_REL:
             image_part = image_copy(source, output, source_target, image_cache, deck_index, image_serial)
             copied.set("Target", relative_target(target_part, image_part))
@@ -234,11 +269,61 @@ def copy_layout(source: dict[str, bytes], output: dict[str, bytes], source_part:
             raise ValueError(f"unsupported layout relationship {rel_type} in {source_part}")
         target_rels.append(copied)
     output[rels_path(target_part)] = xml_bytes(target_rels)
-    add_override(etree.fromstring(output["[Content_Types].xml"]), target_part, LAYOUT_CT)
     ct_root = etree.fromstring(output["[Content_Types].xml"])
     add_override(ct_root, target_part, LAYOUT_CT)
     output["[Content_Types].xml"] = xml_bytes(ct_root)
     layout_cache[cache_key] = target_part
+    return target_part
+
+
+def copy_master(source: dict[str, bytes], output: dict[str, bytes], source_part: str,
+                master_cache: dict[str, str], deck_index: int, master_serial: list[int],
+                master_id_serial: list[int], layout_cache: dict[str, str],
+                layout_serial: list[int], image_cache: dict[str, str], image_serial: list[int],
+                base_masters_by_hash: dict[bytes, str], base_theme: str,
+                pres_root: etree._Element, pres_rels: etree._Element,
+                rel_serial: list[int]) -> str:
+    cache_key = f"{deck_index}:{source_part}"
+    if cache_key in master_cache:
+        return master_cache[cache_key]
+    if source_part not in source:
+        raise ValueError(f"missing slide master part {source_part}")
+    source_hash = hashlib.sha256(source[source_part]).digest()
+    if source_hash in base_masters_by_hash:
+        target_part = base_masters_by_hash[source_hash]
+        master_cache[cache_key] = target_part
+        return target_part
+
+    master_serial[0] += 1
+    target_part = f"ppt/slideMasters/slideMaster{master_serial[0]}.xml"
+    output[target_part] = source[source_part]
+    master_cache[cache_key] = target_part
+    target_rels = etree.Element(f"{{{REL}}}Relationships", nsmap={None: REL})
+    for rel in rel_root(source, source_part).findall("rel:Relationship", NS):
+        copied = etree.fromstring(etree.tostring(rel))
+        rel_type = rel.get("Type")
+        source_target = resolve_target(source_part, rel.get("Target"))
+        if rel_type == THEME_REL:
+            copied.set("Target", relative_target(target_part, base_theme))
+        elif rel_type == LAYOUT_REL:
+            layout_part = copy_layout(
+                source, output, source_target, layout_cache, deck_index, layout_serial,
+                image_cache, image_serial, master_cache, master_serial, master_id_serial,
+                base_masters_by_hash, base_theme, pres_root, pres_rels, rel_serial,
+            )
+            copied.set("Target", relative_target(target_part, layout_part))
+        elif rel_type == IMAGE_REL:
+            image_part = image_copy(source, output, source_target, image_cache, deck_index, image_serial)
+            copied.set("Target", relative_target(target_part, image_part))
+        else:
+            raise ValueError(f"unsupported slide-master relationship {rel_type} in {source_part}")
+        target_rels.append(copied)
+    output[rels_path(target_part)] = xml_bytes(target_rels)
+    ct_root = etree.fromstring(output["[Content_Types].xml"])
+    add_override(ct_root, target_part, MASTER_CT)
+    output["[Content_Types].xml"] = xml_bytes(ct_root)
+    add_presentation_master(pres_root, pres_rels, target_part, rel_serial, master_id_serial)
+    base_masters_by_hash[source_hash] = target_part
     return target_part
 
 
@@ -366,7 +451,12 @@ def main() -> int:
                        "build_hints": build_hints(hints_path), "pptx_path": pptx_path})
 
     output = dict(loaded[0]["parts"])
-    base_master = find_single_part(output, r"ppt/slideMasters/slideMaster\d+\.xml", "base slide master")
+    base_master_parts = parts_matching(output, r"ppt/slideMasters/slideMaster\d+\.xml", "base slide master")
+    base_masters_by_hash = {
+        hashlib.sha256(output[name]).digest(): name for name in base_master_parts
+    }
+    base_theme_parts = parts_matching(output, r"ppt/theme/theme\d+\.xml", "base theme")
+    base_theme = base_theme_parts[0]
     base_notes_master = find_single_part(output, r"ppt/notesMasters/notesMaster\d+\.xml", "base notes master")
     pres_root, pres_rels, base_slides = presentation_slides(output)
 
@@ -396,14 +486,22 @@ def main() -> int:
     rel_serial = [max([int(m.group(1)) for r in pres_rels.findall("rel:Relationship", NS)
                        if (m := re.fullmatch(r"rId(\d+)", r.get("Id", "")))] or [0])]
     layout_serial = [next_part_number(output, r"ppt/slideLayouts/slideLayout(\d+)\.xml") - 1]
+    master_serial = [next_part_number(output, r"ppt/slideMasters/slideMaster(\d+)\.xml") - 1]
     notes_serial = [next_part_number(output, r"ppt/notesSlides/notesSlide(\d+)\.xml") - 1]
     image_serial = [0]
     layout_cache: dict[str, str] = {}
+    master_cache: dict[str, str] = {}
     notes_cache: dict[str, str] = {}
     image_cache: dict[str, str] = {}
     map_records: list[dict[str, str]] = []
     final_slide_count = sum(len(item["rows"]) + 1 for item in loaded)
     sldid_serial = [max(existing_sldid_ids or [255])]
+    master_list = pres_root.find("p:sldMasterIdLst", NS)
+    master_ids = [
+        int(node.get("id")) for node in master_list.findall("p:sldMasterId", NS)
+        if node.get("id", "").isdigit()
+    ] if master_list is not None else []
+    master_id_serial = [max(master_ids or [0])]
 
     def append_slide(rel_target: str, slide_node: etree._Element | None = None) -> None:
         if slide_node is None:
@@ -476,7 +574,10 @@ def main() -> int:
                     old_target = resolve_target(source_slide_part, rel.get("Target"))
                     if rel_type == LAYOUT_REL:
                         layout_part = copy_layout(parts, output, old_target, layout_cache, deck_index,
-                                                  layout_serial, image_cache, image_serial, base_master)
+                                                  layout_serial, image_cache, image_serial,
+                                                  master_cache, master_serial, master_id_serial,
+                                                  base_masters_by_hash, base_theme, pres_root,
+                                                  pres_rels, rel_serial)
                         copied.set("Target", relative_target(slide_part, layout_part))
                     elif rel_type == IMAGE_REL:
                         image_part = image_copy(parts, output, old_target, image_cache, deck_index, image_serial)
