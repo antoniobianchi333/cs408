@@ -6,8 +6,9 @@ Use this guide for the part of the conversion that runs in Google. The
 local PPTX and the page map identify the exact test input. A native Google
 Slides copy and its PDF record what Google imported for that round. The
 current import evidence includes Rounds 5–16. Round 16 is the current
-Test Anatomy repair pilot; its native structure was read back, but its Google
-PDF still needs page-by-page review. Round 12 revision 2 is a technical pilot
+Test Anatomy repair pilot; its native structure and PDF are saved, 12 of 38
+pages have close visual review, and 26 still need close review before
+acceptance. Round 12 revision 2 is a technical pilot
 for rebuilding four older TCM pages; those pages are not selected for final
 content. See the
 [readback and visual review](SLIDE_CONVERSION.md#round-12--editable-test-case-minimization-supplement).
@@ -291,24 +292,22 @@ separate non-TTY command that returns a `session_id`, polling with
 `write_stdin` remains appropriate.
 
 For Round 16 (November 26), the helper's default `include_base64: false`
-fetch again returned a file reference without a local `workspace_path`. The
-known small-file route was used once for the final 4,944,273-byte PDF: wrap
-only `google_drive_fetch` to set `include_base64: true` and let the helper
-write the PDF through its bounded receiver. The export produced a valid
-38-page PDF without `curl` or another shell network client.
+fetch again returned a file reference without a local `workspace_path`. For
+the final 5,020,392-byte PDF, wrap only `google_drive_fetch` to set
+`include_base64: true` and let the helper write the PDF through its bounded
+receiver. The saved export is valid and has 38 pages; no `curl` or other shell
+network client was used.
 
-The same run exposed a separate local-renderer timeout symptom. The helper
-reported `pdftoppm failed:` with no diagnostic text after 35 page images had
-appeared; the PDF itself was intact, and all 38 images appeared after the
-renderer finished. The last pages were also rendered directly from that
-saved PDF. The likely cause is that a 38-page 120-dpi render exceeded the
-helper's 30-second `exec_command` yield window, so the helper saw no completed
-exit code while Poppler continued writing files. This is an inference from
-the saved PDF and image set. On this error, check the PDF with `pdfinfo`, count
-the existing page images, and render only missing pages locally. Do not make
-another Drive export call unless the deck has changed. This renderer behavior
-does not require `curl` and is separate from the missing `workspace_path`
-issue.
+The same round exposed a separate local-renderer timeout symptom. In the
+first 120-dpi render, the helper reported `pdftoppm failed:` after 32 page
+images had appeared. The PDF was intact; only pages 33–38 were rendered
+locally from that saved file. After the deck changed again, a 72-dpi helper
+render completed all 38 pages. This points to the helper's 30-second local
+render wait as a likely cause, not a Drive export failure. On a render error,
+check the PDF with `pdfinfo`, count the existing page images, and render only
+missing pages locally. Do not make another Drive export call unless the deck
+has changed. This behavior does not require `curl` and is separate from the
+missing `workspace_path` issue.
 
 Historical pilot logs mention a bounded base64 transfer for small files.
 That is now a supported helper path only below the standard export limit;

@@ -713,7 +713,9 @@ page map matches the native presentation order, confirms control slide XML
 is byte-identical to the baseline, reports changed slide parts, validates
 PDF page counts, checks requested extracted text, and can compare mapped
 control pages pixel for pixel at a chosen DPI. It checks controls and text;
-manually inspect every repaired page at presentation size.
+manually inspect every repaired page at presentation size. It accepts both
+the standard `pilot_page,combined_slide,role` map and the Round 16
+`google_slide,keynote_slide[,role]` map.
 
 The Round 10 invocation was:
 
@@ -736,6 +738,25 @@ The script requires Python, Pillow, and Poppler's `pdfinfo`, `pdftotext`,
 and `pdftoppm`; package and XML checks use Python's standard library. A
 successful audit reduces repeated mechanical work but does not certify visual
 quality or live object editability by itself.
+
+Round 16 uses this command to verify the Keynote slide sequence, repaired
+PPTX package, two extracted-text expectations, and an unchanged Google page:
+
+```sh
+python3 out/combined/google-slides-pilot/audit_conversion_pilot.py \
+  --baseline-pptx out/combined/google-slides-pilot/cs408-fall-test-anatomy-round15.pptx \
+  --pilot-pptx out/combined/google-slides-pilot/cs408-fall-test-anatomy-round16.pptx \
+  --map out/combined/google-slides-pilot/cs408-fall-test-anatomy-round16-map.csv \
+  --google-pdf out/combined/google-slides-pilot/cs408-fall-test-anatomy-round16-review/google-presentation.pdf \
+  --baseline-google-pdf out/combined/google-slides-pilot/cs408-fall-test-anatomy-round15-review/google-presentation.pdf \
+  --expect-text "2:HW1" \
+  --expect-text "4:When to stop testing"
+```
+
+The current run passes. Google slide 7's PPTX XML is byte-identical to Round
+15, and its PDF page is pixel-identical at 120 dpi. The repair script now
+preserves the original XML bytes on any slide whose canonical XML did not
+change; this keeps serialization noise from obscuring unchanged-slide checks.
 
 ## Integrate verified repairs into a full batch
 
@@ -800,10 +821,10 @@ only the high-level boundary outline needed for the 16-batch sequence, then
 finish each batch 100% before beginning the next.
 
 1. Finish Round 16's close visual review. Its exact 38-slide page map and
-   latest Google PDF are saved in
-   `google-slides-pilot/cs408-fall-test-anatomy-round16-review/`. Full-size
-   checks confirm slides 6, 9, 23, 26, 30–32, and 36–37; close-review the
-   remaining pages against the later Keynote and September PDF where they
+   latest 5,020,392-byte Google PDF are saved in
+   `google-slides-pilot/cs408-fall-test-anatomy-round16-review/`. Close checks
+   confirm slides 1, 2, 4, 6, 9, 23, 26, 30–32, and 36–37; close-review the
+   remaining 26 pages against the later Keynote and September PDF where they
    match. Record slide 6's Keynote-only quote/build as valid newer source
    content. Round 16 is not accepted until every page has close review.
 2. Create one ordered outline of **16 contiguous conceptual batches**. Keep
@@ -1620,11 +1641,14 @@ downloader; preserve the working procedure in the [Drive guide](GOOGLE_DRIVE_ACC
 
 ### Round 16 — Test Anatomy repairs and Google review
 
-Round 16 applies localized repairs to the Round 15 PPTX while preserving
-native slide content. Google native readback returned 38 ordered slides
-(`p1`–`p38`), 251 shape elements, 42 images, 3 groups, and 34 other elements.
-Each page has a speaker-notes object; 31 contain note text. The Google
-readback includes 57 text runs requesting `Roboto Mono` for the code overlay.
+Round 16 is a diagnostic `.key`-to-PPTX-to-Google-Slides run, not a production
+batch. It tests reusable import and repair rules on representative slide
+families before the full course conversion. It applies localized repairs to
+the Round 15 PPTX and keeps text and shapes native except where the converted
+diagram needs a small image patch. Google native readback confirmed 38 ordered
+slides (`p1`–`p38`) with notes objects on all pages; 31 pages contain note
+text. The import retains 57 text runs requesting `Roboto Mono` for the code
+overlay.
 
 - [Repaired editable PPTX](google-slides-pilot/cs408-fall-test-anatomy-round16.pptx)
 - [Repair script](google-slides-pilot/repair_round15_keynote_layout.py)
@@ -1633,7 +1657,7 @@ readback includes 57 text runs requesting `Roboto Mono` for the code overlay.
 - Source Keynote: `slides/03-408st-Test-Anatomy.key`
 - September comparison PDF: [`slides/f26-pdfs/03-408st-Test-Anatomy.pdf`](../../slides/f26-pdfs/03-408st-Test-Anatomy.pdf)
 - Local diagnostic PDF: `out/.build/round16-local/cs408-fall-test-anatomy-round16.pdf` (38 pages; not the Google acceptance render)
-- [Google-rendered PDF and overview contact sheets](google-slides-pilot/cs408-fall-test-anatomy-round16-review/); the latest PDF is 4,944,273 bytes and has 38 pages
+- [Google-rendered PDF and overview contact sheets](google-slides-pilot/cs408-fall-test-anatomy-round16-review/); the current PDF is 5,020,392 bytes and has 38 pages
 
 The repair script keeps the “When to stop testing? How much testing is
 necessary?” question on source slides/Google pages 3–5 and removes 27
@@ -1646,24 +1670,37 @@ banner is rebuilt as editable two-line text. On slide 30, `25%` is reduced to
 31–32 use the same 50 pt percentage repair. Slide 36 restores the missing
 Docker/CI logos with a small transparent crop and removes the opaque white
 matte from the existing chain-logo image. Slide 37's title is reduced to 48 pt
-to keep it on one line. The script preserves the original Round 15 PPTX and
-validates the edited package. Local diagnostic text extraction shows the
-question only on pages 3–5.
+to keep it on one line.
 
-The page relationship is now understood: Google slides 1–5 correspond to
-September PDF pages 1–5; Google slide 6 is a valid Keynote-only quote/build
-from the later revision; Google slides 7–38 correspond to PDF pages 6–37.
-Google slide 9 therefore compares with PDF page 8. The [38-slide page map](google-slides-pilot/cs408-fall-test-anatomy-round16-map.csv)
-records this offset. The exact page map is complete. Full-size Google-PDF
-checks confirm slides 6, 9, 23, 26, 30–32, and 36–37; slides 1–5, 7–8,
-10–22, 24–25, 27–29, 33–35, and 38 have overview checks only. Slide 31's
-struck-through “are,” “were,” and superscript 3 are present in its September
-PDF reference and were kept. The latest 38-page PDF is 4,944,273 bytes. The
-export helper reported a `pdftoppm` error after saving the PDF and an initial
-partial set of page images; all 38 images were later present, and the missing
-tail was also rendered locally. Check the existing PDF and image count before
-exporting again. **Round 16 remains in progress:** close-review the pages
-still marked pending in the [page map](google-slides-pilot/cs408-fall-test-anatomy-round16-map.csv)
+The first close review added three distinct rules. Slide 1's unsupported
+green gradient was removed and the missing brown title-banner fill restored
+on the native title shape; both the September PDF and October Keynote preview
+show the banner. Slide 2's two whitespace-only bullets were removed, and only
+the HW1 announcement line was reduced to 33 pt so `9/11` stays on one line.
+Slide 4's state diagram was distorted by import, so a crop of only the lower
+diagram from September PDF page 4 was placed over that region; its question,
+title, and code remain editable. This is the pilot's image fallback example:
+patch the smallest complex region only after native repair is not practical.
+The local repair script preserves untouched slide XML bytes and validates
+the edited package.
+
+The page relationship is: Google slides 1–5 correspond to September PDF pages
+1–5; slide 6 is valid newer Keynote content; Google slides 7–38 correspond to
+September PDF pages 6–37. The [38-slide map](google-slides-pilot/cs408-fall-test-anatomy-round16-map.csv)
+records every page and review state. Close Google-PDF checks confirm slides 1,
+2, 4, 6, 9, 23, 26, 30–32, and 36–37. The remaining 26 pages have overview
+checks and still need close review. Slide 7 is the unchanged control: package
+XML is byte-identical to Round 15 and the Google PDF page is pixel-identical
+at 120 dpi. Slide 31's strikethrough on “are” and “were,” plus superscript 3,
+are present in its September PDF reference and were kept.
+
+The current 5,020,392-byte PDF is the latest Google export. The bounded
+`include_base64: true` connector path materialized it without `curl`. The
+120-dpi helper render saved a valid PDF but reported `pdftoppm failed:` after
+32 page images; only pages 33–38 were then rendered locally from that PDF. A
+later 72-dpi helper run rendered all 38 pages. The helper timeout is a local
+render issue, not a Google export failure. **Round 16 remains in progress:**
+close-review the pages still marked pending in the [page map](google-slides-pilot/cs408-fall-test-anatomy-round16-map.csv)
 before accepting the route. Do not treat the local LibreOffice PDF or
 structural readback as visual acceptance.
 
@@ -1769,12 +1806,14 @@ addressed. Use the [current open-work list](#open-work-after-round-16).
 
 1. **Finish Round 16.** The repaired 38-slide deck is imported, its native
    structure has been read back, and the exact page map is complete. Its
-   38-page Google PDF and overview contact sheets are saved. Full-size checks
-   confirm slides 6, 9, 23, 26, 30–32, and 36–37; inspect the remaining pages
-   against the Keynote and September PDF where they match. The local
-   LibreOffice PDF is diagnostic only. The new quote/build is valid Keynote
-   content; the question appears only on slides 3–5; the slide 9 overlay and
-   later callout/logo repairs have been checked in the Google PDF.
+   latest 5,020,392-byte Google PDF and refreshed contact sheets are saved.
+   Close checks confirm slides 1, 2, 4, 6, 9, 23, 26, 30–32, and 36–37;
+   inspect the remaining 26 pages against the Keynote and September PDF where
+   they match. Slide 7 is a byte-identical package control and pixel-identical
+   Google-PDF control at 120 dpi. The new quote/build is valid Keynote content;
+   the question appears only on slides 3–5; slide 1's banner and slide 2's
+   wrapped announcement are fixed; slide 4 uses a diagram-only image patch.
+   The local LibreOffice PDF is diagnostic only.
 2. **Do not reopen content selection.** Outcomes for all 57 candidate rows are
    recorded. Use complete Fall sources for Fall-covered topics. The selected
    complete older-only topics are: archived concurrency-testing lab

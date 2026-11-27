@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import argparse
 import re
+from copy import deepcopy
 from io import BytesIO
 from pathlib import Path
 from zipfile import ZIP_DEFLATED, ZipFile
@@ -50,6 +51,10 @@ DIAGRAM_PATCH_NAME = "Round16 slide 4 reference state diagram"
 DIAGRAM_PATCH_PART = "ppt/media/round16-slide4-state-diagram.png"
 DIAGRAM_PATCH_TARGET = "../media/round16-slide4-state-diagram.png"
 DIAGRAM_PATCH_REL_ID = "rId3"
+DIAGRAM5_PATCH_NAME = "Round16 slide 5 reference state diagram"
+DIAGRAM5_PATCH_PART = "ppt/media/round16-slide5-state-diagram.png"
+DIAGRAM5_PATCH_TARGET = "../media/round16-slide5-state-diagram.png"
+DIAGRAM5_PATCH_REL_ID = "rId3"
 DEFAULT_LOGO_PATCH = (
     Path(__file__).parent
     / "cs408-fall-test-anatomy-round16-review"
@@ -64,6 +69,11 @@ DEFAULT_DIAGRAM_PATCH = (
     Path(__file__).parent
     / "cs408-fall-test-anatomy-round16-review"
     / "slide4-state-diagram.png"
+)
+DEFAULT_DIAGRAM5_PATCH = (
+    Path(__file__).parent
+    / "cs408-fall-test-anatomy-round16-review"
+    / "slide5-state-diagram.png"
 )
 BACKGROUND_TITLE_SLIDES = {
     10: "What is a test?",
@@ -236,6 +246,96 @@ def repair_slide2_announcement_fit(root: etree._Element, slide_number: int) -> b
     styles.extend(paragraph.findall("./a:endParaRPr", NS))
     for style in styles:
         style.set("sz", "3300")
+    return True
+
+
+def remove_slide7_38_empty_bullets(root: etree._Element, slide_number: int) -> int:
+    if slide_number not in {7, 38}:
+        return 0
+    heading = "Last Time:" if slide_number == 7 else "Next Time:"
+    matches = []
+    for shape in root.findall(".//p:spTree/p:sp", NS):
+        if heading in "".join(shape.xpath(".//a:t/text()", namespaces=NS)):
+            matches.append(shape)
+    if len(matches) != 1:
+        raise ValueError(f"Slide {slide_number}: expected one agenda text box, found {len(matches)}")
+    removed = 0
+    for paragraph in list(matches[0].findall("./p:txBody/a:p", NS)):
+        text = "".join(paragraph.xpath(".//a:t/text()", namespaces=NS)).strip()
+        ppr = paragraph.find("./a:pPr", NS)
+        has_bullet = ppr is not None and any(
+            ppr.find(f"./a:{tag}", NS) is not None for tag in ("buChar", "buAutoNum")
+        )
+        if not text and has_bullet:
+            matches[0].find("./p:txBody", NS).remove(paragraph)
+            removed += 1
+    if removed != 4:
+        raise ValueError(f"Slide {slide_number}: expected 4 empty agenda bullets, removed {removed}")
+    return removed
+
+
+def repair_slide38_next_time_fit(root: etree._Element, slide_number: int) -> bool:
+    if slide_number != 38:
+        return False
+    matches = []
+    for shape in root.findall(".//p:spTree/p:sp", NS):
+        for paragraph in shape.findall("./p:txBody/a:p", NS):
+            text = "".join(paragraph.xpath(".//a:t/text()", namespaces=NS)).strip()
+            if text == "How to systematically arrange inputs for the SUT?":
+                matches.append(paragraph)
+    if len(matches) != 1:
+        raise ValueError(f"Slide 38: expected one Next Time question, found {len(matches)}")
+    paragraph = matches[0]
+    styles = paragraph.findall("./a:pPr/a:defRPr", NS)
+    styles.extend(paragraph.findall("./a:r/a:rPr", NS))
+    styles.extend(paragraph.findall("./a:endParaRPr", NS))
+    for style in styles:
+        style.set("sz", "3300")
+    return True
+
+
+def repair_slide25_code_line_gap(root: etree._Element, slide_number: int) -> bool:
+    """Restore the blank code line that LibreOffice dropped on slide 25."""
+    if slide_number != 25:
+        return False
+    matches = []
+    for shape in root.xpath(".//p:sp[p:txBody]", namespaces=NS):
+        body = shape.find("./p:txBody", NS)
+        paragraphs = body.findall("./a:p", NS) if body is not None else []
+        texts = ["".join(p.xpath(".//a:t/text()", namespaces=NS)) for p in paragraphs]
+        if (
+            len(paragraphs) == 4
+            and texts[0].startswith("gateway")
+            and "# every request" in texts[1]
+            and texts[2].startswith("def __init__")
+            and "self._approves = approves" in texts[3]
+        ):
+            matches.append((body, paragraphs))
+    if len(matches) != 1:
+        raise ValueError(f"Slide 25: expected one four-line constructor code box, found {len(matches)}")
+
+    body, paragraphs = matches[0]
+    def_paragraph = paragraphs[2]
+    def_ppr = def_paragraph.find("./a:pPr", NS)
+    if def_ppr is None:
+        raise ValueError("Slide 25: constructor paragraph properties are missing")
+    numbering = def_ppr.find("./a:buAutoNum", NS)
+    if numbering is None:
+        raise ValueError("Slide 25: constructor line numbering is missing")
+
+    # The source has an unnumbered blank line 3. Keeping the gap avoids the
+    # separator crossing `def`; startAt preserves the source's visible 4., 5.
+    blank_ppr = deepcopy(def_ppr)
+    blank_numbering = blank_ppr.find("./a:buAutoNum", NS)
+    blank_ppr.remove(blank_numbering)
+    etree.SubElement(blank_ppr, f"{{{NS['a']}}}buNone")
+    blank_paragraph = etree.Element(f"{{{NS['a']}}}p")
+    blank_paragraph.append(blank_ppr)
+    end_style = def_paragraph.find("./a:endParaRPr", NS)
+    if end_style is not None:
+        blank_paragraph.append(deepcopy(end_style))
+    body.insert(body.index(def_paragraph), blank_paragraph)
+    numbering.set("startAt", "4")
     return True
 
 
@@ -614,6 +714,47 @@ def add_slide4_diagram_picture(root: etree._Element) -> None:
     sp_tree.insert(sp_tree.index(extension_list) if extension_list is not None else len(sp_tree), picture)
 
 
+def add_slide5_diagram_picture(root: etree._Element) -> None:
+    sp_tree = root.find("./p:cSld/p:spTree", NS)
+    if sp_tree is None:
+        raise ValueError("Slide 5 shape tree is missing")
+    if any(node.get("name") == DIAGRAM5_PATCH_NAME for node in sp_tree.findall(".//p:cNvPr", NS)):
+        return
+
+    used_ids = [int(value) for value in sp_tree.xpath(".//p:cNvPr/@id", namespaces=NS)]
+    picture = etree.Element(f"{{{NS['p']}}}pic")
+    nv_pic = etree.SubElement(picture, f"{{{NS['p']}}}nvPicPr")
+    etree.SubElement(
+        nv_pic,
+        f"{{{NS['p']}}}cNvPr",
+        id=str(max(used_ids, default=0) + 1),
+        name=DIAGRAM5_PATCH_NAME,
+    )
+    etree.SubElement(nv_pic, f"{{{NS['p']}}}cNvPicPr")
+    etree.SubElement(nv_pic, f"{{{NS['p']}}}nvPr")
+    fill = etree.SubElement(picture, f"{{{NS['p']}}}blipFill")
+    etree.SubElement(
+        fill,
+        f"{{{NS['a']}}}blip",
+        {f"{{{NS['r']}}}embed": DIAGRAM5_PATCH_REL_ID},
+    )
+    stretch = etree.SubElement(fill, f"{{{NS['a']}}}stretch")
+    etree.SubElement(stretch, f"{{{NS['a']}}}fillRect")
+    properties = etree.SubElement(picture, f"{{{NS['p']}}}spPr")
+    xfrm = etree.SubElement(properties, f"{{{NS['a']}}}xfrm")
+    etree.SubElement(xfrm, f"{{{NS['a']}}}off", x="0", y=str(int(446.4 * EMU_PER_POINT)))
+    etree.SubElement(
+        xfrm,
+        f"{{{NS['a']}}}ext",
+        cx=str(SLIDE_WIDTH),
+        cy=str(int(321.6 * EMU_PER_POINT)),
+    )
+    geometry = etree.SubElement(properties, f"{{{NS['a']}}}prstGeom", prst="rect")
+    etree.SubElement(geometry, f"{{{NS['a']}}}avLst")
+    extension_list = sp_tree.find("./p:extLst", NS)
+    sp_tree.insert(sp_tree.index(extension_list) if extension_list is not None else len(sp_tree), picture)
+
+
 def add_slide36_logo_relationship(data: bytes) -> bytes:
     root = etree.fromstring(data)
     for rel in root.findall("./rel:Relationship", NS):
@@ -659,6 +800,31 @@ def add_slide4_diagram_relationship(data: bytes) -> bytes:
     return etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True)
 
 
+def add_slide5_diagram_relationship(data: bytes) -> bytes:
+    root = etree.fromstring(data)
+    for rel in root.findall("./rel:Relationship", NS):
+        if rel.get("Target") == DIAGRAM5_PATCH_TARGET:
+            return data
+    used = {rel.get("Id") for rel in root.findall("./rel:Relationship", NS)}
+    rel_id = DIAGRAM5_PATCH_REL_ID
+    while rel_id in used:
+        number = int(rel_id.removeprefix("rId")) + 1
+        rel_id = f"rId{number}"
+    if rel_id != DIAGRAM5_PATCH_REL_ID:
+        raise ValueError(
+            f"Slide 5 image relationship must be {DIAGRAM5_PATCH_REL_ID}, got {rel_id}; "
+            "update the picture relationship ID to match"
+        )
+    etree.SubElement(
+        root,
+        f"{{{NS['rel']}}}Relationship",
+        Id=rel_id,
+        Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image",
+        Target=DIAGRAM5_PATCH_TARGET,
+    )
+    return etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True)
+
+
 def ensure_png_content_type(data: bytes) -> bytes:
     root = etree.fromstring(data)
     if not any(node.get("Extension", "").lower() == "png" for node in root.findall("./ct:Default", NS)):
@@ -696,6 +862,7 @@ def repair(
     logo_patch_path: Path = DEFAULT_LOGO_PATCH,
     chain_logo_path: Path = DEFAULT_CHAIN_LOGO,
     diagram_patch_path: Path = DEFAULT_DIAGRAM_PATCH,
+    diagram5_patch_path: Path = DEFAULT_DIAGRAM5_PATCH,
 ) -> dict[str, int]:
     if not logo_patch_path.is_file():
         raise FileNotFoundError(f"Slide 36 logo patch is missing: {logo_patch_path}")
@@ -703,6 +870,9 @@ def repair(
     if not diagram_patch_path.is_file():
         raise FileNotFoundError(f"Slide 4 diagram patch is missing: {diagram_patch_path}")
     diagram_patch_bytes = diagram_patch_path.read_bytes()
+    if not diagram5_patch_path.is_file():
+        raise FileNotFoundError(f"Slide 5 diagram patch is missing: {diagram5_patch_path}")
+    diagram5_patch_bytes = diagram5_patch_path.read_bytes()
     output_path.parent.mkdir(parents=True, exist_ok=True)
     question_edits = 0
     question_retained = 0
@@ -718,6 +888,10 @@ def repair(
     slide4_diagram_patch_added = 0
     slide1_title_banner_repaired = 0
     slide2_announcement_fit_repaired = 0
+    slide7_38_empty_bullets_removed = 0
+    slide38_next_time_fit_repaired = 0
+    slide5_diagram_patch_added = 0
+    slide25_code_line_gap_repaired = 0
 
     with ZipFile(input_path) as source, ZipFile(output_path, "w", ZIP_DEFLATED) as target:
         if CHAIN_LOGO_PART not in source.namelist():
@@ -741,6 +915,16 @@ def repair(
                 slide1_title_banner_repaired += int(repair_slide1_title_banner(root, slide_number))
                 slide2_announcement_fit_repaired += int(
                     repair_slide2_announcement_fit(root, slide_number)
+                )
+                slide7_38_empty_bullets_removed += remove_slide7_38_empty_bullets(
+                    root,
+                    slide_number,
+                )
+                slide38_next_time_fit_repaired += int(
+                    repair_slide38_next_time_fit(root, slide_number)
+                )
+                slide25_code_line_gap_repaired += int(
+                    repair_slide25_code_line_gap(root, slide_number)
                 )
                 if slide_number == 9:
                     repair_meme_overlay(root)
@@ -768,6 +952,9 @@ def repair(
                 if slide_number == 4:
                     add_slide4_diagram_picture(root)
                     slide4_diagram_patch_added = 1
+                if slide_number == 5:
+                    add_slide5_diagram_picture(root)
+                    slide5_diagram_patch_added = 1
                 if etree.tostring(root, method="c14n") != original_canonical_xml:
                     data = etree.tostring(
                         root,
@@ -777,6 +964,8 @@ def repair(
                     )
             elif info.filename == "ppt/slides/_rels/slide4.xml.rels":
                 data = add_slide4_diagram_relationship(data)
+            elif info.filename == "ppt/slides/_rels/slide5.xml.rels":
+                data = add_slide5_diagram_relationship(data)
             elif info.filename == "ppt/slides/_rels/slide36.xml.rels":
                 data = add_slide36_logo_relationship(data)
             elif info.filename == CHAIN_LOGO_PART:
@@ -787,6 +976,7 @@ def repair(
             target.writestr(info, data)
         target.writestr(LOGO_PATCH_PART, logo_patch_bytes)
         target.writestr(DIAGRAM_PATCH_PART, diagram_patch_bytes)
+        target.writestr(DIAGRAM5_PATCH_PART, diagram5_patch_bytes)
 
     if slide_count != 38:
         output_path.unlink(missing_ok=True)
@@ -803,6 +993,10 @@ def repair(
         or slide4_diagram_patch_added != 1
         or slide1_title_banner_repaired != 1
         or slide2_announcement_fit_repaired != 1
+        or slide7_38_empty_bullets_removed != 8
+        or slide38_next_time_fit_repaired != 1
+        or slide5_diagram_patch_added != 1
+        or slide25_code_line_gap_repaired != 1
     ):
         output_path.unlink(missing_ok=True)
         raise ValueError(
@@ -811,7 +1005,11 @@ def repair(
             f"slide2_empty_bullets={slide2_empty_bullets_removed}, "
             f"slide4_diagram={slide4_diagram_patch_added}, "
             f"slide1_title_banner={slide1_title_banner_repaired}, "
-            f"slide2_announcement_fit={slide2_announcement_fit_repaired}"
+            f"slide2_announcement_fit={slide2_announcement_fit_repaired}, "
+            f"agenda_empty_bullets={slide7_38_empty_bullets_removed}, "
+            f"slide38_question_fit={slide38_next_time_fit_repaired}, "
+            f"slide5_diagram={slide5_diagram_patch_added}, "
+            f"slide25_code_line_gap={slide25_code_line_gap_repaired}"
         )
 
     with ZipFile(output_path) as checked:
@@ -837,6 +1035,10 @@ def repair(
         "slide4_diagram_region_patched": slide4_diagram_patch_added,
         "slide1_title_banner_repaired": slide1_title_banner_repaired,
         "slide2_announcement_font_fit": slide2_announcement_fit_repaired,
+        "slide7_38_empty_bullets_removed": slide7_38_empty_bullets_removed,
+        "slide38_next_time_font_fit": slide38_next_time_fit_repaired,
+        "slide5_diagram_region_patched": slide5_diagram_patch_added,
+        "slide25_code_line_gap_restored": slide25_code_line_gap_repaired,
     }
 
 
@@ -847,6 +1049,7 @@ def main() -> None:
     parser.add_argument("--slide36-logo-patch", type=Path, default=DEFAULT_LOGO_PATCH)
     parser.add_argument("--slide36-chain-logo", type=Path, default=DEFAULT_CHAIN_LOGO)
     parser.add_argument("--slide4-diagram-patch", type=Path, default=DEFAULT_DIAGRAM_PATCH)
+    parser.add_argument("--slide5-diagram-patch", type=Path, default=DEFAULT_DIAGRAM5_PATCH)
     args = parser.parse_args()
     print(
         repair(
@@ -855,6 +1058,7 @@ def main() -> None:
             args.slide36_logo_patch,
             args.slide36_chain_logo,
             args.slide4_diagram_patch,
+            args.slide5_diagram_patch,
         )
     )
 

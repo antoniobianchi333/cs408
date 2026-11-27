@@ -140,6 +140,8 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   and [Round 14 rev3 builder](combined/google-slides-pilot/build_concurrency_lab_round14_rev3.py),
   [Round 15-to-16 repair script](combined/google-slides-pilot/repair_round15_keynote_layout.py)
   and [Round 16 PPTX](combined/google-slides-pilot/cs408-fall-test-anatomy-round16.pptx),
+  [Round 16 page map](combined/google-slides-pilot/cs408-fall-test-anatomy-round16-map.csv),
+  and [Round 16 review folder](combined/google-slides-pilot/cs408-fall-test-anatomy-round16-review/),
   [Fall text-overlap audit script](combined/audit_fall_text_overlap.py),
   [source-deck topic audit script](combined/audit_source_deck_topics.py), and
   [older-topic selection audit](combined/older-topic-selection-audit.csv), plus
@@ -164,11 +166,16 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   readback confirmed 38 ordered slides and editable objects, with notes on
   all pages. Its [38-page Google PDF and overview contact sheets](combined/google-slides-pilot/cs408-fall-test-anatomy-round16-review/)
   are saved, as is the [page map](combined/google-slides-pilot/cs408-fall-test-anatomy-round16-map.csv).
-  The latest Google PDF is 4,944,273 bytes and has 38 pages. Full-size checks
-  confirmed slides 6, 9, 23, 26, 30–32, and 36–37; the remaining pages have
-  overview checks only and still need close review before the pilot is accepted.
-  Slide 30's callout is now readable on two lines, and slide 36's chain mark has
-  a transparent background. The September 1 Fall Test
+  The latest Google PDF is 5,020,392 bytes and has 38 pages. Close visual
+  checks confirm slides 1, 2, 4, 6, 9, 23, 26, 30–32, and 36–37; 26 pages
+  still need close review before the pilot is accepted. Slide 1's unsupported
+  green gradient was removed and its brown title banner restored. Slide 2's
+  empty bullets were removed and the HW1 line reduced locally to 33 pt so it
+  stays on one line. Slide 4 keeps the question, title, and code editable while
+  using a source-PDF crop only for its distorted state diagram. The local
+  audit passes package/order/PDF/text checks; slide 7 is byte-identical to the
+  baseline PPTX and pixel-identical to the baseline Google PDF at 120 dpi.
+  The September 1 Fall Test
   Anatomy PDF predates the October 6 Keynote revision; the page 6 quote/build
   slide is valid newer Keynote content, and slides 7–38 map to PDF pages 6–37.
 - **Latest source-selection pilot before Round 15.** [Round 14](combined/SLIDE_CONVERSION.md#round-14--older-concurrency-testing-lab-introduction)
@@ -218,8 +225,8 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   and root cause are in the
   [Drive guide](combined/GOOGLE_DRIVE_ACCESS.md#download-the-google-rendered-pdf).
 - **Next.** Finish Round 16's close visual review. The exact map and 38-page
-  Google PDF are complete; full-size checks confirm slides 6, 9, 23, 26, 30–32,
-  and 36–37. Then begin Batch 1. The content-selection gate is closed for all 57 candidate
+  Google PDF are complete; close checks confirm 12 pages and 26 remain. Then
+  begin Batch 1. The content-selection gate is closed for all 57 candidate
   rows; do not repeat that analysis. Use Fall sources for covered topics and
   include the six complete older-only topics recorded in the audit. Create
   only the ordered 16-batch boundary outline needed to place whole decks and

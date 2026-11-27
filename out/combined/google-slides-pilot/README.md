@@ -141,41 +141,43 @@ Details and the broader list of missing PDF references are in the
 
 ## Round 16: Test Anatomy repair review in progress
 
-The [Round 16 PPTX](cs408-fall-test-anatomy-round16.pptx) applies the
-targeted repairs from Round 15. Its [repair script](repair_round15_keynote_layout.py)
-keeps the repeated test-stopping question only on slides 3–5 and repairs the
-slide 9 code overlay's shape, rotation, and requested `Roboto Mono` font. The
-native Google deck is
+Round 16 is a diagnostic `.key`-to-PPTX-to-Google-Slides run, not a production
+batch. Its purpose is to test repair patterns on representative conversion
+defects before those patterns are used across the full course. The [Round 16
+PPTX](cs408-fall-test-anatomy-round16.pptx) and
+[repair script](repair_round15_keynote_layout.py) preserve native editable
+text and shapes where practical. The native Google deck is
 [here](https://docs.google.com/presentation/d/1QvRYYjInRSlz_2ZU7RUPd2lqcNRUGsw-BVzuhIqIaLk/edit).
-Readback confirmed 38 ordered slides, editable objects, notes objects on all
-pages, and 31 pages with note text. A local diagnostic PDF exists under
-`out/.build/round16-local/`; it is not the acceptance render.
+Readback confirmed 38 ordered slides, notes objects on all pages, and 31 pages
+with note text. The [page map](cs408-fall-test-anatomy-round16-map.csv) maps
+slides 1–5 to September PDF pages 1–5, slide 6 to the newer October Keynote
+build, and slides 7–38 to September PDF pages 6–37.
 
-The latest Google PDF is saved at
-[`google-presentation.pdf`](cs408-fall-test-anatomy-round16-review/google-presentation.pdf)
-(4,944,273 bytes; 38 pages). Google and source overview contact sheets are in
-the same review folder. The exact map covers every Google slide; the source
-relationship is slides 1–5 to September PDF pages 1–5, slide 6 to the newer
-October Keynote build, and slides 7–38 to September PDF pages 6–37. Full-size
-checks confirm slides 6, 9, 23, 26, 30–32, and 36–37. The remaining pages have
-overview checks only and still need close review before Round 16 is accepted.
+The latest [Google PDF and contact sheets](cs408-fall-test-anatomy-round16-review/)
+contain 38 pages; the PDF is 5,020,392 bytes. Close visual review confirms
+slides 1, 2, 4, 6, 9, 23, 26, 30–32, and 36–37. The remaining 26 pages have
+overview checks and still need close review before the pilot is accepted.
+Slide 1's unsupported green gradient was removed and its missing brown title
+banner fill restored. Slide 2's two empty bullet paragraphs were deleted and
+the HW1 announcement line was reduced to 33 pt, keeping it editable and on one
+line. Slide 4 keeps its question, title, and code editable; only the distorted
+lower state diagram uses a crop from the September source PDF. Earlier repairs
+retain the test-stopping question only on slides 3–5, repair slide 9's overlay
+and `Roboto Mono` request, restore titles/backgrounds on 21 pages, fit the
+slide 26 Observe banner, keep slide 30's `25%` and caption readable, reduce
+slides 31–32's percentages to 50 pt, restore slide 36's Docker/CI logos and
+remove the chain mark's white matte, and fit slide 37's title.
 
-The final repair pass fits slide 26's editable Observe banner, keeps slide
-30's `25%` on one line and puts its editable two-line caption beside it,
-reduces the same percentage on slides 31–32 to 50 pt, restores the missing
-Docker/CI logos, and removes the white matte behind the existing chain mark.
-The export used one bounded `include_base64: true` connector fetch for this
-sub-10 MB PDF; no shell downloader was used. The renderer reported a
-`pdftoppm` error after saving the PDF and an initial partial set of images, but
-all 38 page images were later present. Check the existing PDF and image count
-before exporting again. After Round 16 review, move to the 16-batch boundary
-outline and finish Batch 1 end to end before starting Batch 2. Final batches go
-directly in the shared folder root above `Pilots`; this folder remains for
-pilots and their evidence.
+The local audit passes PPTX package relationships, 38-slide order, Google PDF
+page count, and extracted-text checks. Slide 7 is the unchanged control: its
+PPTX slide XML is byte-identical to Round 15, and its Google PDF page is pixel
+identical at 120 dpi. Contact sheets were refreshed from the final Google
+export. The 120-dpi helper render timed out after creating 32 page images, so
+only pages 33–38 were rendered locally from that saved PDF. A later 72-dpi
+helper run completed all 38 pages; the PDF export was repeated only after the
+deck changed. No `curl` or other shell downloader was used.
 
-The [Round 16 page map](cs408-fall-test-anatomy-round16-map.csv) records the
-38-slide relationship and per-page review status. Full-size visual checks
-have confirmed the newer quote/build on slide 6, the repaired code overlay on
-slide 9, the intact quote on slide 23, the Observe and percentage callouts on
-slides 26 and 30–32, and the restored title/logos on slides 36–37. The map
-marks the other pages as overview-reviewed and still pending close review.
+After all 38 pages receive close review, move to the 16-batch boundary
+outline, then complete Batch 1 end to end before starting Batch 2. Final
+batches go directly in the shared folder root above `Pilots`; this folder
+remains for pilots and their evidence.

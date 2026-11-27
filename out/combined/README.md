@@ -42,11 +42,15 @@ records the revisions, local font-substitution caveat, repair rule, API
 readback, and remaining work.
 
 Round 16 is the current `.key` repair pilot. Its readback confirms 38 ordered
-native Slides pages and editable objects. The exact map and latest 38-page
-Google PDF (4,944,273 bytes) are saved with overview contact sheets. Full-size
-checks confirm slides 6, 9, 23, 26, 30–32, and 36–37; all other pages still
-need close review. The 37-page Fall PDF is dated September 1 and predates the
-October Keynote revision; slide 6 is valid newer Keynote content. See the
+native Slides pages and editable objects. It is a diagnostic conversion and
+repair pilot, not a final batch: the goal is to validate reusable rules across
+representative Keynote slide families before converting the full course. The
+exact map and latest 38-page Google PDF (5,020,392 bytes) are saved with
+refreshed contact sheets. Close checks confirm slides 1, 2, 4, 6, 9, 23, 26,
+30–32, and 36–37; 26 pages remain. The local audit passes package/order/PDF
+checks and confirms slide 7 is unchanged against the Round 15 baseline. The
+37-page Fall PDF is dated September 1 and predates the October Keynote
+revision; slide 6 is valid newer Keynote content. See the
 [Round 15 baseline](SLIDE_CONVERSION.md#round-15--fall-test-anatomy-linux-keynote-diagnostic),
 [Round 16 review](SLIDE_CONVERSION.md#round-16--test-anatomy-repairs-and-google-review),
 and [PDF coverage audit](SLIDE_CONVERSION.md#fall-pdf-coverage-and-keynote-preview-limits).
@@ -411,10 +415,10 @@ The PDF retains its original page dimensions and vector text where available.
 
 ## Current status and batch order
 
-Round 16's exact page map, latest 38-page Google PDF, and overview contact
-sheets are saved. Full-size checks confirm slides 6, 9, 23, 26, 30–32, and
-36–37; close-review the remaining pages before accepting the pilot. Then create the ordered
-boundary outline for exactly 16 conceptual batches using the already-settled
+Round 16's exact page map, latest 38-page Google PDF, and refreshed contact
+sheets are saved. Close checks confirm slides 1, 2, 4, 6, 9, 23, 26, 30–32,
+and 36–37; close-review the remaining 26 pages before accepting the pilot.
+Then create the ordered boundary outline for exactly 16 conceptual batches using the already-settled
 source choices, whole-deck/topic boundaries, and the syllabus/homework
 sequence. Do not repeat content selection or build detailed maps for all
 batches before starting conversion.
