@@ -1,6 +1,6 @@
 {
   "batch": 1,
-  "status": "three paragraph-build families passed local and native Google Slides review; one single-chunk All at Once build is classified as a single static slide; the mixed build on Introduction page 17 is under local and Google review; 47 other build-containing slides remain unclassified; full-batch integration and review remain pending",
+  "status": "five build-bearing slides are classified: three paragraph reveals, one single-chunk All at Once slide that needs no extra state, and one mixed six-state banner/question build. All four expansions passed local and native Google Slides review; 47 of the 52 build-containing slides remain unclassified; full-batch integration and review remain pending",
   "policy": "Each selected state is cumulative and stays adjacent to its source slide within the original deck. Do not expand a decorative-only effect. Do not infer instructional meaning from chunk count alone.",
   "non_expansions": [
     {
@@ -96,7 +96,9 @@
       "converted_pptx_slide": 20,
       "decision": "The slide has a two-part build: first reveal the blue response banner, then reveal the five-question text object By Bullet Group. Preserve the sequence as six cumulative static slides: banner only, then one additional question per state.",
       "build_status": "Mixed object and bullet-group build; 6 ordered cumulative states, using the banner build followed by five question paragraphs.",
-      "review_status": "Local expansion and native Google pilot are in progress; compare every state against the decoded build order, and compare the final state with Fall PDF page 17.",
+      "review_status": "All six local states and all six native Google PDF pages were visually reviewed against the decoded order and Fall PDF page 17. The banner-first/five-question progression is cumulative. The initial Google import changed the banner's fine dotted outline to coarse dashes; a targeted native Google update set DOT on the banner shape in all six states. The final Google PDF now matches the source closely; full-batch integration remains pending.",
+      "google_pilot_url": "https://docs.google.com/presentation/d/1-5fHYWt5-CrwBGVkAwGXopHCW09CvbwHtjs3ZyyL3xE/edit",
+      "google_pdf_review": "6 pages; all states visually inspected for progression and layout. A single batchUpdate changed outline.dashStyle to DOT on the banner background in all six slides; native readback confirmed DOT on all six. Final Google PDF: 47,286 bytes. Render: out/.build/batch-01/pilots/round21-google-render-after-native-fix/",
       "states": [
         {"label": "1/6", "build_chunk_ids": ["1580524"], "operations": {"visible_paragraphs": {"272": 0}}},
         {"label": "2/6", "build_chunk_ids": ["1580595"], "operations": {"visible_paragraphs": {"272": 1}}},
