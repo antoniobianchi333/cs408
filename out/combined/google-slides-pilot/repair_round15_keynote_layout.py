@@ -189,6 +189,56 @@ def remove_slide2_empty_bullets(root: etree._Element, slide_number: int) -> int:
     return removed
 
 
+def repair_slide1_title_banner(root: etree._Element, slide_number: int) -> bool:
+    if slide_number != 1:
+        return False
+    matches = []
+    for shape in root.findall(".//p:spTree/p:sp", NS):
+        text = "".join(shape.xpath(".//a:t/text()", namespaces=NS)).strip()
+        if text == "Anatomy of A Test":
+            matches.append(shape)
+    if len(matches) != 1:
+        raise ValueError(f"Slide 1: expected one anatomy title, found {len(matches)}")
+    properties = matches[0].find("./p:spPr", NS)
+    if properties is None:
+        raise ValueError("Slide 1: anatomy title shape properties are missing")
+    for no_fill in properties.findall("./a:noFill", NS):
+        properties.remove(no_fill)
+    solid_fill = etree.Element(f"{{{NS['a']}}}solidFill")
+    color = etree.SubElement(solid_fill, f"{{{NS['a']}}}srgbClr", val="805540")
+    etree.SubElement(color, f"{{{NS['a']}}}alpha", val="76000")
+    line = properties.find("./a:ln", NS)
+    properties.insert(properties.index(line) if line is not None else len(properties), solid_fill)
+    return True
+
+
+def repair_slide2_announcement_fit(root: etree._Element, slide_number: int) -> bool:
+    if slide_number != 2:
+        return False
+    matches = []
+    for shape in root.findall(".//p:spTree/p:sp", NS):
+        if "Announcements:" in "".join(shape.xpath(".//a:t/text()", namespaces=NS)):
+            matches.append(shape)
+    if len(matches) != 1:
+        raise ValueError(f"Slide 2: expected one announcements text box, found {len(matches)}")
+    matching_paragraphs = []
+    for paragraph in matches[0].findall("./p:txBody/a:p", NS):
+        text = "".join(paragraph.xpath(".//a:t/text()", namespaces=NS)).strip()
+        if text.startswith("HW1 will be published on Friday, due at 6p on"):
+            matching_paragraphs.append(paragraph)
+    if len(matching_paragraphs) != 1:
+        raise ValueError(
+            f"Slide 2: expected one HW1 announcement paragraph, found {len(matching_paragraphs)}"
+        )
+    paragraph = matching_paragraphs[0]
+    styles = paragraph.findall("./a:pPr/a:defRPr", NS)
+    styles.extend(paragraph.findall("./a:r/a:rPr", NS))
+    styles.extend(paragraph.findall("./a:endParaRPr", NS))
+    for style in styles:
+        style.set("sz", "3300")
+    return True
+
+
 def repair_meme_overlay(root: etree._Element) -> None:
     backing = None
     code = None
@@ -666,6 +716,8 @@ def repair(
     slide1_gradient_removed = 0
     slide2_empty_bullets_removed = 0
     slide4_diagram_patch_added = 0
+    slide1_title_banner_repaired = 0
+    slide2_announcement_fit_repaired = 0
 
     with ZipFile(input_path) as source, ZipFile(output_path, "w", ZIP_DEFLATED) as target:
         if CHAIN_LOGO_PART not in source.namelist():
@@ -680,11 +732,16 @@ def repair(
                 slide_number = int(match.group(1))
                 slide_count += 1
                 root = etree.fromstring(data)
+                original_canonical_xml = etree.tostring(root, method="c14n")
                 edits, retained = repair_question_heading(root, slide_number)
                 question_edits += edits
                 question_retained += int(retained and edits > 0)
                 slide1_gradient_removed += int(remove_slide1_gradient(root, slide_number))
                 slide2_empty_bullets_removed += remove_slide2_empty_bullets(root, slide_number)
+                slide1_title_banner_repaired += int(repair_slide1_title_banner(root, slide_number))
+                slide2_announcement_fit_repaired += int(
+                    repair_slide2_announcement_fit(root, slide_number)
+                )
                 if slide_number == 9:
                     repair_meme_overlay(root)
                 if slide_number in BACKGROUND_TITLE_SLIDES:
@@ -711,7 +768,13 @@ def repair(
                 if slide_number == 4:
                     add_slide4_diagram_picture(root)
                     slide4_diagram_patch_added = 1
-                data = etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True)
+                if etree.tostring(root, method="c14n") != original_canonical_xml:
+                    data = etree.tostring(
+                        root,
+                        xml_declaration=True,
+                        encoding="UTF-8",
+                        standalone=True,
+                    )
             elif info.filename == "ppt/slides/_rels/slide4.xml.rels":
                 data = add_slide4_diagram_relationship(data)
             elif info.filename == "ppt/slides/_rels/slide36.xml.rels":
@@ -734,13 +797,21 @@ def repair(
     if chain_logo_repaired != 1:
         output_path.unlink(missing_ok=True)
         raise ValueError("Expected to replace the opaque slide 36 chain logo image")
-    if slide1_gradient_removed != 1 or slide2_empty_bullets_removed != 2 or slide4_diagram_patch_added != 1:
+    if (
+        slide1_gradient_removed != 1
+        or slide2_empty_bullets_removed != 2
+        or slide4_diagram_patch_added != 1
+        or slide1_title_banner_repaired != 1
+        or slide2_announcement_fit_repaired != 1
+    ):
         output_path.unlink(missing_ok=True)
         raise ValueError(
             "Round 16 targeted repairs did not match expectations: "
             f"slide1_gradient={slide1_gradient_removed}, "
             f"slide2_empty_bullets={slide2_empty_bullets_removed}, "
-            f"slide4_diagram={slide4_diagram_patch_added}"
+            f"slide4_diagram={slide4_diagram_patch_added}, "
+            f"slide1_title_banner={slide1_title_banner_repaired}, "
+            f"slide2_announcement_fit={slide2_announcement_fit_repaired}"
         )
 
     with ZipFile(output_path) as checked:
@@ -764,6 +835,8 @@ def repair(
         "slide1_unsupported_gradient_removed": slide1_gradient_removed,
         "slide2_empty_bullets_removed": slide2_empty_bullets_removed,
         "slide4_diagram_region_patched": slide4_diagram_patch_added,
+        "slide1_title_banner_repaired": slide1_title_banner_repaired,
+        "slide2_announcement_font_fit": slide2_announcement_fit_repaired,
     }
 
 

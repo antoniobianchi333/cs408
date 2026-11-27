@@ -1,39 +1,39 @@
-google_slide,keynote_slide,september_pdf_page,reference_status,visual_review_status,notes
-1,1,1,September PDF predates Oct 6 Keynote revision,Overview reviewed; close review pending,
-2,2,2,September PDF predates Oct 6 Keynote revision,Overview reviewed; close review pending,
-3,3,3,September PDF predates Oct 6 Keynote revision,Overview reviewed; close review pending,Keep test-stopping question
-4,4,4,September PDF predates Oct 6 Keynote revision,Overview reviewed; close review pending,Keep test-stopping question
-5,5,5,September PDF predates Oct 6 Keynote revision,Overview reviewed; close review pending,Keep test-stopping question
-6,6,,Keynote-only newer content from Oct 6 revision,Close visual review complete,Valid quote/build slide; no September PDF counterpart; quote and portrait fit without clipping
-7,7,6,September PDF predates Oct 6 Keynote revision,Overview reviewed; close review pending,
-8,8,7,September PDF predates Oct 6 Keynote revision,Overview reviewed; close review pending,
-9,9,8,September PDF predates Oct 6 Keynote revision,Close visual review complete,Overlay position rotation and code legibility align with PDF page 8; Roboto Mono is embedded in Google PDF
-10,10,9,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
-11,11,10,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
-12,12,11,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
-13,13,12,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
-14,14,13,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
-15,15,14,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
-16,16,15,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
-17,17,16,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
-18,18,17,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
-19,19,18,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
-20,20,19,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
-21,21,20,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
-22,22,21,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
-23,23,22,September PDF predates Oct 6 Keynote revision,Close visual review complete,Quote wraps to four lines instead of three; full text remains visible without overlap
-24,24,23,September PDF predates Oct 6 Keynote revision,Overview reviewed; close review pending,
-25,25,24,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
-26,26,25,September PDF predates Oct 6 Keynote revision,Close visual review complete,Title and pale background repaired. Observe banner rebuilt as editable two-line text; full-size Google page checked and legible.
-27,27,26,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
-28,28,27,September PDF predates Oct 6 Keynote revision,Overview reviewed; close review pending,
-29,29,28,September PDF predates Oct 6 Keynote revision,Overview reviewed; close review pending,
-30,30,29,September PDF predates Oct 6 Keynote revision,Close visual review complete,Compared with September PDF page 29. 25% reduced to 50 pt and stays on one line; caption rebuilt as editable two-line text and moved beside it. No overlap.
-31,31,30,September PDF predates Oct 6 Keynote revision,Close visual review complete,"Compared with September PDF page 30. 25% reduced to 50 pt and stays on one line. The source strikethrough on “are,” “were,” and superscript 3 are preserved."
-32,32,31,September PDF predates Oct 6 Keynote revision,Close visual review complete,Compared with September PDF page 31. 25% reduced to 50 pt and stays on one line; source build/cartoon content retained.
-33,33,32,September PDF predates Oct 6 Keynote revision,Overview reviewed; close review pending,
-34,34,33,September PDF predates Oct 6 Keynote revision,Overview reviewed; close review pending,
-35,35,34,September PDF predates Oct 6 Keynote revision,Overview reviewed; close review pending,
-36,36,35,September PDF predates Oct 6 Keynote revision,Close visual review complete,Compared with September PDF page 35. Docker and CI/process logos restored; chain logo white matte removed. Title and pale background repaired.
-37,37,36,September PDF predates Oct 6 Keynote revision,Close visual review complete,"Compared with September PDF page 36. Title moved in front, reduced to 48 pt, and fits one line; pale background restored."
-38,38,37,September PDF predates Oct 6 Keynote revision,Overview reviewed; close review pending,
+google_slide,keynote_slide,september_pdf_page,reference_status,visual_review_status,role,notes
+1,1,1,September PDF predates Oct 6 Keynote revision,Close visual review complete,repair,Slide 1 compared with the September PDF and newer Keynote preview. Removed the unsupported green gradient and restored the brown title banner as a native shape fill; close review confirms the expected composition.
+2,2,2,September PDF predates Oct 6 Keynote revision,Close visual review complete,repair,Slide 2 compared with the September PDF. Removed two empty bullet paragraphs and reduced only the HW1 announcement line to 33 pt; the complete line now fits on one line and remains editable.
+3,3,3,September PDF predates Oct 6 Keynote revision,Overview reviewed; close review pending,repair,Keep test-stopping question
+4,4,4,September PDF predates Oct 6 Keynote revision,Close visual review complete,repair,"Slide 4 compared with September PDF page 4. Kept the question, title, and code editable; replaced only the distorted lower state diagram with a source-PDF crop as the last-resort diagram repair."
+5,5,5,September PDF predates Oct 6 Keynote revision,Overview reviewed; close review pending,repair,Keep test-stopping question
+6,6,,Keynote-only newer content from Oct 6 revision,Close visual review complete,repair,Valid quote/build slide; no September PDF counterpart; quote and portrait fit without clipping
+7,7,6,September PDF predates Oct 6 Keynote revision,Overview reviewed; close review pending,control,
+8,8,7,September PDF predates Oct 6 Keynote revision,Overview reviewed; close review pending,repair,
+9,9,8,September PDF predates Oct 6 Keynote revision,Close visual review complete,repair,Overlay position rotation and code legibility align with PDF page 8; Roboto Mono is embedded in Google PDF
+10,10,9,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,repair,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
+11,11,10,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,repair,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
+12,12,11,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,repair,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
+13,13,12,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,repair,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
+14,14,13,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,repair,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
+15,15,14,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,repair,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
+16,16,15,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,repair,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
+17,17,16,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,repair,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
+18,18,17,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,repair,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
+19,19,18,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,repair,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
+20,20,19,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,repair,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
+21,21,20,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,repair,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
+22,22,21,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,repair,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
+23,23,22,September PDF predates Oct 6 Keynote revision,Close visual review complete,repair,Quote wraps to four lines instead of three; full text remains visible without overlap
+24,24,23,September PDF predates Oct 6 Keynote revision,Overview reviewed; close review pending,repair,
+25,25,24,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,repair,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
+26,26,25,September PDF predates Oct 6 Keynote revision,Close visual review complete,repair,Title and pale background repaired. Observe banner rebuilt as editable two-line text; full-size Google page checked and legible.
+27,27,26,September PDF predates Oct 6 Keynote revision,Google export rendered; close visual review pending,repair,Title moved in front of the anatomy image; a 72% white wash restores the pale reference background. Google export rendered; exact page review remains.
+28,28,27,September PDF predates Oct 6 Keynote revision,Overview reviewed; close review pending,repair,
+29,29,28,September PDF predates Oct 6 Keynote revision,Overview reviewed; close review pending,repair,
+30,30,29,September PDF predates Oct 6 Keynote revision,Close visual review complete,repair,Compared with September PDF page 29. 25% reduced to 50 pt and stays on one line; caption rebuilt as editable two-line text and moved beside it. No overlap.
+31,31,30,September PDF predates Oct 6 Keynote revision,Close visual review complete,repair,"Compared with September PDF page 30. 25% reduced to 50 pt and stays on one line. The source strikethrough on “are,” “were,” and superscript 3 are preserved."
+32,32,31,September PDF predates Oct 6 Keynote revision,Close visual review complete,repair,Compared with September PDF page 31. 25% reduced to 50 pt and stays on one line; source build/cartoon content retained.
+33,33,32,September PDF predates Oct 6 Keynote revision,Overview reviewed; close review pending,repair,
+34,34,33,September PDF predates Oct 6 Keynote revision,Overview reviewed; close review pending,repair,
+35,35,34,September PDF predates Oct 6 Keynote revision,Overview reviewed; close review pending,repair,
+36,36,35,September PDF predates Oct 6 Keynote revision,Close visual review complete,repair,Compared with September PDF page 35. Docker and CI/process logos restored; chain logo white matte removed. Title and pale background repaired.
+37,37,36,September PDF predates Oct 6 Keynote revision,Close visual review complete,repair,"Compared with September PDF page 36. Title moved in front, reduced to 48 pt, and fits one line; pale background restored."
+38,38,37,September PDF predates Oct 6 Keynote revision,Overview reviewed; close review pending,repair,

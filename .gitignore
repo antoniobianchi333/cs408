@@ -47,6 +47,7 @@ _minted*
 /out/combined/google-slides-pilot/**/*.pdf
 /out/combined/google-slides-pilot/**/*.pptx
 /out/combined/google-slides-pilot/**/*.jpg
+/out/combined/google-slides-pilot/*-review/google-contact-*.png
 
 # Python-generated local cache files.
 __pycache__/

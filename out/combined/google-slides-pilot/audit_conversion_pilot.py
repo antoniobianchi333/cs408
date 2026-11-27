@@ -132,12 +132,40 @@ def check_package(path: Path) -> tuple[zipfile.ZipFile, list[str]]:
 def load_map(path: Path) -> list[dict[str, str | int]]:
     with path.open(newline="", encoding="utf-8-sig") as stream:
         rows = list(csv.DictReader(stream))
-    required = {"pilot_page", "combined_slide", "role"}
-    if not rows or not required.issubset(rows[0]):
-        raise AuditError(f"Map must include columns: {', '.join(sorted(required))}")
+    if not rows:
+        raise AuditError("Map must contain at least one data row")
+
+    columns = set(rows[0])
+    if {"pilot_page", "combined_slide", "role"}.issubset(columns):
+        normalized_rows = rows
+    elif {"google_slide", "keynote_slide"}.issubset(columns):
+        # Round 16 maps native Google pages to their original Keynote pages;
+        # the Round 15 PPTX is the corresponding local baseline package.
+        normalized_rows = []
+        for index, row in enumerate(rows, start=1):
+            try:
+                pilot_page = int(row["google_slide"])
+                source_slide = int(row["keynote_slide"])
+            except (TypeError, ValueError) as error:
+                raise AuditError(f"Invalid Google or Keynote slide number in map row {index + 1}") from error
+            if pilot_page != index:
+                raise AuditError(
+                    f"Map Google slides must be contiguous: row {index} says {pilot_page}"
+                )
+            normalized_rows.append({
+                **row,
+                "pilot_page": pilot_page,
+                "combined_slide": source_slide,
+                "role": row.get("role") or "repair",
+            })
+    else:
+        raise AuditError(
+            "Map must include pilot_page/combined_slide/role or "
+            "google_slide/keynote_slide columns"
+        )
 
     mapped = []
-    for index, row in enumerate(rows, start=1):
+    for index, row in enumerate(normalized_rows, start=1):
         try:
             pilot_page = int(row["pilot_page"])
             combined_slide = int(row["combined_slide"])
