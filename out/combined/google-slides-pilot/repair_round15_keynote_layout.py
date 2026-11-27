@@ -323,12 +323,9 @@ def repair_slide25_code_line_gap(root: etree._Element, slide_number: int) -> boo
     if numbering is None:
         raise ValueError("Slide 25: constructor line numbering is missing")
 
-    # The source has an unnumbered blank line 3. Keeping the gap avoids the
-    # separator crossing `def`; startAt preserves the source's visible 4., 5.
+    # The source has a blank line 3. Keeping the gap avoids the separator
+    # crossing `def`; the numbered line 3 is visible in the Google import.
     blank_ppr = deepcopy(def_ppr)
-    blank_numbering = blank_ppr.find("./a:buAutoNum", NS)
-    blank_ppr.remove(blank_numbering)
-    etree.SubElement(blank_ppr, f"{{{NS['a']}}}buNone")
     blank_paragraph = etree.Element(f"{{{NS['a']}}}p")
     blank_paragraph.append(blank_ppr)
     end_style = def_paragraph.find("./a:endParaRPr", NS)

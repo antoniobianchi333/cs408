@@ -139,7 +139,7 @@ quote/build at slide 6 as valid newer Keynote content. The Keynote's
 Details and the broader list of missing PDF references are in the
 [conversion runbook](../SLIDE_CONVERSION.md#fall-pdf-coverage-and-keynote-preview-limits).
 
-## Round 16: Test Anatomy repair review in progress
+## Round 16: Test Anatomy repair review complete
 
 Round 16 is a diagnostic `.key`-to-PPTX-to-Google-Slides run, not a production
 batch. Its purpose is to test repair patterns on representative conversion
@@ -149,19 +149,23 @@ PPTX](cs408-fall-test-anatomy-round16.pptx) and
 text and shapes where practical. The native Google deck is
 [here](https://docs.google.com/presentation/d/1QvRYYjInRSlz_2ZU7RUPd2lqcNRUGsw-BVzuhIqIaLk/edit).
 Readback confirmed 38 ordered slides, notes objects on all pages, and 31 pages
-with note text. The [page map](cs408-fall-test-anatomy-round16-map.csv) maps
+with note text. All 38 pages have close visual review. The
+[page map](cs408-fall-test-anatomy-round16-map.csv) maps
 slides 1–5 to September PDF pages 1–5, slide 6 to the newer October Keynote
 build, and slides 7–38 to September PDF pages 6–37.
 
 The latest [Google PDF and contact sheets](cs408-fall-test-anatomy-round16-review/)
-contain 38 pages; the PDF is 5,020,392 bytes. Close visual review confirms
-slides 1, 2, 4, 6, 9, 23, 26, 30–32, and 36–37. The remaining 26 pages have
-overview checks and still need close review before the pilot is accepted.
+contain 38 pages; the PDF is 5,101,352 bytes. The folder also contains a
+[slide 25 code comparison](cs408-fall-test-anatomy-round16-review/slide25-code-gap-comparison.png).
 Slide 1's unsupported green gradient was removed and its missing brown title
 banner fill restored. Slide 2's two empty bullet paragraphs were deleted and
 the HW1 announcement line was reduced to 33 pt, keeping it editable and on one
-line. Slide 4 keeps its question, title, and code editable; only the distorted
-lower state diagram uses a crop from the September source PDF. Earlier repairs
+line. Slides 4–5 keep their questions, titles, and code editable; only each
+distorted lower state diagram uses a crop from the matching September PDF.
+Slides 7 and 38 have four verified empty agenda bullets removed from each.
+Slide 25's missing blank code line is restored so the separator no longer
+crosses `def`; Google displays `3.` on that blank row, while the September
+reference leaves it unnumbered. Earlier repairs
 retain the test-stopping question only on slides 3–5, repair slide 9's overlay
 and `Roboto Mono` request, restore titles/backgrounds on 21 pages, fit the
 slide 26 Observe banner, keep slide 30's `25%` and caption readable, reduce
@@ -169,7 +173,7 @@ slides 31–32's percentages to 50 pt, restore slide 36's Docker/CI logos and
 remove the chain mark's white matte, and fit slide 37's title.
 
 The local audit passes PPTX package relationships, 38-slide order, Google PDF
-page count, and extracted-text checks. Slide 7 is the unchanged control: its
+page count, and extracted-text checks. Slide 6 is the unchanged control: its
 PPTX slide XML is byte-identical to Round 15, and its Google PDF page is pixel
 identical at 120 dpi. Contact sheets were refreshed from the final Google
 export. The 120-dpi helper render timed out after creating 32 page images, so

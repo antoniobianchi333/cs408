@@ -5,10 +5,11 @@
 Use this guide for the part of the conversion that runs in Google. The
 local PPTX and the page map identify the exact test input. A native Google
 Slides copy and its PDF record what Google imported for that round. The
-current import evidence includes Rounds 5–16. Round 16 is the current
-Test Anatomy repair pilot; its native structure and PDF are saved, 12 of 38
-pages have close visual review, and 26 still need close review before
-acceptance. Round 12 revision 2 is a technical pilot
+current import evidence includes Rounds 5–16. Round 16's Test Anatomy repair
+pilot is complete: native readback confirms 38 ordered slides, and all 38
+Google PDF pages have close visual review. Its final PDF is 5,101,352 bytes;
+the map, contact sheets, and slide 25 repair comparison are saved with the
+pilot. Round 12 revision 2 is a technical pilot
 for rebuilding four older TCM pages; those pages are not selected for final
 content. See the
 [readback and visual review](SLIDE_CONVERSION.md#round-12--editable-test-case-minimization-supplement).
@@ -292,11 +293,12 @@ separate non-TTY command that returns a `session_id`, polling with
 `write_stdin` remains appropriate.
 
 For Round 16 (November 26), the helper's default `include_base64: false`
-fetch again returned a file reference without a local `workspace_path`. For
-the final 5,020,392-byte PDF, wrap only `google_drive_fetch` to set
-`include_base64: true` and let the helper write the PDF through its bounded
-receiver. The saved export is valid and has 38 pages; no `curl` or other shell
-network client was used.
+fetch again returned a file reference without a local `workspace_path`; the
+helper therefore stopped before rendering. For the final 5,101,352-byte PDF,
+wrap only `google_drive_fetch` to set `include_base64: true`, then let the
+helper write the PDF through its bounded receiver. The 72-dpi render completed
+all 38 pages. This bounded compatibility fetch is the current workaround for
+the missing local path; no `curl` or other shell network client was used.
 
 The same round exposed a separate local-renderer timeout symptom. In the
 first 120-dpi render, the helper reported `pdftoppm failed:` after 32 page

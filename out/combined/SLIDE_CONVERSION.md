@@ -10,10 +10,9 @@ dimensions, and meaningful layout while keeping text, code, and ordinary
 shapes editable. Update the roundtrip log after each test.
 
 [Round 4](#round-4--checked) is the complete Part 1 comparison baseline.
-[Round 16](#round-16--test-anatomy-repairs-and-google-review) is the current
-`.key` repair pilot; native readback and the exact 38-slide map are complete.
-The latest Google PDF is saved; close visual review is complete for slides 6,
-9, 23, 26, 30–32, and 36–37, with other pages still pending.
+[Round 16](#round-16--test-anatomy-repairs-and-google-review) completed the
+`.key` repair pilot; native readback, the exact 38-slide map, full visual
+review, and the current Google PDF are complete.
 [Round 14](#round-14--older-concurrency-testing-lab-introduction) is the
 latest older-topic import pilot; [Round 13](#round-13--fall-lab-1-fuzzing-source-and-build-mapping)
 is the latest accepted Fall source-selection pilot.
@@ -820,13 +819,12 @@ analysis or build all final batches at once. Complete the current pilot, make
 only the high-level boundary outline needed for the 16-batch sequence, then
 finish each batch 100% before beginning the next.
 
-1. Finish Round 16's close visual review. Its exact 38-slide page map and
-   latest 5,020,392-byte Google PDF are saved in
-   `google-slides-pilot/cs408-fall-test-anatomy-round16-review/`. Close checks
-   confirm slides 1, 2, 4, 6, 9, 23, 26, 30–32, and 36–37; close-review the
-   remaining 26 pages against the later Keynote and September PDF where they
-   match. Record slide 6's Keynote-only quote/build as valid newer source
-   content. Round 16 is not accepted until every page has close review.
+1. **Complete: Round 16 review and repair.** All 38 mapped pages have close
+   review. The final 5,101,352-byte Google PDF, page map, contact sheets, and
+   slide 25 code comparison are saved in
+   `google-slides-pilot/cs408-fall-test-anatomy-round16-review/`. Slide 6's
+   quote/build and slide 21's system-test material are kept as newer content
+   from the Keynote-derived source; the September PDF predates them.
 2. Create one ordered outline of **16 contiguous conceptual batches**. Keep
    original source decks and topics whole and in source order. Use the course
    schedule and homework sequence to place boundaries roughly by lecture week;
@@ -1639,70 +1637,72 @@ in the linked review folder. The corrected Google PDF transfer used the
 connected Drive export helper with base64 materialization and no shell
 downloader; preserve the working procedure in the [Drive guide](GOOGLE_DRIVE_ACCESS.md#download-the-google-rendered-pdf).
 
-### Round 16 — Test Anatomy repairs and Google review
+### Round 16 — Test Anatomy repairs and Google review (complete)
 
-Round 16 is a diagnostic `.key`-to-PPTX-to-Google-Slides run, not a production
-batch. It tests reusable import and repair rules on representative slide
-families before the full course conversion. It applies localized repairs to
-the Round 15 PPTX and keeps text and shapes native except where the converted
-diagram needs a small image patch. Google native readback confirmed 38 ordered
-slides (`p1`–`p38`) with notes objects on all pages; 31 pages contain note
-text. The import retains 57 text runs requesting `Roboto Mono` for the code
-overlay.
+Round 16 is a diagnostic `.key`-to-PPTX-to-Google-Slides pilot, not a
+production batch. Its purpose was to learn reusable import and repair rules
+on a representative 38-slide deck before scaling the course conversion. The
+[repair script](google-slides-pilot/repair_round15_keynote_layout.py) and
+[editable PPTX](google-slides-pilot/cs408-fall-test-anatomy-round16.pptx)
+apply the measured fixes to Round 15. Google readback confirmed 38 ordered
+slides (`p1`–`p38`), editable objects, notes objects on every slide, and note
+text on 31 pages. The [38-row page map](google-slides-pilot/cs408-fall-test-anatomy-round16-map.csv)
+and [review folder](google-slides-pilot/cs408-fall-test-anatomy-round16-review/)
+record every comparison. The final Google PDF is 5,101,352 bytes and has 38
+pages. All pages have close visual review; the local audit passes slide
+package/order, Google PDF page count, requested text, and the unchanged
+control. Slide 6 is the control: its Round 16 XML is byte-identical to Round
+15, and its Google PDF page is pixel-identical at 120 dpi.
 
-- [Repaired editable PPTX](google-slides-pilot/cs408-fall-test-anatomy-round16.pptx)
-- [Repair script](google-slides-pilot/repair_round15_keynote_layout.py)
-- [38-slide Google-to-source map](google-slides-pilot/cs408-fall-test-anatomy-round16-map.csv)
+**Repairs and rules learned**
+
+- Keep the newer source revision authoritative. The September 1 PDF has 37
+  pages, while the October 6 Keynote-derived PPTX has 38. Google slide 6 is a
+  valid newer quote/build page. Slide 21 also contains the newer System test
+  summary and `test_system_level` example missing from September PDF page 20;
+  retain the Keynote-derived content rather than replacing it with the older
+  reference.
+- Prefer a small native edit for text and shapes. Slide 1's unsupported green
+  gradient was removed and the brown title banner restored on its native
+  shape. On slide 2, remove only the verified whitespace-only bullets and
+  reduce only the overflowing HW1 line to 33 pt. Slides 7 and 38 also had
+  verified empty agenda bullets, removed without changing the visible items.
+- Restore missing blank paragraphs where code layout depends on them. On
+  slide 25, LibreOffice dropped blank code row 3, causing the dashed separator
+  to cross `def`. Restoring the row fixes the overlap and keeps code lines 4–5
+  legible and editable. Google displays `3.` on the restored blank row; the
+  September PDF leaves it unnumbered. This small display difference is
+  recorded as an accepted residual in the [map](google-slides-pilot/cs408-fall-test-anatomy-round16-map.csv).
+- Repair complex imported diagrams locally before using an image. State
+  diagrams on slides 4 and 5 were badly distorted; only each lower diagram
+  was replaced by a crop from its matching September PDF page. Questions,
+  titles, and code remain native and editable. This is the last-resort image
+  patch pattern: cover only the smallest unreliable region.
+- Keep visual review tied to exact page mapping. Slides 1–5 map to September
+  pages 1–5, slide 6 is newer Keynote content, and slides 7–38 map to
+  September pages 6–37. The question is kept only on slides 3–5. The page
+  map records each review result, source discrepancy, and repair.
+- Other measured Round 16 repairs remain source-specific: slide 9's overlay
+  and `Roboto Mono` code request; foreground title/background order and 72%
+  white washes on 21 pages; slide 26's editable Observe banner; slide 30's
+  `25%` and caption; slides 31–32's percentage fit; slide 36's restored Docker
+  and CI marks and transparent chain logo; and slide 37's one-line title.
+
+**Export and artifacts**
+
 - [Native Google Slides deck](https://docs.google.com/presentation/d/1QvRYYjInRSlz_2ZU7RUPd2lqcNRUGsw-BVzuhIqIaLk/edit)
 - Source Keynote: `slides/03-408st-Test-Anatomy.key`
 - September comparison PDF: [`slides/f26-pdfs/03-408st-Test-Anatomy.pdf`](../../slides/f26-pdfs/03-408st-Test-Anatomy.pdf)
-- Local diagnostic PDF: `out/.build/round16-local/cs408-fall-test-anatomy-round16.pdf` (38 pages; not the Google acceptance render)
-- [Google-rendered PDF and overview contact sheets](google-slides-pilot/cs408-fall-test-anatomy-round16-review/); the current PDF is 5,020,392 bytes and has 38 pages
+- Local diagnostic PDF: `out/.build/round16-local-final/cs408-fall-test-anatomy-round16.pdf` (38 pages; diagnostic only)
+- [Final Google PDF, 38-page contact sheets, and slide 25 comparison](google-slides-pilot/cs408-fall-test-anatomy-round16-review/)
 
-The repair script keeps the “When to stop testing? How much testing is
-necessary?” question on source slides/Google pages 3–5 and removes 27
-unsupported repeated copies. On slide 9 it restores the code overlay to the
-reference polygon, rotates the code text 9 degrees counterclockwise, and sets
-the requested font to Roboto Mono. It moves titles in front of the anatomy
-image and applies a 72% white wash to 21 image-backed pages. Slide 26's Observe
-banner is rebuilt as editable two-line text. On slide 30, `25%` is reduced to
-50 pt and the caption is rebuilt as editable two-line text beside it; slides
-31–32 use the same 50 pt percentage repair. Slide 36 restores the missing
-Docker/CI logos with a small transparent crop and removes the opaque white
-matte from the existing chain-logo image. Slide 37's title is reduced to 48 pt
-to keep it on one line.
-
-The first close review added three distinct rules. Slide 1's unsupported
-green gradient was removed and the missing brown title-banner fill restored
-on the native title shape; both the September PDF and October Keynote preview
-show the banner. Slide 2's two whitespace-only bullets were removed, and only
-the HW1 announcement line was reduced to 33 pt so `9/11` stays on one line.
-Slide 4's state diagram was distorted by import, so a crop of only the lower
-diagram from September PDF page 4 was placed over that region; its question,
-title, and code remain editable. This is the pilot's image fallback example:
-patch the smallest complex region only after native repair is not practical.
-The local repair script preserves untouched slide XML bytes and validates
-the edited package.
-
-The page relationship is: Google slides 1–5 correspond to September PDF pages
-1–5; slide 6 is valid newer Keynote content; Google slides 7–38 correspond to
-September PDF pages 6–37. The [38-slide map](google-slides-pilot/cs408-fall-test-anatomy-round16-map.csv)
-records every page and review state. Close Google-PDF checks confirm slides 1,
-2, 4, 6, 9, 23, 26, 30–32, and 36–37. The remaining 26 pages have overview
-checks and still need close review. Slide 7 is the unchanged control: package
-XML is byte-identical to Round 15 and the Google PDF page is pixel-identical
-at 120 dpi. Slide 31's strikethrough on “are” and “were,” plus superscript 3,
-are present in its September PDF reference and were kept.
-
-The current 5,020,392-byte PDF is the latest Google export. The bounded
-`include_base64: true` connector path materialized it without `curl`. The
-120-dpi helper render saved a valid PDF but reported `pdftoppm failed:` after
-32 page images; only pages 33–38 were then rendered locally from that PDF. A
-later 72-dpi helper run rendered all 38 pages. The helper timeout is a local
-render issue, not a Google export failure. **Round 16 remains in progress:**
-close-review the pages still marked pending in the [page map](google-slides-pilot/cs408-fall-test-anatomy-round16-map.csv)
-before accepting the route. Do not treat the local LibreOffice PDF or
-structural readback as visual acceptance.
+The default renderer fetch again returned a Google PDF reference without a
+local path. The bounded `include_base64: true` wrapper around only
+`google_drive_fetch` materialized the 5,101,352-byte PDF; the 72-dpi helper
+render completed all 38 pages without `curl`. A prior 120-dpi render timed out
+after 32 page images, but the PDF was intact. Round 16 is complete; proceed to
+the ordered 16-batch boundary outline and then finish Batch 1 before starting
+Batch 2. Keep final batch decks at the shared Drive root above `Pilots`.
 
 #### Open-work snapshot after Round 8 (superseded by Round 9)
 
@@ -1804,16 +1804,13 @@ addressed. Use the [current open-work list](#open-work-after-round-16).
 
 #### Open work after Round 16
 
-1. **Finish Round 16.** The repaired 38-slide deck is imported, its native
-   structure has been read back, and the exact page map is complete. Its
-   latest 5,020,392-byte Google PDF and refreshed contact sheets are saved.
-   Close checks confirm slides 1, 2, 4, 6, 9, 23, 26, 30–32, and 36–37;
-   inspect the remaining 26 pages against the Keynote and September PDF where
-   they match. Slide 7 is a byte-identical package control and pixel-identical
-   Google-PDF control at 120 dpi. The new quote/build is valid Keynote content;
-   the question appears only on slides 3–5; slide 1's banner and slide 2's
-   wrapped announcement are fixed; slide 4 uses a diagram-only image patch.
-   The local LibreOffice PDF is diagnostic only.
+1. **Round 16 complete.** Its repaired 38-slide native deck has full readback,
+   page mapping, close visual review on all 38 pages, and a passing audit. The
+   final Google PDF, refreshed contact sheets, and slide 25 comparison are
+   saved in `google-slides-pilot/cs408-fall-test-anatomy-round16-review/`.
+   Slide 6 is the unchanged package/PDF control. Accepted residuals include
+   the visible `3.` on slide 25's blank code row and the diagram-only image
+   patches on slides 4–5; see the [Round 16 record](#round-16--test-anatomy-repairs-and-google-review).
 2. **Do not reopen content selection.** Outcomes for all 57 candidate rows are
    recorded. Use complete Fall sources for Fall-covered topics. The selected
    complete older-only topics are: archived concurrency-testing lab

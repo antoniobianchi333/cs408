@@ -1,16 +1,15 @@
 # CS 408 slide conversion plan
 
 **Updated:** 2026-11-26
-**Status:** Round 16 repairs the Round 15 Test Anatomy import. Google native
-readback confirmed 38 ordered slides, editable objects, and notes on every
-page. The exact page map is complete; the latest Google PDF is 5,020,392 bytes
-and has 38 pages. Close visual review is complete for slides 1, 2, 4, 6, 9,
-23, 26, 30–32, and 36–37; 26 pages remain. Slide 1's gradient and missing
-title fill, slide 2's empty bullets and wrapped HW1 line, and slide 4's
-distorted state diagram are repaired. The 37-page Fall PDF is dated September
-1; the Keynote has a later October 6 revision, including a valid newer
-quote/build slide at page 6.
-After Round 16 review, proceed to the 16-batch boundary outline and complete
+**Status:** Round 16 is complete. Google native readback confirmed 38 ordered
+editable slides and notes on every page. All 38 pages have close visual
+review; the latest 38-page Google PDF is 5,101,352 bytes. Repairs now cover
+the missing slide 1 banner, slide 2's empty bullets and HW1 fit, diagram-only
+patches on slides 4–5, empty agenda bullets on slides 7 and 38, and the
+restored blank code row on slide 25. The local audit passes package/order/PDF
+page/text checks and confirms unchanged slide 6 as the control. Slide 21's
+newer System test material is retained although it is absent from the older
+September PDF. Next, create the 16-batch boundary outline, then complete
 Batch 1 end to end before starting Batch 2. Source selection is already
 closed; do not repeat the 57-deck analysis. See the
 [Round 16 record](combined/SLIDE_CONVERSION.md#round-16--test-anatomy-repairs-and-google-review).
@@ -234,7 +233,7 @@ behavior and for full-deck visual review.
 | 6 | **Complete 2026-11-25.** Verify Part 2 rev3: 232-slide native readback, Google PDF, and full-page regression comparison against rev2. | 30–90 min · low | 232 slides/pages confirmed. Only the intentional fixes on slides 214 and 216 changed; both rendered panels and editable text were reviewed. Evidence is linked from the [Drive guide](combined/GOOGLE_DRIVE_ACCESS.md#part-2-scale-import-and-pdf-transfer). |
 | 7 | **Complete 2026-11-25 (source/conversion pilot).** Import the complete Fall Lab 1 tutorial, expand and map its builds, verify native order/notes, and inspect the Google PDF. | 45–90 min active · medium | Complete: 40 source slides became 62 ordered slides; paragraph states 8/6/11 and the AFL screenshot zoom pair are mapped. All 62 Google PDF pages were inspected. Spring Lab 2 tutorial is comparison-only. The Oct 30 handout vs Nov 3 syllabus deadline conflict remains open. See [Round 13](combined/SLIDE_CONVERSION.md#round-13--fall-lab-1-fuzzing-source-and-build-mapping). |
 | 8 | **Complete 2026-11-25 (older-topic import pilot).** Import the complete archived concurrency-testing lab introduction, map it, and compare every Google-rendered page with the PPTX source. | 45–90 min active · medium | Complete: 28 ordered slides and 28 Google PDF pages; all pages visually reviewed against the source's local diagnostic PDF. No layout repair needed. The source has no notes or timed animation. See [Round 14](combined/SLIDE_CONVERSION.md#round-14--older-concurrency-testing-lab-introduction). |
-| 9 | **Round 16, in progress.** Complete close visual review of the Google PDF against the later Keynote and September PDF where applicable. | 2–4 hours remaining · medium-low | The exact 38-slide map, latest 38-page Google PDF, and refreshed contact sheets are saved in the Round 16 review folder. Close checks confirm slides 1, 2, 4, 6, 9, 23, 26, 30–32, and 36–37; inspect the remaining 26 pages and record any issues. The local audit passes package relationships, slide order, PDF page count, requested text, and an unchanged control page. Do not accept the pilot until all 38 pages have close review. |
+| 9 | **Complete 2026-11-26.** Review all 38 pages of the Round 16 Google export against the current Keynote-derived deck and September PDF where applicable; repair verified defects. | Complete · 0 min remaining | All 38 map rows have close review. Repairs cover slide 1's banner, slide 2's empty bullets and line fit, diagram regions on slides 4–5, agenda bullets on 7 and 38, and the blank code row on 25. Google shows `3.` on the restored blank row; source PDF leaves it unnumbered. The audit passes page order/count, requested text, and slide 6's unchanged XML/pixel control. See [Round 16](combined/SLIDE_CONVERSION.md#round-16--test-anatomy-repairs-and-google-review). |
 | 10 | Write the ordered boundary outline for exactly 16 conceptual batches using the already-selected source decks/topics and the course schedule/homework sequence. | 2–4 hours · medium | Each boundary falls between complete original decks and topics; the batch sizes may vary. This is placement work, not a second content-selection audit. |
 | 11 | Complete Batch 1 end to end: detailed source/build map, conversion, repairs, local package checks, upload to the shared Drive root, native readback, Google PDF export, page-by-page visual review, and documentation. | Initial estimate 1–3 working days · low | Batch 1 passes every check before work starts on Batch 2. Re-estimate remaining batches from measured time and defect rate. |
 | 12 | Complete Batches 2–16 in order, repeating the full Batch 1 workflow; start each only after the previous batch is accepted. | Initial estimate 1–3 working days per batch (15–45 days total) · low; recalibrate after Batch 1 | All 16 final decks are directly in the shared Drive root (above `Pilots`), with complete maps, native readbacks, reviewed Google PDFs, and current documentation. |
@@ -242,14 +241,12 @@ behavior and for full-deck visual review.
 
 ## Current open issues
 
-- Round 16 is not accepted until all 38 pages receive close visual review. The
-  exact map, latest 5,020,392-byte Google PDF, and refreshed contact sheets are
-  in the review folder. Close checks confirm slides 1, 2, 4, 6, 9, 23, 26,
-  30–32, and 36–37; 26 pages remain. The question, code overlay, title and
-  background family, callouts, logos, slide 1 banner, slide 2 list fit, and
-  slide 4 diagram now have measured repairs. The new Keynote quote/build slide
-  is valid source content, not an extra conversion page. The audit confirms
-  page order and a byte-identical/pixel-identical slide 7 control.
+- Round 16 is accepted as a diagnostic pilot: all 38 pages have close review,
+  and the final 5,101,352-byte Google PDF, page map, contact sheets, and
+  slide 25 comparison are saved in the review folder. Known conversion rules
+  and accepted differences are recorded in the map and runbook. The audit
+  passes page order/count and text checks; slide 6 is byte-identical to the
+  Round 15 PPTX and pixel-identical to its Google PDF at 120 dpi.
 - Selected Fall Keynotes lack full-deck PDFs in `slides/f26-pdfs/` for
   Concurrency 06/07/10, Bug Reports and Triage 13, Static Analysis 22, Final
   Review 23, and Testing AI/ML 28/29/29b/30. Older PDFs exist for some and
@@ -496,17 +493,11 @@ behavior and for full-deck visual review.
 
 ## Next action
 
-1. Finish Round 16: inspect the remaining 26 pages in its completed 38-slide
-   map against the newer Keynote and September reference where available, and
-   record the result. Close checks confirm slides 1, 2, 4, 6, 9, 23, 26,
-   30–32, and 36–37. The latest PDF and refreshed contact sheets are in
-   `combined/google-slides-pilot/cs408-fall-test-anatomy-round16-review/`.
-   Round 16 is not accepted before that review.
-2. Write the ordered outline for 16 contiguous conceptual batches. Use the
+1. Write the ordered outline for 16 contiguous conceptual batches. Use the
    already-closed selection audit and the syllabus/homework sequence; keep
    every original source deck and topic whole. Do not reopen the 57-deck
    content analysis.
-3. Start Batch 1. Build its detailed source/build map, convert all its selected
+2. Start Batch 1. Build its detailed source/build map, convert all its selected
    material, expand meaningful animations into ordered static slides, repair
    defects, run local package checks, upload the final batch directly to the
    shared Drive root (the parent folder of `Pilots`), read it back, export its

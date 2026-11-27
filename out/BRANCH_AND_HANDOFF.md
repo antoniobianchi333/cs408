@@ -101,12 +101,13 @@ be able to:
 4. Find verified durable pilot artifacts in Drive `Pilots` and distinguish
    them from final decks in the Drive root. Use the Drive guide for account
    setup, low-rate API calls, no-curl transfer, and export limits.
-5. Finish Round 16's Google PDF page review; native readback has passed. Then
-   use the completed 57-row source-selection audit—do not redo topic
-   selection. Fall sources are selected for topics Fall covers, with six
-   complete older-only topics recorded in the older-topic audit. Make the
-   ordered outline for exactly 16 conceptual batches, keeping decks/topics
-   whole and using the syllabus/homework sequence for placement.
+5. Round 16's Google PDF page review is complete; all 38 pages have close
+   review and the native readback/audit passed. Next use the completed 57-row
+   source-selection audit—do not redo topic selection. Fall sources are
+   selected for topics Fall covers, with six complete older-only topics
+   recorded in the older-topic audit. Make the ordered outline for exactly 16
+   conceptual batches, keeping decks/topics whole and using the
+   syllabus/homework sequence for placement.
 6. Complete Batch 1 end to end before starting Batch 2. For each batch, map,
    convert, repair, validate locally, upload its final Google Slides deck to
    the shared folder root above `Pilots`, read back its structure, export the

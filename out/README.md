@@ -162,22 +162,23 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   contains combined slides 1–260. The [Round 4 Google PDF](combined/google-slides-pilot/cs408-editable-part-01-round4.pdf)
   gives the full-batch comparison baseline.
 - **Current `.key` conversion pilot.** [Round 16](combined/SLIDE_CONVERSION.md#round-16--test-anatomy-repairs-and-google-review)
-  applies targeted repairs to the 38-slide Round 15 import. Google native
-  readback confirmed 38 ordered slides and editable objects, with notes on
-  all pages. Its [38-page Google PDF and overview contact sheets](combined/google-slides-pilot/cs408-fall-test-anatomy-round16-review/)
-  are saved, as is the [page map](combined/google-slides-pilot/cs408-fall-test-anatomy-round16-map.csv).
-  The latest Google PDF is 5,020,392 bytes and has 38 pages. Close visual
-  checks confirm slides 1, 2, 4, 6, 9, 23, 26, 30–32, and 36–37; 26 pages
-  still need close review before the pilot is accepted. Slide 1's unsupported
-  green gradient was removed and its brown title banner restored. Slide 2's
-  empty bullets were removed and the HW1 line reduced locally to 33 pt so it
-  stays on one line. Slide 4 keeps the question, title, and code editable while
-  using a source-PDF crop only for its distorted state diagram. The local
-  audit passes package/order/PDF/text checks; slide 7 is byte-identical to the
-  baseline PPTX and pixel-identical to the baseline Google PDF at 120 dpi.
-  The September 1 Fall Test
-  Anatomy PDF predates the October 6 Keynote revision; the page 6 quote/build
-  slide is valid newer Keynote content, and slides 7–38 map to PDF pages 6–37.
+  completed the targeted repair and review of the 38-slide Round 15 import.
+  Google native readback confirmed 38 ordered editable slides and notes on
+  every page. All 38 pages now have close visual review in the [page map](combined/google-slides-pilot/cs408-fall-test-anatomy-round16-map.csv)
+  and [review folder](combined/google-slides-pilot/cs408-fall-test-anatomy-round16-review/).
+  The latest Google PDF is 5,101,352 bytes. Repairs preserved native text and
+  shapes where possible: slide 1's unsupported gradient was removed and the
+  brown banner restored; slide 2's verified empty bullets were removed and
+  only the overflowing HW1 line was reduced to 33 pt; slides 4–5 use a
+  source-PDF crop only for their distorted state diagrams; slides 7 and 38
+  have verified empty agenda bullets removed; and slide 25's missing blank
+  code row was restored so the separator no longer crosses `def`. Google
+  displays `3.` on that blank row, while the September reference leaves it
+  unnumbered. The local audit passes package, order, PDF-page, requested-text,
+  and unchanged-control checks; slide 6 is byte-identical to the baseline
+  PPTX and pixel-identical to the baseline Google PDF at 120 dpi. The
+  September 1 PDF predates the October 6 Keynote revision: slide 6's
+  quote/build and slide 21's system-test material are valid newer content.
 - **Latest source-selection pilot before Round 15.** [Round 14](combined/SLIDE_CONVERSION.md#round-14--older-concurrency-testing-lab-introduction)
   imports the complete 28-slide archived concurrency-testing lab introduction
   as a native Google deck. Google readback found 28 slides in source order and
@@ -224,15 +225,14 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   16-batch map, conversion, or review work. The successful no-curl transfer method
   and root cause are in the
   [Drive guide](combined/GOOGLE_DRIVE_ACCESS.md#download-the-google-rendered-pdf).
-- **Next.** Finish Round 16's close visual review. The exact map and 38-page
-  Google PDF are complete; close checks confirm 12 pages and 26 remain. Then
-  begin Batch 1. The content-selection gate is closed for all 57 candidate
-  rows; do not repeat that analysis. Use Fall sources for covered topics and
-  include the six complete older-only topics recorded in the audit. Create
-  only the ordered 16-batch boundary outline needed to place whole decks and
-  topics against the syllabus/homework sequence. Then map, convert, repair,
-  upload, and verify Batch 1 completely before starting Batch 2. Resolve
-  source-reference gaps when they affect the batch in progress; use existing
+- **Next.** Round 16 is complete. The content-selection gate is closed for all
+  57 candidate rows; do not repeat that analysis. Use Fall sources for
+  covered topics and include the six complete older-only topics recorded in
+  the audit. Create the ordered 16-batch boundary outline using the
+  syllabus/homework sequence while keeping whole decks and topics intact.
+  Then map, convert, repair, upload, and verify Batch 1 completely before
+  starting Batch 2. Resolve source-reference gaps when they affect the batch
+  in progress; use existing
   PDFs first and consult `MANUALLYCONVERT.md` only as a last resort. Aim for a
   Google PDF below 10 MB when conceptual boundaries naturally allow it; if a
   complete batch is larger, use the documented no-curl fallback rather than
