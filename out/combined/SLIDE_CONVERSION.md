@@ -11,7 +11,7 @@ shapes editable. Update the roundtrip log after each test.
 
 [Round 4](#round-4--checked) is the complete Part 1 comparison baseline.
 [Round 16](#round-16--test-anatomy-repairs-and-google-review) completed the
-38-slide Test Anatomy diagnostic. [Round 20](#round-20--batch-1-course-objectives-paragraph-build-pilot)
+38-slide Test Anatomy diagnostic. [Round 21](#round-21--batch-1-introduction-mixed-bannerquestion-build)
 is the latest build-state pilot; [Round 17](#round-17--introduction-page-17-repair-pilot)
 is the latest one-slide repair pilot. Batch 1 is active and not yet accepted.
 [Round 14](#round-14--older-concurrency-testing-lab-introduction) is the
@@ -120,16 +120,20 @@ evidence for native fallback on Google-only font/line-style conversion defects;
 the corresponding local title repair is still included in the batch candidate
 and must be checked in the integrated batch PDF.
 
-The first three animation-family pilots reinforced local-first: locally
+The first three paragraph-build pilots reinforced local-first: locally
 repaired editable paragraph states imported as native Google decks with the
 progressive order, text, bullet hierarchy, emphasis, and line fit intact. The
 11-state homework, seven-state Course Grading, and nine-state Course Objectives
 pilots all passed page-by-page Google PDF review, and each final state matches
 its Fall reference. The Course Grading pilot also kept the `~24` line unwrapped.
-This supports local-first for these content-build families while retaining
-native Google repair as the per-family backup for Google-only defects such as
-the page 17 font/outline behavior. The route is an evidence-based default; it
-does not require every defect to be repaired locally.
+Round 21 tested a mixed banner-plus-bullet build: the local-first import kept
+all six states and their order, but Google changed the banner border from fine
+dots to coarse dashes. One targeted native `DOT` outline update on each of the
+six duplicated banner shapes repaired the Google-only difference; the final
+PDF then matched the Fall reference closely. This supports local-first for
+these content-build families while showing why native Google repair remains a
+per-slide backup for import-only defects. The route is an evidence-based
+default; it does not require every defect to be repaired locally.
 
 **Paired pilot evidence**
 
@@ -141,6 +145,7 @@ does not require every defect to be repaired locally.
 - Introduction page 4, local paragraph-state repair: [11-slide native Google pilot](https://docs.google.com/presentation/d/1mCf3kvK2-08EIXOmxRONiD6JmH27N35ykvc8XwqXtoI/edit).
 - Introduction page 6, local paragraph-state repair: [7-slide native Google pilot](https://docs.google.com/presentation/d/1GXnEv1AfcqdL2rVJEqtDkvLmh0SCdVXOi0CzmePTstI/edit).
 - Introduction page 15, local paragraph-state repair: [9-slide native Google pilot](https://docs.google.com/presentation/d/1V61ibVuXM_6DQyQHDUjWUC1i701EVe63yDTBlHejBho/edit).
+- Introduction page 17, mixed banner/question build: [6-slide native Google pilot with dotted-outline fallback](https://docs.google.com/presentation/d/1-5fHYWt5-CrwBGVkAwGXopHCW09CvbwHtjs3ZyyL3xE/edit).
 - Google-created PDFs, renders, and one-slide PPTX samples are under `out/.build/repair-route-pilot/`.
 
 For each new defect family, keep the local repair as the first candidate and
@@ -2302,3 +2307,52 @@ editable; verify each state, not just the final slide. Native Google editing
 remains the fallback when a local repair does not survive import or the
 specific slide family has stronger Google-first evidence. This brings the
 classified count to three of 52 build-containing slides; 49 remain.
+
+### Round 21 — Batch 1 Introduction mixed banner/question build
+
+**Status:** the mixed build on Introduction PDF page 17 passed local review,
+native Google Slides readback, native repair, and page-by-page Google PDF
+review. The six states are in the [Round 21 pilot](https://docs.google.com/presentation/d/1-5fHYWt5-CrwBGVkAwGXopHCW09CvbwHtjs3ZyyL3xE/edit).
+This pilot tests the native Google fallback on one Google-only line-style
+defect; it does not accept Batch 1.
+
+The adjacent Introduction PDF page 16 / Keynote slide order 17 has a single
+`All at Once` pop build with one chunk (`1512343`). It displays the complete
+slide as one state, so no duplicate static page is added. This disposition is
+recorded in `non_expansions` in the build-expansion manifest.
+
+For PDF page 17 / Keynote slide order 20 / converted slide 20, the source has
+two ordered builds: first an `All at Once` build for the response banner, then
+a `By Bullet Group` build for five questions. The first static state therefore
+contains the title and banner; the next five states add one question each.
+The build IDs are `1580522` then `1580521`, and the chunk IDs are recorded in
+playback order in the manifest. The editable source PPTX's body text is shape
+272, banner background is shape 273, and banner text is shape 274. The six
+local states occupy output pages 42–47. Their question content and line
+wrapping match Fall PDF page 17.
+
+The pruned pilot PPTX is 116,870 bytes. Google imported it as six native
+slides; outline readback confirmed `p1`–`p6` in order and cumulative question
+text. The first Google PDF was structurally correct, but its banner background
+used `DASH_DOT` instead of the source's fine dotted line. A single
+`batchUpdate` changed `outline.dashStyle` to `DOT` for the banner shape on all
+six slides. Native readback confirmed `DOT` on all six shapes, and the final
+47,286-byte, six-page Google PDF was visually inspected. The final slide
+matches the source's title, five questions, banner placement, and fine dotted
+border. The Google outline's other objects remain editable.
+
+The PDF export used the documented Slides helper with one bounded
+`include_base64: true` fetch from the outset. The helper materialized the
+47,286-byte PDF and rendered all six pages. No preliminary failed fetch,
+`curl`, or shell/network downloader was used; Drive actions were serialized
+with at least 5.5 seconds between calls.
+
+**Reusable rules:** for a slide with multiple independent Keynote builds,
+order build groups by the decoded slide build order, then preserve each
+group's own chunk order. Do not sort all chunks by archive ID or treat the
+chunk total as the state count. First preserve the complete local build
+sequence, then inspect Google's import. When the only remaining mismatch is
+Google's conversion of a native shape property, repair that property in Google
+on each duplicated state and verify the full exported PDF. This supplements
+the local-first default with a measured, targeted native fallback. Five of 52
+build-bearing slides are now classified; 47 remain unclassified.

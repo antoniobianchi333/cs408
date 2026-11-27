@@ -184,18 +184,20 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   PDF page and candidate slide in order. This resolves the earlier count
   mismatch. Build stages on 17 Introduction slides and 35 Fault/Error slides
   are decoded (74/113 Introduction build archives/chunks and 92/185 for
-  Fault/Error). Three content-bearing paragraph-build families are confirmed
-  on Introduction PDF pages 4, 6, and 15: 11, 7, and 9 ordered chunks became
-  cumulative editable states. The other 49 build-containing slides still need
-  classification.
+  Fault/Error). Three paragraph-build families are confirmed on Introduction
+  PDF pages 4, 6, and 15, and a mixed banner/question build on page 17 is also
+  converted. The single-chunk All at Once build on page 16 needs no extra
+  slide. Five of 52 build-bearing slides are classified; 47 remain.
   Confirmed repair areas include Introduction tables/text/diagram fit and
   Fault/Error diagrams, video composition, and colored outcome tables. A
   111-page local baseline includes editable source-deck dividers; the current
-  expanded candidate has 135 pages after adding 10, 6, and 8 states for pages
-  4, 6, and 15. All 27 states were inspected locally and in separate native
-  Google pilots. Their PDFs confirmed ordered progression, bullet hierarchy,
-  emphasis, and line fit; all three final states match their Fall references.
-  The page 6 `~24` line stays on one line after
+  expanded candidate has 140 pages after adding 10, 6, 8, and 5 states for
+  pages 4, 6, 15, and 17. All 33 expanded states were inspected locally and
+  in separate native Google pilots. Their PDFs confirmed ordered progression,
+  bullet hierarchy, emphasis, and line fit; all four final states match their
+  Fall references. On page 17, the Google-only coarse border dash was repaired
+  by a native `DOT` outline update across all six states. The page 6 `~24`
+  line stays on one line after
   import. Introduction source pages 2 and 17 have local text/layout repairs
   and were checked in local renders. Page 17's title width, question wrapping,
   bullets, and rotated blue response banner now closely match the reference.
@@ -211,11 +213,12 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   corrected the substituted-font title size and the banner's dotted outline;
   its one-page Google PDF was visually checked. That pilot is in `Pilots`; the
   integrated local page 17 repair still needs final-batch Google verification.
-  The separate 11-slide page 4, 7-slide page 6, and 9-slide page 15
-  build-state pilots are in
+  The separate 11-slide page 4, 7-slide page 6, 9-slide page 15, and 6-slide
+  page 17 build-state pilots are in
   Drive `Pilots`; their export and repair notes are in the [Round 18](combined/SLIDE_CONVERSION.md#round-18--batch-1-introduction-paragraph-build-pilot)
   [Round 19](combined/SLIDE_CONVERSION.md#round-19--batch-1-course-grading-paragraph-build-pilot),
-  and [Round 20](combined/SLIDE_CONVERSION.md#round-20--batch-1-course-objectives-paragraph-build-pilot)
+  [Round 20](combined/SLIDE_CONVERSION.md#round-20--batch-1-course-objectives-paragraph-build-pilot),
+  and [Round 21](combined/SLIDE_CONVERSION.md#round-21--batch-1-introduction-mixed-bannerquestion-build)
   logs.
   A November 27 Drive root listing showed only `Pilots`, with no final batch
   uploaded yet.
@@ -242,11 +245,13 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
 - **Latest full baseline.** [Round 4 Part 1](combined/google-slides-pilot/cs408-editable-part-01-round4.pptx)
   contains combined slides 1–260. The [Round 4 Google PDF](combined/google-slides-pilot/cs408-editable-part-01-round4.pdf)
   gives the full-batch comparison baseline.
-- **Most recent `.key` build-conversion pilot.** [Round 20](combined/SLIDE_CONVERSION.md#round-20--batch-1-course-objectives-paragraph-build-pilot)
-  verified a nine-state Course Objectives reveal, with cumulative editable
-  slides and page-by-page Google PDF review. [Round 19](combined/SLIDE_CONVERSION.md#round-19--batch-1-course-grading-paragraph-build-pilot)
+- **Most recent `.key` build-conversion pilot.** [Round 21](combined/SLIDE_CONVERSION.md#round-21--batch-1-introduction-mixed-bannerquestion-build)
+  verified a six-state mixed banner/question reveal. Its native Google outline
+  repair also documents the local-first backup decision. [Round 20](combined/SLIDE_CONVERSION.md#round-20--batch-1-course-objectives-paragraph-build-pilot),
+  [Round 19](combined/SLIDE_CONVERSION.md#round-19--batch-1-course-grading-paragraph-build-pilot),
   and [Round 18](combined/SLIDE_CONVERSION.md#round-18--batch-1-introduction-paragraph-build-pilot)
-  verified the seven-state Course Grading and 11-state homework reveals. The most recent single-slide repair
+  cover the nine-state Course Objectives, seven-state Course Grading, and
+  11-state homework reveals. The most recent single-slide repair
   pilot remains [Round 17](combined/SLIDE_CONVERSION.md#round-17--introduction-page-17-repair-pilot),
   which tested a one-slide Introduction page 17 repair in native Google Slides.
   Its editable list/banner survived import; native title sizing and a `DOT`

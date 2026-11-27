@@ -1,23 +1,21 @@
 # Batch 1 diagnostic: Week 1
 
 **Updated:** 2026-11-27  
-**Status:** The Keynote show order and active-slide sequence are now decoded.
-The Introduction package has 92 ordered nodes, 62 marked skipped, and 30
-active; Fault/Error has 108 nodes, 29 skipped, and 79 active. Each active
-sequence matches its full Fall PDF page map and LibreOffice candidate slides
-in exact order. A provisional 111-page local assembly exists and has been rebuilt
-with the latest Introduction and Fault/Error repairs. The local PDF's output
-page 18 (Introduction page 17) and output page 100 (Fault/Error page 68) now
-closely match their references. A one-slide Introduction page 17 pilot was
-imported and visually checked in Google Slides; the imported question list and
-banner remain editable. A native fallback corrected the title sizing and
-dotted outline in that pilot. The final integrated local page 17 title repair
-still needs a full-batch Google roundtrip. The structural build/chunk order is
-decoded; deciding which build stages add meaningful static slides, remaining
+**Status:** The Keynote show order and active-slide sequence are decoded.
+Introduction has 92 ordered nodes, 62 marked skipped, and 30 active;
+Fault/Error has 108 nodes, 29 skipped, and 79 active. Each active sequence
+matches its Fall PDF page map and LibreOffice candidate in order. The 111-page
+baseline now has a 140-page partial expansion. Five of 52 build-bearing slides
+are classified: three paragraph reveals, one single-chunk All at Once slide
+with no additional state, and one six-state mixed banner/question build. The
+33 expanded states passed local review, native Google readback, and page-by-page
+PDF inspection. The Round 21 Google import needed a targeted native `DOT`
+outline update on its six banner shapes. Full build classification, remaining
 repairs, final assembly, and full-batch Google visual acceptance remain open.
-Local-first remains the default, with native Google repair as the fallback.
-See the [route decision](../SLIDE_CONVERSION.md#repair-route-decision-local-first-default-google-first-fallback)
-and [Round 17 pilot record](../SLIDE_CONVERSION.md#round-17--introduction-page-17-repair-pilot).
+Local-first is the default; native Google repair is the documented per-slide
+fallback. See the [route decision](../SLIDE_CONVERSION.md#repair-route-decision-local-first-default-google-first-fallback),
+[Round 17 repair pilot](../SLIDE_CONVERSION.md#round-17--introduction-page-17-repair-pilot),
+and [Round 21 build pilot](../SLIDE_CONVERSION.md#round-21--batch-1-introduction-mixed-bannerquestion-build).
 
 **User-owned exception:** Do not edit or repair the Introduction course
 schedule slide. The user will correct that slide directly; it is outside the
@@ -275,8 +273,8 @@ Skipped records are outside the show; active-slide build chunks are the path
 for any additional static states. Keep the Introduction image discrepancy
 and any page-level differences open for visual/source review. Do not use the
 raw 92-slide LibreOffice count as the final output count. Meaningful build
-expansion raises the 111-page baseline. Two content-bearing paragraph builds
-are classified:
+expansion raises the 111-page baseline. Four build expansions and one
+no-expansion decision are now classified:
 
 - Introduction PDF page 4 has 11 chunks and 11 cumulative states at output
   pages 5–15. Every local and Google state was reviewed; the final state
@@ -293,40 +291,50 @@ are classified:
   reviewed; the final state matches reference page 15. Explicit Arial fonts,
   native bullets, and paragraph spacing preserve hierarchy, emphasis, and line
   fit through the Google import.
+- Introduction PDF page 16 has one `All at Once` pop chunk. It remains one
+  static slide, with no additional output state.
+- Introduction PDF page 17, the mixed response-banner and question build, has
+  six ordered states at output pages 42–47: banner first, then five cumulative
+  question reveals. All local and Google states were reviewed. A native Google
+  `DOT` outline update fixes the coarse dashed border that appeared after
+  import; text, title, and banner stay as native elements.
 
-The 11-slide page 4, 7-slide page 6, and 9-slide page 15 subsets passed native
-Google readback and page-by-page PDF review. The current 135-page expanded
-candidate remains unimported as a full batch. The
-[build-expansion manifest](batch-01-build-expansion.json) records all three
-decisions and their chunk IDs; the
+The 11-slide page 4, 7-slide page 6, 9-slide page 15, and 6-slide page 17
+subsets passed native Google readback and page-by-page PDF review. The current
+140-page expanded candidate remains unimported as a full batch. The
+[build-expansion manifest](batch-01-build-expansion.json) records all four
+expansions, the page 16 no-expansion decision, and their chunk IDs; the
 [`expand_batch_build_states.py`](../expand_batch_build_states.py) creates the
 cumulative states, and [`prune_pptx_slides.py`](../prune_pptx_slides.py)
 creates compact package-preserving pilot subsets. See the [Round 18](../SLIDE_CONVERSION.md#round-18--batch-1-introduction-paragraph-build-pilot),
 [Round 19](../SLIDE_CONVERSION.md#round-19--batch-1-course-grading-paragraph-build-pilot),
-and [Round 20](../SLIDE_CONVERSION.md#round-20--batch-1-course-objectives-paragraph-build-pilot)
+ [Round 20](../SLIDE_CONVERSION.md#round-20--batch-1-course-objectives-paragraph-build-pilot),
+and [Round 21](../SLIDE_CONVERSION.md#round-21--batch-1-introduction-mixed-bannerquestion-build)
 records for the native Google links and PDF renders.
 
 ## Next actions for this batch
 
 1. Continue classifying active build chunks into meaningful instructional
    states versus decorative effects; update output mappings for every state
-   that should become a separate static slide. Three paragraph-build families
-   are confirmed; 49 of 52 build-containing slides remain unclassified.
+   that should become a separate static slide. Five build-bearing slides are
+   classified; 47 of 52 remain unclassified.
 2. Resolve the low-confidence and image-heavy page matches against the source
    package and PDF. Record a final page/build disposition for every candidate.
 3. Finalize the ordered source/build map. The 111-page candidate remains the
    baseline: one editable divider plus 30 mapped reference pages for
    Introduction, then one divider plus 79 mapped reference pages for
-   Fault/Error. The current 135-page expansion candidate adds ten homework
-   states, six Course Grading states, and eight Course Objectives states; later
-   confirmed states will increase the count further. Both dividers show the
+   Fault/Error. The current 140-page expansion candidate adds ten homework
+   states, six Course Grading states, eight Course Objectives states, and five
+   net slides for the six-state page 17 build; later states may increase the
+   count further. Both dividers show the
    exact filename and topic.
 4. Repair the confirmed diagrams, tables, text fit, image composition, and
    any further defects. Preserve notes where present and map all static build
-   states to their source. The page 17 local fix appears at output page 18 and
-   page 68 at output page 100 in the rebuilt local candidate. Google has
-   checked isolated pilots for the page 4, 6, and 15 build families, page 17 repair,
-   and page 68 label repair; verify all integrated content, including pages 65,
+   states to their source. The standalone page 17 local fix appears at output
+   page 18 and page 68 at output page 100 in the rebuilt local candidate.
+   Google has checked isolated pilots for the page 4, 6, 15, and 17 builds,
+   plus the standalone page 17 and page 68 label repairs. Verify all integrated
+   content, including pages 65,
    73, 74, 76, and 77, in the final batch. Leave the course schedule slide
    untouched for the user to edit.
 5. Assemble and audit the local final PPTX; only then import it into the

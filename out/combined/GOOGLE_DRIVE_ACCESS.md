@@ -5,7 +5,7 @@
 Use this guide for the part of the conversion that runs in Google. The
 local PPTX and the page map identify the exact test input. A native Google
 Slides copy and its PDF record what Google imported for that round. The
-current import evidence includes Rounds 5–19. Round 16's Test Anatomy repair
+current import evidence includes Rounds 5–21. Round 16's Test Anatomy repair
 pilot is complete: native readback confirms 38 ordered slides, and all 38
 Google PDF pages have close visual review. Its final PDF is 5,101,352 bytes;
 the map, contact sheets, and slide 25 repair comparison are saved with the
@@ -18,15 +18,16 @@ The latest diagram-repair pilot is
 Native text edit/readback was separately verified on a disposable Round 10
 copy and on the requested Round 4 deck. A reversible vector-position edit
 was also tested on a disposable Round 11 copy; its arrow line-style update
-failed. Round 17 later verified a native `DOT` outline update on a different
-freeform shape. The evidence and limits are recorded below.
+failed. Rounds 17 and 21 verified native `DOT` outline updates on freeform
+banner shapes. Round 21 applied the repair to all six slides in a mixed-build
+pilot; the evidence and limits are recorded below.
 
 **Current connector check (November 27, 2026):** read-only listing works
 for the exact shared project folder. The folder listing returned its `Pilots`
 subfolder; a second paced listing returned the pilot presentations. The
 visible project root had no final batch decks in that response; the nested
-`Pilots` folder includes the Introduction page 4 and 6 build pilots, the page
-17 repair pilot, and the Fault/Error page 68 repair pilot. The calls were
+`Pilots` folder includes the Introduction page 4, 6, 15, and 17 build pilots,
+the separate page 17 repair pilot, and the Fault/Error page 68 repair pilot. The calls were
 serialized with at least six seconds between Drive operations. This supersedes the
 earlier transport failure below; it was connector-session behavior, not a
 Google permission denial or API rate limit. Continue using one Drive call at a
@@ -540,7 +541,33 @@ page review before beginning the next. Do not place a completed batch deck in
 
 On November 27, 2026, a read-only listing of the shared root returned only
 the `Pilots` folder; no final batch deck is uploaded there yet. The Pilots
-folder includes the Introduction page 4, page 6, and page 15 build-state pilots, the
-Introduction page 17 repair, and the Fault/Error page 68 repair trials. Keep
+folder includes the Introduction page 4, page 6, page 15, and page 17
+build-state pilots, the separate page 17 repair pilot, and the Fault/Error
+page 68 repair trials. Keep
 those as pilots; the first final batch has not passed its full-deck acceptance
 checks.
+
+## Round 21: mixed-build import and native outline repair
+
+The [Round 21 native Google pilot](https://docs.google.com/presentation/d/1-5fHYWt5-CrwBGVkAwGXopHCW09CvbwHtjs3ZyyL3xE/edit)
+is a six-slide subset for Introduction PDF page 17. It was imported directly
+to `Pilots`. Native outline readback returned six ordered slides, `p1`–`p6`,
+with the response banner first and five questions added cumulatively.
+
+The first PDF export showed that the local PPTX's fine dotted outline was
+converted to a coarse dash on the imported banner shape. One
+`batch_update_presentation` call applied six `updateShapeProperties` requests,
+one per duplicated banner background (`p1_i273` through `p6_i273`), setting
+`outline.dashStyle` to `DOT` with a field mask limited to that property and a
+`requiredRevisionId` from the preceding read. A following `get_presentation`
+readback confirmed `DOT` on all six shapes. The final Google PDF is 47,286
+bytes, contains six pages, and was visually checked against the Fall source.
+The border is fine dotted; the text and shapes remain native Slides objects.
+
+Use this as the native fallback when a local repair imports with a specific
+Google-only shape-property defect. Update only the affected property on every
+duplicated state, then export and inspect the complete small pilot again. The
+calls were serialized with at least 5.5 seconds between Drive operations.
+The PDF was exported with the Slides helper and its bounded compatibility
+fetch enabled from the start (`include_base64: true`); it was materialized and
+rendered without `curl` or a shell/network downloader.
