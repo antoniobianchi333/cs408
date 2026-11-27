@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """Repair confirmed Fault/Error slides in the local LibreOffice PPTX.
 
-The script makes two editable repairs and applies a narrowly scoped image
-fallback to three diagrams whose imported connector paths are badly corrupted.
-The fallback is a crop of the exact selected Fall PDF page below the still
-editable title; it replaces only the damaged diagram region, not the whole
-slide. The two tables remain native Google-editable table cells.
+The script makes editable text/table repairs and uses narrowly scoped image
+regions for corrupted Keynote image crops and connector diagrams. Text remains
+native where it is part of the source page; only the affected image/diagram
+region is replaced. The two outcome tables remain editable native cells.
 
 Example:
   python3 out/combined/repair_batch01_fault_error.py \
@@ -22,8 +21,12 @@ and 105. Source page 68 aligns to candidate slide 94.
 from __future__ import annotations
 
 import argparse
+import copy
+import io
 import posixpath
+import re
 import subprocess
+import tempfile
 from pathlib import Path
 from zipfile import ZIP_DEFLATED, ZipFile
 
@@ -309,8 +312,8 @@ def slide_rels_path(slide_part: str) -> str:
     return posixpath.join(folder, "_rels", f"{name}.rels")
 
 
-def add_png_relationship(parts: dict[str, bytes], slide_part: str, slide_number: int, png_path: Path) -> str:
-    media_name = f"batch01-page-{slide_number}-diagram.png"
+def add_png_relationship(parts: dict[str, bytes], slide_part: str, slide_number: int, png_path: Path, tag: str = "diagram") -> str:
+    media_name = f"batch01-slide-{slide_number}-{tag}.png"
     media_part = f"ppt/media/{media_name}"
     if media_part in parts:
         raise ValueError(f"media part already exists: {media_part}")
@@ -320,7 +323,7 @@ def add_png_relationship(parts: dict[str, bytes], slide_part: str, slide_number:
     else:
         rels = etree.fromstring(parts[rels_part])
     used = {rel.get("Id") for rel in rels.findall("rel:Relationship", NS)}
-    rid = f"rIdBatch01Diagram{slide_number}"
+    rid = f"rIdBatch01{tag.title().replace('-', '')}{slide_number}"
     suffix = 2
     while rid in used:
         rid = f"rIdBatch01Diagram{slide_number}_{suffix}"
@@ -343,7 +346,13 @@ def add_png_default(parts: dict[str, bytes]) -> None:
     parts["[Content_Types].xml"] = xml_bytes(root)
 
 
-def add_picture(root: etree._Element, relationship_id: str, page: int) -> None:
+def add_picture(
+    root: etree._Element,
+    relationship_id: str,
+    page: int,
+    bounds: tuple[float, float, float, float] = (0, DIAGRAM_Y_PT, SLIDE_W_PT, SLIDE_H_PT - DIAGRAM_Y_PT),
+    label: str | None = None,
+) -> None:
     tree = root.find("p:cSld/p:spTree", NS)
     existing_ids = [int(v) for v in root.xpath(".//p:cNvPr/@id", namespaces=NS) if v.isdigit()]
     object_id = max(existing_ids, default=0) + 1
@@ -351,7 +360,7 @@ def add_picture(root: etree._Element, relationship_id: str, page: int) -> None:
     nvpic = etree.SubElement(pic, q(P, "nvPicPr"))
     c_nv = etree.SubElement(nvpic, q(P, "cNvPr"))
     c_nv.set("id", str(object_id))
-    c_nv.set("name", f"Exact Fall PDF diagram crop page {page}")
+    c_nv.set("name", label or f"Exact Fall PDF crop page {page}")
     c_nv_pic = etree.SubElement(nvpic, q(P, "cNvPicPr"))
     locks = etree.SubElement(c_nv_pic, q(A, "picLocks"))
     locks.set("noChangeAspect", "1")
@@ -364,11 +373,12 @@ def add_picture(root: etree._Element, relationship_id: str, page: int) -> None:
     sppr = etree.SubElement(pic, q(P, "spPr"))
     xfrm = etree.SubElement(sppr, q(A, "xfrm"))
     off = etree.SubElement(xfrm, q(A, "off"))
-    off.set("x", "0")
-    off.set("y", emu(DIAGRAM_Y_PT))
+    x, y, width, height = bounds
+    off.set("x", emu(x))
+    off.set("y", emu(y))
     ext = etree.SubElement(xfrm, q(A, "ext"))
-    ext.set("cx", emu(SLIDE_W_PT))
-    ext.set("cy", emu(SLIDE_H_PT - DIAGRAM_Y_PT))
+    ext.set("cx", emu(width))
+    ext.set("cy", emu(height))
     geom = etree.SubElement(sppr, q(A, "prstGeom"))
     geom.set("prst", "rect")
     etree.SubElement(geom, q(A, "avLst"))
@@ -388,16 +398,102 @@ def replace_diagram_with_exact_crop(
         local = etree.QName(child).localname
         if local in ("sp", "pic", "cxnSp", "graphicFrame", "grpSp") and child is not title_shape:
             tree.remove(child)
-    rid = add_png_relationship(parts, slide_part, slide_number, crop_path)
-    add_picture(root, rid, source_page)
+    rid = add_png_relationship(parts, slide_part, slide_number, crop_path, "diagram")
+    add_picture(root, rid, source_page, label=f"Exact Fall PDF diagram crop page {source_page}")
     parts[slide_part] = xml_bytes(root)
 
 
+def render_reference_region(reference_pdf: Path, page: int, box: tuple[float, float, float, float], crop_dir: Path) -> Path:
+    crop_dir.mkdir(parents=True, exist_ok=True)
+    prefix = crop_dir / f"page-{page}-region-source"
+    subprocess.run(
+        ["pdftoppm", "-f", str(page), "-l", str(page), "-scale-to-x", "2048", "-scale-to-y", "1536", "-png", "-singlefile", str(reference_pdf), str(prefix)],
+        check=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+    )
+    source_path = prefix.with_suffix(".png")
+    if not source_path.exists():
+        raise FileNotFoundError(f"pdftoppm did not create {source_path}")
+    x, y, width, height = box
+    result = crop_dir / f"page-{page}-reference-region-{round(x)}-{round(y)}-{round(width)}-{round(height)}.png"
+    with Image.open(source_path) as source:
+        source.crop((round(x * 2), round(y * 2), round((x + width) * 2), round((y + height) * 2))).save(result, optimize=True)
+    return result
+
+
+def set_text_box(shape: etree._Element, x: float, y: float, width: float, height: float, font_size: float) -> None:
+    set_bounds(shape, x, y, width, height)
+    for run in shape.findall(".//a:rPr", NS) + shape.findall(".//a:defRPr", NS) + shape.findall(".//a:endParaRPr", NS):
+        run.set("sz", str(round(font_size * 100)))
+    body = shape.find("./p:txBody/a:bodyPr", NS)
+    if body is not None:
+        for attr in ("lIns", "rIns", "tIns", "bIns"):
+            body.set(attr, "0")
+
+
+def keep_photo_text_and_replace_region(
+    parts: dict[str, bytes],
+    slide_part: str,
+    slide_number: int,
+    reference_page: int,
+    crop_path: Path,
+    bounds: tuple[float, float, float, float],
+    retained_text: dict[str, tuple[float, float, float, float, float]],
+) -> None:
+    root = etree.fromstring(parts[slide_part])
+    tree = root.find("p:cSld/p:spTree", NS)
+    keep: list[etree._Element] = []
+    for text, box in retained_text.items():
+        matches = [shape for shape in root.findall(".//p:sp", NS) if shape_text(shape) == text]
+        if len(matches) != 1:
+            raise ValueError(f"candidate slide {slide_number}: expected one editable {text!r} shape, found {len(matches)}")
+        shape = matches[0]
+        set_text_box(shape, *box)
+        keep.append(shape)
+    for child in list(tree):
+        local = etree.QName(child).localname
+        if local in ("sp", "pic", "cxnSp", "graphicFrame", "grpSp") and child not in keep:
+            tree.remove(child)
+    rid = add_png_relationship(parts, slide_part, slide_number, crop_path)
+    add_picture(root, rid, reference_page, bounds, label=f"Reference PDF image region page {reference_page}")
+    parts[slide_part] = xml_bytes(root)
+
+
+def remove_stale_torture_content(root: etree._Element, slide_number: int, keep_pictures: bool = True) -> None:
+    for shape in list(root.findall(".//p:sp", NS)):
+        text = shape_text(shape)
+        if text == "failures versus X" or text.startswith("Torture CS students"):
+            shape.getparent().remove(shape)
+        elif text.startswith("Question: Is a crash always a failure?") and "What if" in text:
+            shape.getparent().remove(shape)
+    # The duplicate text version is a hidden/old build source. Preserve the
+    # movie still picture and the separate editable question card.
+    cards = [s for s in root.findall(".//p:sp", NS) if shape_text(s) == "Question:Is a crash always a failure?"]
+    if not cards:
+        raise ValueError(f"candidate slide {slide_number}: question card is missing")
+    def card_y(shape: etree._Element) -> int:
+        xfrm = shape.find("./p:spPr/a:xfrm", NS)
+        off = xfrm.find("./a:off", NS) if xfrm is not None else None
+        return int(off.get("y")) if off is not None else 0
+    card = min(cards, key=card_y)
+    for duplicate in cards:
+        if duplicate is not card:
+            duplicate.getparent().remove(duplicate)
+    set_text_box(card, 227.9, 55.7, 568.3, 141.4, 40)
+
+
 def repair(pptx_in: Path, reference_pdf: Path, pptx_out: Path, crop_dir: Path) -> None:
-    crops = {
-        page: render_source_crop(reference_pdf, page, crop_dir)
-        for page in (65, 73, 74)
+    crops = {page: render_source_crop(reference_pdf, page, crop_dir) for page in (65, 73, 74)}
+    photo_regions = {
+        11: render_reference_region(reference_pdf, 11, (0, 0, 444, 386), crop_dir),
+        13: render_reference_region(reference_pdf, 13, (0, 0, 444, 768), crop_dir),
+        22: render_reference_region(reference_pdf, 22, (0, 0, 431, 406), crop_dir),
+        25: render_reference_region(reference_pdf, 25, (0, 0, 432, 768), crop_dir),
     }
+    analogy_patch = render_reference_region(reference_pdf, 5, (360, 0, 330, 340), crop_dir)
+    analogy_bubble_patch = render_reference_region(reference_pdf, 5, (660, 0, 350, 150), crop_dir)
     with ZipFile(pptx_in) as archive:
         parts = {item.filename: archive.read(item.filename) for item in archive.infolist()}
     order = presentation_order(parts)
@@ -415,6 +511,95 @@ def repair(pptx_in: Path, reference_pdf: Path, pptx_out: Path, crop_dir: Path) -
     repair_tables(slide104, slide105)
     parts[order[103]] = xml_bytes(slide104)
     parts[order[104]] = xml_bytes(slide105)
+
+    # Source page 1: keep the photograph and both title text objects editable,
+    # but reduce fallback-font sizes so the intended three-line subtitle and
+    # two-line deck title fit their translucent panels.
+    cover_part = order[1]
+    cover = etree.fromstring(parts[cover_part])
+    top_title = next((s for s in cover.findall(".//p:sp", NS) if shape_text(s).startswith("bugs, bugs, everywhere")), None)
+    deck_title = next((s for s in cover.findall(".//p:sp", NS) if shape_text(s).startswith("Beyond Bugs:")), None)
+    if top_title is None or deck_title is None:
+        raise ValueError("Fault/Error cover title text objects could not be identified")
+    set_text_box(top_title, 30.5, 0.1, 600, 350, 36)
+    set_text_box(deck_title, 216.2, 480, 795.1, 188, 46)
+    parts[cover_part] = xml_bytes(cover)
+
+    # Source page 5: the same full-bleed photo is present, but the Lin portrait
+    # build was compressed into a narrow white strip. Replace only that small
+    # region with its exact PDF appearance; the title and thought bubble stay
+    # editable/background objects.
+    analogy_part = order[22]
+    analogy = etree.fromstring(parts[analogy_part])
+    analogy_rels_part = slide_rels_path(analogy_part)
+    analogy_rels = etree.fromstring(parts[analogy_rels_part])
+    analogy_pictures = analogy.findall(".//p:pic", NS)
+    if len(analogy_pictures) != 2:
+        raise ValueError(f"Fault/Error slide 23: expected background and portrait pictures, found {len(analogy_pictures)}")
+    analogy_pictures[1].getparent().remove(analogy_pictures[1])
+    analogy_rid = add_png_relationship(parts, analogy_part, 23, analogy_patch, "portrait")
+    add_picture(analogy, analogy_rid, 5, (360, 0, 330, 340), label="Corrected portrait region from Fall reference")
+    bubble_rid = add_png_relationship(parts, analogy_part, 23, analogy_bubble_patch, "thought-bubble")
+    add_picture(analogy, bubble_rid, 5, (660, 0, 350, 150), label="Thought bubble artwork from Fall reference")
+    parts[analogy_part] = xml_bytes(analogy)
+
+    # Source pages 11, 13, 22, and 25 use teaching images with build/crop
+    # states. LibreOffice imported the composite media into the wrong crop and
+    # exposed stale overlay text. Replace only the left image panels; keep the
+    # visible teaching phrases as editable text shapes.
+    photo_repairs = (
+        (29, 11, (0, 0, 444, 386), {
+            "We just found a bug": (461.3, 147.2, 554.4, 130, 52),
+        }),
+        (31, 13, (0, 0, 444, 768), {
+            "We just found a bug": (461.3, 147.2, 554.4, 130, 52),
+            "We just found a failure": (461.3, 539.4, 554.4, 156, 52),
+        }),
+        (41, 22, (0, 0, 431, 406), {
+            "We just fixed a failure": (461.3, 147.2, 554.4, 156, 52),
+        }),
+        (44, 25, (0, 0, 432, 768), {
+            "We just fixed a failure": (461.3, 147.2, 554.4, 156, 52),
+            "We just repaired a fault": (461.3, 539.4, 554.4, 156, 52),
+        }),
+    )
+    for slide_number, reference_page, bounds, retained in photo_repairs:
+        keep_photo_text_and_replace_region(
+            parts, order[slide_number - 1], slide_number, reference_page,
+            photo_regions[reference_page], bounds, retained,
+        )
+
+    # These are the cumulative states of the same question card. The local
+    # PPTX had stale title/bullet layers and a duplicate card on the movie
+    # still. Remove only those stale text layers; retain the correct question
+    # card and the slide 17 movie image.
+    for slide_number in (34, 35):
+        question_slide = etree.fromstring(parts[order[slide_number - 1]])
+        remove_stale_torture_content(question_slide, slide_number)
+        parts[order[slide_number - 1]] = xml_bytes(question_slide)
+
+    # The same saved, old state footer was imported onto seven unrelated
+    # current pages. The exact Fall PDF contains none of this text, so remove
+    # only that editable overlay and leave each page's code/result objects.
+    stale_footer = "Fix: “for (int i = 0; i<x.length; i++)”"
+    for slide_number in (28, 33, 36, 38, 39, 45, 85):
+        slide_part = order[slide_number - 1]
+        slide = etree.fromstring(parts[slide_part])
+        matches = [s for s in slide.findall(".//p:sp", NS) if shape_text(s).startswith(stale_footer)]
+        if len(matches) > 1:
+            raise ValueError(f"candidate slide {slide_number}: duplicate stale state overlays ({len(matches)})")
+        for shape in matches:
+            shape.getparent().remove(shape)
+        parts[slide_part] = xml_bytes(slide)
+
+    # Source page 27: keep the full question on one line after font fallback.
+    objective_part = order[46]
+    objective_slide = etree.fromstring(parts[objective_part])
+    why_faults = next((s for s in objective_slide.findall(".//p:sp", NS) if shape_text(s) == "Why do we find faults?"), None)
+    if why_faults is None:
+        raise ValueError("source page 27 title could not be identified")
+    set_text_box(why_faults, 20, 364.3, 984, 120, 60)
+    parts[objective_part] = xml_bytes(objective_slide)
 
     add_png_default(parts)
     for slide_number, page, title in (
@@ -434,8 +619,8 @@ def repair(pptx_in: Path, reference_pdf: Path, pptx_out: Path, crop_dir: Path) -
         bad = archive.testzip()
         if bad:
             raise ValueError(f"repaired PPTX has corrupt ZIP member {bad}")
-    print(f"Repaired native tables/video labels and 3 diagram regions: {pptx_out}")
-    print(f"Exact PDF diagram crops are under {crop_dir}")
+    print(f"Repaired native tables/text, 4 image panels, video labels, and 3 diagram regions: {pptx_out}")
+    print(f"Exact PDF repair regions are under {crop_dir}")
 
 
 def main() -> int:
