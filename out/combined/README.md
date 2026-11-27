@@ -435,12 +435,14 @@ source deck. Each divider names the exact filename and topic of the following
 slides and receives its own source-map row.
 
 Then finish Batch 1 end to end: create its source/build map, convert and repair
-its selected material, validate the local package, upload the final native
-Slides deck directly to the shared Drive root (the parent folder of `Pilots`),
-read it back, export the Google PDF, inspect every page, and document the
-result. Start Batch 2 only after Batch 1 passes all checks. Continue in order;
-completed final batches belong in the shared root, while pilots and disposable
-tests belong in `Pilots`.
+its selected material, validate the local package, and keep one full-size
+working Google Slides deck directly in the shared Drive root (the parent
+folder of `Pilots`). Mark it `WIP - needs fixes` and improve that same native
+deck in place after the initial import. Read it back, export the Google PDF,
+inspect every page, and document the result. Rename it as the accepted batch
+only after all checks pass; start Batch 2 only then. Continue in order. Use
+`Pilots` only for small isolated test decks and disposable tests; never put a
+full-batch WIP or final deck there.
 
 Aim for each batch PDF to stay below 10 MB when whole-topic boundaries allow.
 Do not run a separate large-PDF transfer test. If an actual complete batch

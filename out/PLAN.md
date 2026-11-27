@@ -14,7 +14,11 @@ line width and baseline closely match the Fall reference; font substitution
 leaves it slightly shorter vertically. The page 6 `~24` line remains
 unwrapped; page 17's Google-only coarse banner dash was repaired with a native
 `DOT` outline update on all six states. Page 16's one-chunk All at Once build
-stays a single static slide. The full batch is still not uploaded or accepted.
+stays a single static slide. The 142-slide WIP deck is now in the shared Drive
+root with `needs fixes` in its title. Native outline readback confirmed 142
+ordered slides. The user reports that a brief visual check found about 90% of
+slides looking fine; the full Google PDF review is still pending, so Batch 1
+is not accepted.
 
 The Keynote show trees are now decoded: Introduction has 92 ordered nodes,
 62 skipped, and 30 active; Fault/Error has 108 nodes, 29 skipped, and 79
@@ -107,9 +111,10 @@ resolved on 2026-11-25: select the latest available Final Review deck with
 Fall schedule repairs; include complete older Verified Distributed Systems
 and Semantic/Latent Concurrency Bug Detection units; exclude the older mixed
 Regression/Integration and Fall 2025 Review decks. Slide/build maps and
-conversion remain open. The November 27 read-only Drive root listing returned
-only the `Pilots` folder; no final batches are uploaded in the visible project
-root.
+conversion remain open. Before the Round 23 full-deck upload, the November 27
+read-only Drive root listing returned only `Pilots`. The current 142-slide
+WIP deck is now in the root; its placement is documented in the
+[Drive guide](combined/GOOGLE_DRIVE_ACCESS.md#pilot-and-final-batch-folder-organization).
 
 **Working branch:** `spring+2027+bianchi`, based on the newest available
 course branch, `others/fall+2026` at `900304aa` (2026-11-15). Its selected
@@ -175,8 +180,9 @@ batch size, API behavior, and review effort become measurable.
   decks/topics and the syllabus/homework sequence. Then complete Batch 1 in
   full—map, convert, repair, upload, read back, export, inspect every page,
   and document—before starting Batch 2. Repeat in order through Batch 16.
-- Put final batch decks directly in the shared Google Drive folder root, one
-  level above `Pilots`. Keep pilots and disposable tests inside `Pilots`.
+- Put every full-batch deck, including WIP copies, directly in the shared
+  Google Drive folder root, one level above `Pilots`. Mark unfinished decks
+  `WIP - needs fixes`; use `Pilots` only for small isolated test sets.
 - Aim to keep a batch PDF below 10 MB when its natural conceptual boundaries
   allow it. Do not split a source deck or topic for size. A larger PDF triggers
   the documented no-curl LRO/browser fallback only for that actual batch; a

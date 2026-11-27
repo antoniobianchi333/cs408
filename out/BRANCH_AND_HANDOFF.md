@@ -67,17 +67,21 @@ profiles, or other rebuildable scratch files merely to make the checkout look
 complete. Keep temporary material in `out/.build/` and untracked. Keep large
 durable processed artifacts in the Google Drive project folder when their
 Drive copies have been verified. Store pilots and disposable tests under the
-Drive `Pilots` subfolder; put final batch decks directly in the shared Drive
-root, one level above `Pilots`. A completed final batch must never be stored
-in `Pilots`.
+Drive `Pilots` subfolder; put every full-batch deck, including WIP versions,
+directly in the shared Drive root, one level above `Pilots`. Name unfinished
+decks `WIP - needs fixes`, keep improving the same native presentation there,
+and rename it as an accepted batch only after full verification. The Drive
+`Pilots` folder is only for small isolated tests; never store a full batch
+there.
 
 Do not infer that an untracked local file is safely preserved in Drive. Before
 relying on a large artifact as handoff storage, confirm its exact Drive file
 name, ID, type, parent folder, and size through the connector, then record the
 link and evidence in the relevant README/runbook entry. If no verified Drive
 copy exists and a pilot artifact is needed to reproduce or review a result,
-upload it to `Pilots` before omitting it from Git. Final batch decks go directly
-in the shared folder root, not `Pilots`. Avoid duplicate uploads; inspect the
+upload it to `Pilots` before omitting it from Git only when it is a small test
+set. Full-batch WIP and accepted decks go directly in the shared folder root,
+not `Pilots`. Avoid duplicate uploads; inspect the
 folder and metadata first, and pace all Drive operations as described in
 [`combined/GOOGLE_DRIVE_ACCESS.md`](combined/GOOGLE_DRIVE_ACCESS.md).
 
@@ -110,9 +114,9 @@ be able to:
    syllabus/homework sequence for placement.
 6. Complete Batch 1 end to end before starting Batch 2. For each batch, map,
    convert, repair, validate locally, upload its final Google Slides deck to
-   the shared folder root above `Pilots`, read back its structure, export the
+   the shared folder root above `Pilots` as a WIP deck, read back its structure, export the
    Google PDF, inspect every page, and update the manifest/docs. Keep only
-   pilots and disposable tests in `Pilots`. Continue in order through Batch
+   small pilots and disposable tests in `Pilots`. Continue in order through Batch
    16; a pilot or partial batch is not project completion.
 7. Resolve missing source references as they affect the active batch; manual
    PDF exports are a last resort, and [`MANUALLYCONVERT.md`](MANUALLYCONVERT.md)

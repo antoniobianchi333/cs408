@@ -1,10 +1,12 @@
 # Pilot files
 
-This folder holds pilot-only artifacts: small conversion rounds, full-size
-comparison imports such as Round 4, revisions, local PDFs, Google exports,
-slide maps, rebuild scripts, and local audit scripts. Keep the inputs and
-evidence for each round together here. Put temporary renders and transfer
-scratch files in `out/.build/` instead of this folder.
+This local folder holds pilot and comparison artifacts: small conversion
+rounds, full-size comparison materials such as Round 4, revisions, local PDFs,
+Google exports, slide maps, rebuild scripts, and local audit scripts. It can
+contain large local references; the Google Drive `Pilots` folder is narrower
+and holds only small isolated test decks. Keep each round's inputs and evidence
+together here. Put temporary renders and transfer scratch files in
+`out/.build/` instead of this folder.
 
 Final-candidate batch PowerPoints stay directly in `out/combined/`, beside
 the full collection PDF and source maps. The batch manifest is
@@ -15,14 +17,19 @@ put final batch PowerPoints in this pilot folder.
 
 The user's shared CS408 folder is
 [the Drive root for this project](https://drive.google.com/drive/folders/16vTRNocHa1rlPN1bii_w0b8Ce90XrFbn).
-Keep pilots and disposable API/edit tests in its [`Pilots` subfolder](https://drive.google.com/drive/folders/1PHuKHahwY2PxviNWTM2f8kYmb7K-37Dj).
-Upload each completed final batch deck directly to the shared folder root,
-one level above `Pilots`, not into `Pilots`. Complete Batch 1—including its
-Google readback, exported PDF, and page-by-page review—before beginning Batch
-2; keep all final batch decks at the shared root as they are accepted.
+Keep only small pilots and disposable API/edit tests in its [`Pilots` subfolder](https://drive.google.com/drive/folders/1PHuKHahwY2PxviNWTM2f8kYmb7K-37Dj).
+Every full batch deck goes directly to the shared folder root, one level above
+`Pilots`, from its first working upload through final acceptance. Mark an
+unfinished deck `WIP - needs fixes` in its title, improve that same native
+Google Slides deck in place, and rename it as the accepted batch only after
+full readback and page-by-page PDF review. Keep the local PPTX and maps as the
+reproducible source. Complete Batch 1 before beginning Batch 2; continue in
+order.
 As of November 24, 2026, all 17 presentations previously listed at the shared
-root were pilot/test decks and have been moved into `Pilots`; the shared root
-is reserved for final batches.
+root were pilot/test decks and had been moved into `Pilots`. The current Batch
+1 working deck is an intentional full-batch WIP exception to the old
+final-only wording: it remains at the shared root as it is reviewed and fixed.
+The small Round 18–23 slide subsets remain in `Pilots`.
 
 ## Future rounds
 
@@ -182,6 +189,6 @@ helper run completed all 38 pages; the PDF export was repeated only after the
 deck changed. No `curl` or other shell downloader was used.
 
 After all 38 pages receive close review, move to the 16-batch boundary
-outline, then complete Batch 1 end to end before starting Batch 2. Final
-batches go directly in the shared folder root above `Pilots`; this folder
-remains for pilots and their evidence.
+outline, then complete Batch 1 end to end before starting Batch 2. All full
+batch decks, including WIP decks, go directly in the shared folder root above
+`Pilots`; the Drive `Pilots` folder remains limited to small test sets.

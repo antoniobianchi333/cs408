@@ -15,9 +15,10 @@ counts to preserve those boundaries.
 **Finish batches in order.** Complete Batch 1 end to end—source/build map,
 conversion, repairs, local checks, Google import, native readback, Google PDF,
 page-by-page review, and documentation—before beginning Batch 2. Apply the
-same gate to each following batch. Final batch decks belong directly in the
-shared Google Drive folder root, one level above `Pilots`; only experiments
-and disposable test decks belong in `Pilots`.
+same gate to each following batch. Every full batch deck, including its WIP
+working copy, belongs directly in the shared Google Drive folder root, one
+level above `Pilots`. Mark unfinished decks `WIP - needs fixes` and rename
+them only after acceptance. Use `Pilots` only for small isolated test decks.
 
 **Google file-transfer rule:** Never use `curl` or another shell/network
 downloader for Drive files or signed references. Use the connected Drive
@@ -62,7 +63,7 @@ Keynote. The exact gaps and the Round 15–17 diagnostics and repairs are in the
 | --- | --- | --- |
 | 1. Locate the source | Use the [combined collection guide](combined/README.md) to map a combined slide number to its source deck, saved build, and editable batch. | The matching Keynote or PowerPoint, source PDF, and combined slide numbers. |
 | 2. Build and diagnose the current batch | Follow the [conversion runbook](combined/SLIDE_CONVERSION.md). Reuse verified rules; create a small pilot only for an unfamiliar slide family. Add one plain, editable divider before every original source deck, labeled with its exact filename and the topic of the following slides. Map each divider separately. Use local-first repairs by default; use native Google Slides repair as a documented fallback when the local import fails or a slide family has stronger Google-first evidence. | The current batch PPTX, its ordered source/build map, divider rows, and local diagnostics. |
-| 3. Upload and verify in Google | Use the [Google Drive guide](combined/GOOGLE_DRIVE_ACCESS.md) for paced imports, native readback, PDF export, and the browser fallback. Put pilots in `Pilots`; put final numbered batches directly in the shared folder root. | The batch's native deck URL, structural readback, Google PDF, and page-by-page review. |
+| 3. Upload and verify in Google | Use the [Google Drive guide](combined/GOOGLE_DRIVE_ACCESS.md) for paced imports, native readback, PDF export, and the browser fallback. Put every full-batch WIP or accepted deck directly in the shared folder root; put only small isolated tests in `Pilots`. | The batch's native deck URL, structural readback, Google PDF, and page-by-page review. |
 | 4. Compare and improve | Follow the [roundtrip checks](combined/SLIDE_CONVERSION.md#run-and-evaluate-a-google-roundtrip) and run the [local audit script](combined/google-slides-pilot/audit_conversion_pilot.py). Check page order, content and code, image crops, graph endpoints, and actual editability. Record where each defect first appeared and retest the smallest repair. | The comparison result, a reusable repair rule, any exceptions, and what remains open. |
 | 5. Apply verified repairs to the batch | Use the [integration instructions](combined/SLIDE_CONVERSION.md#integrate-verified-repairs-into-a-full-batch) with local-first as the default and native Google Slides repair as the fallback for families where local changes fail the roundtrip or perform worse. Verify every integrated repair in Google's PDF. | A versioned full-batch candidate, its PDF comparison, and an updated runbook. |
 
@@ -212,8 +213,11 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   Google pilot, and the provisional candidate was rebuilt with that change;
   its local output page 100 was reviewed. Meaningful builds, other repairs, the final
   remaining build classifications, the final map, and full-batch Google
-  verification remain open. No final Batch 1 file has been
-  accepted or uploaded yet. A one-slide page 17 Drive pilot confirmed the
+  verification remain open. The 142-slide working deck is uploaded at the
+  shared Drive root as `WIP - needs fixes`; native outline readback confirmed
+  142 ordered slides. The user reports that a brief visual check found about
+  90% of slides looking fine; systematic full-PDF review remains pending, so
+  the batch is not accepted. A one-slide page 17 Drive pilot confirmed the
   editable text and banner/list repairs after import. A native fallback
   corrected the substituted-font title size and the banner's dotted outline;
   its one-page Google PDF was visually checked. That pilot is in `Pilots`; the
@@ -230,8 +234,9 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   Round 22 recovers the article scan from the Keynote package, reveals it
   before its editable headline, and records the Google-specific text sizing
   repair; see the [Round 22 record](combined/SLIDE_CONVERSION.md#round-22--batch-1-introduction-page-18-imageheadline-build).
-  A November 27 Drive root listing showed only `Pilots`, with no final batch
-  uploaded yet.
+  Before this upload, the November 27 Drive root listing showed only
+  `Pilots`. The current WIP deck is now at the root, above `Pilots`, and is
+  linked in the [Drive guide](combined/GOOGLE_DRIVE_ACCESS.md#pilot-and-final-batch-folder-organization).
   Earlier one-slide pilots show that both routes can repair
   Introduction page 2: the local-first Google PDF retains the orange Fall
   2026 styling, while the final two-pass native repair is readable but makes
@@ -362,8 +367,9 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
 Keep final editable batch PowerPoints directly in `out/combined/`. Keep every
 local pilot input, revision, page map, reference render, and Google PDF in
 `out/combined/google-slides-pilot/`, following its [folder guide](combined/google-slides-pilot/README.md).
-In Drive, put pilots under the shared folder's `Pilots` subfolder; put final
-batch decks directly in the shared folder root. After each round, update its
+In Drive, put full-batch WIP and accepted decks directly in the shared folder
+root, with an explicit WIP title until acceptance; use the `Pilots` subfolder
+only for small test sets. After each round, update its
 runbook entry, pilot page map, current open-work list, and status on this
 page. Update the collection source maps when source selection or provenance
 changes.
