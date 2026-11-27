@@ -369,7 +369,7 @@ def divider_xml(filename: str, topic: str, width: int, height: int) -> bytes:
     bg = etree.SubElement(c_sld, f"{{{P}}}bg")
     bg_pr = etree.SubElement(bg, f"{{{P}}}bgPr")
     solid = etree.SubElement(bg_pr, f"{{{A}}}solidFill")
-    etree.SubElement(solid, f"{{{A}}}srgbClr", val="FFFFFF")
+    etree.SubElement(solid, f"{{{A}}}srgbClr", val="FFF2CC")
     etree.SubElement(bg_pr, f"{{{A}}}effectLst")
     tree = etree.SubElement(c_sld, f"{{{P}}}spTree")
     nv = etree.SubElement(tree, f"{{{P}}}nvGrpSpPr")
@@ -394,6 +394,12 @@ def divider_xml(filename: str, topic: str, width: int, height: int) -> bytes:
         tx = etree.SubElement(sp_pr, f"{{{A}}}xfrm")
         etree.SubElement(tx, f"{{{A}}}off", x=str(width // 12), y=str(y))
         etree.SubElement(tx, f"{{{A}}}ext", cx=str(width - width // 6), cy=str(h))
+        # Use explicit DrawingML geometry. LibreOffice renders a text box
+        # without this element, but Google Slides dropped both generated
+        # divider text boxes; explicit geometry makes the shape unambiguous
+        # for importers, and the two-slide pilot will verify that repair.
+        geometry = etree.SubElement(sp_pr, f"{{{A}}}prstGeom", prst="rect")
+        etree.SubElement(geometry, f"{{{A}}}avLst")
         etree.SubElement(sp_pr, f"{{{A}}}noFill")
         line = etree.SubElement(sp_pr, f"{{{A}}}ln")
         etree.SubElement(line, f"{{{A}}}noFill")
@@ -412,8 +418,8 @@ def divider_xml(filename: str, topic: str, width: int, height: int) -> bytes:
         etree.SubElement(run, f"{{{A}}}t").text = text
         etree.SubElement(para, f"{{{A}}}endParaRPr", lang="en-US", sz=str(size))
 
-    add_textbox(2, "Exact source filename", filename, int(height * 0.40), int(height * 0.10), 2000, True)
-    add_textbox(3, "Following topic", topic, int(height * 0.51), int(height * 0.11), 2400, False)
+    add_textbox(2, "Exact source filename", filename, int(height * 0.40), int(height * 0.10), 2400, True)
+    add_textbox(3, "Following topic", topic, int(height * 0.51), int(height * 0.11), 2800, False)
     etree.SubElement(slide, f"{{{P}}}clrMapOvr").append(etree.Element(f"{{{A}}}masterClrMapping"))
     return xml_bytes(slide)
 

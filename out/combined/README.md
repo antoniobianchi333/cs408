@@ -430,9 +430,11 @@ The current local Batch 1 repairs are implemented by
 [repair_batch01_fault_error.py](repair_batch01_fault_error.py); their evidence
 and limitations are recorded in the diagnostic and conversion runbook.
 
-For every final batch, add a plain, editable divider before each original
-source deck. Each divider names the exact filename and topic of the following
-slides and receives its own source-map row.
+For every final batch, add a full-slide solid pale-yellow (`#FFF2CC`) editable
+divider before each original source deck. Center the exact filename in 24 pt
+bold Arial and the following topic in 28 pt regular Arial; give the generated
+text boxes explicit rectangle geometry so Google Slides retains them. Each
+divider receives its own source-map row.
 
 Then finish Batch 1 end to end: create its source/build map, convert and repair
 its selected material, validate the local package, and keep one full-size

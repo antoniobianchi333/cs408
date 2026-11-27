@@ -19,12 +19,14 @@ states, and divider slides before conversion.
 - Preserve original order inside every source deck and topic. A batch
   boundary may fall only between complete source decks and topics. Counts
   may vary to preserve those boundaries.
-- The user requires one plain divider slide before each original source deck
-  in every final batch, including the first deck in that batch. The slide
-  names the exact source filename and the topic of the slides that follow.
-  Keep it minimal: plain background and editable text, with no decorative
-  image. Record it as a generated row in the batch map; do not count it as a
-  source slide or animation state.
+- The user requires one divider slide before each original source deck in
+  every final batch, including the first deck in that batch. Use a full-slide,
+  solid pale-yellow background (`#FFF2CC`), with centered editable Arial text:
+  exact source filename at 24 pt bold, then the following topic at 28 pt
+  regular. Record it as a generated row in the batch map; do not count it as a
+  source slide or animation state. The builder must give generated text boxes
+  explicit DrawingML rectangle geometry so Google Slides preserves them on
+  import.
 - Expand meaningful builds into ordered static slides after their source
   deck divider. Map every output slide to its source file, source slide, and
   build state. Do not combine or split a source deck to meet an equal-size or

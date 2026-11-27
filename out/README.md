@@ -62,7 +62,7 @@ Keynote. The exact gaps and the Round 15–17 diagnostics and repairs are in the
 | Step | Instructions | What to keep |
 | --- | --- | --- |
 | 1. Locate the source | Use the [combined collection guide](combined/README.md) to map a combined slide number to its source deck, saved build, and editable batch. | The matching Keynote or PowerPoint, source PDF, and combined slide numbers. |
-| 2. Build and diagnose the current batch | Follow the [conversion runbook](combined/SLIDE_CONVERSION.md). Reuse verified rules; create only small pilots for unfamiliar slide families. Add one plain, editable divider before every original source deck, labeled with its exact filename and the topic of the following slides. Map each divider separately. Build and repair the reproducible PPTX locally before import. | The current batch PPTX, its ordered source/build map, divider rows, and local diagnostics. |
+| 2. Build and diagnose the current batch | Follow the [conversion runbook](combined/SLIDE_CONVERSION.md). Reuse verified rules; create only small pilots for unfamiliar slide families. Add one full-slide solid pale-yellow (`#FFF2CC`) editable divider before every original source deck. Center the exact source filename in 24 pt bold Arial and the following topic in 28 pt regular Arial. Map each divider separately. Build and repair the reproducible PPTX locally before import. | The current batch PPTX, its ordered source/build map, divider rows, and local diagnostics. |
 | 3. Upload and verify in Google | Use the [Google Drive guide](combined/GOOGLE_DRIVE_ACCESS.md) for paced imports, native readback, PDF export, and the browser fallback. Put every full-batch WIP or accepted deck directly in the shared folder root; put only small isolated tests in `Pilots`. | The batch's native deck URL, structural readback, Google PDF, and page-by-page review. |
 | 4. Compare and improve | Follow the [roundtrip checks](combined/SLIDE_CONVERSION.md#run-and-evaluate-a-google-roundtrip) and run the [local audit script](combined/google-slides-pilot/audit_conversion_pilot.py). Check page order, content and code, image crops, graph endpoints, and actual editability. Record where each defect first appeared and retest the smallest repair. | The comparison result, a reusable repair rule, any exceptions, and what remains open. |
 | 5. Apply verified repairs to the batch | Keep one full-batch WIP deck in the shared Drive root and apply confirmed visual fixes in that same native deck. Keep the local PPTX and maps as the reproducible source; use local rebuilds when a structural or content change requires them, then reconcile the WIP deck and verify the affected order/pages. | A versioned WIP deck, its PDF comparison, and an updated runbook. |
@@ -216,8 +216,13 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   verification remain open. The 142-slide [working deck](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit)
   is uploaded at the shared Drive root as `WIP - needs fixes`; native outline
   readback confirmed 142 ordered slides. The user reports that a brief visual check found about
-  90% of slides looking fine; systematic full-PDF review remains pending, so
-  the batch is not accepted. A one-slide page 17 Drive pilot confirmed the
+  90% of slides looking fine; full-deck contact sheets have now been reviewed,
+  with full-size follow-up and repairs still open, so the batch is not
+  accepted. The two source-deck dividers were blank after import because the
+  generated DrawingML text boxes lacked explicit preset geometry. A two-slide
+  pilot confirmed that adding rectangle geometry preserves the editable text;
+  the current WIP now has the source filename and topic labels on both
+  dividers, with a pale-yellow background and larger type. A one-slide page 17 Drive pilot confirmed the
   editable text and banner/list repairs after import. A native fallback
   corrected the substituted-font title size and the banner's dotted outline;
   its one-page Google PDF was visually checked. That pilot is in `Pilots`; the
@@ -347,10 +352,11 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   57 candidate rows; do not repeat that analysis. Use Fall sources for
   covered topics and include the six complete older-only topics recorded in
   the audit. The ordered 16-batch boundary outline is in
-  [BATCH_BOUNDARIES.md](combined/BATCH_BOUNDARIES.md). Put one minimal, plain,
-  editable divider before every original source deck in each final batch,
-  labeled with its exact filename and the topic of the following slides; map
-  each divider separately from source slides and build states. Then map,
+  [BATCH_BOUNDARIES.md](combined/BATCH_BOUNDARIES.md). Put one full-slide,
+  solid pale-yellow (`#FFF2CC`) divider before every original source deck in
+  each final batch. Center the exact filename in 24 pt bold Arial and the
+  following topic in 28 pt regular Arial; keep both editable and map the
+  divider separately from source slides and build states. Then map,
   convert, repair, upload, and verify Batch 1 completely before
   starting Batch 2. Resolve source-reference gaps when they affect the batch
   in progress; use existing

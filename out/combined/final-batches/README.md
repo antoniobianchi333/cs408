@@ -21,9 +21,11 @@ Before a batch is accepted, its record must link to:
    available exact-revision source.
 5. A concise repair log, open exceptions, and acceptance date.
 
-Every original source deck in a final batch starts with one plain, editable
-divider slide. Its text must give the exact source filename and the topic of
-the slides that follow. The divider gets its own generated row in the map.
+Every original source deck in a final batch starts with one full-slide, solid
+pale-yellow (`#FFF2CC`) editable divider. Center the exact source filename in
+24 pt bold Arial and the following topic in 28 pt regular Arial. Include
+explicit rectangle geometry for the generated text boxes so Google Slides
+retains them. The divider gets its own generated row in the map.
 Do not split source decks, topics, or meaningful build sequences at batch
 boundaries.
 
