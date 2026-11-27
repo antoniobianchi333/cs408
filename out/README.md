@@ -73,6 +73,7 @@ Keynote. The exact gaps and the Round 15/16 diagnostic and repair are in the
 - [Branch, restart-kit, and artifact-tracking policy](BRANCH_AND_HANDOFF.md)
 - [Combined slide collection and source map](combined/README.md)
 - [Final 16-batch boundaries and deck/topic sequence](combined/BATCH_BOUNDARIES.md)
+- [Final batch workspace and acceptance records](combined/final-batches/README.md)
 - [Conversion runbook, pilot logs, and reusable repair rules](combined/SLIDE_CONVERSION.md)
 - [Google Drive access and paced upload/export workflow](combined/GOOGLE_DRIVE_ACCESS.md)
 
@@ -121,6 +122,10 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   [Fall-page-to-current-slide report](combined/fall-current-text-overlap.csv),
   [current-slide-to-Fall-page report](combined/current-fall-text-overlap.csv),
   and [per-topic overlap summary](combined/fall-topic-overlap-summary.csv)
+- [Final batch workspace](combined/final-batches/), including the
+  [Batch 1 diagnostic findings](combined/final-batches/batch-01-diagnostic.md),
+  four durable provisional page/candidate maps, and the
+  [alignment audit script](combined/audit_batch_source_alignment.py)
 - [Legacy editable batch baselines](combined/) and their
   [batch manifest](combined/editable-parts-manifest.json). Each of the nine
   `cs408-editable-part-*.pptx` files stays directly in `combined/`; these are
@@ -159,6 +164,16 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
 
 ## Current conversion status
 
+- **Batch 1 local diagnostics are underway.** The current Fall Introduction
+  and Fault/Error/Failure Keynote sources convert to 92 and 108 LibreOffice
+  PPTX slides, while their reference PDFs contain 30 and 79 pages. Preliminary
+  ordered maps and contact sheets exist; unmatched pages may be stale records
+  or meaningful build states and are not being discarded by count alone.
+  Confirmed repair areas include Introduction tables/text/diagram fit and
+  Fault/Error diagrams, video composition, and colored outcome tables. No
+  final Batch 1 file has been assembled or uploaded yet. See the
+  [Batch 1 diagnostic](combined/final-batches/batch-01-diagnostic.md) and
+  [provisional maps](combined/final-batches/README.md).
 - **Latest full baseline.** [Round 4 Part 1](combined/google-slides-pilot/cs408-editable-part-01-round4.pptx)
   contains combined slides 1–260. The [Round 4 Google PDF](combined/google-slides-pilot/cs408-editable-part-01-round4.pdf)
   gives the full-batch comparison baseline.

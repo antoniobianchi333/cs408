@@ -419,6 +419,10 @@ contact sheets are complete. The ordered boundary outline is in
 [BATCH_BOUNDARIES.md](BATCH_BOUNDARIES.md), based on the closed source choices,
 whole-deck/topic boundaries, and syllabus sequence. Do not repeat content
 selection or build detailed maps for all batches before starting conversion.
+Final batch maps and acceptance records are maintained in
+[final-batches/](final-batches/); Batch 1's current provisional alignments and
+visual findings are in its
+[diagnostic record](final-batches/batch-01-diagnostic.md).
 
 For every final batch, add a plain, editable divider before each original
 source deck. Each divider names the exact filename and topic of the following

@@ -29,14 +29,16 @@ states, and divider slides before conversion.
   deck divider. Map every output slide to its source file, source slide, and
   build state. Do not combine or split a source deck to meet an equal-size or
   file-size target.
-- Week labels follow the Fall 2026 syllabus. Week 12 is an exam week without
-  a selected current Fall slide deck. The selected deck inventory has no
-  verified current slide master for the scheduled Floyd/Dafny lecture; do
+- Week labels follow the actual Fall 2026 syllabus in syllabus/syllabus.tex.
+  Week 12 includes a Midterm 2 review, but no selected current Fall slide deck
+  for that review was found; the older March review remains comparison-only
+  under the existing audit. Week 15 schedules Floyd/Dafny, but the selected
+  deck inventory has no verified current slide master for that lecture. Do
   not substitute the distinct older Verified Distributed Systems deck for
-  it. Record and reconcile any newly verified exact source evidence before
-  that batch is finalized.
+  Floyd/Dafny. Record and reconcile any newly verified exact source before
+  its sequence is finalized.
 - These are 16 contiguous conceptual upload groups, not equal slide-count
-  partitions. Batches 12 and 13 keep the Fall concurrency lectures and the
+  partitions. Batches 13 and 14 keep the Fall concurrency lectures and
   complete older supplemental topics adjacent without splitting a topic.
 
 ## Ordered outline
@@ -46,18 +48,18 @@ states, and divider slides before conversion.
 | 01 | Week 1 | Introduction and administrivia; Faults, Errors, and Failures. |
 | 02 | Week 2 | Unit/Integration Testing and RIPR; Black-box Test Design and Input Space Partitioning. |
 | 03 | Week 3 | Control-Flow Graphs and Program Paths; Graph-Based Coverage. |
-| 04 | Week 4 | Data-Flow Coverage; Logic Coverage. |
-| 05 | Week 5 | Active Clause Coverage; Mutation Testing. |
-| 06 | Week 6 | Test Oracles; Randomized/Property-Based Testing; current Fall Bug Reports and Triage. Repair stale dated announcements in the complete Bug Reports source using current course materials. |
-| 07 | Week 7 | Fall Midterm 1 Review. Use the complete Fall review source; the older review remains comparison material under the existing audit. |
-| 08 | Week 8 | Introduction to Fuzzing. Use the complete Fall source and preserve meaningful builds. |
-| 09 | Week 9 | Greybox Fuzzing; Test-Case Minimization and Delta Debugging. Keep each complete source deck intact. |
-| 10 | Week 10 | Symbolic Execution; Concolic and Dynamic Symbolic Execution. Keep both complete topics in syllabus order. |
-| 11 | Week 11 | Regression Testing and Test Selection/Prioritization. Use the complete Fall source. |
-| 12 | Week 13 | Fall Concurrency: complete Fall source decks on race concepts, happens-before/race detection, and concurrency bugs, in source order. |
-| 13 | Week 13 supplemental sequence | Complete older-only units adjacent to the Fall concurrency lectures: Concurrency Testing Lab Introduction; Semantic/Latent Concurrency-Bug Detection; Record and Replay; Deterministic Execution; Verified Distributed Systems. Keep each source deck and topic distinct, complete, and in selected source order. |
-| 14 | Week 14 | Fall Static Analysis I/II material, followed by the complete older-only Static Testing Tools survey as its own topic. Repair obsolete admin text in the older deck. |
-| 15 | Week 15 | Current Fall Testing AI Systems / Machine Learning sequence. Keep the complete selected Fall deck sequence. |
+| 04 | Week 4 | Data-Flow Coverage. |
+| 05 | Week 4 | Logic Coverage; Active Clause Coverage. Keep the full topic sequence intact. |
+| 06 | Week 5 | Mutation Testing; Randomized/Property-Based Testing. |
+| 07 | Week 6 | Test-Case Minimization and Delta Debugging; Introduction to Fuzzing; Greybox Fuzzing. Keep each complete topic and deck in the syllabus sequence. |
+| 08 | Week 7 | Greybox Fuzzing II and Fall Midterm 1 Review. Use the complete Fall review source; the older March review is comparison material under the existing audit. |
+| 09 | Week 8 | Regression Testing and Test Selection/Prioritization. Use the complete Fall source. |
+| 10 | Week 9 | Symbolic Execution; Concolic and Dynamic Symbolic Execution. Keep both complete topics in syllabus order. |
+| 11 | Week 10 | Test Oracles. |
+| 12 | Week 11 | Current Fall Bug Reports and Triage; Testing AI Systems / Machine Learning. Keep the topics separate with source-deck dividers. Repair stale dated announcements in the complete Bug Reports source using current course materials. |
+| 13 | Week 12 | Fall Concurrency I and the adjacent complete older-only units Concurrency Testing Lab Introduction, Semantic/Latent Concurrency-Bug Detection, and Verified Distributed Systems. Keep every topic and deck distinct and complete. |
+| 14 | Week 12 | Fall Concurrency II; complete older-only Record and Replay and Deterministic Execution units. Keep each topic and deck whole. |
+| 15 | Weeks 13–15 | Fall Static Analysis I/II; the complete older-only Static Testing Tools survey as its own topic. Repair obsolete admin text in the older deck. The syllabus-only Floyd/Dafny lecture has no verified current slide master in the selected inventory. |
 | 16 | Week 16 | Latest selected Fall Final Review source. Repair stale Spring exam and homework announcements before final integration. |
 
 This outline follows the existing selection audit; it is not a new content
