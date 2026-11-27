@@ -294,7 +294,9 @@ def repair_video_labels(root: etree._Element) -> None:
         if not runs:
             raise ValueError(f"{old} label has no editable styled text")
         for run in runs:
-            run.set("sz", "4000")
+            # 36 pt keeps the rotated DEBUGGING label on one line after the
+            # local PPTX repair is imported and rendered by Google Slides.
+            run.set("sz", "3600")
             run.set("b", "1")
             for kind in ("latin", "ea", "cs"):
                 font = run.find(f"./a:{kind}", NS)

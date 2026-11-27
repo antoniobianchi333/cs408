@@ -77,70 +77,51 @@ The current connector result and detailed recovery order are recorded in the
    separately. Check the neighboring builds and confirm page order when
    returning the slide to a batch.
 
-## Choose where repairs happen: decision pending
+## Repair route decision: local-first default; Google-first fallback
 
-There is not yet enough evidence to make either local-first or Google-first
-repair the collection-wide default. Both have worked in parts of the pilots:
-local PPTX edits have survived some Google imports, and native Google Slides
-text/vector edits have passed live readback. Batch 1's local repairs have not
-all been checked through Google: the Introduction page 2 text-fit repair has
-one successful Google-PDF check, but the Fault/Error repairs have not. The
-same-slide Introduction comparison has begun, but it has not yet established
-which route is more efficient and repeatable across different defect families.
-Treat the existing evidence as route-specific, not as proof of a collection-
-wide preference.
+**Decision (November 27, 2026):** use local-first repair as the default. Make
+the local PPTX repair, import it as native Google Slides, and accept it only
+after the Google-exported PDF confirms the repair survived. Use native
+Google-first repair as the fallback when a local patch fails the Google
+roundtrip, when the affected object cannot be repaired reliably in the PPTX,
+or when a specific slide family has stronger Google-first evidence. Keep
+object-specific exceptions; this is an operational default based on tested
+families, not a claim that every PowerPoint feature behaves the same.
 
-Before choosing, run a small paired comparison using identical copies of the
-same source PPTX slide(s), with the same source PDF as visual reference:
+**Why this route won:** the paired page 2 text-fit trial showed that the
+local-first version cleanly aligned the WHO/WHERE/WHEN content and retained
+the orange Fall 2026 value. The final two-pass Google-first repair is also
+readable, but the value is black and its positioning is slightly different.
+Native readback must descend into elementGroup children; a top-level-only
+text read missed the bottom rows, and an early replacement briefly made
+duplicate text. Thus page 2 favors local-first for styling fidelity and
+simpler repair.
 
-1. Select representative defects, ideally one text-fit/wrapping issue and one
-   more complex diagram, table, or image-composition issue. Do not use a
-   schedule slide or other user-owned content.
-2. **Local-first path:** repair the PPTX locally, import that copy as native
-   Slides, and inspect its native objects and Google-exported PDF.
-3. **Google-first path:** import an unmodified copy of that exact PPTX, apply
-   the equivalent repair to the native Slides objects, and inspect the same
-   properties and Google PDF. Keep the two copies in `Pilots` and never mix
-   their edits.
-4. Compare exact content and order, visual match to the source PDF, object
-   editability, repair time, number of Drive/API operations, and recovery from
-   any failed operation. Pace Drive changes by at least five seconds.
-5. Choose the route that meets fidelity and editability requirements with
-   the more repeatable, lower-effort workflow. Keep the other route as a
-   documented fallback. If evidence shows the best route depends on object
-   type, record a narrow exception rather than forcing a universal method.
+The stronger deciding evidence is Fault/Error reference page 68. The
+Google-first native repair produced one-line rotated labels, but the Google
+PDF shows a black field where the source photo should be. The local-first
+PPTX repair restored that photo after Google import. Its first 40 pt version
+still wrapped the last G in DEBUGGING. A bounded 36 pt local adjustment was
+then imported as a new native Google Slides pilot; the Google-created PDF is
+104,569 bytes and shows the photo, both underlined rotated labels, and both
+words on one line. The same 36 pt rule is now in
+repair_batch01_fault_error.py.
 
-**Preliminary test (November 27, 2026):** two one-slide Introduction page 2
-copies were imported into `Pilots`, one from the unmodified PPTX and one from
-the locally repaired PPTX. The baseline Google PDF retained the crowded
-original layout; the local-first Google PDF rendered the 28 pt instructor
-block, `WHO` label, `WHERE`/`WHEN` rows, and Fall 2026 value cleanly. Native
-readback confirms those text objects survive the import, although the bottom
-rows are children of two `elementGroup` objects and are missed by a
-top-level-only text read. This is positive evidence for local-first repair on
-this text-fit/layout family, not a collection-wide decision.
+**Paired pilot evidence**
 
-- [Google-first repair trial](https://docs.google.com/presentation/d/1yhrGmrHhiEwHjgbCooEVu9yCuAEi1iGiqf8WZfwlvIk/edit)
-- [Local-first repair pilot](https://docs.google.com/presentation/d/1rl6eUwRK5sLYTXqKEhrqGSMr5xYM53t240ixyzO9_M0/edit)
-- Local exports and renders are under `out/.build/repair-route-pilot/renders/`.
+- Introduction page 2, Google-first: [native repair trial](https://docs.google.com/presentation/d/1yhrGmrHhiEwHjgbCooEVu9yCuAEi1iGiqf8WZfwlvIk/edit).
+- Introduction page 2, local-first: [imported repair pilot](https://docs.google.com/presentation/d/1rl6eUwRK5sLYTXqKEhrqGSMr5xYM53t240ixyzO9_M0/edit).
+- Fault/Error page 68, Google-first: [native repair trial](https://docs.google.com/presentation/d/1qwyDAAGXg6MQ-AayhuXGvphtgcVT8nXpqFFIa5vT6WI/edit).
+- Fault/Error page 68, local-first at 36 pt: [imported repair pilot](https://docs.google.com/presentation/d/1oDK5YbmbDGM3L8oX4-y8g_lTOq9sgsXWsmL2y5JqSkU/edit).
+- Google-created PDFs, renders, and one-slide PPTX samples are under `out/.build/repair-route-pilot/`.
 
-A Google-first repair was also applied to the same imported baseline using
-the nested child object IDs. It reaches the correct content and layout after
-two native repair passes, but the resulting PDF still differs in text color
-and small label positioning. The first attempted replacement mistakenly
-created duplicate text because the group children were not inspected; those
-temporary objects were deleted. This exposes both the value of native repair
-and a readback hazard. The Google-first rendering is not yet an equally
-polished control, so do not select the collection-wide route from this one
-page. The two working copies remain in `Pilots` for the recorded comparison.
-Elapsed repair time was not measured in this pilot; measure it on the next
-representative defect family.
-
-Until this comparison is complete, assemble and diagnose candidates locally,
-but do not assume a local visual repair is accepted. The Google-rendered PDF
-remains the acceptance render, and the final batch must contain the verified
-repair regardless of which route is selected. Keep both routes available;
-test another representative defect family before deciding the default.
+For each new defect family, keep the local repair as the first candidate and
+inspect its native Google objects and Google PDF. If the roundtrip exposes a
+new defect, try a small local adjustment first; use the Google-first fallback
+when the local change cannot preserve the intended result. Compare against
+the exact source PDF and keep the smallest reliable repair editable. Pace
+Drive operations by at least five seconds. Never treat a local render alone
+as acceptance: only the final Google PDF is the visual acceptance render.
 
 ## Turn each round into a reusable rule
 
@@ -227,10 +208,11 @@ import and its PDF has clean text fit. The full assembled batch remains
 unverified.
 
 Fault/Error page 68 had a correct image but two overlay labels split across
-lines. The editable labels now use wider centered boxes, a 40 pt Arial fallback,
-uppercase text, and 15-degree rotation to follow the photographed signs.
-Correct an overlay before replacing an image when the underlying picture
-already matches the reference.
+lines. The editable labels now use wider centered boxes, a 36 pt Arial fallback,
+uppercase text, underlining, and 15-degree rotation to follow the photographed
+signs. The Google-exported local-first pilot confirms that the photo remains
+visible and both labels fit on one line. Correct an overlay before replacing
+an image when the underlying picture already matches the reference.
 
 Fault/Error pages 76–77 show two successive teaching states. The blank imported
 9-row tables are rebuilt as native editable cells: page 76 presents the three

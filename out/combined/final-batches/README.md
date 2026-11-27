@@ -73,14 +73,15 @@ is [`repair_batch01_fault_error.py`](../repair_batch01_fault_error.py). It
 restores two pages of native table cells, repairs two editable video labels,
 and uses diagram-only crops from the matching Fall PDF for three corrupted
 connector diagrams. The current local 111-page candidate has been rendered;
-these repairs match the references locally but have not been checked through
-Google import/export. This local work is comparison evidence only: one text-fit
-family favors local-first so far, while a two-pass Google-first repair is close
-but not yet visually identical. The collection-wide choice between local-first
-repair and native Google Slides repair remains open pending another test in the
-[conversion runbook](../SLIDE_CONVERSION.md#choose-where-repairs-happen-decision-pending).
-Keep both routes available until evidence selects a primary; then preserve the
-other as a fallback. The Introduction course schedule slide is user-owned:
+these repairs match the references locally. The Introduction page 2 local
+repair and the Fault/Error page 68, 36 pt label repair have also passed Google
+PDF checks. Page 68's local-first import preserves the photo and fits both
+labels on one line; the Google-first PDF loses the photo. The route decision
+is therefore local-first by default, with native Google Slides repair as a
+fallback for a slide family where the local roundtrip fails or performs worse.
+See the tested evidence in the
+[conversion runbook](../SLIDE_CONVERSION.md#repair-route-decision-local-first-default-google-first-fallback).
+The provisional full batch remains unaccepted. The Introduction course schedule slide is user-owned:
 leave it unchanged and continue other Batch 1 work; the user will make that
 edit directly. It is not an agent repair blocker.
 Nothing in this folder represents an uploaded or accepted final batch yet.

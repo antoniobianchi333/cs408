@@ -61,10 +61,10 @@ Keynote. The exact gaps and the Round 15/16 diagnostic and repair are in the
 | Step | Instructions | What to keep |
 | --- | --- | --- |
 | 1. Locate the source | Use the [combined collection guide](combined/README.md) to map a combined slide number to its source deck, saved build, and editable batch. | The matching Keynote or PowerPoint, source PDF, and combined slide numbers. |
-| 2. Build and diagnose the current batch | Follow the [conversion runbook](combined/SLIDE_CONVERSION.md). Reuse verified rules; create a small pilot only for an unfamiliar slide family. Add one plain, editable divider before every original source deck, labeled with its exact filename and the topic of the following slides. Map each divider separately. Keep repair location undecided until the paired comparison supplies evidence. | The current batch PPTX, its ordered source/build map, divider rows, and local diagnostics. |
+| 2. Build and diagnose the current batch | Follow the [conversion runbook](combined/SLIDE_CONVERSION.md). Reuse verified rules; create a small pilot only for an unfamiliar slide family. Add one plain, editable divider before every original source deck, labeled with its exact filename and the topic of the following slides. Map each divider separately. Use local-first repairs by default; use native Google Slides repair as a documented fallback when the local import fails or a slide family has stronger Google-first evidence. | The current batch PPTX, its ordered source/build map, divider rows, and local diagnostics. |
 | 3. Upload and verify in Google | Use the [Google Drive guide](combined/GOOGLE_DRIVE_ACCESS.md) for paced imports, native readback, PDF export, and the browser fallback. Put pilots in `Pilots`; put final numbered batches directly in the shared folder root. | The batch's native deck URL, structural readback, Google PDF, and page-by-page review. |
 | 4. Compare and improve | Follow the [roundtrip checks](combined/SLIDE_CONVERSION.md#run-and-evaluate-a-google-roundtrip) and run the [local audit script](combined/google-slides-pilot/audit_conversion_pilot.py). Check page order, content and code, image crops, graph endpoints, and actual editability. Record where each defect first appeared and retest the smallest repair. | The comparison result, a reusable repair rule, any exceptions, and what remains open. |
-| 5. Apply verified repairs to the batch | Use the [integration instructions](combined/SLIDE_CONVERSION.md#integrate-verified-repairs-into-a-full-batch) after the paired repair-location comparison selects a primary route. Preserve the other route as a fallback, and verify every integrated repair in Google's PDF. | A versioned full-batch candidate, its PDF comparison, and an updated runbook. |
+| 5. Apply verified repairs to the batch | Use the [integration instructions](combined/SLIDE_CONVERSION.md#integrate-verified-repairs-into-a-full-batch) with local-first as the default and native Google Slides repair as the fallback for families where local changes fail the roundtrip or perform worse. Verify every integrated repair in Google's PDF. | A versioned full-batch candidate, its PDF comparison, and an updated runbook. |
 
 ## Project documents
 
@@ -170,7 +170,7 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
 
 ## Current conversion status
 
-- **Batch 1 local diagnostics are underway; repair location is undecided.** The current Fall Introduction
+- **Batch 1 local diagnostics are underway; local-first is the default repair route, with native Google Slides repair as the fallback.** The current Fall Introduction
   and Fault/Error/Failure Keynote sources convert to 92 and 108 LibreOffice
   PPTX slides, while their reference PDFs contain 30 and 79 pages. Preliminary
   ordered maps and contact sheets exist; unmatched pages may be stale records
@@ -183,14 +183,16 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   73, 74, 76, and 77 also have local repairs; three diagram-only image crops
   are documented last resorts. Meaningful builds, other repairs, the final
   map, and Google verification remain open. No final Batch 1 file has been
-  accepted or uploaded yet. A separate one-slide Pilot for Introduction page 2
-  confirms its local repair survived Google import and produced a clean PDF;
-  the Google-first native repair is close but still has minor styling and
-  placement differences. This is one defect family, so the collection-wide
-  route choice remains open. Compare another representative family as
-  specified in the
-  [conversion runbook](combined/SLIDE_CONVERSION.md#choose-where-repairs-happen-decision-pending).
-  Keep the non-selected route as a fallback. See the
+  accepted or uploaded yet. One-slide pilots show that both routes can repair
+  Introduction page 2: the local-first Google PDF retains the orange Fall
+  2026 styling, while the final two-pass native repair is readable but makes
+  that value black. On Fault/Error page 68, the 36 pt local-first repair
+  survives import with the photo visible and both labels on one line; the
+  Google-first export has a black field where the photo belongs. This evidence
+  sets local-first as the default and native Google Slides repair as the
+  fallback for a family where the local roundtrip fails or performs worse.
+  See the [conversion route decision](combined/SLIDE_CONVERSION.md#repair-route-decision-local-first-default-google-first-fallback).
+  See the
   [Batch 1 diagnostic](combined/final-batches/batch-01-diagnostic.md) and
   [provisional maps](combined/final-batches/README.md). The Introduction
   course schedule slide is user-owned: leave its schedule content alone while
