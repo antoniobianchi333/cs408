@@ -80,6 +80,11 @@ def repair_label(shape: etree._Element, text: str) -> None:
     paragraph = shape.find("./p:txBody/a:p", NS)
     if paragraph is None:
         raise ValueError(f"label {text!r} has no paragraph")
+    paragraph_props = paragraph.find("./a:pPr", NS)
+    if paragraph_props is None:
+        paragraph_props = etree.Element(f"{{{A}}}pPr")
+        paragraph.insert(0, paragraph_props)
+    paragraph_props.set("algn", "l")
     runs = paragraph.findall("./a:r", NS)
     if not runs:
         raise ValueError(f"label {text!r} has no editable text run")
@@ -160,6 +165,13 @@ def repair(pptx_in: Path, pptx_out: Path) -> None:
         for extra in text_nodes[1:]:
             extra.text = ""
         set_bounds(shape, *bounds)
+        paragraph = shape.find("./p:txBody/a:p", NS)
+        if paragraph is not None:
+            paragraph_props = paragraph.find("./a:pPr", NS)
+            if paragraph_props is None:
+                paragraph_props = etree.Element(f"{{{A}}}pPr")
+                paragraph.insert(0, paragraph_props)
+            paragraph_props.set("algn", "l")
         for run in shape.findall(".//a:rPr", NS) + shape.findall(".//a:defRPr", NS):
             if int(run.get("sz", "0")) > 3600:
                 run.set("sz", "3600")

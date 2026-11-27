@@ -175,8 +175,12 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   ordered maps and contact sheets exist; unmatched pages may be stale records
   or meaningful build states and are not being discarded by count alone.
   Confirmed repair areas include Introduction tables/text/diagram fit and
-  Fault/Error diagrams, video composition, and colored outcome tables. No
-  final Batch 1 file has been assembled or uploaded yet. See the
+  Fault/Error diagrams, video composition, and colored outcome tables. A
+  provisional 111-page local candidate now includes editable source-deck
+  dividers; Introduction source page 2's labels, body fit, and seasonal text
+  have been repaired and checked in a local render. Meaningful builds, other
+  repairs, the final map, and Google verification remain open. No final Batch 1
+  file has been accepted or uploaded yet. See the
   [Batch 1 diagnostic](combined/final-batches/batch-01-diagnostic.md) and
   [provisional maps](combined/final-batches/README.md).
 - **Latest full baseline.** [Round 4 Part 1](combined/google-slides-pilot/cs408-editable-part-01-round4.pptx)

@@ -1,9 +1,10 @@
 # Batch 1 diagnostic: Week 1
 
 **Updated:** 2026-11-26  
-**Status:** Local source conversion and preliminary PDF alignment exist;
-source/build disposition, repairs, final assembly, Google import, and visual
-acceptance remain open.
+**Status:** A provisional 111-page local assembly exists, and the Introduction
+page 2 text-fit repair now renders cleanly locally. Source/build disposition,
+remaining repairs, final assembly, Google import, and visual acceptance remain
+open.
 
 ## Scope and source of truth
 
@@ -71,6 +72,12 @@ disposition; unmatched candidates still need Keynote visibility/build review.
   collision, and body-text width while keeping the text and photos editable.
   This is an intentional content correction based on the syllabus, not a claim
   that the source PDF already has the repaired wording.
+- The editable repair has now been applied to source page 2 and included in a
+  provisional batch assembly. Its local LibreOffice page 3 render was checked:
+  instructor and TA text fits in the center column, WHERE/WHEN labels and
+  values occupy separate aligned rows, and the portraits remain visible. The
+  imported 34 pt body text was reduced to 28 pt to fit; this local result still
+  needs Google import/export verification.
 - One current Fall screenshot/image page is absent or materially different
   in the `.key` conversion. Check the exact source revision and embedded media
   before deciding whether a small image crop is required.
@@ -177,8 +184,12 @@ creating cumulative static states.
    pages, meaningful builds, stale slides, and duplicate records.
 2. Resolve the low-confidence and image-heavy page matches against the source
    package and PDF. Record a final page/build disposition for every candidate.
-3. Build the final ordered source/build map. Add a plain editable divider
-   before each of the two source decks; use exact filenames and topic names.
+3. Finalize the ordered source/build map. A provisional candidate currently
+   has 111 pages: one editable divider plus 30 mapped reference pages for
+   Introduction, then one divider plus 79 mapped reference pages for
+   Fault/Error. These are baseline pages only; add verified meaningful build
+   states before calling the map final. Both dividers show the exact filename
+   and topic.
 4. Repair the confirmed diagrams, tables, text fit, image composition, and
    any further defects. Preserve notes where present and map all static build
    states to their source.

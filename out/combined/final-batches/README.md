@@ -57,10 +57,16 @@ The provisional editable package can be assembled with
 [`build_batch_candidate.py`](../build_batch_candidate.py), which adds the
 required plain dividers, selects mapped reference-page candidates, and records
 notes and build-marker hints. It explicitly leaves animation expansion and
-visual repair pending. The editable repair for Introduction source page 2 is
+remaining visual repair pending. The current ignored local candidate is
+`out/.build/batch-01/assembled/batch-01-static-candidate.pptx`; its output map
+and a local PDF render are in the same `out/.build/batch-01/` workspace. It has
+111 baseline pages before any verified build expansion. The editable repair
+for Introduction source page 2 is
 [`repair_batch01_introduction.py`](../repair_batch01_introduction.py); it fixes
 overlapping labels and the portrait collision and replaces a stale winter
-phrase using the Fall 2026 syllabus.
+phrase using the Fall 2026 syllabus. Its latest local render has readable body
+text, aligned labels and values, and clear space around the portraits. The
+Google render has not yet been checked.
 Nothing in this folder represents an uploaded or accepted final batch yet.
 
 ## Acceptance tracking
