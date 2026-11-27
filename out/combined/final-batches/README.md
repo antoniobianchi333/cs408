@@ -33,12 +33,12 @@ not final output-page maps. They map each reference PDF page to a candidate
 slide in the LibreOffice-generated PPTX. Keynote order/skip decoding shows the
 30 and 79 unskipped slides map one-to-one, in order, to the two reference PDFs
 and candidate slides. Other candidates are skipped in the Keynote slide tree.
-The active slides' build chunks are decoded. Introduction PDF page 4 is the
-first classified family: 11 paragraph chunks became 11 cumulative static
-states. The 11-state subset passed native Google readback and page-by-page
-Google PDF review; this does not verify the full batch. The remaining 51
-build-containing slides need visual classification to determine which
-meaningful states become additional static slides.
+The active slides' build chunks are decoded. Three Introduction
+paragraph-build families are classified: PDF page 4 has 11 cumulative states,
+page 6 has 7, and page 15 has 9. All three subsets passed native Google
+readback and page-by-page Google PDF review; this does not verify the full
+batch. The other 49 build-containing slides need visual classification to
+determine which meaningful states become additional static slides.
 
 - [Batch 1 diagnostic and visual findings](batch-01-diagnostic.md)
 - [Introduction reference-page candidates](batch-01-introduction-provisional-page-map.csv)
@@ -58,13 +58,20 @@ PDFs, and contact sheets are under ignored `out/.build/batch-01/` and must be
 regenerated if that directory is cleared. The reusable
 [`expand_batch_build_states.py`](../expand_batch_build_states.py) creates
 cumulative paragraph or object-visibility states from the manifest above.
-The ignored 121-page local candidate
-`out/.build/batch-01/assembled/batch-01-expanded-candidate.pptx` adds the first
-ten homework states to the 111-page baseline; its output map is
+The current ignored 135-page local candidate
+`out/.build/batch-01/assembled/batch-01-expanded-candidate.pptx` adds ten
+homework states, six Course Grading states, and eight Course Objectives states
+to the 111-page baseline; its output map is
 `out/.build/batch-01/assembled/batch-01-expanded-map.csv`. The full expanded
-deck has not yet been imported into Google Slides. A pruned 11-slide
-paragraph-state subset was imported as a pilot and verified; see the
-[Round 18 record](../SLIDE_CONVERSION.md#round-18--batch-1-introduction-paragraph-build-pilot).
+deck has not yet been imported into Google Slides. Pruned 11-slide,
+7-slide, and 9-slide paragraph-state subsets were imported as native Google
+pilots and verified; see the [Round 18](../SLIDE_CONVERSION.md#round-18--batch-1-introduction-paragraph-build-pilot),
+[Round 19](../SLIDE_CONVERSION.md#round-19--batch-1-course-grading-paragraph-build-pilot),
+and [Round 20](../SLIDE_CONVERSION.md#round-20--batch-1-course-objectives-paragraph-build-pilot)
+records. The
+[`prune_pptx_slides.py`](../prune_pptx_slides.py) utility creates compact
+editable pilot packages from selected slide ranges while retaining referenced
+layouts, media, notes, and other package relationships.
 The unmatched candidate contact
 sheets are under `out/.build/batch-01/unmatched-review/`; the
 [`render_unmatched_contact_sheets.py`](../render_unmatched_contact_sheets.py)

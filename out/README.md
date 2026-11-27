@@ -184,18 +184,18 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   PDF page and candidate slide in order. This resolves the earlier count
   mismatch. Build stages on 17 Introduction slides and 35 Fault/Error slides
   are decoded (74/113 Introduction build archives/chunks and 92/185 for
-  Fault/Error). Two content-bearing paragraph-build families are confirmed on
-  Introduction PDF pages 4 and 6: 11 and 7 ordered chunks became cumulative
-  editable states. The other 50 build-containing slides still need
+  Fault/Error). Three content-bearing paragraph-build families are confirmed
+  on Introduction PDF pages 4, 6, and 15: 11, 7, and 9 ordered chunks became
+  cumulative editable states. The other 49 build-containing slides still need
   classification.
   Confirmed repair areas include Introduction tables/text/diagram fit and
   Fault/Error diagrams, video composition, and colored outcome tables. A
   111-page local baseline includes editable source-deck dividers; the current
-  expanded candidate has 127 pages after adding 10 states for page 4 and 6
-  states for page 6. All 18 states were inspected locally and in separate
-  native Google pilots. Their PDFs confirmed editable text, correct
-  progression, bullet hierarchy, emphasis, and line fit; both final states
-  match their Fall references. The page 6 `~24` line stays on one line after
+  expanded candidate has 135 pages after adding 10, 6, and 8 states for pages
+  4, 6, and 15. All 27 states were inspected locally and in separate native
+  Google pilots. Their PDFs confirmed ordered progression, bullet hierarchy,
+  emphasis, and line fit; all three final states match their Fall references.
+  The page 6 `~24` line stays on one line after
   import. Introduction source pages 2 and 17 have local text/layout repairs
   and were checked in local renders. Page 17's title width, question wrapping,
   bullets, and rotated blue response banner now closely match the reference.
@@ -211,9 +211,12 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   corrected the substituted-font title size and the banner's dotted outline;
   its one-page Google PDF was visually checked. That pilot is in `Pilots`; the
   integrated local page 17 repair still needs final-batch Google verification.
-  The separate 11-slide page 4 and 7-slide page 6 build-state pilots are in
+  The separate 11-slide page 4, 7-slide page 6, and 9-slide page 15
+  build-state pilots are in
   Drive `Pilots`; their export and repair notes are in the [Round 18](combined/SLIDE_CONVERSION.md#round-18--batch-1-introduction-paragraph-build-pilot)
-  and [Round 19](combined/SLIDE_CONVERSION.md#round-19--batch-1-course-grading-paragraph-build-pilot) logs.
+  [Round 19](combined/SLIDE_CONVERSION.md#round-19--batch-1-course-grading-paragraph-build-pilot),
+  and [Round 20](combined/SLIDE_CONVERSION.md#round-20--batch-1-course-objectives-paragraph-build-pilot)
+  logs.
   A November 27 Drive root listing showed only `Pilots`, with no final batch
   uploaded yet.
   Earlier one-slide pilots show that both routes can repair
@@ -239,14 +242,13 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
 - **Latest full baseline.** [Round 4 Part 1](combined/google-slides-pilot/cs408-editable-part-01-round4.pptx)
   contains combined slides 1–260. The [Round 4 Google PDF](combined/google-slides-pilot/cs408-editable-part-01-round4.pdf)
   gives the full-batch comparison baseline.
-- **Most recent `.key` build-conversion pilot.** [Round 19](combined/SLIDE_CONVERSION.md#round-19--batch-1-course-grading-paragraph-build-pilot)
-  verified a second paragraph-build family with seven cumulative editable
-  Course Grading states and page-by-page Google PDF review. [Round 18](combined/SLIDE_CONVERSION.md#round-18--batch-1-introduction-paragraph-build-pilot)
-  verified the 11-state homework reveal. The most recent single-slide repair
-  pilot remains [Round 17](combined/SLIDE_CONVERSION.md#round-17--introduction-page-17-repair-pilot).
-  
-  [Round 16](combined/SLIDE_CONVERSION.md#round-16--test-anatomy-repairs-and-google-review)
-  tested a one-slide Introduction page 17 repair in native Google Slides.
+- **Most recent `.key` build-conversion pilot.** [Round 20](combined/SLIDE_CONVERSION.md#round-20--batch-1-course-objectives-paragraph-build-pilot)
+  verified a nine-state Course Objectives reveal, with cumulative editable
+  slides and page-by-page Google PDF review. [Round 19](combined/SLIDE_CONVERSION.md#round-19--batch-1-course-grading-paragraph-build-pilot)
+  and [Round 18](combined/SLIDE_CONVERSION.md#round-18--batch-1-introduction-paragraph-build-pilot)
+  verified the seven-state Course Grading and 11-state homework reveals. The most recent single-slide repair
+  pilot remains [Round 17](combined/SLIDE_CONVERSION.md#round-17--introduction-page-17-repair-pilot),
+  which tested a one-slide Introduction page 17 repair in native Google Slides.
   Its editable list/banner survived import; native title sizing and a `DOT`
   outline update repaired two Google-only differences. The one-page Google PDF
   was visually checked. The integrated local title-size repair still needs

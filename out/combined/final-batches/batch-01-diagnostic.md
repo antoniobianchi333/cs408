@@ -275,43 +275,58 @@ Skipped records are outside the show; active-slide build chunks are the path
 for any additional static states. Keep the Introduction image discrepancy
 and any page-level differences open for visual/source review. Do not use the
 raw 92-slide LibreOffice count as the final output count. Meaningful build
-expansion may increase the 111-page baseline. The first classified build is
-Introduction PDF page 4: its 11 paragraph chunks become 11 cumulative states
-at output pages 5–15, producing a 121-page local expansion candidate. All 11
-states were visually reviewed for cumulative text, order, and layout; page 15
-matches reference PDF page 4. An 11-slide subset has now passed native Google
-readback and page-by-page Google PDF review; it preserves the progression,
-editable text, bullet hierarchy, emphasis, and line fit, and its final slide
-matches the reference. The full 121-page candidate is still unimported. The
-editable list uses explicit 27.5 pt Arial with native bullets to fix empty
-bullet glyphs and line wrapping. The decision is in
-[`batch-01-build-expansion.json`](batch-01-build-expansion.json), and the
-reusable implementation is
-[`expand_batch_build_states.py`](../expand_batch_build_states.py).
-The [Round 18 record](../SLIDE_CONVERSION.md#round-18--batch-1-introduction-paragraph-build-pilot)
-links to the Google pilot and local Google PDF render.
+expansion raises the 111-page baseline. Two content-bearing paragraph builds
+are classified:
+
+- Introduction PDF page 4 has 11 chunks and 11 cumulative states at output
+  pages 5–15. Every local and Google state was reviewed; the final state
+  matches reference page 4. The 27.5 pt Arial text and native bullets preserve
+  editable emphasis while fixing missing bullets and line fit.
+- Introduction PDF page 6, Course Grading, has 7 ordered chunks and 7
+  cumulative states at output pages 17–23. Every local and Google state was
+  reviewed; the final state matches reference page 6. The repair sets the
+  heading/body box sizes and visible native bullets; the long `~24` line stays
+  on one line after Google import. Bold/color emphasis and the source's bullet
+  hierarchy remain editable.
+- Introduction PDF page 15, Course Objectives, has 9 ordered chunks and 9
+  cumulative states at output pages 32–40. Every local and Google state was
+  reviewed; the final state matches reference page 15. Explicit Arial fonts,
+  native bullets, and paragraph spacing preserve hierarchy, emphasis, and line
+  fit through the Google import.
+
+The 11-slide page 4, 7-slide page 6, and 9-slide page 15 subsets passed native
+Google readback and page-by-page PDF review. The current 135-page expanded
+candidate remains unimported as a full batch. The
+[build-expansion manifest](batch-01-build-expansion.json) records all three
+decisions and their chunk IDs; the
+[`expand_batch_build_states.py`](../expand_batch_build_states.py) creates the
+cumulative states, and [`prune_pptx_slides.py`](../prune_pptx_slides.py)
+creates compact package-preserving pilot subsets. See the [Round 18](../SLIDE_CONVERSION.md#round-18--batch-1-introduction-paragraph-build-pilot),
+[Round 19](../SLIDE_CONVERSION.md#round-19--batch-1-course-grading-paragraph-build-pilot),
+and [Round 20](../SLIDE_CONVERSION.md#round-20--batch-1-course-objectives-paragraph-build-pilot)
+records for the native Google links and PDF renders.
 
 ## Next actions for this batch
 
 1. Continue classifying active build chunks into meaningful instructional
    states versus decorative effects; update output mappings for every state
-   that should become a separate static slide. The Introduction homework
-   reveal is the first confirmed family; the other decoded slides remain
-   unclassified.
+   that should become a separate static slide. Three paragraph-build families
+   are confirmed; 49 of 52 build-containing slides remain unclassified.
 2. Resolve the low-confidence and image-heavy page matches against the source
    package and PDF. Record a final page/build disposition for every candidate.
 3. Finalize the ordered source/build map. The 111-page candidate remains the
    baseline: one editable divider plus 30 mapped reference pages for
    Introduction, then one divider plus 79 mapped reference pages for
-   Fault/Error. A separate 121-page expansion candidate adds the first ten
-   homework states; later confirmed states will increase the count further.
-   Both dividers show the exact filename and topic.
+   Fault/Error. The current 135-page expansion candidate adds ten homework
+   states, six Course Grading states, and eight Course Objectives states; later
+   confirmed states will increase the count further. Both dividers show the
+   exact filename and topic.
 4. Repair the confirmed diagrams, tables, text fit, image composition, and
    any further defects. Preserve notes where present and map all static build
    states to their source. The page 17 local fix appears at output page 18 and
    page 68 at output page 100 in the rebuilt local candidate. Google has
-   checked isolated pilots for the page 4 build family, page 17 repair, and
-   page 68 label repair; verify all integrated content, including pages 65,
+   checked isolated pilots for the page 4, 6, and 15 build families, page 17 repair,
+   and page 68 label repair; verify all integrated content, including pages 65,
    73, 74, 76, and 77, in the final batch. Leave the course schedule slide
    untouched for the user to edit.
 5. Assemble and audit the local final PPTX; only then import it into the

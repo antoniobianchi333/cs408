@@ -5,7 +5,7 @@
 Use this guide for the part of the conversion that runs in Google. The
 local PPTX and the page map identify the exact test input. A native Google
 Slides copy and its PDF record what Google imported for that round. The
-current import evidence includes Rounds 5–17. Round 16's Test Anatomy repair
+current import evidence includes Rounds 5–19. Round 16's Test Anatomy repair
 pilot is complete: native readback confirms 38 ordered slides, and all 38
 Google PDF pages have close visual review. Its final PDF is 5,101,352 bytes;
 the map, contact sheets, and slide 25 repair comparison are saved with the
@@ -25,7 +25,8 @@ freeform shape. The evidence and limits are recorded below.
 for the exact shared project folder. The folder listing returned its `Pilots`
 subfolder; a second paced listing returned the pilot presentations. The
 visible project root had no final batch decks in that response; the nested
-`Pilots` folder includes the new Introduction page 17 pilot. The calls were
+`Pilots` folder includes the Introduction page 4 and 6 build pilots, the page
+17 repair pilot, and the Fault/Error page 68 repair pilot. The calls were
 serialized with at least six seconds between Drive operations. This supersedes the
 earlier transport failure below; it was connector-session behavior, not a
 Google permission denial or API rate limit. Continue using one Drive call at a
@@ -314,6 +315,14 @@ For future small PDFs, start with one helper fetch wrapped to use
 `include_base64: true`; do not first make a default fetch that is expected to
 return a local path.
 
+For the second Batch 1 paragraph-build pilot (November 27), the Slides helper
+was wrapped from the start to set `include_base64: true`. The single bounded
+fetch returned a 65,752-byte, seven-page PDF without a preliminary failed
+request. The helper saved and rendered all seven pages, which were visually
+reviewed against the Fall Course Grading slide. The local-first repair kept
+the hierarchy, colored emphasis, and `~24` line intact. See
+[Round 19](SLIDE_CONVERSION.md#round-19--batch-1-course-grading-paragraph-build-pilot).
+
 The same round exposed a separate local-renderer timeout symptom. In the
 first 120-dpi render, the helper reported `pdftoppm failed:` after 32 page
 images had appeared. The PDF was intact; only pages 33–38 were rendered
@@ -531,6 +540,7 @@ page review before beginning the next. Do not place a completed batch deck in
 
 On November 27, 2026, a read-only listing of the shared root returned only
 the `Pilots` folder; no final batch deck is uploaded there yet. The Pilots
-folder includes the Introduction page 4 build-state, Introduction page 17
-repair, and Fault/Error page 68 repair trials. Keep those as pilots; the first
-final batch has not passed its full-deck acceptance checks.
+folder includes the Introduction page 4, page 6, and page 15 build-state pilots, the
+Introduction page 17 repair, and the Fault/Error page 68 repair trials. Keep
+those as pilots; the first final batch has not passed its full-deck acceptance
+checks.

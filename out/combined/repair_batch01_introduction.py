@@ -540,6 +540,51 @@ def repair(pptx_in: Path, pptx_out: Path) -> None:
     set_native_bullets(attendance, size_percent=75)
     parts[part7] = etree.tostring(slide7, xml_declaration=True, encoding="UTF-8", standalone=True)
 
+    # Source page 15: preserve its nine meaningful By Paragraph reveal
+    # states, but replace the converted empty bullet glyphs and font fallback.
+    part16, slide16, _ = load_slide(16)
+    what_title = find_text_shape(slide16, lambda text: text == "What", "What title")
+    set_shape_box(what_title, 75, 20, 874, 170)
+    set_font_size(what_title, 72)
+    for run_style in what_title.findall(".//a:rPr", NS) + what_title.findall(".//a:defRPr", NS) + what_title.findall(".//a:endParaRPr", NS):
+        for tag in ("latin", "ea", "cs"):
+            font = run_style.find(f"./a:{tag}", NS)
+            if font is None:
+                font = etree.SubElement(run_style, f"{{{A}}}{tag}")
+            font.set("typeface", "Arial")
+    objectives = find_text_shape(
+        slide16,
+        lambda text: text.startswith("This class will teach you:") and "This course is not:" in text,
+        "course-objectives list",
+    )
+    if len(objectives.findall("./p:txBody/a:p", NS)) != 9:
+        raise ValueError("course-objectives list no longer has nine paragraphs")
+    set_shape_box(objectives, 75, 204, 920, 495)
+    set_font_size(objectives, 33.5)
+    for run_style in objectives.findall(".//a:rPr", NS) + objectives.findall(".//a:defRPr", NS) + objectives.findall(".//a:endParaRPr", NS):
+        for tag in ("latin", "ea", "cs"):
+            font = run_style.find(f"./a:{tag}", NS)
+            if font is None:
+                font = etree.SubElement(run_style, f"{{{A}}}{tag}")
+            font.set("typeface", "Arial")
+    for paragraph in objectives.findall("./p:txBody/a:p", NS):
+        ppr = paragraph.find("./a:pPr", NS)
+        if ppr is None:
+            ppr = etree.Element(f"{{{A}}}pPr")
+            paragraph.insert(0, ppr)
+        nested = ppr.get("lvl") == "1"
+        ppr.set("marL", str((58 if nested else 27) * EMU))
+        ppr.set("indent", str(-24 * EMU))
+        line_spacing = ppr.find("./a:lnSpc", NS)
+        if line_spacing is None:
+            line_spacing = etree.Element(f"{{{A}}}lnSpc")
+            ppr.insert(0, line_spacing)
+        for child in list(line_spacing):
+            line_spacing.remove(child)
+        etree.SubElement(line_spacing, f"{{{A}}}spcPts", val="4500")
+    set_native_bullets(objectives, size_percent=75)
+    parts[part16] = etree.tostring(slide16, xml_declaration=True, encoding="UTF-8", standalone=True)
+
     # Source page 5: one-line section labels and body sizing recover the
     # reference's hierarchy without replacing any text with an image.
     part6, slide6, _ = load_slide(6)

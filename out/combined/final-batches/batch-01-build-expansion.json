@@ -1,7 +1,19 @@
 {
   "batch": 1,
-  "status": "two content-bearing paragraph-build families passed local and native Google Slides review; 50 other build-containing slides still need classification; full-batch integration and review remain pending",
+  "status": "three paragraph-build families passed local and native Google Slides review; one single-chunk All at Once build is classified as a single static slide; the mixed build on Introduction page 17 is under local and Google review; 47 other build-containing slides remain unclassified; full-batch integration and review remain pending",
   "policy": "Each selected state is cumulative and stays adjacent to its source slide within the original deck. Do not expand a decorative-only effect. Do not infer instructional meaning from chunk count alone.",
+  "non_expansions": [
+    {
+      "source_filename": "01-408st-introduction.key",
+      "source_topic": "Introduction and administrivia",
+      "source_keynote_slide_order": 17,
+      "reference_pdf_page": 16,
+      "converted_pptx_slide": 17,
+      "decision": "One All at Once pop build with a single chunk reveals the slide as a whole. Preserve the existing single static slide; do not add a duplicate state.",
+      "build_chunk_ids": ["1512343"],
+      "review_status": "Build structure classified; the existing local slide is present in the current candidate. No extra static state is required."
+    }
+  ],
   "expansions": [
     {
       "output_slide": 5,
@@ -49,6 +61,49 @@
         {"label": "5/7", "build_chunk_ids": ["1587752"], "operations": {"visible_paragraphs": {"207": 5}}},
         {"label": "6/7", "build_chunk_ids": ["1587753"], "operations": {"visible_paragraphs": {"207": 6}}},
         {"label": "7/7", "build_chunk_ids": ["1587754"], "operations": {"visible_paragraphs": {"207": 7}}}
+      ]
+    },
+    {
+      "output_slide": 16,
+      "source_filename": "01-408st-introduction.key",
+      "source_topic": "Introduction and administrivia",
+      "source_keynote_slide_order": 16,
+      "reference_pdf_page": 15,
+      "converted_pptx_slide": 16,
+      "decision": "The active Keynote slide has one By Paragraph text build with nine ordered chunks matching the nine visible course-purpose paragraphs. Preserve the instructional sequence as nine cumulative static states.",
+      "build_status": "9 cumulative paragraph states; each state reveals the next Keynote build chunk",
+      "review_status": "All nine local states and all nine native Google PDF pages were inspected against Fall PDF page 15. Explicit Arial fonts and native bullets restore source hierarchy and line fit; the final state matches the reference. The complete 9-state Google pilot passed visual review; full-batch integration remains pending.",
+      "google_pilot_url": "https://docs.google.com/presentation/d/1V61ibVuXM_6DQyQHDUjWUC1i701EVe63yDTBlHejBho/edit",
+      "google_pdf_review": "9 pages; all states visually inspected for cumulative progression, bullet hierarchy, bold/red emphasis, line fit, and final-state match. Export: 53,569 bytes. Local render: out/.build/batch-01/pilots/course-objectives-google-render/presentation.pdf",
+      "states": [
+        {"label": "1/9", "build_chunk_ids": ["1410829"], "operations": {"visible_paragraphs": {"244": 1}}},
+        {"label": "2/9", "build_chunk_ids": ["1410830"], "operations": {"visible_paragraphs": {"244": 2}}},
+        {"label": "3/9", "build_chunk_ids": ["1410831"], "operations": {"visible_paragraphs": {"244": 3}}},
+        {"label": "4/9", "build_chunk_ids": ["1410832"], "operations": {"visible_paragraphs": {"244": 4}}},
+        {"label": "5/9", "build_chunk_ids": ["1410833"], "operations": {"visible_paragraphs": {"244": 5}}},
+        {"label": "6/9", "build_chunk_ids": ["1410834"], "operations": {"visible_paragraphs": {"244": 6}}},
+        {"label": "7/9", "build_chunk_ids": ["1410835"], "operations": {"visible_paragraphs": {"244": 7}}},
+        {"label": "8/9", "build_chunk_ids": ["1410836"], "operations": {"visible_paragraphs": {"244": 8}}},
+        {"label": "9/9", "build_chunk_ids": ["1410837"], "operations": {"visible_paragraphs": {"244": 9}}}
+      ]
+    },
+    {
+      "output_slide": 18,
+      "source_filename": "01-408st-introduction.key",
+      "source_topic": "Introduction and administrivia",
+      "source_keynote_slide_order": 20,
+      "reference_pdf_page": 17,
+      "converted_pptx_slide": 20,
+      "decision": "The slide has a two-part build: first reveal the blue response banner, then reveal the five-question text object By Bullet Group. Preserve the sequence as six cumulative static slides: banner only, then one additional question per state.",
+      "build_status": "Mixed object and bullet-group build; 6 ordered cumulative states, using the banner build followed by five question paragraphs.",
+      "review_status": "Local expansion and native Google pilot are in progress; compare every state against the decoded build order, and compare the final state with Fall PDF page 17.",
+      "states": [
+        {"label": "1/6", "build_chunk_ids": ["1580524"], "operations": {"visible_paragraphs": {"272": 0}}},
+        {"label": "2/6", "build_chunk_ids": ["1580595"], "operations": {"visible_paragraphs": {"272": 1}}},
+        {"label": "3/6", "build_chunk_ids": ["1580557"], "operations": {"visible_paragraphs": {"272": 2}}},
+        {"label": "4/6", "build_chunk_ids": ["1580583"], "operations": {"visible_paragraphs": {"272": 3}}},
+        {"label": "5/6", "build_chunk_ids": ["1580549"], "operations": {"visible_paragraphs": {"272": 4}}},
+        {"label": "6/6", "build_chunk_ids": ["1593231"], "operations": {"visible_paragraphs": {"272": 5}}}
       ]
     }
   ]

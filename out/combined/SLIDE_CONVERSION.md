@@ -11,7 +11,7 @@ shapes editable. Update the roundtrip log after each test.
 
 [Round 4](#round-4--checked) is the complete Part 1 comparison baseline.
 [Round 16](#round-16--test-anatomy-repairs-and-google-review) completed the
-38-slide Test Anatomy diagnostic. [Round 18](#round-18--batch-1-introduction-paragraph-build-pilot)
+38-slide Test Anatomy diagnostic. [Round 20](#round-20--batch-1-course-objectives-paragraph-build-pilot)
 is the latest build-state pilot; [Round 17](#round-17--introduction-page-17-repair-pilot)
 is the latest one-slide repair pilot. Batch 1 is active and not yet accepted.
 [Round 14](#round-14--older-concurrency-testing-lab-introduction) is the
@@ -120,12 +120,16 @@ evidence for native fallback on Google-only font/line-style conversion defects;
 the corresponding local title repair is still included in the batch candidate
 and must be checked in the integrated batch PDF.
 
-The first animation-family pilot reinforces local-first for a different reason:
-locally repaired editable paragraph states imported as an 11-slide native
-Google deck with the progressive order, text, bullet hierarchy, emphasis, and
-line fit intact. The Google PDF's final state matches the Fall reference. This
-does not eliminate the native fallback; it shows that the route should be
-chosen per defect family and checked in the Google export.
+The first three animation-family pilots reinforced local-first: locally
+repaired editable paragraph states imported as native Google decks with the
+progressive order, text, bullet hierarchy, emphasis, and line fit intact. The
+11-state homework, seven-state Course Grading, and nine-state Course Objectives
+pilots all passed page-by-page Google PDF review, and each final state matches
+its Fall reference. The Course Grading pilot also kept the `~24` line unwrapped.
+This supports local-first for these content-build families while retaining
+native Google repair as the per-family backup for Google-only defects such as
+the page 17 font/outline behavior. The route is an evidence-based default; it
+does not require every defect to be repaired locally.
 
 **Paired pilot evidence**
 
@@ -135,6 +139,8 @@ chosen per defect family and checked in the Google export.
 - Fault/Error page 68, local-first at 36 pt: [imported repair pilot](https://docs.google.com/presentation/d/1oDK5YbmbDGM3L8oX4-y8g_lTOq9sgsXWsmL2y5JqSkU/edit).
 - Introduction page 17, local banner/list import plus native title/outline fallback: [single-slide Google pilot](https://docs.google.com/presentation/d/1Gat0ZLl5w5iSrU4tDtZOgEEwQnvEIANW3pUV2vsqw48/edit).
 - Introduction page 4, local paragraph-state repair: [11-slide native Google pilot](https://docs.google.com/presentation/d/1mCf3kvK2-08EIXOmxRONiD6JmH27N35ykvc8XwqXtoI/edit).
+- Introduction page 6, local paragraph-state repair: [7-slide native Google pilot](https://docs.google.com/presentation/d/1GXnEv1AfcqdL2rVJEqtDkvLmh0SCdVXOi0CzmePTstI/edit).
+- Introduction page 15, local paragraph-state repair: [9-slide native Google pilot](https://docs.google.com/presentation/d/1V61ibVuXM_6DQyQHDUjWUC1i701EVe63yDTBlHejBho/edit).
 - Google-created PDFs, renders, and one-slide PPTX samples are under `out/.build/repair-route-pilot/`.
 
 For each new defect family, keep the local repair as the first candidate and
@@ -257,18 +263,49 @@ used variable auto-fit that changed the typography between states. The local
 repair sets native Arial bullets, uses explicit 27.5 pt text with auto-fit
 disabled, and preserves the original bold/italic/color runs; this fixes the
 bullet glyph and keeps the longest lines on one line across all states. The
-current expanded candidate has 121 pages (111 baseline pages plus ten added
-states). A pruned 11-slide PPTX containing only output pages 5–15 was imported
+intermediate candidate had 121 pages (111 baseline pages plus ten added
+states). After the page 6 expansion below, the current partial candidate has
+127 pages. A pruned 11-slide PPTX containing only output pages 5–15 was imported
 as a native Google pilot. Structural readback returned 11 ordered slides with
 editable cumulative text. The Google PDF contains 11 pages; all were inspected
 and show the intended progressive reveal with consistent typography, bullet
 hierarchy, emphasis, and line fit. Its final page matches Fall reference page
-4. The full 121-page candidate and integrated Batch 1 repairs have not yet been
+4. The full 127-page candidate and integrated Batch 1 repairs have not yet been
 imported or reviewed. Local pilot PDF and page renders are under
 `out/.build/batch-01/pilots/google-render-2026-11-27/`; the Drive deck is linked
 in [Round 18](#round-18--batch-1-introduction-paragraph-build-pilot). The
 output map is generated at
 `out/.build/batch-01/assembled/batch-01-expanded-map.csv`.
+
+#### Second Batch 1 build family: Introduction PDF page 6, Course Grading
+
+The active source slide at Keynote order 7 has one `By Paragraph` text build
+with seven ordered chunks matching its seven attendance-policy paragraphs.
+Keep the seven cumulative states adjacent to the source page, at expanded
+output pages 17–23. The 111-page baseline becomes 121 pages after the page 4
+states, then 127 after this six-slide addition. These are cumulative reveal
+states, not seven unrelated slides.
+
+The converted heading had auto-fit scaling, empty bullet formatting, and
+missing source fonts. The local repair explicitly sizes the title and body,
+restores native bullets and paragraph geometry, and preserves colored/bold
+`opts in` and `opts out` runs as editable text. The long “Attending a lecture
+nets you one point, up to a total of ~24” item fits on one line. All seven
+local states were inspected. A compact 7-slide subset was created with
+[`prune_pptx_slides.py`](prune_pptx_slides.py), imported as native Google
+Slides, and verified by an ordered outline readback. The 65,752-byte Google PDF
+has seven pages; each page was inspected for cumulative progression, bullet
+hierarchy, emphasis, clipping, and line fit. Its final state matches Fall PDF
+page 6. The native pilot is
+[in Drive Pilots](https://docs.google.com/presentation/d/1GXnEv1AfcqdL2rVJEqtDkvLmh0SCdVXOi0CzmePTstI/edit).
+The local Google PDF and seven page renders are under
+`out/.build/batch-01/pilots/course-grading-google-render/`.
+
+This second paragraph example reinforces the reusable method: inspect actual
+ordered chunks, repair the editable slide before expansion, create cumulative
+static states, then verify every page of a compact native Google pilot. It
+does not classify the other 50 build-containing slides. The full 127-page
+candidate and integrated repairs still need final-batch Google verification.
 
 **Batch 1 visual repairs (November 26, 2026):** Introduction page 2 had a
 34 pt imported text block that collided with portraits and wrapped into the
@@ -2176,3 +2213,92 @@ every Google-rendered state for progression, hierarchy, clipping, and
 consistency. This rule is limited to content-bearing paragraph builds; do not
 turn effect markers or decorative changes into slides without inspecting the
 actual build states.
+
+### Round 19 — Batch 1 Course Grading paragraph-build pilot
+
+**Status:** a second content-bearing paragraph-build family passed local
+review, native Google Slides outline readback, and page-by-page Google PDF
+review. This strengthens the local-first rule for editable paragraph builds;
+it does not accept Batch 1. The native 7-slide pilot is
+[in Drive Pilots](https://docs.google.com/presentation/d/1GXnEv1AfcqdL2rVJEqtDkvLmh0SCdVXOi0CzmePTstI/edit).
+The outline returned seven ordered slide IDs (`p1`–`p7`) with cumulative text.
+
+The source is `01-408st-introduction.key`, Keynote slide order 7 / Fall PDF
+page 6 / candidate slide 7. One `By Paragraph` build contains seven ordered
+chunks, one for each visible paragraph. After the page 4 expansion, this
+source appears at output page 17; its cumulative states occupy output pages
+17–23. The local repair sets the Course Grading title to 72 pt Arial, restores
+the attendance heading's Roboto Condensed face and removes its blank lead
+paragraph and bullet, and sets the body to 34 pt Arial with explicit native
+bullets and source-matched indentation/spacing. Bold and colored `opts in` and
+`opts out` text remains editable. The longest `~24` item fits on one line.
+All seven local pages and all seven Google PDF pages were inspected; Google's
+65,752-byte PDF ends on a state matching Fall reference page 6.
+
+The pilot package was reduced to 118,470 bytes with
+[`prune_pptx_slides.py`](prune_pptx_slides.py), selecting expanded candidate
+pages 17–23 and retaining only relationship-reachable presentation parts. The
+full expanded local candidate has 127 pages (111 baseline pages plus 16
+additional static states from the two confirmed builds); it has not yet been
+imported as a full deck. The local Google PDF and renders are under
+`out/.build/batch-01/pilots/course-grading-google-render/`.
+
+**Export-transfer observation:** the render helper's fetch was wrapped from
+the outset to set `include_base64: true`. It returned the 65,752-byte PDF in
+one bounded connector call, then the helper saved and rendered it locally.
+The base64 was neither printed nor retained. No preliminary fetch, `curl`, or
+shell/network downloader was used. This matches the documented small-PDF
+compatibility route in the [Drive guide](GOOGLE_DRIVE_ACCESS.md#download-the-google-rendered-pdf).
+
+**Reusable rule:** on a verified `By Paragraph` build, preserve the exact
+chunk order and emit cumulative states. Repair the imported text box's font,
+auto-fit, bullets, hierarchy, and line fit in the local PPTX first; use a
+compact pruned subset for the native Google pilot. Read back the slide order,
+export once, and inspect every page. Use a native Google repair as a backup
+when a Google-only difference remains or that particular family has stronger
+Google-first evidence. This does not justify expanding decorative effects or
+the other 50 unclassified build-containing slides.
+
+### Round 20 — Batch 1 Course Objectives paragraph-build pilot
+
+**Status:** the third content-bearing paragraph-build family passed local
+review, native Google Slides outline readback, and page-by-page Google PDF
+review. It supports the local-first default for the tested family and keeps
+the documented native Google repair route available for slide-specific
+roundtrip defects. This pilot does not accept Batch 1. The native 9-slide
+pilot is [in Drive Pilots](https://docs.google.com/presentation/d/1V61ibVuXM_6DQyQHDUjWUC1i701EVe63yDTBlHejBho/edit).
+Its outline returned nine ordered slides (`p1`–`p9`) with cumulative text.
+
+The source is `01-408st-introduction.key`, Keynote slide order 16 / Fall PDF
+page 15 / converted slide 16. One `By Paragraph` build contains nine ordered
+chunks. The expanded candidate places its nine states at output pages 32–40.
+The local repair sets the `What` title to 72 pt Arial, widens the body box,
+uses 33.5 pt Arial, and restores native bullet glyphs, paragraph indents, and
+source-matched spacing. Bold runs and the red emphasis in `not` remain
+editable. All nine local states and all nine Google PDF pages were inspected;
+the progression is cumulative, and the final state matches Fall PDF page 15
+in hierarchy, emphasis, line wrapping, and overall fit.
+
+The pilot package was pruned to 120,613 bytes, selecting expanded candidate
+pages 32–40 and retaining their reachable package relationships. The native
+Google PDF is 53,569 bytes with nine pages; its rendered images and PDF are at
+`out/.build/batch-01/pilots/course-objectives-google-render/`. The full
+expanded local candidate now has 135 pages (111 baseline pages plus 24 added
+states across the three classified builds) and has not been imported as a full
+deck.
+
+**Export-transfer observation:** the Slides helper was wrapped from the
+start to set `include_base64: true`. One bounded fetch returned the
+53,569-byte PDF; the helper saved and rendered all nine pages. The payload was
+not printed or retained, and no preliminary failed request or shell/network
+downloader was used. This matches the small-export compatibility procedure
+in the [Drive guide](GOOGLE_DRIVE_ACCESS.md#download-the-google-rendered-pdf).
+
+**Reusable rule:** for an inspected `By Paragraph` build, expand only the
+meaningful ordered chunks into cumulative states. In this family, explicit
+font, box width, native bullet, and paragraph spacing adjustments preserved
+the source layout in both local and Google renders. Keep rich text runs
+editable; verify each state, not just the final slide. Native Google editing
+remains the fallback when a local repair does not survive import or the
+specific slide family has stronger Google-first evidence. This brings the
+classified count to three of 52 build-containing slides; 49 remain.
