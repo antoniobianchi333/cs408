@@ -65,14 +65,22 @@ for Introduction source page 2 is
 [`repair_batch01_introduction.py`](../repair_batch01_introduction.py); it fixes
 overlapping labels and the portrait collision and replaces a stale winter
 phrase using the Fall 2026 syllabus. Its latest local render has readable body
-text, aligned labels and values, and clear space around the portraits. The
-Google render has not yet been checked. The source-specific Fault/Error repair
+text, aligned labels and values, and clear space around the portraits. A
+separate one-slide Google Pilot confirms this local repair survives import and
+renders cleanly. The full 111-page candidate has not been accepted. The
+source-specific Fault/Error repair
 is [`repair_batch01_fault_error.py`](../repair_batch01_fault_error.py). It
 restores two pages of native table cells, repairs two editable video labels,
 and uses diagram-only crops from the matching Fall PDF for three corrupted
 connector diagrams. The current local 111-page candidate has been rendered;
 these repairs match the references locally but have not been checked through
-Google import/export. The Introduction course schedule slide is user-owned:
+Google import/export. This local work is comparison evidence only: one text-fit
+family favors local-first so far, while a two-pass Google-first repair is close
+but not yet visually identical. The collection-wide choice between local-first
+repair and native Google Slides repair remains open pending another test in the
+[conversion runbook](../SLIDE_CONVERSION.md#choose-where-repairs-happen-decision-pending).
+Keep both routes available until evidence selects a primary; then preserve the
+other as a fallback. The Introduction course schedule slide is user-owned:
 leave it unchanged and continue other Batch 1 work; the user will make that
 edit directly. It is not an agent repair blocker.
 Nothing in this folder represents an uploaded or accepted final batch yet.

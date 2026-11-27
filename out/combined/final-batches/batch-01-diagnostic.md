@@ -1,10 +1,13 @@
 # Batch 1 diagnostic: Week 1
 
-**Updated:** 2026-11-26  
+**Updated:** 2026-11-27  
 **Status:** A provisional 111-page local assembly exists, and the Introduction
 page 2 text-fit repair plus six Fault/Error page repairs now render cleanly
 locally. Source/build disposition, remaining repairs, final assembly, Google
-import, and visual acceptance remain open.
+import, and visual acceptance remain open. The local repairs are evidence for
+a planned local-first versus Google-first comparison; they do not establish
+the preferred repair route. See the
+[paired-test plan](../SLIDE_CONVERSION.md#choose-where-repairs-happen-decision-pending).
 
 **User-owned exception:** Do not edit or repair the Introduction course
 schedule slide. The user will correct that slide directly; it is outside the
@@ -81,8 +84,12 @@ disposition; unmatched candidates still need Keynote visibility/build review.
   provisional batch assembly. Its local LibreOffice page 3 render was checked:
   instructor and TA text fits in the center column, WHERE/WHEN labels and
   values occupy separate aligned rows, and the portraits remain visible. The
-  imported 34 pt body text was reduced to 28 pt to fit; this local result still
-  needs Google import/export verification.
+  imported 34 pt body text was reduced to 28 pt to fit. A separate one-slide
+  Google Pilot confirms the local repair survived import and the Google PDF
+  renders all these rows cleanly. This verifies only the page-2 repair, not the
+  full batch. The paired native Google repair remains close but has small
+  styling/position differences; see the
+  [route-comparison record](../SLIDE_CONVERSION.md#choose-where-repairs-happen-decision-pending).
 - One current Fall screenshot/image page is absent or materially different
   in the `.key` conversion. Check the exact source revision and embedded media
   before deciding whether a small image crop is required.

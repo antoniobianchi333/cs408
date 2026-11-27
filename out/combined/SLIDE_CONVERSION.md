@@ -60,7 +60,10 @@ The current connector result and detailed recovery order are recorded in the
    acceptance render. Inspect the PPTX slide and its dependencies when a
    layer is missing, transformed, or covered. Work out whether the
    discrepancy starts in the source reference, the editable PPTX, or Google.
-   Record uncertainty when the available sources disagree.
+   Record uncertainty when the available sources disagree. Read native Google
+   Slides elements recursively: text can be inside `elementGroup.children`,
+   and its absence from the top-level text list does not mean it is visually
+   absent. Inspect the Google render before creating replacement objects.
 3. Repair the smallest affected object using the rules below. Start with
    the existing editable object, then reconstruct it from the source if
    needed. For unfamiliar objects such as tables, charts, or equations,
@@ -73,6 +76,71 @@ The current connector result and detailed recovery order are recorded in the
    be edited as intended. Report visual fidelity and live editability
    separately. Check the neighboring builds and confirm page order when
    returning the slide to a batch.
+
+## Choose where repairs happen: decision pending
+
+There is not yet enough evidence to make either local-first or Google-first
+repair the collection-wide default. Both have worked in parts of the pilots:
+local PPTX edits have survived some Google imports, and native Google Slides
+text/vector edits have passed live readback. Batch 1's local repairs have not
+all been checked through Google: the Introduction page 2 text-fit repair has
+one successful Google-PDF check, but the Fault/Error repairs have not. The
+same-slide Introduction comparison has begun, but it has not yet established
+which route is more efficient and repeatable across different defect families.
+Treat the existing evidence as route-specific, not as proof of a collection-
+wide preference.
+
+Before choosing, run a small paired comparison using identical copies of the
+same source PPTX slide(s), with the same source PDF as visual reference:
+
+1. Select representative defects, ideally one text-fit/wrapping issue and one
+   more complex diagram, table, or image-composition issue. Do not use a
+   schedule slide or other user-owned content.
+2. **Local-first path:** repair the PPTX locally, import that copy as native
+   Slides, and inspect its native objects and Google-exported PDF.
+3. **Google-first path:** import an unmodified copy of that exact PPTX, apply
+   the equivalent repair to the native Slides objects, and inspect the same
+   properties and Google PDF. Keep the two copies in `Pilots` and never mix
+   their edits.
+4. Compare exact content and order, visual match to the source PDF, object
+   editability, repair time, number of Drive/API operations, and recovery from
+   any failed operation. Pace Drive changes by at least five seconds.
+5. Choose the route that meets fidelity and editability requirements with
+   the more repeatable, lower-effort workflow. Keep the other route as a
+   documented fallback. If evidence shows the best route depends on object
+   type, record a narrow exception rather than forcing a universal method.
+
+**Preliminary test (November 27, 2026):** two one-slide Introduction page 2
+copies were imported into `Pilots`, one from the unmodified PPTX and one from
+the locally repaired PPTX. The baseline Google PDF retained the crowded
+original layout; the local-first Google PDF rendered the 28 pt instructor
+block, `WHO` label, `WHERE`/`WHEN` rows, and Fall 2026 value cleanly. Native
+readback confirms those text objects survive the import, although the bottom
+rows are children of two `elementGroup` objects and are missed by a
+top-level-only text read. This is positive evidence for local-first repair on
+this text-fit/layout family, not a collection-wide decision.
+
+- [Google-first repair trial](https://docs.google.com/presentation/d/1yhrGmrHhiEwHjgbCooEVu9yCuAEi1iGiqf8WZfwlvIk/edit)
+- [Local-first repair pilot](https://docs.google.com/presentation/d/1rl6eUwRK5sLYTXqKEhrqGSMr5xYM53t240ixyzO9_M0/edit)
+- Local exports and renders are under `out/.build/repair-route-pilot/renders/`.
+
+A Google-first repair was also applied to the same imported baseline using
+the nested child object IDs. It reaches the correct content and layout after
+two native repair passes, but the resulting PDF still differs in text color
+and small label positioning. The first attempted replacement mistakenly
+created duplicate text because the group children were not inspected; those
+temporary objects were deleted. This exposes both the value of native repair
+and a readback hazard. The Google-first rendering is not yet an equally
+polished control, so do not select the collection-wide route from this one
+page. The two working copies remain in `Pilots` for the recorded comparison.
+Elapsed repair time was not measured in this pilot; measure it on the next
+representative defect family.
+
+Until this comparison is complete, assemble and diagnose candidates locally,
+but do not assume a local visual repair is accepted. The Google-rendered PDF
+remains the acceptance render, and the final batch must contain the verified
+repair regardless of which route is selected. Keep both routes available;
+test another representative defect family before deciding the default.
 
 ## Turn each round into a reusable rule
 
@@ -154,7 +222,9 @@ WHERE/WHEN rows. A 475 pt center-column box, zero horizontal insets, aligned
 label/value rows, and a local reduction to 28 pt now render cleanly in
 LibreOffice while keeping text and photos editable. The source says
 `Now - Depths of Winter`; the visible value is changed to `Fall 2026` from the
-current syllabus. Google import/export must confirm the fit.
+current syllabus. A one-slide Google Pilot confirms the local repair survives
+import and its PDF has clean text fit. The full assembled batch remains
+unverified.
 
 Fault/Error page 68 had a correct image but two overlay labels split across
 lines. The editable labels now use wider centered boxes, a 40 pt Arial fallback,
