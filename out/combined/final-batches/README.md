@@ -47,7 +47,8 @@ article-image then editable-headline build; page 27 has three cumulative
 paragraph states. The original 37 states across six slides passed local review,
 native Google readback, and page-by-page PDF review. The five states on pages
 2–3 and three states on page 27 passed the Round 28 native Google pilot
-readback and page-by-page PDF review. The other 41 build-bearing slides need
+readback and page-by-page PDF review. Round 29 then repaired and checked output
+pages 2 and 64 in the full native WIP. The other 41 build-bearing slides need
 classification.
 
 - [Batch 1 diagnostic and visual findings](batch-01-diagnostic.md)
@@ -70,12 +71,13 @@ regenerated if that directory is cleared. The reusable
 [`expand_batch_build_states.py`](../expand_batch_build_states.py) creates
 cumulative paragraph or object-visibility states from the manifest above.
 The current ignored 147-page local candidate is
-`out/.build/batch-01/assembled/batch-01-expanded-candidate.pptx`; its output map
-is `out/.build/batch-01/assembled/batch-01-expanded-map.csv`. In the current
-session it was rebuilt from the repaired source packages and 111-page base,
-then expanded with the page 2, page 3, and page 27 sequences. The new states
-place the second source-deck divider at local output page 68; the existing WIP
-still has it at page 63.
+`out/.build/batch-01/round29/rebuild-v2/batch-01-expanded-candidate.pptx`; its
+output map is `out/.build/batch-01/round29/rebuild-v2/batch-01-expanded-map.csv`.
+It was rebuilt from the repaired source packages and 111-page base, then
+expanded with the page 2, page 3, and page 27 sequences. The new states place
+the second source-deck divider at local output page 68; the existing WIP still
+has it at page 63. The PPTX is 39,494,683 bytes (SHA256
+`5e12bceca939cb6dbda4baf7a7ca616e0955786e7ba9afe2359fcc761ce4e9e0`).
 The page 18 article image/headline reconstruction was applied before expansion,
 using the unrepaired converted Introduction PPTX as the source for its editable
 headline; the source-repair package does not retain that separate text shape.
@@ -84,8 +86,8 @@ source slide, state, chunk ID, and visibility operation. Page 27 adds two net
 slides to the prior 145-slide candidate. The 147-row output map is consecutive
 and the PPTX has 147 ordered slide references, all resolving to existing slide
 parts; ZIP integrity passes. Its local diagnostic PDF has 147 pages and is
-4,158,723 bytes, SHA256
-`ef72b57542fb5457e387f23082525977d1cf68f2e945abf33d628c41170d9a88`. Pages
+28,501,659 bytes, SHA256
+`06748e758845faf5f28695da2c43d8059e8183dbded3ed2e5e13b3064a1927d4`. Pages
 62–64 were inspected against the exact Fall Introduction PDF. The missing bullet
 glyph, heading/body sizes, indentation, line spacing, and editable cumulative
 progression were checked. Linux LibreOffice substitutes Source Sans Pro with
@@ -96,10 +98,15 @@ The Google WIP has not been replaced by this regenerated candidate. The full
 expanded deck in Drive is the
 [142-slide WIP Batch 1 deck](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit).
 Native outline readback confirmed 142 ordered slides. The latest Google PDF
-export has 142 pages and is 5,233,045 bytes. The user reports a brief visual
-check found about 90% looking fine; contact sheets have now been reviewed for
-all pages, while full-size follow-up and repairs remain open, so the deck is
-not accepted. The two source-deck dividers were blank on the first import
+export has 142 pages, is 5,299,986 bytes, and has SHA256
+`fb172ef445e150960d683aa3b01cfcfeba5f627ceb2c0172eefde5168359e2c2` at native
+revision `mEV_c_nCguc_IQ`. Round 29 repaired output pages 2 and 64 in that same
+deck. Its fresh PDF was visually checked against the exact Fall cover pages.
+Six WIP pages are confirmed repaired (about 4%); full-size review has not
+counted all remaining defects. Contact sheets have been reviewed for all
+pages, but the deck is not accepted. The user set the Google Drive plugin to
+“Allow all tools”; no approval is pending, and project operations remain
+limited to the CS 408 folder. The two source-deck dividers were blank on the first import
 because their generated DrawingML text boxes lacked explicit rectangle
 geometry. A two-slide Google pilot confirmed that adding `a:prstGeom` retains
 both editable labels. The WIP now uses a solid pale-yellow `#FFF2CC`

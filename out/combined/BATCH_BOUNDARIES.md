@@ -2,20 +2,18 @@
 
 **Updated:** 2026-11-27
 **Status:** The 16 conceptual boundaries are fixed. Batch 1 is in progress and
-not accepted: its 142-slide WIP is being repaired and reviewed in Google Drive.
-The 147-slide local candidate has nine expanded build sequences and passed
-package/order checks; eleven of 52 build-bearing slides are classified and 41
-remain. Introduction page 27's three editable states are locally checked
-against the Fall PDF and passed the Round 28 native Google pilot review. The
-local candidate remains ignored scratch and has not replaced the Drive WIP.
-The 8-slide pilot verified the page 2–3 and page 27 states; the full 147-slide
-structure still needs integration into the WIP.
-The current work log and open pages are in the
+not accepted. Its 142-slide native WIP remains in the shared Drive root at
+revision `mEV_c_nCguc_IQ`. The latest 142-page Google PDF is 5,299,986 bytes
+(SHA256 `fb172ef445e150960d683aa3b01cfcfeba5f627ceb2c0172eefde5168359e2c2`).
+Round 29 repaired and visually checked output pages 2 and 64 against their
+exact Fall cover references. The local 147-slide candidate passes package and
+order checks but remains unintegrated; eleven of 52 build-bearing slides are
+classified and 41 remain. The Round 28 native Google pilot verified the page
+2–3 and page 27 states. The current work log and open pages are in the
 [Batch 1 diagnostic](final-batches/batch-01-diagnostic.md); the conversion
-process and latest Round 24–28 findings are in the
-[runbook](SLIDE_CONVERSION.md#round-28--batch-1-google-verification-pilot-for-build-states).
-Do not start Batch 2 until Batch 1 passes its
-acceptance checks.
+process and latest Round 24–29 findings are in the
+[runbook](SLIDE_CONVERSION.md#round-29--batch-1-cover-photo-and-panels-in-full-wip).
+Do not start Batch 2 until Batch 1 passes its acceptance checks.
 
 ## Fixed rules
 

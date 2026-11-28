@@ -423,37 +423,33 @@ The PDF retains its original page dimensions and vector text where available.
 ## Current status and batch order
 
 The source-selection gate and 16 conceptual boundaries are complete. Batch 1
-is now the active batch and is not accepted. Its full native WIP is the
+is active and not accepted. Its full native WIP is the
 [142-slide Google deck](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit)
-at the shared Drive root. The latest export has 142 pages and is 5,233,045
-bytes. Contact sheets have been reviewed for all pages; full-size follow-up,
-repairs, and 41 remaining build classifications are open. The latest divider,
-Course Grading, and page 27 local repairs are in the [conversion runbook](SLIDE_CONVERSION.md)
-and [Batch 1 diagnostic](final-batches/batch-01-diagnostic.md). Do not repeat
-content selection or start Batch 2 early. The detailed boundaries are in
-[BATCH_BOUNDARIES.md](BATCH_BOUNDARIES.md), and batch maps and acceptance
-records are maintained in [final-batches/](final-batches/).
+at the shared Drive root; current native revision `mEV_c_nCguc_IQ`. The latest
+Google export has 142 pages, is 5,299,986 bytes, and has SHA256
+`fb172ef445e150960d683aa3b01cfcfeba5f627ceb2c0172eefde5168359e2c2`. Round 29
+repaired output pages 2 and 64 in that same WIP and checked both against exact
+Fall cover references. Full-size review, repairs, and 41 remaining build
+classifications remain open. Do not repeat content selection or start Batch 2
+early. The detailed boundaries are in [BATCH_BOUNDARIES.md](BATCH_BOUNDARIES.md),
+and batch maps and acceptance records are maintained in
+[final-batches/](final-batches/).
 
-The local candidate was regenerated in the current session and extended with
-the Introduction page 27 paragraph build: its 147-row map is consecutive, its
-presentation order resolves to 147 existing slide parts, and PPTX ZIP
-integrity passes. The local diagnostic PDF has 147 pages (4,158,723 bytes;
-SHA256 `ef72b57542fb5457e387f23082525977d1cf68f2e945abf33d628c41170d9a88`).
-Pages 62–64 were checked against the exact Fall Introduction PDF. The missing
-bullet was repaired and the editable paragraphs reveal cumulatively in order;
-Linux LibreOffice substitutes Source Sans Pro with Liberation Sans, changing
-some line wraps. Round 28's native Google pilot verified the five new states
-on pages 2–3 and the three page 27 states; every pilot page was reviewed
-against the exact Fall PDFs. The 8-page export is 591,184 bytes, SHA256
-`9f79d475cfb53ef87443b4b5430140b16abf876997f969bb1ea90f30fdafe397`; its
-tracked source/build map is in `final-batches/`. Page 14's one-chunk
-acknowledgments build adds no slide. Eleven of 52 build-bearing slides are
-classified; 41 remain. This local `.build` candidate
-has not replaced the native Drive WIP, which still has 142 slides. The
-connected account already listed the project folder and
-created/edited the native `STATUS` Doc there; the user confirmed no separate
-Drive authorization is needed now. The app inherits “Allow low-risk actions,”
-so handle any actual per-operation platform prompt or denial if it occurs.
+The local candidate is in ignored
+`out/.build/batch-01/round29/rebuild-v2/`. Its PPTX has 147 ordered slides,
+147 map rows, resolves all ordered slide references, and passes ZIP integrity;
+the PPTX is 39,494,683 bytes (SHA256
+`5e12bceca939cb6dbda4baf7a7ca616e0955786e7ba9afe2359fcc761ce4e9e0`). Its
+147-page diagnostic PDF is 28,501,659 bytes (SHA256
+`06748e758845faf5f28695da2c43d8059e8183dbded3ed2e5e13b3064a1927d4`). Pages
+62–64 retain the page 27 cumulative editable paragraphs. Linux LibreOffice
+substitutes Source Sans Pro and Roboto Condensed, so the Google PDF remains
+the reference for font-sensitive review. Round 28's eight-slide native pilot
+verified the five page 2–3 states and three page 27 states against exact Fall
+PDFs. Eleven of 52 build-bearing slides are classified; 41 remain. The local
+147-slide structure is not integrated into the Drive WIP. The user set the
+Google Drive plugin to “Allow all tools”; no approval is pending. Project
+operations remain limited to the CS 408 folder.
 
 The initial unmatched-slide review sheets can be regenerated with
 [render_unmatched_contact_sheets.py](render_unmatched_contact_sheets.py). The

@@ -7,25 +7,25 @@ Fault/Error has 108 nodes, 29 skipped, and 79 active. Each active sequence
 matches its Fall PDF page map and LibreOffice candidate in order. Eleven of 52
 build-bearing slides are classified: nine expand into 45 cumulative states;
 the one-chunk All at Once builds on Introduction pages 14 and 16 add no extra
-state. The original 37 states across pages 4, 6, 12, 15, 17, and 18 passed
-local and native Google review. Round 26's five new states on pages 2–3 passed
-local order and visual inspection against the exact Fall PDF. Round 27 added
-three cumulative paragraph states for Introduction page 27 at local output
-pages 62–64. Its editable bullet, text geometry, and line spacing were repaired
-and checked against the exact source. Round 28 verified the five page 2–3
-states and three page 27 states in an 8-slide native Google pilot. Native
-readback confirmed the ordered editable text, and all eight Google PDF pages
-were visually checked against the exact Fall references. The full local
-candidate remains unintegrated into the 142-slide WIP. Page 14's one-step
-acknowledgments text build remains a single static slide. Forty-one
-build-bearing slides still need classification.
+state. Round 28 verified the five page 2–3 states and three page 27 states in
+an 8-slide native Google pilot. The same native full WIP was repaired in place
+in Round 29: output page 2 now has the exact Fall cover photo crop behind
+editable title and quote shapes; output page 64 has the matching cover panels
+and title repair. Both pages were read back and visually checked in the latest
+Google PDF against their exact Fall references. Six of 142 WIP pages are
+confirmed repaired (about 4%); full-size review has not yet produced a reliable
+count of all pages that still need repair. The flagged list is a review queue,
+not a count of confirmed defects. The local 147-slide candidate remains
+unintegrated. Page 14's one-step acknowledgments build remains a single static
+slide. Forty-one build-bearing slides still need classification.
 
-The existing 142-slide WIP remains in the shared Drive root as
+The same 142-slide WIP remains in the shared Drive root as
 [CS408 Batch 1 - WIP - needs fixes](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit);
-native outline readback confirmed 142 ordered slides. Its latest Google PDF
-has 142 pages and is 5,233,045 bytes. Contact sheets cover every WIP page;
-full-size exception review and repairs remain open. The user reports a brief
-visual check found about 90% looking fine, which is not acceptance.
+current native revision `mEV_c_nCguc_IQ`. Its latest Google PDF has 142 pages,
+is 5,299,986 bytes, and has SHA256
+`fb172ef445e150960d683aa3b01cfcfeba5f627ceb2c0172eefde5168359e2c2`. Full-size
+exception review and repairs remain open. A brief user visual check found
+about 90% looking fine, which is not acceptance.
 
 The separate [Round 28 build-state pilot](https://docs.google.com/presentation/d/1yVQs-RXPXoLUeMr8nnDLEsn-9jj6tHp7IW-tjVj_GuQ/edit)
 contains eight small test slides, not a second full-batch deck. Its native
@@ -36,16 +36,18 @@ page was inspected against the exact Fall Introduction references. The
 [tracked source/build map](batch-01-round28-google-pilot-map.csv) maps each
 pilot page to its local candidate slide, source page, state, and chunk.
 
-The current local candidate has 147 consecutive map rows, 147 ordered slide
-references resolving to existing parts, and valid ZIP integrity. Its diagnostic
-PDF has 147 pages and is 4,158,723 bytes, SHA256
-`ef72b57542fb5457e387f23082525977d1cf68f2e945abf33d628c41170d9a88`; Linux
+The current local candidate at
+`out/.build/batch-01/round29/rebuild-v2/` has 147 consecutive map rows, 147
+ordered slide references resolving to existing parts, and valid ZIP integrity.
+Its PPTX is 39,494,683 bytes (SHA256
+`5e12bceca939cb6dbda4baf7a7ca616e0955786e7ba9afe2359fcc761ce4e9e0`). Its
+diagnostic PDF has 147 pages, is 28,501,659 bytes, and has SHA256
+`06748e758845faf5f28695da2c43d8059e8183dbded3ed2e5e13b3064a1927d4`; Linux
 font substitutions make it diagnostic only. The local candidate has not
-replaced or changed the Google WIP. The new divider position in the local map is page 68;
-the WIP still has its divider at page 63 until structural changes are
-integrated. The user confirmed no separate Drive authorization is needed; the
-connected account has already listed the project folder and created/edited the
-native `STATUS` Doc there.
+replaced the Google WIP. Its second source-deck divider is at page 68, while
+the WIP retains that divider at page 63 until structural changes are
+integrated. The user set the Google Drive plugin to “Allow all tools”; no
+approval is pending, and project work stays within the CS 408 folder.
 The two deck-divider slides initially imported blank because the builder
 omitted explicit DrawingML rectangle geometry on their text boxes. A two-slide
 pilot confirmed that `a:prstGeom` preserves their editable labels. The current

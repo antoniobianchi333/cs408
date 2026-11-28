@@ -245,15 +245,15 @@ confirms the native Google Docs MIME type and project-root parent folder.
   Linux LibreOffice substitutes Source Sans Pro with Liberation Sans, changing
   some local line wraps; native Google review resolved that preview issue for
   these states.
-  In the current session, the repaired source packages and full local
-  candidate were regenerated. The output map has 147 consecutive rows, and
-  PPTX order, relationships, slide parts, and ZIP integrity pass. Local divider
-  rows are at pages 1 and 68. The local diagnostic PDF has 147 pages, is
-  4,158,723 bytes, and has SHA256
-  `ef72b57542fb5457e387f23082525977d1cf68f2e945abf33d628c41170d9a88`; Linux
-  font substitutions make it diagnostic only. This rebuilt `.build` candidate
-  has not replaced or changed the existing Drive
-  WIP.
+  The current local candidate is under
+  `out/.build/batch-01/round29/rebuild-v2/`. Its map has 147 consecutive rows;
+  PPTX order, relationships, slide parts, and ZIP integrity pass. Local
+  divider rows are at pages 1 and 68. The PPTX is 39,494,683 bytes, SHA256
+  `5e12bceca939cb6dbda4baf7a7ca616e0955786e7ba9afe2359fcc761ce4e9e0`; its
+  147-page local diagnostic PDF is 28,501,659 bytes, SHA256
+  `06748e758845faf5f28695da2c43d8059e8183dbded3ed2e5e13b3064a1927d4`. Linux
+  font substitutions make it diagnostic only. This local candidate has not
+  replaced or changed the existing Drive WIP.
   Confirmed repair areas include Introduction tables/text/diagram fit and
   Fault/Error diagrams, video composition, and colored outcome tables. A
   111-page local baseline includes editable source-deck dividers; the current
@@ -281,12 +281,17 @@ confirms the native Google Docs MIME type and project-root parent folder.
   Meaningful builds, other repairs, the final
   remaining build classifications, the final map, and full-batch Google
   verification remain open. The 142-slide [working deck](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit)
-  is uploaded at the shared Drive root as `WIP - needs fixes`; native outline
-  readback confirmed 142 ordered slides. The latest Google PDF export has 142
-  pages and is 5,233,045 bytes. The user reports that a brief visual check found about
-  90% of slides looking fine; full-deck contact sheets have now been reviewed,
-  with full-size follow-up and repairs still open, so the batch is not
-  accepted. The two source-deck dividers were blank after import because the
+  is uploaded at the shared Drive root as `WIP - needs fixes`; native readback
+  confirms 142 ordered slides at revision `mEV_c_nCguc_IQ`. The latest Google
+  PDF export has 142 pages, is 5,299,986 bytes, and has SHA256
+  `fb172ef445e150960d683aa3b01cfcfeba5f627ceb2c0172eefde5168359e2c2`. Round
+  29 repaired output pages 2 and 64 in that same deck and checked them against
+  the exact Fall cover references. Six of 142 pages are confirmed repaired
+  (about 4%); full-size review has not established a reliable count of all
+  remaining defects. Contact sheets have been reviewed for all pages, but the
+  batch is not accepted. The user set the Google Drive plugin to “Allow all
+  tools”; no approval is pending, and project operations remain limited to the
+  CS 408 folder. The two source-deck dividers were blank after import because the
   generated DrawingML text boxes lacked explicit preset geometry. A two-slide
   pilot confirmed that adding rectangle geometry preserves the editable text;
   the current WIP now has the source filename and topic labels on both

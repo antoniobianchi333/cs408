@@ -11,10 +11,11 @@ local PPTX and the page map identify the exact test input. A native Google
 Slides copy and its PDF record what Google imported for that round. The
 Google-import evidence documented here includes Rounds 5–25 and Round 28.
 Rounds 26–27 expanded the local Batch 1 candidate; Round 28 verified the five
-page 2–3 states and three page 27 states in an 8-slide native pilot. Its
-readback and 8-page, 591,184-byte Google PDF review are recorded in the
-[Round 28 runbook entry](SLIDE_CONVERSION.md#round-28--batch-1-google-verification-pilot-for-build-states)
-and [source/build map](final-batches/batch-01-round28-google-pilot-map.csv).
+page 2–3 states and three page 27 states in an 8-slide native pilot. Round 29
+repaired output pages 2 and 64 directly in the same full WIP. The fresh
+142-page Google PDF was inspected against exact Fall cover references; its
+native revision and checksum are recorded at the end of this guide and in the
+[Round 29 runbook entry](SLIDE_CONVERSION.md#round-29--batch-1-cover-photo-and-panels-in-full-wip).
 Round 16's Test Anatomy repair
 pilot is complete: native readback confirms 38 ordered slides, and all 38
 Google PDF pages have close visual review. Its final PDF is 5,101,352 bytes;
@@ -94,14 +95,11 @@ time and keep the same pacing before larger imports, exports, or readbacks.
 
 ## Verified for this project
 
-**Current-session authorization check (November 27, 2026):** the connected
-profile reports `purduegcecloud@gmail.com`. Listing the exact project folder
-works, and the native Google Doc `STATUS` was created, read back, and edited in
-that folder. The user confirmed that no separate Drive authorization is
-needed now, so no approval is pending. Google Drive inherits the platform's
-“Allow low-risk actions” app permission; a sensitive operation may still
-prompt or be denied by the platform. Proceed only in the documented CS 408
-folder, and respond to an actual per-operation prompt or denial if it occurs.
+**Current-session authorization check (November 27, 2026):** listing the exact
+project folder works, and the native Google Doc `STATUS` has been read and
+edited there. The user changed the Google Drive plugin setting to “Allow all
+tools”; no approval is pending. This setting does not change the working
+scope: use Drive for this project only within the documented CS 408 folder.
 The separate session-wide authorization for project `libreoffice --headless`
 commands is active.
 
@@ -707,3 +705,26 @@ The PDF export used the Slides helper's bounded `include_base64: true`
 compatibility path from the outset and its chunk receiver. It required no
 `curl`, shell downloader, or preliminary failed fetch. Drive operations were
 serialized with at least 5.5 seconds between calls.
+
+## Current Batch 1 WIP — Round 29
+
+The full-batch deck remains the same native Slides file in the project root:
+[CS408 Batch 1 WIP](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit),
+ID `1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME`. Current Drive metadata
+identifies the native Slides MIME type, project-root parent
+`16vTRNocHa1rlPN1bii_w0b8Ce90XrFbn`, size 19,262,122 bytes, and title
+`CS408 Batch 1 - WIP - needs fixes - 142 slides (Round 23)`. The Slides API
+readback returns 142 ordered slides at revision `mEV_c_nCguc_IQ`.
+
+Round 29 repaired output page 2 and output page 64 in place. Native readback of
+page 2 confirms the full-slide cover crop plus editable Bebas Neue title and
+Roboto Condensed quote text. Page 64 readback confirms the editable
+Fault/Error cover title and three quote lines. The fresh Google PDF has 142
+pages, is 5,299,986 bytes, and has SHA256
+`fb172ef445e150960d683aa3b01cfcfeba5f627ceb2c0172eefde5168359e2c2`. It is
+saved in ignored `out/.build/batch-01/wip-round29-after-cover-photo-panels/`;
+the affected pages were visually compared with exact Fall PDF page 1 from
+each source deck. This same WIP remains unaccepted; the 147-slide local
+candidate is not yet integrated. The export used the documented connected
+helper and bounded compatibility route. No shell or network downloader was
+used.
