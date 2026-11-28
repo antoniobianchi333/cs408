@@ -67,7 +67,7 @@ regenerated if that directory is cleared. The reusable
 [`expand_batch_build_states.py`](../expand_batch_build_states.py) creates
 cumulative paragraph or object-visibility states from the manifest above.
 The current ignored 142-page local candidate
-`out/.build/batch-01/assembled/batch-01-expanded-candidate.pptx` adds ten
+`out/.build/batch-01/assembled/batch-01-expanded-candidate-round24b.pptx` adds ten
 homework states, six Course Grading states, one AI-policy state, eight Course
 Objectives states, five net states for the page 17 mixed build, and one net
 state for each of the page 12 and page 18 two-state builds to the 111-page
@@ -75,9 +75,25 @@ baseline; its
 output map is `out/.build/batch-01/assembled/batch-01-expanded-map.csv`. The full expanded
 deck has been imported to the shared Drive root as the
 [142-slide WIP Batch 1 deck](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit).
-Native outline readback confirmed 142 ordered slides. The user reports a brief
-visual check found about 90% looking fine; a full Google PDF export and
-systematic page review are still pending, so the deck is not accepted. Pruned
+Native outline readback confirmed 142 ordered slides. The latest Google PDF
+export has 142 pages and is 5,233,045 bytes. The user reports a brief visual
+check found about 90% looking fine; contact sheets have now been reviewed for
+all pages, while full-size follow-up and repairs remain open, so the deck is
+not accepted. The two source-deck dividers were blank on the first import
+because their generated DrawingML text boxes lacked explicit rectangle
+geometry. A two-slide Google pilot confirmed that adding `a:prstGeom` retains
+both editable labels. The WIP now uses a solid pale-yellow `#FFF2CC`
+background, 24 pt bold Arial filenames, and 28 pt regular Arial topics.
+Output pages 24–25 (Introduction PDF pages 7–8) now use the source's 80 pt
+Source Sans Pro title and 66 pt Bebas Neue table text, centered vertically.
+Page 24 uses corrected 92/92/77/92/92 pt rows. A two-slide PPTX import pilot
+rev2 confirmed the table font, sizes, row heights, and MIDDLE cell alignment;
+the title maps to Arial on import, so the full WIP received a native
+Source Sans Pro edit. See the [Round 25 log](../SLIDE_CONVERSION.md#round-25--batch-1-course-grading-table-typography).
+The current full PDF is saved under
+`out/.build/batch-01/round24-grading-cell-style/`; regenerate it from Google
+Drive if the ignored `.build` directory is absent.
+Pruned
 11-slide,
 7-slide, 2-slide, 9-slide, 6-slide, and two 2-slide state subsets were imported
 as native Google pilots and verified; see the [Round 18](../SLIDE_CONVERSION.md#round-18--batch-1-introduction-paragraph-build-pilot),
@@ -107,7 +123,8 @@ regenerated with
 using the page maps in ignored `.build/batch-01/` to check sequence alignment.
 The provisional editable package can be assembled with
 [`build_batch_candidate.py`](../build_batch_candidate.py), which adds the
-required plain dividers, selects mapped reference-page candidates, and records
+required pale-yellow editable dividers with explicit text-box geometry,
+selects mapped reference-page candidates, and records
 notes and build-marker hints. It explicitly leaves animation expansion and
 remaining visual repair pending. The current ignored local candidate is
 `out/.build/batch-01/assembled/batch-01-static-candidate.pptx`; its output map

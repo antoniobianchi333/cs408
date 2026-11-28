@@ -1,9 +1,13 @@
 # Final 16-batch boundaries
 
-**Updated:** 2026-11-26  
-**Status:** High-level boundaries are set. Batch 1 is next; its detailed
-source/build map will record exact source revisions, output pages, build
-states, and divider slides before conversion.
+**Updated:** 2026-11-27
+**Status:** The 16 conceptual boundaries are fixed. Batch 1 is in progress and
+not accepted: its 142-slide WIP is being repaired and reviewed in Google Drive.
+The current work log and open pages are in the
+[Batch 1 diagnostic](final-batches/batch-01-diagnostic.md); the conversion
+process and latest Round 24–25 findings are in the
+[runbook](SLIDE_CONVERSION.md). Do not start Batch 2 until Batch 1 passes its
+acceptance checks.
 
 ## Fixed rules
 

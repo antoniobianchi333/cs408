@@ -159,10 +159,15 @@ def set_shape_box(shape: etree._Element, x: float, y: float, width: float, heigh
             body.set(key, "0")
 
 
-def set_table_cell(cell: etree._Element, text: str, *, first_column: bool) -> None:
+def set_table_cell(cell: etree._Element, text: str, *, first_column: bool,
+                   font_size_pt: float = 66) -> None:
     tcpr = cell.find("./a:tcPr", NS)
     if tcpr is None:
         tcpr = etree.SubElement(cell, f"{{{A}}}tcPr")
+    # For table-cell vertical alignment, DrawingML stores the anchor on tcPr.
+    # bodyPr.anchor alone can look centered in an exported PDF while Google
+    # native readback still reports the cell as TOP-aligned.
+    tcpr.set("anchor", "ctr")
     for child in list(tcpr):
         if etree.QName(child).localname in ("solidFill", "gradFill", "blipFill", "noFill"):
             tcpr.remove(child)
@@ -198,16 +203,24 @@ def set_table_cell(cell: etree._Element, text: str, *, first_column: bool) -> No
     ppr = etree.SubElement(paragraph, f"{{{A}}}pPr", algn="ctr")
     etree.SubElement(ppr, f"{{{A}}}buNone")
     run = etree.SubElement(paragraph, f"{{{A}}}r")
-    rpr = etree.SubElement(run, f"{{{A}}}rPr", lang="en-US", sz="2400", b="1")
+    rpr = etree.SubElement(
+        run, f"{{{A}}}rPr", lang="en-US", sz=str(round(font_size_pt * 100))
+    )
     color = LABEL_BLUE if first_column else "000000"
     solid = etree.SubElement(rpr, f"{{{A}}}solidFill")
     etree.SubElement(solid, f"{{{A}}}srgbClr", val=color)
-    etree.SubElement(rpr, f"{{{A}}}latin", typeface="Arial")
+    etree.SubElement(rpr, f"{{{A}}}latin", typeface="Bebas Neue")
     etree.SubElement(run, f"{{{A}}}t").text = text
-    etree.SubElement(paragraph, f"{{{A}}}endParaRPr", lang="en-US", sz="2400")
+    end_rpr = etree.SubElement(
+        paragraph, f"{{{A}}}endParaRPr", lang="en-US",
+        sz=str(round(font_size_pt * 100))
+    )
+    etree.SubElement(end_rpr, f"{{{A}}}latin", typeface="Bebas Neue")
 
 
-def repair_grading_table(root: etree._Element, expected_rows: int, rows_data: list[tuple[str, str]]) -> None:
+def repair_grading_table(root: etree._Element, expected_rows: int,
+                         rows_data: list[tuple[str, str]],
+                         row_heights_pt: list[float] | None = None) -> None:
     frames = root.findall(".//p:graphicFrame", NS)
     if len(frames) != 1:
         raise ValueError(f"expected one grading table, found {len(frames)}")
@@ -217,7 +230,11 @@ def repair_grading_table(root: etree._Element, expected_rows: int, rows_data: li
     rows = table.findall("./a:tr", NS)
     if len(rows) != expected_rows or any(len(row.findall("./a:tc", NS)) != 2 for row in rows):
         raise ValueError("grading table does not match the expected two-column structure")
-    for row, (label, weight) in zip(rows, rows_data, strict=True):
+    if row_heights_pt is not None and len(row_heights_pt) != expected_rows:
+        raise ValueError("grading table row heights do not match the source row count")
+    for row_index, (row, (label, weight)) in enumerate(zip(rows, rows_data, strict=True)):
+        if row_heights_pt is not None:
+            row.set("h", str(round(row_heights_pt[row_index] * EMU)))
         cells = row.findall("./a:tc", NS)
         set_table_cell(cells[0], label, first_column=True)
         set_table_cell(cells[1], weight, first_column=False)
@@ -671,17 +688,19 @@ def repair(pptx_in: Path, pptx_out: Path) -> None:
         set_font_size(body, 26)
     parts[part6] = etree.tostring(slide6, xml_declaration=True, encoding="UTF-8", standalone=True)
 
-    # Source pages 7–8: put the Fall grading labels and weights back into the
-    # existing native, editable table cells.
-    for index, table_rows in (
-        (8, [("ATTENDANCE", "10%"), ("HOMEWORK ASSIGNMENTS", "10%"), ("COURSE PROJECTS", "20%"), ("MIDTERMS", "35%"), ("FINAL (TBA)", "25%")]),
-        (9, [("HOMEWORK ASSIGNMENTS", "10%"), ("COURSE PROJECTS", "20%"), ("MIDTERMS", "40%"), ("FINAL (TBA)", "30%")]),
+    # Source pages 7–8: retain the Fall grading text as editable table cells.
+    # The exact PDF embeds Bebas Neue at 66 pt and Source Sans Pro at 80 pt.
+    # Google import had reduced the table to 24 pt Arial and top-aligned it.
+    for index, table_rows, row_heights in (
+        (8, [("ATTENDANCE", "10%"), ("HOMEWORK ASSIGNMENTS", "10%"), ("COURSE PROJECTS", "20%"), ("MIDTERMS", "35%"), ("FINAL (TBA)", "25%")], [92, 92, 77, 92, 92]),
+        (9, [("HOMEWORK ASSIGNMENTS", "10%"), ("COURSE PROJECTS", "20%"), ("MIDTERMS", "40%"), ("FINAL (TBA)", "30%")], None),
     ):
         table_part, table_slide, _ = load_slide(index)
-        repair_grading_table(table_slide, len(table_rows), table_rows)
+        repair_grading_table(table_slide, len(table_rows), table_rows, row_heights)
         title = find_text_shape(table_slide, lambda text: text.startswith("Course Grading"), "grading option title")
         set_shape_box(title, 20, 20, 984, 140)
-        set_font_size(title, 60)
+        set_font_family(title, "Source Sans Pro")
+        set_font_size(title, 80)
         parts[table_part] = etree.tostring(table_slide, xml_declaration=True, encoding="UTF-8", standalone=True)
 
     # Source page 13 contains only the question. The imported Two-Step

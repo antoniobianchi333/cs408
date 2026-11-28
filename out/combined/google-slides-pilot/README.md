@@ -8,10 +8,14 @@ and holds only small isolated test decks. Keep each round's inputs and evidence
 together here. Put temporary renders and transfer scratch files in
 `out/.build/` instead of this folder.
 
-Final-candidate batch PowerPoints stay directly in `out/combined/`, beside
-the full collection PDF and source maps. The batch manifest is
+Persistent source/build maps, scripts, and the editable-parts manifest stay in
+`out/combined/`. Temporary full-batch PPTX candidates and local PDF renders
+belong in ignored `out/.build/batch-NN/` directories; they are regenerable and
+do not belong in Git. Full-batch WIP and accepted decks live in the shared
+Google Drive project root. Keep only small isolated tests in Drive `Pilots`.
+The batch manifest is
 [`../editable-parts-manifest.json`](../editable-parts-manifest.json). Do not
-put final batch PowerPoints in this pilot folder.
+put a full batch deck in this pilot folder.
 
 ## Google Drive organization
 
@@ -29,7 +33,11 @@ As of November 24, 2026, all 17 presentations previously listed at the shared
 root were pilot/test decks and had been moved into `Pilots`. The current Batch
 1 working deck is an intentional full-batch WIP exception to the old
 final-only wording: it remains at the shared root as it is reviewed and fixed.
-The small Round 18–23 slide subsets remain in `Pilots`.
+The small Round 18–25 slide subsets remain in `Pilots`, including the Round 24
+divider geometry test and Round 25 two-slide Course Grading font/alignment
+import pilot. Their native links and results are in the
+[Round 24 divider record](../SLIDE_CONVERSION.md#round-24--batch-1-divider-import-and-visual-standard)
+and [Round 25 table record](../SLIDE_CONVERSION.md#round-25--batch-1-course-grading-table-typography).
 
 ## Future rounds
 

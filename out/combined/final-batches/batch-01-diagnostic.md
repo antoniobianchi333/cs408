@@ -17,9 +17,23 @@ its six banner shapes. Round 22 needed a 31 pt native headline plus a 75,000
 EMU vertical adjustment after Google import. The full 142-slide WIP deck is
 now in the shared Drive root as
 [CS408 Batch 1 - WIP - needs fixes](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit);
-native outline readback confirmed 142 ordered slides. The user reports a brief
-visual check found about 90% of slides looking fine. Full build classification,
-remaining repairs, and full-batch Google PDF inspection remain open.
+native outline readback confirmed 142 ordered slides. The latest Google PDF
+export has 142 pages and is 5,233,045 bytes. Contact sheets have been reviewed
+across every page; full-size exception review, confirmed repairs, and build
+classification remain open. The user reports a brief visual check found about
+90% of slides looking fine; that is a first-pass impression, not acceptance.
+The two deck-divider slides initially imported blank because the builder
+omitted explicit DrawingML rectangle geometry on their text boxes. A two-slide
+pilot confirmed that `a:prstGeom` preserves their editable labels. The current
+WIP now uses solid pale-yellow `#FFF2CC` dividers with 24 pt bold Arial
+filenames and 28 pt regular Arial topics.
+Round 25 corrected the grading tables on output pages 24–25: native Google
+readback confirms 80 pt Source Sans Pro titles, 66 pt Bebas Neue cells, and
+middle alignment; the latest 142-page PDF matches the Fall references on both
+pages. The two-slide import pilot rev2 confirms those table styles survive a
+fresh PPTX import. Its title family maps to Arial, so the full WIP uses a
+native Source Sans Pro repair. The current local candidate and exact evidence
+are recorded in the [conversion runbook](../SLIDE_CONVERSION.md#round-25--batch-1-course-grading-table-typography).
 Keep the local PPTX and maps as the reproducible source; use the full native
 Google deck as the working surface for iterative visual fixes. Apply confirmed
 repairs in that deck, rebuilding locally only when a content or structural
@@ -325,8 +339,9 @@ no-expansion decision are now classified:
 
 The 11-slide page 4, 7-slide page 6, 2-slide page 12, 9-slide page 15,
 6-slide page 17, and 2-slide page 18 subsets passed native Google readback and
-page-by-page PDF review. The current 142-page expanded candidate remains
-unimported as a full batch. The [build-expansion manifest](batch-01-build-expansion.json) records
+page-by-page PDF review. The corresponding 142-slide full WIP is already
+uploaded in the shared Drive root and remains the active Google repair surface.
+The [build-expansion manifest](batch-01-build-expansion.json) records
 all six expansions, the page 16 no-expansion decision, and their chunk IDs; the
 [`expand_batch_build_states.py`](../expand_batch_build_states.py) creates the
 cumulative states, and [`prune_pptx_slides.py`](../prune_pptx_slides.py)
@@ -365,9 +380,9 @@ records for the native Google links and PDF renders.
    73, 74, 76, and 77, in the final batch. Leave the course schedule slide
    untouched for the user to edit.
 5. Keep the full-size WIP deck at the shared Drive root and improve that same
-   native presentation in place. Export the initial full Google PDF, compare
-   all pages with the references, and apply confirmed visual fixes directly in
-   Google Slides. Use the local PPTX and maps as the reproducible source; if a
+   native presentation in place. Re-export the full Google PDF after repairs,
+   compare all pages with the references, and apply confirmed visual fixes
+   directly in Google Slides. Use the local PPTX and maps as the reproducible source; if a
    later build-state change alters structure, update the WIP deck and verify
    its affected order/pages. Rename it as accepted only after the full review.
 
@@ -381,9 +396,10 @@ records for the native Google links and PDF renders.
 - Which notes are present on the selected source slides, and does the planned
   package/assembly path retain them?
 - Has every Google-exported page been visually reviewed against the exact
-  reference? **Not yet.** The WIP deck is uploaded, but its full Google PDF has
-  not yet been exported and inspected. The user's brief visual check found
-  about 90% of pages looking fine; that is preliminary feedback, not acceptance.
+  reference? **Partially.** The current full PDF is exported, and contact
+  sheets cover all 142 pages. Full-size follow-up on flagged pages and the
+  confirmed fixes remain open. The user's brief visual check found about 90%
+  of pages looking fine; that is preliminary feedback, not acceptance.
 - The Introduction course schedule slide is not an open agent issue. The user
   will update it directly; continue Batch 1 work without changing its schedule
   text.

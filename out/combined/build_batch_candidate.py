@@ -3,9 +3,11 @@
 
 The manifest must list source decks in batch order. Each map CSV must contain
 `reference_pdf_page` and `converted_pptx_slide` columns produced by
-audit_batch_source_alignment.py. The builder adds a plain editable divider
-before each source deck, copies selected slides and notes, and records every
-output page. It deliberately does not expand Keynote animation builds or
+audit_batch_source_alignment.py. The builder adds a full-slide solid pale-yellow
+(`#FFF2CC`) editable divider before each source deck, with centered 24 pt bold
+Arial filename text and 28 pt regular Arial topic text. Divider text boxes use
+explicit DrawingML rectangle geometry. The builder copies selected slides
+and notes, and records every output page. It deliberately does not expand Keynote animation builds or
 repair imported layouts; the output map labels those items as pending.
 
 This package-level copier supports LibreOffice PPTX inputs whose slide

@@ -92,6 +92,9 @@ be able to:
 
 1. Read [`README.md`](README.md) first and follow its links to the live plan,
    branch policy, collection guide, conversion runbook, and Drive guide.
+   Use [`GOAL.md`](../GOAL.md) as the `/goal` objective and
+   [`PROMPT.md`](../PROMPT.md) as the first-session prompt. The ignored
+   `out/.build/` tree is temporary and may not exist on the new machine.
 2. Identify the newest authoritative course source. The current branch tree
    already contains the Fall source PDFs at `slides/f26-pdfs/` and the Keynote
    decks at `slides/`; it is based on the Fall tip `900304aa`. The 20-PDF
@@ -105,14 +108,15 @@ be able to:
 4. Find verified durable pilot artifacts in Drive `Pilots` and distinguish
    them from final decks in the Drive root. Use the Drive guide for account
    setup, low-rate API calls, no-curl transfer, and export limits.
-5. Round 16's Google PDF page review is complete; all 38 pages have close
-   review and the native readback/audit passed. Next use the completed 57-row
-   source-selection audit—do not redo topic selection. Fall sources are
-   selected for topics Fall covers, with six complete older-only topics
-   recorded in the older-topic audit. Make the ordered outline for exactly 16
-   conceptual batches, keeping decks/topics whole and using the
-   syllabus/homework sequence for placement.
-6. Complete Batch 1 end to end before starting Batch 2. For each batch, map,
+5. The 57-row source-selection audit and 16 conceptual batch boundaries are
+   complete; do not repeat content selection or rebalance whole topics.
+   Prefer Fall sources wherever Fall covers a topic and include the six
+   complete older-only units recorded in the older-topic audit.
+6. Batch 1 is active and not accepted. Its 142-slide native WIP is in the
+   shared Drive root; inspect the current
+   [Batch 1 diagnostic](combined/final-batches/batch-01-diagnostic.md) and
+   [PLAN.md](PLAN.md) before continuing. Complete Batch 1 end to end before
+   starting Batch 2. For each batch, map,
    convert, repair, validate locally, upload its final Google Slides deck to
    the shared folder root above `Pilots` as a WIP deck, read back its structure, export the
    Google PDF, inspect every page, and update the manifest/docs. Keep only
@@ -140,6 +144,9 @@ maps, and compact QA reports such as the Fall/current text-overlap table. The
 large generated PDFs, PPTX files, and page
 images remain unadded. The 20-row Fall PDF metadata audit is tracked as
 [`combined/fall-source-metadata.csv`](combined/fall-source-metadata.csv).
+The top-level
+[`GOAL.md`](../GOAL.md) and [`PROMPT.md`](../PROMPT.md) are part of that restart kit;
+the main README links both and the current progress documents.
 
 This inventory is the policy for selecting files, not evidence that every
 large local artifact already has a Drive copy. The Google folder must be

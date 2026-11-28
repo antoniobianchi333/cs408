@@ -1052,10 +1052,11 @@ finish each batch 100% before beginning the next.
    Counts and sizes vary; do not target 559 slides or move material to make
    equal blocks.
 3. Work on Batch 1 only. Create its detailed output-to-source/build map,
-   add one plain, editable source/topic divider before every original source
-   deck, including the first deck in the batch, and map each divider as a
-   generated slide. Divider text must name the exact source filename and the
-   topic of the following slides. Expand meaningful animations into ordered
+   add one full-slide, solid pale-yellow (`#FFF2CC`) editable divider before
+   every original source deck, including the first deck in the batch. Center
+   the exact filename in 24 pt bold Arial and the following topic in 28 pt
+   regular Arial. Include explicit DrawingML rectangle geometry on generated
+   text boxes and map each divider as a generated slide. Expand meaningful animations into ordered
    static states, convert the selected source material, and carry forward
    only repair rules that fit the source/layout. Fix text-fit issues by
    inspecting box geometry and font size; use image fallback only for the
@@ -2499,9 +2500,98 @@ Workflow:
 
 The current [Batch 1 WIP deck](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit)
 was imported from the 142-page local candidate and remains at the shared
-root. Native outline readback confirmed 142 ordered slides. The user reports
-that a brief visual check found about 90% of pages looking fine; the full
-Google PDF comparison and systematic defect fixes remain open. The local
+root. Native outline readback confirmed 142 ordered slides. The latest Google
+PDF export is 5,233,045 bytes and has 142 pages. Contact sheets have been
+reviewed across all pages; full-size follow-up on flagged slides and repairs
+remain open. The user reports that a brief visual check found about 90% of
+pages looking fine; that is preliminary feedback, not acceptance. The local
 first-round conversion evidence still guides repairs: use native Google edits
 for defects that appear or remain after import, and preserve local repair
-sources for reproducibility.
+sources for reproducibility. Batch 1 is not accepted; do not start Batch 2.
+
+## Round 24 — Batch 1 divider import and visual standard
+
+The first full-batch Google export showed blank pages 1 and 63 where the local
+PPTX has its two required source-deck dividers. Google native readback returned
+`pageElements: null` for both slides. The local package contains two standard
+Arial text boxes on each slide; fonts were not missing. Inspection of
+[`build_batch_candidate.py`](build_batch_candidate.py) found that the custom
+DrawingML text boxes omitted `a:prstGeom`. LibreOffice rendered them, but
+Google's import discarded them. A corrected two-slide pilot added
+`a:prstGeom prst="rect"` and retained both text boxes as editable objects in
+Google readback and its PDF export. This isolates the geometry omission as the
+cause for these divider slides.
+
+The batch builder now creates every divider with a full-slide solid pale-yellow
+background (`#FFF2CC`), centered 24 pt bold Arial exact-filename text, and
+centered 28 pt regular Arial topic text. Keep both text boxes editable and
+include explicit rectangle geometry. The current full WIP was repaired in
+place: pages 1 and 63 now show the correct filename and following topic. Native
+readback confirms both text objects and font sizes; the latest full Google PDF
+confirms the yellow background and text visually. The
+[two-divider Google pilot](https://docs.google.com/presentation/d/1K9wKFR8PCSwFg1DOCdTAqFPyNwBLojTJfruFe2Jy6Bs/edit?usp=drivesdk)
+verified that the repaired labels remain editable after import. The full WIP
+export has 142 pages, matching the native slide count. Apply this standard to
+all final batches; retain the filename and topic as separate centered text
+boxes so each remains easy to read and edit.
+
+### Generated render cleanup
+
+Per-slide PNGs are disposable review output when their source PDF is retained
+and can be rendered again. After broad review, remove superseded page PNGs and
+keep the source PDFs, final candidate PPTX, ordered map, repair/media assets,
+and contact sheets or individual exception images still needed for review. Do
+not delete source images or repair crops as if they were renders. This cleanup
+removed 3,409 per-page PNG renders (761.2 MiB) with nearby PDFs and 393
+superseded Round 23 page renders (about 55.6 MiB); the PDFs and 18 current
+comparison sheets remain. The `.build` directory fell from 2.7 GiB to 2.0 GiB.
+Repeat this cleanup periodically after a review/export cycle.
+
+## Round 25 — Batch 1 Course Grading table typography
+
+The Fall reference is `slides/f26-pdfs/01-408st-introduction.pdf`, pages 7–8;
+these are output pages 24–25 in the 142-slide Batch 1 deck. The reference PDF
+uses an 80 pt Source Sans Pro title and 66 pt Bebas Neue text in its editable
+two-column tables. The first import had converted the titles to 60 pt Arial,
+the cell text to 24 pt Arial, and the table cells to top alignment. The table
+labels were visibly too small and sat near the top of their rows.
+
+The full native WIP was repaired in place. Its titles now use Source Sans Pro
+80 pt; all table cells use Bebas Neue 66 pt, with source blue labels, black
+weights, and middle alignment. Page 24's five row heights were adjusted to
+92/92/77/92/92 pt to match the source; page 25's four imported row heights
+already matched the reference. A fresh 142-page Google export was reviewed at
+full size on pages 24–25 and visually matches the source table sizing and
+alignment. The latest full export is
+`out/.build/batch-01/round24-grading-cell-style/presentation.pdf` (142 pages,
+5,233,045 bytes, SHA256
+`5b9a067f0c27afe19439008a4e8b291d86de6842da6f692309076cb8b0bdf66d`).
+
+The two-slide [Round 25 rev2 PPTX import pilot](https://docs.google.com/presentation/d/1zpf9oltsH7I2OY9IrnIrTFKPhKpgb4AnMrFpSLM3A-w/edit?usp=drivesdk)
+was imported into Drive `Pilots`. Native readback confirms 66 pt Bebas Neue,
+MIDDLE alignment, and the intended row heights on both tables. Its two-page
+Google export is saved at
+`out/.build/batch-01/round24-grading-import-pilot2/presentation.pdf` and was
+visually checked against reference pages 7–8. The title face is
+normalized to Arial 80 pt by PPTX import; the full WIP therefore keeps the
+exact Source Sans Pro style through a direct native edit. The first pilot
+without explicit DrawingML table-cell anchoring read back as TOP even though
+its PDF looked centered. Set both the text-body anchor and
+`a:tcPr anchor="ctr"`; the rev2 import then read back MIDDLE. See the
+[official Google Slides request reference](https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations/request)
+for the native text-style and table-cell update request fields.
+
+The reusable local repair is in
+[`repair_batch01_introduction.py`](repair_batch01_introduction.py). It writes
+the source font sizes, centered table text, and source row heights into the
+editable source PPTX. `fc-match` on this Linux host resolves both Bebas Neue
+and Source Sans Pro to DejaVu Sans, so LibreOffice's local rendering substitutes
+the fonts and wraps the table labels. The Google import pilot retains Bebas
+Neue and visually matches the source; use the Google export as the acceptance
+view for those font-dependent pages. The current full local candidate is
+`out/.build/batch-01/assembled/batch-01-expanded-candidate-round24b.pptx`.
+It was patched only at `ppt/slides/slide8.xml` and `slide9.xml` from the repaired
+Introduction source package; validation confirms the other 834 package parts
+are unchanged. This preserves the page 18 source-image reconstruction. Do not
+clean-rebuild the full candidate from the manifest until that page 18 repair is
+included in the rebuild inputs.

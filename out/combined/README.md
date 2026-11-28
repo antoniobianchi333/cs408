@@ -145,12 +145,16 @@ PDFs. Use the map for the exact revision being inspected.
    indicates whether the combined page reused the paired PDF's original
    export. Open the matching reference slide to confirm the build,
    especially if the combined PDF already shows an issue.
-3. Find the parent batch in the
-   [editable manifest](editable-parts-manifest.json). Final batch PowerPoints
-   are stored directly in this `combined/` folder. Use the Round 4 PPTX
-   for the current full Part 1 work. The original Part 1 in the manifest
-   and the locally repaired Round 4 file have the same range. Use the
-   runbook to identify which version already contains a repair.
+3. For a legacy combined-slide mapping, find the parent part in the
+   [editable manifest](editable-parts-manifest.json). The Round 4 PPTX is the
+   old Part 1 comparison baseline; it is not the current Batch 1 candidate.
+   For the 16-batch project, use
+   [BATCH_BOUNDARIES.md](BATCH_BOUNDARIES.md) and
+   [final-batches/README.md](final-batches/README.md). Keep temporary local
+   batch PPTX candidates and renders in ignored `out/.build/batch-NN/`;
+   persistent scripts, maps, and repair rules belong in Git. The full native
+   WIP or accepted batch deck belongs in the shared Google Drive root above
+   `Pilots`.
 
 From the repository root, the following lookup returns the original
 source and batch for combined slide 230.
@@ -414,18 +418,21 @@ The PDF retains its original page dimensions and vector text where available.
 
 ## Current status and batch order
 
-Round 16's full 38-page review, exact page map, final Google PDF, and refreshed
-contact sheets are complete. The ordered boundary outline is in
-[BATCH_BOUNDARIES.md](BATCH_BOUNDARIES.md), based on the closed source choices,
-whole-deck/topic boundaries, and syllabus sequence. Do not repeat content
-selection or build detailed maps for all batches before starting conversion.
-Final batch maps and acceptance records are maintained in
-[final-batches/](final-batches/); Batch 1's current provisional alignments and
-visual findings are in its
-[diagnostic record](final-batches/batch-01-diagnostic.md). The initial
-unmatched-slide review sheets can be regenerated with
-[render_unmatched_contact_sheets.py](render_unmatched_contact_sheets.py).
-The current local Batch 1 repairs are implemented by
+The source-selection gate and 16 conceptual boundaries are complete. Batch 1
+is now the active batch and is not accepted. Its full native WIP is the
+[142-slide Google deck](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit)
+at the shared Drive root. The latest export has 142 pages and is 5,233,045
+bytes. Contact sheets have been reviewed for all pages; full-size follow-up,
+repairs, and 45 remaining build classifications are open. The latest divider
+and Course Grading repairs are in the [conversion runbook](SLIDE_CONVERSION.md)
+and [Batch 1 diagnostic](final-batches/batch-01-diagnostic.md). Do not repeat
+content selection or start Batch 2 early. The detailed boundaries are in
+[BATCH_BOUNDARIES.md](BATCH_BOUNDARIES.md), and batch maps and acceptance
+records are maintained in [final-batches/](final-batches/).
+
+The initial unmatched-slide review sheets can be regenerated with
+[render_unmatched_contact_sheets.py](render_unmatched_contact_sheets.py). The
+current local Batch 1 repairs are implemented by
 [repair_batch01_introduction.py](repair_batch01_introduction.py) and
 [repair_batch01_fault_error.py](repair_batch01_fault_error.py); their evidence
 and limitations are recorded in the diagnostic and conversion runbook.
@@ -436,13 +443,13 @@ bold Arial and the following topic in 28 pt regular Arial; give the generated
 text boxes explicit rectangle geometry so Google Slides retains them. Each
 divider receives its own source-map row.
 
-Then finish Batch 1 end to end: create its source/build map, convert and repair
-its selected material, validate the local package, and keep one full-size
-working Google Slides deck directly in the shared Drive root (the parent
-folder of `Pilots`). Mark it `WIP - needs fixes` and improve that same native
-deck in place after the initial import. Read it back, export the Google PDF,
-inspect every page, and document the result. Rename it as the accepted batch
-only after all checks pass; start Batch 2 only then. Continue in order. Use
+Finish the active Batch 1 end to end: complete its source/build map, classify
+the remaining meaningful builds, convert and repair its selected material,
+validate the local package, and keep one full-size working Google Slides deck
+directly in the shared Drive root (the parent folder of `Pilots`). Improve
+that same native deck in place, read it back, export the Google PDF, inspect
+every page, and document the result. Rename it as the accepted batch only
+after all checks pass; start Batch 2 only then. Continue in order. Use
 `Pilots` only for small isolated test decks and disposable tests; never put a
 full-batch WIP or final deck there.
 

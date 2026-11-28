@@ -5,7 +5,7 @@
 Use this guide for the part of the conversion that runs in Google. The
 local PPTX and the page map identify the exact test input. A native Google
 Slides copy and its PDF record what Google imported for that round. The
-current import evidence includes Rounds 5–22. Round 16's Test Anatomy repair
+current import evidence includes Rounds 5–25. Round 16's Test Anatomy repair
 pilot is complete: native readback confirms 38 ordered slides, and all 38
 Google PDF pages have close visual review. Its final PDF is 5,101,352 bytes;
 the map, contact sheets, and slide 25 repair comparison are saved with the
@@ -20,7 +20,9 @@ copy and on the requested Round 4 deck. A reversible vector-position edit
 was also tested on a disposable Round 11 copy; its arrow line-style update
 failed. Rounds 17 and 21 verified native `DOT` outline updates on freeform
 banner shapes. Round 21 applied the repair to all six slides in a mixed-build
-pilot; the evidence and limits are recorded below.
+pilot; the evidence and limits are recorded below. The current Batch 1 divider
+and grading-table imports are recorded in the Round 24–25 entries in the
+conversion runbook.
 
 **Connector check before the Round 23 full-deck upload (November 27, 2026):** read-only listing works
 for the exact shared project folder. The folder listing returned its `Pilots`
@@ -522,10 +524,12 @@ conversion, animation-state handling, and page-by-page verification.
 
 ## Pilot and final-batch folder organization
 
-Keep local pilots under
-[`combined/google-slides-pilot/`](google-slides-pilot/README.md), and local
-final-candidate batches directly in `combined/`. The editable batch manifest
-is `combined/editable-parts-manifest.json`.
+Keep the versioned pilot/reference artifacts under
+[`combined/google-slides-pilot/`](google-slides-pilot/README.md). Keep
+temporary full-batch PPTX candidates, PDFs, and renders in ignored
+`out/.build/batch-NN/`; keep the scripts, compact maps, and editable batch
+manifest in Git under `combined/`. The current native full-batch WIP belongs
+in the shared Google Drive project root, above `Pilots`.
 
 In Google Drive, use the shared CS408 folder
 [`16vTRNocHa1rlPN1bii_w0b8Ce90XrFbn`](https://drive.google.com/drive/folders/16vTRNocHa1rlPN1bii_w0b8Ce90XrFbn)
@@ -552,9 +556,39 @@ Before the Round 23 full-deck import on November 27, 2026, the root listing
 showed only `Pilots`. The [142-slide working Batch 1 deck](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit)
 is now at the shared root, with title `CS408 Batch 1 - WIP - needs fixes - 142 slides (Round 23)`.
 Its metadata confirms the shared root as its parent; native outline readback
-confirmed 142 ordered slides. It is not yet accepted: its full Google PDF has
-not been exported and inspected. The user reports that a brief visual check
-found about 90% of slides looking fine; full-page inspection is still pending.
+confirmed 142 ordered slides. Round 25 native readback still confirms all 142
+slides; the latest deck revision is `MDNZfA_IWLdgQg`. The current Google PDF
+export is 5,233,045 bytes and has 142 pages. The export helper's default streamed fetch returned a file
+reference without `workspace_path` even though the PDF was under 10 MB; one
+bounded helper fetch with `include_base64: true` materialized it, with no
+`curl`. The PDF is
+`out/.build/batch-01/round24-grading-cell-style/presentation.pdf` (SHA256
+`5b9a067f0c27afe19439008a4e8b291d86de6842da6f692309076cb8b0bdf66d`).
+Contact sheets have been reviewed for all pages; full-size follow-up on
+flagged pages and repairs remain open. The user reports that a brief visual
+check found about 90% looking fine; the deck is not accepted.
+
+The two source-deck separators initially appeared blank after import. Native
+readback showed `pageElements: null`, while the local PPTX had two centered
+Arial text boxes per divider. The builder had omitted the explicit DrawingML
+`a:prstGeom` rectangle element. The
+[two-slide corrected pilot](https://docs.google.com/presentation/d/1K9wKFR8PCSwFg1DOCdTAqFPyNwBLojTJfruFe2Jy6Bs/edit?usp=drivesdk)
+retained both labels as editable text and rendered them at the local positions.
+The current WIP now has those labels on slides 1 and 63, on solid pale-yellow
+`#FFF2CC` backgrounds, with 24 pt bold filenames and 28 pt regular topics.
+This was a shape-structure issue, not a font substitution.
+
+## Round 25: grading-table import and native repair
+
+The full Batch 1 WIP's output pages 24–25 correspond to Fall Introduction PDF
+pages 7–8. A native Google edit restored the 80 pt Source Sans Pro titles, 66
+pt Bebas Neue table text, and middle-aligned cells. Page 24 uses adjusted row
+heights to match its five-row source table. The 142-page export above was
+reviewed at full size on both pages. The
+[two-slide Round 25 rev2 import pilot](https://docs.google.com/presentation/d/1zpf9oltsH7I2OY9IrnIrTFKPhKpgb4AnMrFpSLM3A-w/edit?usp=drivesdk)
+read back the 66 pt Bebas Neue cells and MIDDLE alignment after PPTX import;
+the title face maps to Arial 80 pt. Its PDF and remaining import details are
+recorded in the [Round 25 conversion log](SLIDE_CONVERSION.md#round-25--batch-1-course-grading-table-typography).
 Small page-level build and repair sets remain
 in `Pilots`, including Introduction pages 4, 6, 12, 15, 17, and 18 and the
 Fault/Error page 68 repair trials.
