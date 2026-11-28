@@ -33,8 +33,8 @@ The Round 4 PPTX is the historical full Part 1 comparison baseline; its local
 PPTX/PDF artifacts may be absent from a fresh checkout. The recorded Google
 export had 260 pages. Rounds 5–11 tested targeted repairs in smaller native
 decks. Round 11 revision 4 is the latest label-fit repair:
-[Round 11 PPTX](google-slides-pilot/cs408-conversion-pilot-round11-rev4.pptx),
-with its [Google PDF](google-slides-pilot/cs408-conversion-pilot-round11-rev4-google.pdf)
+Round 11 PPTX (recorded local artifact: `google-slides-pilot/cs408-conversion-pilot-round11-rev4.pptx`; may be absent from this checkout),
+with its Google PDF (recorded local artifact: `google-slides-pilot/cs408-conversion-pilot-round11-rev4-google.pdf`; may be absent from this checkout)
 and [three-page map](google-slides-pilot/cs408-conversion-pilot-round11-rev4-map.csv).
 It repairs the split `Program Text`, `CFG`, `true`, and `false` labels on
 combined slides 115–116 while preserving their original fonts and editable
@@ -72,8 +72,8 @@ context; update or clearly label them as archival in the final selected copy.
 Round 13 remains the latest Fall source-selection/conversion pilot: it imports the
 complete Fall Lab 1 tutorial (40 source slides) into a 62-slide native Google
 deck. The [native presentation](https://docs.google.com/presentation/d/1wHRFaaLfwfrOnY_fKJbG69xQf9x0Yql47D6ZFCoZb7g/edit),
-[PPTX](google-slides-pilot/cs408-fall-project-1-pilot-round13.pptx),
-[62-page Google PDF](google-slides-pilot/cs408-fall-project-1-round13-review/presentation.pdf),
+PPTX (recorded local artifact: `google-slides-pilot/cs408-fall-project-1-pilot-round13.pptx`; may be absent from this checkout),
+62-page Google PDF (recorded local artifact: `google-slides-pilot/cs408-fall-project-1-round13-review/presentation.pdf`; may be absent from this checkout),
 [source/build map](google-slides-pilot/cs408-fall-project-1-pilot-round13-map.csv),
 and [builder](google-slides-pilot/build_fall_lab1_pilot_round13.py) are kept
 in the pilot folder. Native readback confirmed 62 ordered slides. Speaker
@@ -87,8 +87,8 @@ for resolution before final integration.
 Round 12 revision 2 remains a technical conversion pilot: it reconstructs
 four older Test Case Minimization pages (combined slides 840–843) as editable
 text and equations. These pages are not selected for final content because
-Fall supplies the complete topic. Its [PPTX](google-slides-pilot/cs408-tcm-supplement-round12-rev2.pptx),
-[Google PDF](google-slides-pilot/cs408-tcm-supplement-round12-rev2-google.pdf),
+Fall supplies the complete topic. Its PPTX (recorded local artifact: `google-slides-pilot/cs408-tcm-supplement-round12-rev2.pptx`; may be absent from this checkout),
+Google PDF (recorded local artifact: `google-slides-pilot/cs408-tcm-supplement-round12-rev2-google.pdf`; may be absent from this checkout),
 [page map](google-slides-pilot/cs408-tcm-supplement-round12-rev2-map.csv),
 [builder](google-slides-pilot/rebuild_tcm_supplement_round12.py), and
 [native Google deck](https://docs.google.com/presentation/d/1QBFgfPtlkF_UIgBuuiFzmf12lk3Kg3CJ8GheASBtBdM/edit)
@@ -111,7 +111,7 @@ It is local-only; manually inspect every repaired slide in the Google PDF.
 
 The Part 2 scale pilot contains combined slides 261–492 in order. The
 [rev3 native Google deck](https://docs.google.com/presentation/d/1OTrLWNKqwFOokESPsZuoBoqWI6Qjm-7IxiSmsa0f50I/edit)
-passed 232-slide order readback. Its [Google PDF](google-slides-pilot/cs408-editable-part-02-scale-rev3-google.pdf)
+passed 232-slide order readback. Its Google PDF (recorded local artifact: `google-slides-pilot/cs408-editable-part-02-scale-rev3-google.pdf`; may be absent from this checkout)
 was exported and materialized without curl; page-by-page comparison shows
 only the intended repairs on local slides 214 and 216 differ from rev2.
 Their editable text shapes now restore the source's translucent white panels.
@@ -138,7 +138,7 @@ PDFs. Use the map for the exact revision being inspected.
 ## Map a slide to its source and artifacts
 
 1. Use the combined slide number as the stable reference. One-based page
-   230 of the [combined PDF](cs408-all-slides.pdf) is combined slide 230.
+   230 of the combined PDF (recorded local artifact: `cs408-all-slides.pdf`; may be absent from this checkout) is combined slide 230.
    In a pilot with gaps, look up the combined number in that round's
    ordered page map before comparing renders.
 2. Find the row with `first_slide <= number <= last_slide` in
@@ -204,19 +204,19 @@ to create its native deck and download its Google render.
   tests for Rounds 5–11. Each existing boundary falls after a complete source
   deck; future upload blocks must also keep complete topics together, so the
   final block sizes may differ from these baseline files.
-- The [full editable PowerPoint](cs408-all-slides-editable.pptx) contains
+- The full editable PowerPoint (recorded local artifact: `cs408-all-slides-editable.pptx`; may be absent from this checkout) contains
   the same 2,235 slides in one file.
   Text and shapes from Keynote are editable. The three PDF-supplied decks use
   page images. The combined file is about 87 MB, but each smaller batch is
   easier to check and retry.
-- The image-based [Part 1](cs408-google-slides-part-1.pptx) and
-  [Part 2](cs408-google-slides-part-2.pptx) use a single image per slide. Import them
+- The image-based Part 1 (recorded local artifact: `cs408-google-slides-part-1.pptx`; may be absent from this checkout) and
+  Part 2 (recorded local artifact: `cs408-google-slides-part-2.pptx`; may be absent from this checkout) use a single image per slide. Import them
   separately if the task calls for the image-based edition. For editable
   conversion, use the runbook's object-level repair and fallback process.
   [The image-based manifest](import-parts.json) records the ranges and sizes. The
   single image-based `cs408-all-slides.pptx` is about 117 MB, above Google's
   [100 MB conversion limit](https://support.google.com/drive/answer/37603?hl=en).
-- The [combined PDF](cs408-all-slides.pdf) is the full visual reference
+- The combined PDF (recorded local artifact: `cs408-all-slides.pdf`; may be absent from this checkout) is the full visual reference
   with 57 deck bookmarks. The source manifests above record the
   corresponding files and slide ranges.
 
@@ -427,19 +427,27 @@ is now the active batch and is not accepted. Its full native WIP is the
 [142-slide Google deck](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit)
 at the shared Drive root. The latest export has 142 pages and is 5,233,045
 bytes. Contact sheets have been reviewed for all pages; full-size follow-up,
-repairs, and 45 remaining build classifications are open. The latest divider
-and Course Grading repairs are in the [conversion runbook](SLIDE_CONVERSION.md)
+repairs, and 41 remaining build classifications are open. The latest divider,
+Course Grading, and page 27 local repairs are in the [conversion runbook](SLIDE_CONVERSION.md)
 and [Batch 1 diagnostic](final-batches/batch-01-diagnostic.md). Do not repeat
 content selection or start Batch 2 early. The detailed boundaries are in
 [BATCH_BOUNDARIES.md](BATCH_BOUNDARIES.md), and batch maps and acceptance
 records are maintained in [final-batches/](final-batches/).
 
-The local candidate was regenerated in the current session: its 142-row map
-is consecutive, its presentation order resolves to 142 existing slide parts,
-and the PPTX ZIP integrity check passes. The local diagnostic PDF also has
-142 pages (32,564,269 bytes), but Linux font substitutions prevent using it as
-acceptance evidence. This local `.build` candidate has not replaced the native
-Drive WIP. The connected account already listed the project folder and
+The local candidate was regenerated in the current session and extended with
+the Introduction page 27 paragraph build: its 147-row map is consecutive, its
+presentation order resolves to 147 existing slide parts, and PPTX ZIP
+integrity passes. The local diagnostic PDF has 147 pages (4,158,723 bytes;
+SHA256 `ef72b57542fb5457e387f23082525977d1cf68f2e945abf33d628c41170d9a88`).
+Pages 62–64 were checked against the exact Fall Introduction PDF. The missing
+bullet was repaired and the editable paragraphs reveal cumulatively in order;
+Linux LibreOffice substitutes Source Sans Pro with Liberation Sans, changing
+some line wraps, so native Google verification is still pending. The five new
+states on pages 2–3 passed local review and also need Google verification. Page
+14's one-chunk acknowledgments build adds no slide. Eleven of 52 build-bearing
+slides are classified; 41 remain. This local `.build` candidate
+has not replaced the native Drive WIP, which still has 142 slides. The
+connected account already listed the project folder and
 created/edited the native `STATUS` Doc there; the user confirmed no separate
 Drive authorization is needed now. The app inherits “Allow low-risk actions,”
 so handle any actual per-operation platform prompt or denial if it occurs.

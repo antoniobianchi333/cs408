@@ -92,8 +92,9 @@ be able to:
 
 1. Read [`README.md`](README.md) first and follow its links to the live plan,
    branch policy, collection guide, conversion runbook, and Drive guide.
-   Use [`GOAL.md`](../GOAL.md) as the `/goal` objective and
-   [`PROMPT.md`](../PROMPT.md) as the first-session prompt. The ignored
+   Use [`GOAL.md`](../GOAL.md) as the `/goal` objective; do not edit it unless
+   the user explicitly asks. Use [`PROMPT.md`](../PROMPT.md) as the first-session
+   prompt. The ignored
    `out/.build/` tree is temporary and may not exist on the new machine.
 2. Identify the newest authoritative course source. The current branch tree
    already contains the Fall source PDFs at `slides/f26-pdfs/` and the Keynote
@@ -122,9 +123,14 @@ be able to:
    Google PDF, inspect every page, and update the manifest/docs. Keep only
    small pilots and disposable tests in `Pilots`. Continue in order through Batch
    16; a pilot or partial batch is not project completion. The current local
-   142-slide candidate was regenerated in ignored `out/.build/batch-01/` and
-   passed order, map-row, relationship, and ZIP-integrity checks; see the
-   diagnostic for its exact files and limitations. Regenerate it if missing.
+   147-slide candidate was regenerated in ignored `out/.build/batch-01/` after
+   mapping the page 27 three-paragraph build. Eleven of 52 build-bearing slides
+   are classified; 41 remain. Its 147-row map, ordered slide relationships,
+   ZIP integrity, and local PDF page count pass. Local pages 62–64 were checked
+   against the exact Fall PDF; Linux font substitution changes some line wraps,
+   and native Google verification of the new page 27 and page 2–3 states remains
+   open. See the diagnostic for exact files and limitations.
+   Regenerate it if missing.
 7. Resolve missing source references as they affect the active batch; manual
    PDF exports are a last resort, and [`MANUALLYCONVERT.md`](MANUALLYCONVERT.md)
    currently has no requests.

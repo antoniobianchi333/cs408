@@ -5,6 +5,8 @@ The input is an assembled batch candidate and its output map. The JSON
 expansion manifest identifies an existing output slide and supplies ordered
 state operations. Each operation starts from the original slide, then keeps
 the requested paragraph prefixes and/or removes the requested shape IDs.
+A classified `non_expansions` entry annotates the existing map row with its
+final static state and build chunk IDs without duplicating the slide.
 Duplicated slides retain their layout, media relationships, and speaker notes.
 
 This supports paragraph reveals and object-visibility states without adding a
@@ -188,6 +190,7 @@ def main() -> int:
 
     manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
     expansions = manifest.get("expansions", [])
+    non_expansions = manifest.get("non_expansions", [])
     with ZipFile(args.input) as archive:
         bad = archive.testzip()
         if bad:
@@ -212,6 +215,22 @@ def main() -> int:
             raise ValueError(f"output slide {position} has no states")
         expansions_by_position[position] = expansion
 
+    non_expansions_by_position: dict[int, dict] = {}
+    for decision in non_expansions:
+        position = int(decision["converted_pptx_slide"])
+        if position < 1 or position > len(slides):
+            raise ValueError(f"classified build slide {position} is outside the presentation")
+        if position in expansions_by_position:
+            raise ValueError(f"slide {position} is both expanded and classified without expansion")
+        if position in non_expansions_by_position:
+            raise ValueError(f"more than one non-expansion decision targets slide {position}")
+        row = map_rows[position - 1]
+        if row.get("source_filename") != decision.get("source_filename"):
+            raise ValueError(f"non-expansion source mismatch at output slide {position}")
+        if row.get("source_pdf_page") != str(decision.get("reference_pdf_page")):
+            raise ValueError(f"non-expansion PDF page mismatch at output slide {position}")
+        non_expansions_by_position[position] = decision
+
     slide_serial = [next_part_number(parts, r"ppt/slides/slide(\d+)\.xml") - 1]
     notes_serial = [next_part_number(parts, r"ppt/notesSlides/notesSlide(\d+)\.xml") - 1]
     sldid_serial = [max((int(node.get("id")) for node in slides_root.findall(".//p:sldId", NS)
@@ -225,7 +244,25 @@ def main() -> int:
         row = map_rows[position - 1]
         expansion = expansions_by_position.get(position)
         if expansion is None:
-            new_rows.append({**row, "output_slide": str(len(new_rows) + 1)})
+            output_row = {**row, "output_slide": str(len(new_rows) + 1)}
+            decision = non_expansions_by_position.get(position)
+            if decision is not None:
+                output_row["build_status"] = decision.get(
+                    "build_status", "classified single-step build; no additional static state"
+                )
+                output_row["review_status"] = decision.get(
+                    "review_status", "build classification recorded; full-batch visual review pending"
+                )
+                output_row["source_keynote_slide_order"] = str(
+                    decision.get("source_keynote_slide_order", "")
+                )
+                output_row["source_build_state"] = decision.get(
+                    "source_build_state", "single final static state"
+                )
+                output_row["source_build_chunk_ids"] = ";".join(
+                    str(x) for x in decision.get("build_chunk_ids", [])
+                )
+            new_rows.append(output_row)
             new_nodes.append(old_node)
             continue
 

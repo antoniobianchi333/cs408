@@ -2,10 +2,16 @@
 
 [Output index](../README.md) · [Slide conversion runbook](SLIDE_CONVERSION.md)
 
+Keep durable scripts, maps, manifests, and compact reports in Git. Generated
+PPTX/PDF/render outputs belong under ignored `out/.build/`; historical local
+artifact paths in round records may not exist in a fresh checkout.
+
 Use this guide for the part of the conversion that runs in Google. The
 local PPTX and the page map identify the exact test input. A native Google
 Slides copy and its PDF record what Google imported for that round. The
-current import evidence includes Rounds 5–25. Round 16's Test Anatomy repair
+Google-import evidence documented here includes Rounds 5–25. Rounds 26–27
+expanded the local Batch 1 candidate; native Google verification of those new
+states is still pending. Round 16's Test Anatomy repair
 pilot is complete: native readback confirms 38 ordered slides, and all 38
 Google PDF pages have close visual review. Its final PDF is 5,101,352 bytes;
 the map, contact sheets, and slide 25 repair comparison are saved with the
@@ -21,8 +27,12 @@ was also tested on a disposable Round 11 copy; its arrow line-style update
 failed. Rounds 17 and 21 verified native `DOT` outline updates on freeform
 banner shapes. Round 21 applied the repair to all six slides in a mixed-build
 pilot; the evidence and limits are recorded below. The current Batch 1 divider
-and grading-table imports are recorded in the Round 24–25 entries in the
-conversion runbook.
+and grading-table imports are recorded in Rounds 24–25 of the conversion
+runbook. Round 27 added three locally checked editable states for Introduction
+page 27, producing a 147-slide candidate; the earlier page 2–3 states also
+remain locally checked. Google verification of these eight new states is still
+pending. Keep the same 142-slide full-batch WIP in the root and reconcile it
+only after the state map and local repairs are ready.
 
 **Connector check before the Round 23 full-deck upload (November 27, 2026):** read-only listing works
 for the exact shared project folder. The folder listing returned its `Pilots`
@@ -514,7 +524,7 @@ extracted text. Rev2's streamed fetch returned 9,898,674 bytes without a local
 path. Rev3 was imported and verified in the same `Pilots` folder:
 
 - [Rev3 native Google deck](https://docs.google.com/presentation/d/1OTrLWNKqwFOokESPsZuoBoqWI6Qjm-7IxiSmsa0f50I/edit)
-- [Rev3 Google PDF](google-slides-pilot/cs408-editable-part-02-scale-rev3-google.pdf)
+- Rev3 Google PDF (recorded local artifact: `google-slides-pilot/cs408-editable-part-02-scale-rev3-google.pdf`; may be absent from this checkout)
 - [Rev3 source map](google-slides-pilot/cs408-editable-part-02-scale-rev3-map.csv)
 - [Rev3 page-by-page visual diff](google-slides-pilot/cs408-editable-part-02-scale-rev3-visual-diff.csv)
 - [Panel repair script](google-slides-pilot/repair_part02_contrast_panels.py)

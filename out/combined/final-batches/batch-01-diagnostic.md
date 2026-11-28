@@ -4,34 +4,37 @@
 **Status:** The Keynote show order and active-slide sequence are decoded.
 Introduction has 92 ordered nodes, 62 marked skipped, and 30 active;
 Fault/Error has 108 nodes, 29 skipped, and 79 active. Each active sequence
-matches its Fall PDF page map and LibreOffice candidate in order. The 111-page
-baseline now has a 142-page partial expansion. Seven of 52 build-bearing slides
-are classified: three paragraph reveals, one two-state AI-policy subtitle/list
-build, one single-chunk All at Once slide with no additional state, one
-six-state mixed banner/question build, and one two-state image/headline build.
-The 37 states across the six expanded slides passed local review, native Google
-readback, and page-by-page PDF inspection. Round 23's local Arial and bullet
-repair for page 12 survived Google import without a native correction.
-The Round 21 Google import needed a targeted native `DOT` outline update on
-its six banner shapes. Round 22 needed a 31 pt native headline plus a 75,000
-EMU vertical adjustment after Google import. The full 142-slide WIP deck is
-now in the shared Drive root as
+matches its Fall PDF page map and LibreOffice candidate in order. Eleven of 52
+build-bearing slides are classified: nine expand into 45 cumulative states;
+the one-chunk All at Once builds on Introduction pages 14 and 16 add no extra
+state. The original 37 states across pages 4, 6, 12, 15, 17, and 18 passed
+local and native Google review. Round 26's five new states on pages 2–3 passed
+local order and visual inspection against the exact Fall PDF. Round 27 added
+three cumulative paragraph states for Introduction page 27 at local output
+pages 62–64. Its editable bullet, text geometry, and line spacing were repaired
+and checked against the exact source. Linux LibreOffice substitutes Source
+Sans Pro with Liberation Sans, so some local line wraps differ; native Google
+verification for the page 2–3 and page 27 states remains pending. Page 14's
+one-step acknowledgments text build remains a single static slide. Forty-one
+build-bearing slides still need classification.
+
+The existing 142-slide WIP remains in the shared Drive root as
 [CS408 Batch 1 - WIP - needs fixes](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit);
-native outline readback confirmed 142 ordered slides. The latest Google PDF
-export has 142 pages and is 5,233,045 bytes. Contact sheets have been reviewed
-across every page; full-size exception review, confirmed repairs, and build
-classification remain open. The user reports a brief visual check found about
-90% of slides looking fine; that is a first-pass impression, not acceptance.
-In the current session, both repaired source PPTX files and the 142-slide
-local candidate were regenerated. The current candidate map has 142 consecutive
-rows, its `presentation.xml` order contains 142 slide references that all
-resolve to existing slide parts, and the PPTX passes ZIP integrity checking.
-Its local diagnostic PDF has 142 pages (32,564,269 bytes); it is not acceptance
-evidence because Linux font substitutions affect some reference typography.
-The existing Google WIP remains the active full-batch deck and has not been
-replaced by this local build. The user confirmed no separate Drive authorization
-is needed; the connected account has already listed the project folder and
-created/edited the native `STATUS` Doc there.
+native outline readback confirmed 142 ordered slides. Its latest Google PDF
+has 142 pages and is 5,233,045 bytes. Contact sheets cover every WIP page;
+full-size exception review and repairs remain open. The user reports a brief
+visual check found about 90% looking fine, which is not acceptance.
+
+The current local candidate has 147 consecutive map rows, 147 ordered slide
+references resolving to existing parts, and valid ZIP integrity. Its diagnostic
+PDF has 147 pages and is 4,158,723 bytes, SHA256
+`ef72b57542fb5457e387f23082525977d1cf68f2e945abf33d628c41170d9a88`; Linux
+font substitutions make it diagnostic only. The local candidate has not
+replaced or changed the Google WIP. The new divider position in the local map is page 68;
+the WIP still has its divider at page 63 until structural changes are
+integrated. The user confirmed no separate Drive authorization is needed; the
+connected account has already listed the project folder and created/edited the
+native `STATUS` Doc there.
 The two deck-divider slides initially imported blank because the builder
 omitted explicit DrawingML rectangle geometry on their text boxes. A two-slide
 pilot confirmed that `a:prstGeom` preserves their editable labels. The current
@@ -367,23 +370,23 @@ records for the native Google links and PDF renders.
 
 1. Continue classifying active build chunks into meaningful instructional
    states versus decorative effects; update output mappings for every state
-   that should become a separate static slide. Seven build-bearing slides are
-   classified; 45 of 52 remain unclassified.
+   that should become a separate static slide. Eleven build-bearing slides are
+   classified; 41 of 52 remain unclassified.
 2. Resolve the low-confidence and image-heavy page matches against the source
    package and PDF. Record a final page/build disposition for every candidate.
 3. Finalize the ordered source/build map. The 111-page candidate remains the
    baseline: one editable divider plus 30 mapped reference pages for
    Introduction, then one divider plus 79 mapped reference pages for
-   Fault/Error. The current 142-page expansion candidate adds ten homework
-   states, six Course Grading states, one AI-policy state, eight Course
-   Objectives states, five net slides for the six-state page 17 build, and one
-   net slide each for the two-state page 12 and page 18 builds; later states
-   may increase the count further. Both dividers show the
-   exact filename and topic.
+   Fault/Error. The current 147-page candidate includes nine meaningful
+   expanded builds; the source/build manifest maps every state. Page 27 adds
+   three cumulative states and two net slides to the previous 145-slide
+   candidate. Page 14's single All at Once acknowledgments build adds no
+   state. Later classifications may increase the count further. Both dividers
+   show the exact filename and topic.
 4. Repair the confirmed diagrams, tables, text fit, image composition, and
    any further defects. Preserve notes where present and map all static build
    states to their source. The standalone page 17 local fix appears at output
-   page 18 and page 68 at output page 100 in the rebuilt local candidate.
+   page 18 and page 68 at output page 102 in the rebuilt local candidate.
    Google has checked isolated pilots for the page 4, 6, 15, and 17 builds,
    plus the standalone page 17 and page 68 label repairs. Verify all integrated
    content, including pages 65,

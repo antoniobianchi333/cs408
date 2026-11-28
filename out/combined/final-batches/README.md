@@ -37,16 +37,17 @@ not final output-page maps. They map each reference PDF page to a candidate
 slide in the LibreOffice-generated PPTX. Keynote order/skip decoding shows the
 30 and 79 unskipped slides map one-to-one, in order, to the two reference PDFs
 and candidate slides. Other candidates are skipped in the Keynote slide tree.
-The active slides' build chunks are decoded. Seven of 52 build-bearing slides
-are classified: Introduction PDF pages 4, 6, and 15 have 11, 7, and 9
-paragraph states; page 12 has a two-state AI-policy subtitle/list build;
-page 16 has a one-chunk All at Once build and needs no extra state; page 17
-has a six-state banner-first, five-question build; page 18 has a two-state
-article-image then editable-headline build. All 37 states across the six
-expanded slides passed local review, native Google readback, and page-by-page
-Google PDF review; this does not verify the full batch. The other 45
-build-containing slides need classification to determine which meaningful
-states become additional static slides.
+The active slides' build chunks are decoded. Eleven of 52 build-bearing slides
+are classified: Introduction PDF pages 2 and 3 have two and three cumulative
+object states; pages 4 and 15 have 11 and 9 paragraph states; page 6 has seven
+paragraph states; page 12 has a two-state AI-policy subtitle/list build; page
+14 and 16 have one-chunk All at Once builds and need no extra state;
+page 17 has a six-state banner-first, five-question build; page 18 has a two-state
+article-image then editable-headline build; page 27 has three cumulative
+paragraph states. The original 37 states across six slides passed local review,
+native Google readback, and page-by-page PDF review. The states on pages 2–3
+and 27 passed local review; native Google verification remains pending. The
+other 41 build-bearing slides need classification.
 
 - [Batch 1 diagnostic and visual findings](batch-01-diagnostic.md)
 - [Introduction reference-page candidates](batch-01-introduction-provisional-page-map.csv)
@@ -58,7 +59,7 @@ states become additional static slides.
 - [Fault/Error Keynote effect/build-marker audit](batch-01-fault-error-build-marker-audit.csv)
 - [Fault/Error Keynote slide/build sequence](batch-01-fault-error-build-sequences.csv)
 - [Batch 1 input manifest](batch-01-inputs.json)
-- [First build-state decision and chunk map](batch-01-build-expansion.json)
+- [Build-state decisions and chunk map](batch-01-build-expansion.json)
 
 The corresponding PDFs are `slides/f26-pdfs/01-408st-introduction.pdf` and
 `slides/f26-pdfs/02-408st-fault-error-failure.pdf`. Diagnostic PPTX files,
@@ -66,20 +67,28 @@ PDFs, and contact sheets are under ignored `out/.build/batch-01/` and must be
 regenerated if that directory is cleared. The reusable
 [`expand_batch_build_states.py`](../expand_batch_build_states.py) creates
 cumulative paragraph or object-visibility states from the manifest above.
-The current ignored 142-page local candidate is
+The current ignored 147-page local candidate is
 `out/.build/batch-01/assembled/batch-01-expanded-candidate.pptx`; its output map
 is `out/.build/batch-01/assembled/batch-01-expanded-map.csv`. In the current
-session it was rebuilt from the repaired source packages and 111-page base.
+session it was rebuilt from the repaired source packages and 111-page base,
+then expanded with the page 2, page 3, and page 27 sequences. The new states
+place the second source-deck divider at local output page 68; the existing WIP
+still has it at page 63.
 The page 18 article image/headline reconstruction was applied before expansion,
 using the unrepaired converted Introduction PPTX as the source for its editable
 headline; the source-repair package does not retain that separate text shape.
-The six classified slides add ten homework states, six Course Grading states,
-one AI-policy state, eight Course Objectives states, five net states for the
-page 17 mixed build, and one net state each for the two-state page 12 and page
-18 builds. The 142-row output map is consecutive and the PPTX has 142 ordered
-slide references, all resolving to existing slide parts; ZIP integrity passes.
-Its local diagnostic PDF has 142 pages and is 32,564,269 bytes. Linux font
-substitution makes that local PDF unsuitable as final visual evidence.
+Nine source slides expand to cumulative states; the manifest records every
+source slide, state, chunk ID, and visibility operation. Page 27 adds two net
+slides to the prior 145-slide candidate. The 147-row output map is consecutive
+and the PPTX has 147 ordered slide references, all resolving to existing slide
+parts; ZIP integrity passes. Its local diagnostic PDF has 147 pages and is
+4,158,723 bytes, SHA256
+`ef72b57542fb5457e387f23082525977d1cf68f2e945abf33d628c41170d9a88`. Pages
+62–64 were inspected against the exact Fall Introduction PDF. The missing bullet
+glyph, heading/body sizes, indentation, line spacing, and editable cumulative
+progression were checked. Linux LibreOffice substitutes Source Sans Pro with
+Liberation Sans and changes some line wraps, so the local PDF is diagnostic only;
+native Google verification remains pending.
 The Google WIP has not been replaced by this regenerated candidate. The full
 expanded deck in Drive is the
 [142-slide WIP Batch 1 deck](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit).
@@ -174,9 +183,10 @@ when a local repair is needed to preserve the intended result through import.
 See the tested evidence in the
 [conversion runbook](../SLIDE_CONVERSION.md#repair-route-decision-local-source-repairs-in-place-google-wip-edits).
 The 111-page baseline candidate was rebuilt after this 36 pt update, and
-its local output page 100 was reviewed with the photo and both labels visible.
-Output page 18 (Introduction page 17) and page 100 have both been checked in
-the rebuilt local PDF. These were checks of the reproducible source candidate.
+its local output page 100 in the pre-Round27 candidate (now page 102) was
+reviewed with the photo and both labels visible. Output page 18 (Introduction
+page 17) and page 102 have both been checked in the rebuilt local PDF. These
+were checks of the reproducible source candidate.
 The separate 142-slide WIP has since been uploaded to the shared Drive root
 and remains unaccepted.
 The Introduction course schedule slide is user-owned:

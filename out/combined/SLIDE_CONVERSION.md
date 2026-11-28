@@ -3,6 +3,11 @@
 [Output index](../README.md) · [Combined collection](README.md) ·
 [Google Drive access](GOOGLE_DRIVE_ACCESS.md)
 
+**Artifact placement:** durable scripts, maps, manifests, and compact evidence
+belong in Git. Rebuildable PPTX/PDF/render files and transfer scratch belong in
+ignored `out/.build/`. Round entries record the local paths used when evidence
+was created; those generated files may be absent from a fresh checkout.
+
 Use this file as the handoff for an agent working on editable Google Slides
 imports. The goal is a repeatable workflow for any slide in the collection,
 including slides the pilots have never covered. Preserve content, order,
@@ -990,7 +995,7 @@ change; this keeps serialization noise from obscuring unchanged-slide checks.
 ## Integrate verified repairs into a full batch
 
 Start from the latest full-batch PPTX. For Part 1 that is
-[Round 4](google-slides-pilot/cs408-editable-part-01-round4.pptx).
+Round 4 (recorded local artifact: `google-slides-pilot/cs408-editable-part-01-round4.pptx`; may be absent from this checkout).
 The Part 1 candidate with the merged work from Rounds 5–11 is still open.
 Use the newest verified change to each slide. Later control pages
 confirm earlier repairs. The table lists where each repair last changed.
@@ -1099,12 +1104,12 @@ not the new 16 final batch definitions.
 
 ### Round 1 — checked
 
-The [Google export](google-slides-pilot/cs408-editable-pilot.pdf) contains
+The Google export (recorded local artifact: `google-slides-pilot/cs408-editable-pilot.pdf`; may be absent from this checkout) contains
 17 pages. Original pilot slides 1–3 map directly to Google pages 1–3. Page 4
 is the user-added slide. Pilot slides 4–16 map to Google pages 5–17. All 16
 originals were found in order. Use the [slide map](google-slides-pilot/slide-map.csv),
-[reference PDF](google-slides-pilot/cs408-pilot-reference.pdf), and
-[Linux render](google-slides-pilot/cs408-pilot-linux.pdf).
+reference PDF (recorded local artifact: `google-slides-pilot/cs408-pilot-reference.pdf`; may be absent from this checkout), and
+Linux render (recorded local artifact: `google-slides-pilot/cs408-pilot-linux.pdf`; may be absent from this checkout).
 
 | Pilot slide | Round 1 Google page | Finding |
 | --- | ---: | --- |
@@ -1118,8 +1123,8 @@ originals were found in order. Use the [slide map](google-slides-pilot/slide-map
 
 ### Round 2 — checked
 
-The [revised pilot](google-slides-pilot/cs408-editable-pilot-round2.pptx)
-produced this [Google export](google-slides-pilot/cs408-pilot-round2-linux_download.pdf).
+The revised pilot (recorded local artifact: `google-slides-pilot/cs408-editable-pilot-round2.pptx`; may be absent from this checkout)
+produced this Google export (recorded local artifact: `google-slides-pilot/cs408-pilot-round2-linux_download.pdf`; may be absent from this checkout).
 The PDF reports Google as its creator and identifies the revised pilot in
 its title. It has 16 pages in the original pilot order on a 1,024 × 768-point
 canvas. The Round 1 user-added page is absent, so Round 2 page numbers match
@@ -1146,7 +1151,7 @@ overlapping code box from the path-sensitivity example.
 
 [Round 3](#round-3--batch-import-passed-other-slides-still-need-repair)
 carried Round 2's crop, text layout, and native arrow approach into a test
-copy of [editable Part 1](cs408-editable-part-01.pptx), on
+copy of editable Part 1 (recorded local artifact: `cs408-editable-part-01.pptx`; may be absent from this checkout), on
 combined slides 1, 14, 84, 158, 161, and 243. The bottom program box on
 243 was expanded to fit five lines even when the comment wraps.
 
@@ -1161,7 +1166,7 @@ still to run.
 
 The revised deck passed the ZIP, slide order, media, and speaker-note
 checks and rendered all 16 slides in
-[LibreOffice](google-slides-pilot/cs408-pilot-round2-linux.pdf). For an exact
+LibreOffice (recorded local artifact: `google-slides-pilot/cs408-pilot-round2-linux.pdf`; may be absent from this checkout). For an exact
 rebuild from the first pilot, run this from the repository root with
 Python, Pillow, and lxml available:
 
@@ -1176,11 +1181,11 @@ collection.
 
 ### Round 3 — batch import passed, other slides still need repair
 
-The [Google export](google-slides-pilot/cs408-editable-part-01-round3.pdf)
-matches the title of the [Part 1 test deck](google-slides-pilot/cs408-editable-part-01-round3.pptx).
+The Google export (recorded local artifact: `google-slides-pilot/cs408-editable-part-01-round3.pdf`; may be absent from this checkout)
+matches the title of the Part 1 test deck (recorded local artifact: `google-slides-pilot/cs408-editable-part-01-round3.pptx`; may be absent from this checkout).
 It has 260 pages on a 1,024 × 768-point canvas. PDF integrity checks passed.
 Page-by-page thumbnail matching against the
-[Linux render](google-slides-pilot/cs408-part-01-round3-linux.pdf) and the
+Linux render (recorded local artifact: `google-slides-pilot/cs408-part-01-round3-linux.pdf`; may be absent from this checkout) and the
 seven lecture boundaries found no omitted or reordered pages. Here, a
 page number is also its one-based slide number in the combined collection.
 
@@ -1224,13 +1229,13 @@ fallback only for individual elements that cannot be restored reliably.
 
 ### Round 4 — checked
 
-The [Google export](google-slides-pilot/cs408-editable-part-01-round4.pdf)
+The Google export (recorded local artifact: `google-slides-pilot/cs408-editable-part-01-round4.pdf`; may be absent from this checkout)
 reports Google as its creator and matches the title of the
-[Round 4 PPTX](google-slides-pilot/cs408-editable-part-01-round4.pptx). It
+Round 4 PPTX (recorded local artifact: `google-slides-pilot/cs408-editable-part-01-round4.pptx`; may be absent from this checkout). It
 passed a PDF syntax check and contains all 260 pages in order on a
 1,024 × 768-point canvas. Page numbers match combined slide numbers. The
-260-page [Linux render](google-slides-pilot/cs408-part-01-round4-linux.pdf)
-and the [combined reference](cs408-all-slides.pdf) were used to review
+260-page Linux render (recorded local artifact: `google-slides-pilot/cs408-part-01-round4-linux.pdf`; may be absent from this checkout)
+and the combined reference (recorded local artifact: `cs408-all-slides.pdf`; may be absent from this checkout) were used to review
 each edited slide and selected defects elsewhere in the batch.
 
 Compared with the Round 3 Google PDF at the same 480-pixel width, exactly
@@ -1339,10 +1344,10 @@ the verified layouts and topology as examples when repairing other pages.
 
 ### Round 5 — recovered pictures and text overlays
 
-Imported the [10-slide PPTX](google-slides-pilot/cs408-conversion-pilot-round5.pptx)
+Imported the 10-slide PPTX (recorded local artifact: `google-slides-pilot/cs408-conversion-pilot-round5.pptx`; may be absent from this checkout)
 into the shared folder as a [native deck](https://docs.google.com/presentation/d/16Xp_ZVazWG6Al8EPX5HHOHFRS9To2lMwnFN5hVhVYIA/edit).
-The [Google PDF](google-slides-pilot/cs408-conversion-pilot-round5-google.pdf)
-and [Linux PDF](google-slides-pilot/cs408-conversion-pilot-round5-linux.pdf)
+The Google PDF (recorded local artifact: `google-slides-pilot/cs408-conversion-pilot-round5-google.pdf`; may be absent from this checkout)
+and Linux PDF (recorded local artifact: `google-slides-pilot/cs408-conversion-pilot-round5-linux.pdf`; may be absent from this checkout)
 each have 10 pages. In export order the combined slide numbers are
 16, 19, 24, 36, 149, 230, 232, 233, 251, 253. All four controls, 16, 24,
 149, and 233, match Round 4 pixel for pixel at 480 pixels wide.
@@ -1366,10 +1371,10 @@ use a separate editable box or panel for any overlapping instruction.
 
 ### Round 6 — arrows, code layout, and path lists
 
-Imported the [13-slide PPTX](google-slides-pilot/cs408-conversion-pilot-round6.pptx)
+Imported the 13-slide PPTX (recorded local artifact: `google-slides-pilot/cs408-conversion-pilot-round6.pptx`; may be absent from this checkout)
 into the shared folder as a [native deck](https://docs.google.com/presentation/d/1ktrcDqs0WSbptAOs1zYYloQpyTmSkKovQ-MCzv8e81c/edit).
-The [Google PDF](google-slides-pilot/cs408-conversion-pilot-round6-google.pdf)
-and [Linux PDF](google-slides-pilot/cs408-conversion-pilot-round6-linux.pdf)
+The Google PDF (recorded local artifact: `google-slides-pilot/cs408-conversion-pilot-round6-google.pdf`; may be absent from this checkout)
+and Linux PDF (recorded local artifact: `google-slides-pilot/cs408-conversion-pilot-round6-linux.pdf`; may be absent from this checkout)
 each have 13 pages. In export order the combined slide numbers are
 69, 73, 103, 128, 134, 135, 136, 147, 162, 173, 174, 175, 243. All four
 controls, 69, 128, 162, and 243, match Round 4 pixel for pixel at 480 pixels
@@ -1391,10 +1396,10 @@ replace the 260-slide baseline.
 
 ### Round 7 — code clearance and transfer to a new graph
 
-Imported the [11-slide PPTX](google-slides-pilot/cs408-conversion-pilot-round7.pptx)
+Imported the 11-slide PPTX (recorded local artifact: `google-slides-pilot/cs408-conversion-pilot-round7.pptx`; may be absent from this checkout)
 into the shared folder as a [native deck](https://docs.google.com/presentation/d/1nqcLTekLf4qHB2GYHv7howOfEEi6wvCcx4TBeKs_JQw/edit).
-The [Google PDF](google-slides-pilot/cs408-conversion-pilot-round7-google.pdf)
-and [Linux PDF](google-slides-pilot/cs408-conversion-pilot-round7-linux.pdf)
+The Google PDF (recorded local artifact: `google-slides-pilot/cs408-conversion-pilot-round7-google.pdf`; may be absent from this checkout)
+and Linux PDF (recorded local artifact: `google-slides-pilot/cs408-conversion-pilot-round7-linux.pdf`; may be absent from this checkout)
 each have 11 pages. In export order the combined slide numbers are
 19, 73, 103, 107, 121, 134, 135, 147, 175, 230, 253. Native readback and
 PDF content checks confirmed the same order. Five control pages matched
@@ -1454,7 +1459,7 @@ remaining work.
 The [first Round 8 deck](https://docs.google.com/presentation/d/1gs5aMoT0LRHL4I1Hqn0zrBJK_7gunseGQqDEntTna-8/edit)
 was a three-slide pilot in order 69, 77, 78. The [page map](google-slides-pilot/cs408-conversion-pilot-round8-map.csv)
 identifies slide 69 as a control and slides 77–78 as repairs. The first
-[Google PDF](google-slides-pilot/cs408-conversion-pilot-round8-google.pdf)
+Google PDF (recorded local artifact: `google-slides-pilot/cs408-conversion-pilot-round8-google.pdf`; may be absent from this checkout)
 exposed two Google import differences: some arrowheads on freeform lines
 were missing, and text inside the blue sets wrapped at different words and
 sat too high.
@@ -1468,11 +1473,11 @@ same positions and lines in Google. The one-line “All Final Program Output
 States” label also uses a Google-safe font size and family. No diagram was
 flattened to an image.
 
-The corrected [PPTX](google-slides-pilot/cs408-conversion-pilot-round8-rev2.pptx)
-and [Linux PDF](google-slides-pilot/cs408-conversion-pilot-round8-rev2-linux.pdf)
+The corrected PPTX (recorded local artifact: `google-slides-pilot/cs408-conversion-pilot-round8-rev2.pptx`; may be absent from this checkout)
+and Linux PDF (recorded local artifact: `google-slides-pilot/cs408-conversion-pilot-round8-rev2-linux.pdf`; may be absent from this checkout)
 each have three pages. The [revision 2 native deck](https://docs.google.com/presentation/d/1vtFHD5zVx5Kgqrl6qT8n1GEIHa8_PRmqnKksEin2hgQ/edit)
 read back three slides in order and preserved the diagram text as text boxes
-alongside custom and ordinary shapes. Its [Google PDF](google-slides-pilot/cs408-conversion-pilot-round8-rev2-google.pdf)
+alongside custom and ordinary shapes. Its Google PDF (recorded local artifact: `google-slides-pilot/cs408-conversion-pilot-round8-rev2-google.pdf`; may be absent from this checkout)
 identifies Google as creator, has all three 1,024 × 768 pages, and shows the
 arrowheads and explicit line breaks. It is 107,450 bytes. The unchanged
 slide 69 control matches Round 4 Google page 69 pixel for pixel at 480 pixels
@@ -1491,8 +1496,8 @@ slides; Round 9 separately tests its use on CFG diagrams.
 
 The [Round 9 map](google-slides-pilot/cs408-conversion-pilot-round9-map.csv)
 keeps slides 98 and 104 as unchanged controls and tests four CFG diagrams on
-99–102. The [first PPTX](google-slides-pilot/cs408-conversion-pilot-round9.pptx)
-and [first Google PDF](google-slides-pilot/cs408-conversion-pilot-round9-google.pdf)
+99–102. The first PPTX (recorded local artifact: `google-slides-pilot/cs408-conversion-pilot-round9.pptx`; may be absent from this checkout)
+and first Google PDF (recorded local artifact: `google-slides-pilot/cs408-conversion-pilot-round9-google.pdf`; may be absent from this checkout)
 showed the source arrow connectors crossing nodes or labels after import.
 Google also split branch labels across lines. This first deck remains in the
 [shared test folder](https://docs.google.com/presentation/d/1T6Va6BZz_BubkjycPFDc_Sb8CmKnA9DvOJ7mXWie9qs/edit)
@@ -1520,17 +1525,17 @@ contain the brace while leaving the code text and numbering intact. All of
 these remain editable text or shapes; no slide was converted to an image.
 
 The intermediate [revision 3 deck](https://docs.google.com/presentation/d/1RcpJFFAk1Se4I_8iCEwITbYMCp6syx0D4WIvrHMBmxg/edit)
-and [Google PDF](google-slides-pilot/cs408-conversion-pilot-round9-rev3-google.pdf)
+and Google PDF (recorded local artifact: `google-slides-pilot/cs408-conversion-pilot-round9-rev3-google.pdf`; may be absent from this checkout)
 confirmed the label repairs but exposed an unsuccessful line-spacing change:
 setting 26-point leading moved the final brace much farther below its frame.
 Measure the rendered text and frame together before changing paragraph
 leading. Revision 4 kept the original code spacing and extended the frame
 slightly instead.
 
-The final [revision 4 PPTX](google-slides-pilot/cs408-conversion-pilot-round9-rev4.pptx)
-and [Linux PDF](google-slides-pilot/cs408-conversion-pilot-round9-rev4-linux.pdf)
+The final revision 4 PPTX (recorded local artifact: `google-slides-pilot/cs408-conversion-pilot-round9-rev4.pptx`; may be absent from this checkout)
+and Linux PDF (recorded local artifact: `google-slides-pilot/cs408-conversion-pilot-round9-rev4-linux.pdf`; may be absent from this checkout)
 contain six pages in map order. Its [native Google deck](https://docs.google.com/presentation/d/1Y2docfCaRugym_wOF2vwq7u3LfXf6fIuK9PDUi93K8o/edit)
-read back six slides. The [Google PDF](google-slides-pilot/cs408-conversion-pilot-round9-rev4-google.pdf)
+read back six slides. The Google PDF (recorded local artifact: `google-slides-pilot/cs408-conversion-pilot-round9-rev4-google.pdf`; may be absent from this checkout)
 identifies Google as creator, has six 1,024 × 768 pages, and is 144,648
 bytes. The arrow paths and arrowheads are in the intended positions; branch
 labels stay on one line, and the Program Text, CFG, and blue CFG labels are
@@ -1549,9 +1554,9 @@ prove the method for subset diagrams, tables, equations, or every CFG layout.
 The final [four-page map](google-slides-pilot/cs408-conversion-pilot-round10-rev6-map.csv)
 keeps combined slide 153 as an unchanged control, tests the `CFG` label fit
 on 154, and repairs subset-symbol placement on 155–156. The
-[final PPTX](google-slides-pilot/cs408-conversion-pilot-round10-rev6.pptx),
-[Linux PDF](google-slides-pilot/cs408-conversion-pilot-round10-rev6-linux.pdf),
-and [Google PDF](google-slides-pilot/cs408-conversion-pilot-round10-rev6-google.pdf)
+final PPTX (recorded local artifact: `google-slides-pilot/cs408-conversion-pilot-round10-rev6.pptx`; may be absent from this checkout),
+Linux PDF (recorded local artifact: `google-slides-pilot/cs408-conversion-pilot-round10-rev6-linux.pdf`; may be absent from this checkout),
+and Google PDF (recorded local artifact: `google-slides-pilot/cs408-conversion-pilot-round10-rev6-google.pdf`; may be absent from this checkout)
 are retained with the pilot. The
 [native Google deck](https://docs.google.com/presentation/d/1JvHVSP6X4lBrk6EG02cSG-TeDIPwiaDwnpzBI_a-AU4/edit)
 read back as four slides in order: 153, 154, 155, and 156.
@@ -1611,8 +1616,8 @@ Round 11 tested the issue the user identified in Round 11 rev3's third pilot
 page: labels such as `true`, `false`, and `CFG` split at the edge. The final
 [three-page map](google-slides-pilot/cs408-conversion-pilot-round11-rev4-map.csv)
 keeps combined slide 114 as a control and repairs slides 115–116. The final
-[PPTX](google-slides-pilot/cs408-conversion-pilot-round11-rev4.pptx),
-[Google PDF](google-slides-pilot/cs408-conversion-pilot-round11-rev4-google.pdf),
+PPTX (recorded local artifact: `google-slides-pilot/cs408-conversion-pilot-round11-rev4.pptx`; may be absent from this checkout),
+Google PDF (recorded local artifact: `google-slides-pilot/cs408-conversion-pilot-round11-rev4-google.pdf`; may be absent from this checkout),
 and map are retained with the pilot. The
 [native Google deck](https://docs.google.com/presentation/d/1iov7hGZMI1BnyVNWcwwvG-XxcslA4qJCMzatqMORMSA/edit)
 read back as three slides in the mapped order: 114, 115, 116. Its current
@@ -1665,8 +1670,8 @@ one-source-page to one-output-slide reconstruction; no original notes or
 animation metadata are claimed. The page map records each source page and
 combined slide.
 
-- [Rev2 editable PPTX](google-slides-pilot/cs408-tcm-supplement-round12-rev2.pptx)
-- [Rev2 Google PDF](google-slides-pilot/cs408-tcm-supplement-round12-rev2-google.pdf)
+- Rev2 editable PPTX (recorded local artifact: `google-slides-pilot/cs408-tcm-supplement-round12-rev2.pptx`; may be absent from this checkout)
+- Rev2 Google PDF (recorded local artifact: `google-slides-pilot/cs408-tcm-supplement-round12-rev2-google.pdf`; may be absent from this checkout)
 - [Rev2 page map](google-slides-pilot/cs408-tcm-supplement-round12-rev2-map.csv)
 - [Native Google Slides deck](https://docs.google.com/presentation/d/1QBFgfPtlkF_UIgBuuiFzmf12lk3Kg3CJ8GheASBtBdM/edit)
 - [Builder script](google-slides-pilot/rebuild_tcm_supplement_round12.py)
@@ -1712,9 +1717,9 @@ submission. Select the complete Fall material and keep the older PDF for
 comparison/provenance only. This pilot itself converts the Fall tutorial; it
 does not yet assemble the full selected course collection.
 
-- [Local editable PPTX](google-slides-pilot/cs408-fall-project-1-pilot-round13.pptx)
+- Local editable PPTX (recorded local artifact: `google-slides-pilot/cs408-fall-project-1-pilot-round13.pptx`; may be absent from this checkout)
 - [Native Google Slides deck](https://docs.google.com/presentation/d/1wHRFaaLfwfrOnY_fKJbG69xQf9x0Yql47D6ZFCoZb7g/edit)
-- [Google-rendered PDF](google-slides-pilot/cs408-fall-project-1-round13-review/presentation.pdf)
+- Google-rendered PDF (recorded local artifact: `google-slides-pilot/cs408-fall-project-1-round13-review/presentation.pdf`; may be absent from this checkout)
 - [Source/build map](google-slides-pilot/cs408-fall-project-1-pilot-round13-map.csv)
 - [Rebuild script](google-slides-pilot/build_fall_lab1_pilot_round13.py)
 
@@ -1809,12 +1814,12 @@ Rev3 adds a 70% white fill to the editable body text boxes on local slides
 from rev2; it does not rasterize text or change slide order. The updated map
 is [`cs408-editable-part-02-scale-rev3-map.csv`](google-slides-pilot/cs408-editable-part-02-scale-rev3-map.csv).
 
-- [Rev3 PPTX](google-slides-pilot/cs408-editable-part-02-scale-rev3.pptx)
+- Rev3 PPTX (recorded local artifact: `google-slides-pilot/cs408-editable-part-02-scale-rev3.pptx`; may be absent from this checkout)
 - [Rev3 native Google deck](https://docs.google.com/presentation/d/1OTrLWNKqwFOokESPsZuoBoqWI6Qjm-7IxiSmsa0f50I/edit)
-- [Rev3 Google PDF](google-slides-pilot/cs408-editable-part-02-scale-rev3-google.pdf)
+- Rev3 Google PDF (recorded local artifact: `google-slides-pilot/cs408-editable-part-02-scale-rev3-google.pdf`; may be absent from this checkout)
 - [Page-by-page visual-diff report](google-slides-pilot/cs408-editable-part-02-scale-rev3-visual-diff.csv)
-- Slide 214 [rev2/rev3 comparison](google-slides-pilot/cs408-editable-part-02-scale-rev3-compare-214.jpg)
-- Slide 216 [rev2/rev3 comparison](google-slides-pilot/cs408-editable-part-02-scale-rev3-compare-216.jpg)
+- Slide 214 rev2/rev3 comparison (recorded local artifact: `google-slides-pilot/cs408-editable-part-02-scale-rev3-compare-214.jpg`; may be absent from this checkout)
+- Slide 216 rev2/rev3 comparison (recorded local artifact: `google-slides-pilot/cs408-editable-part-02-scale-rev3-compare-216.jpg`; may be absent from this checkout)
 
 The native readback returned `p1` through `p232` in order. On `p214`, the
 body remains a native text shape (`p214_i313`) with white fill alpha
@@ -1844,7 +1849,7 @@ isolated profile, then imported the PPTX as native Google Slides. This proves
 that Linux can produce an editable import candidate from a Keynote archive;
 it does **not** establish a reliable conversion rule yet.
 
-- [Editable PPTX](google-slides-pilot/cs408-fall-test-anatomy-round15.pptx)
+- Editable PPTX (recorded local artifact: `google-slides-pilot/cs408-fall-test-anatomy-round15.pptx`; may be absent from this checkout)
 - [Native Google Slides deck](https://docs.google.com/presentation/d/1JC2rK8jAj1pJg9UAhahCvJZoWVTaa-o8xHpG7WDrsz8/edit)
 - [Google-rendered PDF and reviewed contact sheets](google-slides-pilot/cs408-fall-test-anatomy-round15-review/)
 - [Provisional page map](google-slides-pilot/cs408-fall-test-anatomy-round15-map.csv)
@@ -1878,7 +1883,7 @@ Round 16 is a diagnostic `.key`-to-PPTX-to-Google-Slides pilot, not a
 production batch. Its purpose was to learn reusable import and repair rules
 on a representative 38-slide deck before scaling the course conversion. The
 [repair script](google-slides-pilot/repair_round15_keynote_layout.py) and
-[editable PPTX](google-slides-pilot/cs408-fall-test-anatomy-round16.pptx)
+editable PPTX (recorded local artifact: `google-slides-pilot/cs408-fall-test-anatomy-round16.pptx`; may be absent from this checkout)
 apply the measured fixes to Round 15. Google readback confirmed 38 ordered
 slides (`p1`–`p38`), editable objects, notes objects on every slide, and note
 text on 31 pages. The [38-row page map](google-slides-pilot/cs408-fall-test-anatomy-round16-map.csv)
@@ -2479,8 +2484,9 @@ render, then confirm that Google's import preserves them. If imported bullets
 are empty or missing, use paragraph bullet formatting with explicit
 indentation rather than leaving a typed bullet or rasterizing the list. This
 pilot shows that a targeted local repair can pass Google import without a
-second edit route. Seven of 52 build-bearing slides are now classified; 45
-remain.
+second edit route. At the Round 23 checkpoint, seven of 52 build-bearing
+slides were classified and 45 remained. The latest Round 27 count and evidence
+are recorded below.
 
 ## Full-batch working-deck workflow
 
@@ -2607,7 +2613,7 @@ are unchanged. This preserves the page 18 source-image reconstruction. Do not
 clean-rebuild the full candidate from the manifest until that page 18 repair is
 included in the rebuild inputs.
 
-## Batch 1 local rebuild check — 2026-11-27 session continuation
+## Pre-Round 26 local rebuild checkpoint — 2026-11-27
 
 The ignored `.build` directory was absent at the start of this session. The
 Fall Keynotes were reconverted with the already authorized project
@@ -2630,12 +2636,106 @@ substitution affects some reference typography. These checks do not accept the
 batch. The existing 142-slide native WIP remains the Drive repair surface and
 has not been replaced by this candidate.
 
-The current Drive account can list the project folder, and the native `STATUS`
-Doc was created, read, and edited there. The user confirmed that no separate
-Drive authorization is needed in this session. The app inherits the platform's
-“Allow low-risk actions” mode, so react to an actual operation-level prompt or
-denial; keep all Drive calls scoped to the CS 408 folder and at least 5.5
-seconds apart. The user-owned course schedule slide remains outside the repair
-scope. Continue by classifying the 45 remaining build-bearing slides and
-reviewing the flagged pages; do not start Batch 2 until Batch 1 passes every
-acceptance check.
+The current Drive account could list the project folder, and the native
+`STATUS` Doc was created, read, and edited there. The user confirmed that no
+separate Drive authorization was needed in this session. The course schedule
+slide remains outside the repair scope. At this checkpoint, 45 build-bearing
+slides remained unclassified; Round 26 below supersedes that count.
+
+## Round 26 — Batch 1 Introduction object builds and local rebuild
+
+Round 26 classified the two object-build sequences on
+`slides/f26-pdfs/01-408st-introduction.pdf`, pages 2–3, using the Keynote
+playback order and the editable converted PPTX shapes. Page 2 maps to Keynote
+slide order 3 and converted slide 3. Its two ordered `All at Once` chunks,
+`1408959` then `1408960`, become cumulative states: first the WHERE label and
+value, then the WHEN label and value. The local source repair preserves the
+Fall 2026 value instead of the stale seasonal phrase. Page 3 maps to Keynote
+slide order 4 and converted slide 4. Chunks `1239500`, `1585362`, and `1276827`
+reveal, in order, the lecture block, attendance/course-material note, and
+communication block. The static title and textbook block remain visible in
+all three states. Shape visibility and chunk IDs are recorded in
+[`batch-01-build-expansion.json`](final-batches/batch-01-build-expansion.json).
+
+Round 26 also classified Introduction PDF page 14 (Keynote slide order 15,
+converted slide 15). Its one `All at Once` chunk (`1423417`) reveals the
+acknowledgments text group in a single step; there is no intermediate
+paragraph sequence. Preserve the complete slide as one editable static state
+and do not add a duplicate reveal slide. The local candidate's output page 35
+was checked against Fall PDF page 14. The expanded map records the one final
+state and its chunk ID.
+
+The local candidate and map were rebuilt from the 111-slide baseline, with the
+page 18 image/headline reconstruction applied before state expansion. The
+candidate has 145 ordered slides and the map has 145 consecutive rows. PPTX
+ZIP integrity passed; all 145 presentation slide references resolve to slide
+parts. The local PDF has 145 pages, is 4,156,059 bytes, and has SHA256
+`df67fc44426f31f85bc72e540c878f8e5cd6de396cd4122b96fa8ba0d144bd50`. Local
+pages 3–7 were inspected against the exact Fall PDF pages 2–3. Both sequences
+preserve their ordered reveals and readable layout. Linux font substitution
+means this PDF is diagnostic only.
+
+The two expanded source slides add five states to the prior 142-slide local
+candidate; the second source-deck divider moves from local output page 63 to
+page 66. Ten of 52 build-bearing slides are classified: eight expanded source
+slides account for 42 cumulative states, while the single-chunk builds on pages
+14 and 16 add no extra states. Forty-two build-bearing slides remain. The
+existing native Google WIP was not changed in Round 26 and still records 142
+slides. The five new states have not yet been verified in Google. Complete
+their native readback and Google PDF review after incorporating the structural
+change into the same WIP deck.
+
+The local candidate and PDF live in ignored `out/.build/batch-01/`; regenerate
+them with the tracked build and repair scripts if absent. The user-owned course
+schedule slide remains outside the repair scope. Continue the flagged-page
+review and build classification; Batch 1 remains unaccepted and Batch 2 must
+wait for the full acceptance gate.
+
+## Round 27 — Batch 1 Introduction Learning Objective paragraph build
+
+Round 27 classified the meaningful three-paragraph build on the exact Fall
+Introduction PDF page 27. Its Keynote slide order and converted PPTX slide are
+both 30. The ordered chunks are `1574228`, `1574267`, and `1574300`; editable
+text shape `352` reveals one, two, and then all three paragraphs. The source
+and state operations are recorded in
+[`batch-01-build-expansion.json`](final-batches/batch-01-build-expansion.json).
+
+The first local render exposed an empty DrawingML bullet character, a blank
+lead paragraph in both heading and body, and imported heading/body sizes of 30
+and 28 pt. The tracked
+[`repair_batch01_introduction.py`](repair_batch01_introduction.py) now removes
+only those blank paragraphs, preserves every rich text run, supplies a native
+editable bullet, and restores the source-based hierarchy: a 40 pt editable
+heading and 36 pt body, with the body text beginning at x≈93 pt and bullet at
+x≈69 pt. The three body paragraphs use 45 pt line spacing. The title and body
+remain editable; no text region was flattened.
+
+To retain the previously restored page 18 article image, the repaired
+Introduction slide XML was copied into the corresponding source slide part of
+the page-18-restored 142-slide local assembly before expanding states. The same
+tracked state expander then produced 147 slides and a 147-row output map. The
+output map is consecutive, all ordered slide references resolve, and PPTX ZIP
+integrity passes. The second source-deck divider is now local output page 68.
+The reproducible PPTX, map, and PDF stay under ignored
+`out/.build/batch-01/`.
+
+Local output pages 62–64 were inspected against
+`slides/f26-pdfs/01-408st-introduction.pdf`, page 27. Page 62 shows the first
+paragraph, page 63 adds the second, and page 64 adds the third. The restored
+bullet, editability, hierarchy, and 45 pt source line-spacing rhythm are
+visible in all states. Liberation Sans fallback wraps some paragraphs to four
+lines locally instead of the three source lines. The local LibreOffice PDF has
+147 pages and is 4,158,723 bytes, SHA256
+`ef72b57542fb5457e387f23082525977d1cf68f2e945abf33d628c41170d9a88`. Linux
+LibreOffice substitutes Source Sans Pro with Liberation Sans, so some line
+wraps differ from the embedded-font source PDF; use the native Google export
+for acceptance.
+
+Eleven of 52 build-bearing slides are now classified: nine expanded source
+slides account for 45 cumulative static states, and the one-chunk builds on
+pages 14 and 16 remain single slides. Forty-one build-bearing slides remain.
+The page 27 structural change has not been integrated into the native Google
+WIP; that same 142-slide presentation remains the live surface. Native readback
+and Google PDF verification of the page 27 and page 2–3 states are pending.
+Batch 1 remains unaccepted; do not start Batch 2 until every acceptance check
+passes.

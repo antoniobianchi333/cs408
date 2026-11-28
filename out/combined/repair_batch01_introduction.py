@@ -621,6 +621,77 @@ def repair(pptx_in: Path, pptx_out: Path) -> None:
     set_native_bullets(objectives, size_percent=75)
     parts[part16] = etree.tostring(slide16, xml_declaration=True, encoding="UTF-8", standalone=True)
 
+    # Source page 27 is a three-paragraph By Paragraph build. LibreOffice's
+    # conversion inserted blank lead paragraphs, left the body bullet glyph
+    # empty, and reduced the 40/36 pt source heading/body to 30/28 pt. Remove
+    # only blank paragraphs, then restore editable native bullets, measured
+    # indentation, and source line spacing so each cumulative state keeps the
+    # same layout as the completed slide.
+    part30, slide30, _ = load_slide(30)
+    objective_heading = find_text_shape(
+        slide30,
+        lambda text: text.startswith("Learning Objective 1:") and "Write Better Tests" in text,
+        "Learning Objective 1 heading",
+    )
+    heading_body = objective_heading.find("./p:txBody", NS)
+    if heading_body is None:
+        raise ValueError("Learning Objective 1 heading has no text body")
+    for paragraph in list(heading_body.findall("./a:p", NS)):
+        if not "".join(paragraph.xpath(".//a:t/text()", namespaces=NS)).strip():
+            heading_body.remove(paragraph)
+    heading_paragraphs = heading_body.findall("./a:p", NS)
+    if len(heading_paragraphs) != 1:
+        raise ValueError("Learning Objective 1 heading no longer has one content paragraph")
+    heading_ppr = heading_paragraphs[0].find("./a:pPr", NS)
+    if heading_ppr is None:
+        heading_ppr = etree.Element(f"{{{A}}}pPr")
+        heading_paragraphs[0].insert(0, heading_ppr)
+    for key in ("lvl", "marL", "indent"):
+        heading_ppr.attrib.pop(key, None)
+    for child in list(heading_ppr):
+        if etree.QName(child).localname.startswith("bu"):
+            heading_ppr.remove(child)
+    etree.SubElement(heading_ppr, f"{{{A}}}buNone")
+    heading_ppr.set("algn", "l")
+    set_shape_box(objective_heading, 42, 193, 950, 76)
+    set_font_size(objective_heading, 40)
+    disable_text_autofit(objective_heading)
+
+    objective_body = find_text_shape(
+        slide30,
+        lambda text: text.startswith("Design and justify high-quality tests"),
+        "Learning Objective 1 paragraph build",
+    )
+    body_tx = objective_body.find("./p:txBody", NS)
+    if body_tx is None:
+        raise ValueError("Learning Objective 1 paragraph build has no text body")
+    for paragraph in list(body_tx.findall("./a:p", NS)):
+        if not "".join(paragraph.xpath(".//a:t/text()", namespaces=NS)).strip():
+            body_tx.remove(paragraph)
+    content_paragraphs = body_tx.findall("./a:p", NS)
+    if len(content_paragraphs) != 3:
+        raise ValueError("Learning Objective 1 build no longer has three content paragraphs")
+    set_shape_box(objective_body, 35, 238, 940, 452)
+    set_font_size(objective_body, 36)
+    disable_text_autofit(objective_body)
+    set_native_bullets(objective_body, font_family="Arial", size_percent=100)
+    for paragraph in content_paragraphs:
+        ppr = paragraph.find("./a:pPr", NS)
+        if ppr is None:
+            ppr = etree.Element(f"{{{A}}}pPr")
+            paragraph.insert(0, ppr)
+        ppr.attrib.pop("lvl", None)
+        ppr.set("marL", str(58 * EMU))
+        ppr.set("indent", str(-24 * EMU))
+        line_spacing = ppr.find("./a:lnSpc", NS)
+        if line_spacing is None:
+            line_spacing = etree.Element(f"{{{A}}}lnSpc")
+            ppr.insert(0, line_spacing)
+        for child in list(line_spacing):
+            line_spacing.remove(child)
+        etree.SubElement(line_spacing, f"{{{A}}}spcPts", val="4500")
+    parts[part30] = etree.tostring(slide30, xml_declaration=True, encoding="UTF-8", standalone=True)
+
     # Source page 12: retain the subtitle-first, AI-policy-second build. The
     # imported title and subtitle wrap at their converted sizes and overlap
     # the list; the list also has an empty bullet glyph. Fixed Arial sizes,
@@ -920,13 +991,17 @@ def repair(pptx_in: Path, pptx_out: Path) -> None:
     rel_part28 = posixpath.join(posixpath.dirname(part28), "_rels", posixpath.basename(part28) + ".rels")
     parts[rel_part28] = etree.tostring(rels28, xml_declaration=True, encoding="UTF-8", standalone=True)
 
-    # Source pages 27–29: shrink long objective headings/body text to match
-    # the source hierarchy and remove the title wrap caused by font fallback.
+    # Source pages 27–29: shrink each long "Who" title to keep it on one line.
+    # Page 27's custom title/body geometry above is already source-matched;
+    # keep the older generic body repair only for pages 28–29.
     for index in (30, 31, 32):
         title_part, objective_slide, _ = load_slide(index)
         title = find_text_shape(objective_slide, lambda text: text.startswith("Who") and "you’ll be after CS 408" in text, "learning-objective title")
         scale_font_sizes(title, 0.85)
         set_shape_box(title, 50, 20, 950, 170)
+        if index == 30:
+            parts[title_part] = etree.tostring(objective_slide, xml_declaration=True, encoding="UTF-8", standalone=True)
+            continue
         heading = find_text_shape(objective_slide, lambda text: text.startswith("Learning Objective"), "learning-objective heading")
         set_shape_box(heading, 38, 181, 950, 62)
         set_font_size(heading, 30)

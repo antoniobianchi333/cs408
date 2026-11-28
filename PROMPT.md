@@ -4,7 +4,7 @@ You are resuming the CS 408 slide-conversion project in a new session or on a
 different machine. The user's goal is in [`GOAL.md`](GOAL.md). Treat that goal
 as active work: **keep working until all 16 final batches are converted,
 uploaded to Google Drive, and verified. Do not stop at a pilot, plan, or
-partial batch.**
+partial batch. Do not edit `GOAL.md` unless the user explicitly asks.**
 
 ## Ask for permissions at the beginning
 
@@ -46,7 +46,7 @@ Read these files before making changes:
 5. [`out/combined/BATCH_BOUNDARIES.md`](out/combined/BATCH_BOUNDARIES.md) — the
    completed 16-batch outline and whole-topic rules.
 6. [`out/combined/SLIDE_CONVERSION.md`](out/combined/SLIDE_CONVERSION.md) — conversion
-   and repair evidence, especially Rounds 24–25.
+   and repair evidence, especially Rounds 24–27.
 7. [`out/combined/GOOGLE_DRIVE_ACCESS.md`](out/combined/GOOGLE_DRIVE_ACCESS.md) — Drive
    access, file organization, pacing, export, and no-curl rules.
 8. [`out/combined/final-batches/README.md`](out/combined/final-batches/README.md) and
@@ -136,6 +136,18 @@ Google Slides WIP is in the shared folder root, not `Pilots`:
 - The Drive title still includes `Round 23`; it is the same WIP deck. Do not
   create a second full-batch deck or move it into `Pilots`.
 
+The Round 27 local candidate has 147 ordered slides and a 147-row map. Eleven
+of 52 build-bearing slides are classified; 41 remain. Nine expanded slides
+account for 45 cumulative static states; the one-chunk builds on Introduction
+PDF pages 14 and 16 remain single static slides. The three states on page 27
+map to local output pages 62–64 and passed local order and visual review
+against the exact Fall PDF. The empty bullet was repaired; the editable heading
+and body now use source-based sizes, geometry, indentation, and 45 pt line
+spacing. LibreOffice substitutes Source Sans Pro with Liberation Sans, so some
+local line wraps differ; native Google verification is still pending. The five
+states on pages 2–3 also passed local review. The 142-slide native WIP has not
+yet been structurally updated with these states.
+
 ### Confirmed divider rule — Round 24
 
 The two source-deck divider slides are output pages 1 and 63. Their first
@@ -183,13 +195,13 @@ not be available here. A clean reassembly from the manifest previously omitted
 the page 18 image; restore that asset with the tracked
 `out/combined/prepare_intro_page18_build.py` before replacing the full candidate.
 
-During the current 2026-11-27 session, the local candidate was regenerated at
-`out/.build/batch-01/assembled/batch-01-expanded-candidate.pptx`, with a 142-row
-map and a 142-page diagnostic PDF. Its active PPTX order and ZIP integrity
-passed local checks. The page 18 reconstruction must read its separate editable
-headline from the unrepaired converted Introduction PPTX, then run before the
-build-state expander. These are ignored scratch files and may be missing in a
-later session; regenerate from the tracked scripts and sources.
+Before Round 26, the interim local candidate in this session had a 142-row map
+and a 142-page diagnostic PDF. Those checks were superseded by the current
+147-slide Round 27 candidate described above. The page 18 reconstruction must
+read its separate editable headline from the unrepaired converted Introduction
+PPTX, then run before the build-state expander. These are ignored scratch files
+and may be missing in a later session; regenerate from the tracked scripts and
+sources.
 
 ## Immediate work — finish Batch 1
 
@@ -202,17 +214,19 @@ later session; regenerate from the tracked scripts and sources.
    and callouts; page 132 testing/debugging diagram/code; and pages 139–140
    table/title sizing. Regenerate only the pages needed from the current Google
    PDF; old broad contact sheets predate the divider repair.
-3. Keep output page 3 aligned with the latest Fall content. Do not edit the
-   course schedule slide (output page 26); the user will fix it.
+3. Keep output page 3 aligned with the latest Fall content. The user owns the
+   course schedule slide: it is output page 26 in the current Google WIP and
+   page 29 in the expanded local candidate. Do not edit it.
 4. Confirm the full-deck status of the page 17 dotted-outline repair and the
    page 18 article image. Check existing local repairs on Introduction pages
    2, 6, 12, 15, 17 and Fault/Error pages 65, 68, 73, 74, 76, 77 against the
    full Google export.
-5. Classify the 45 remaining build-bearing slides. Expand only meaningful
+5. Classify the 41 remaining build-bearing slides. Expand only meaningful
    animation/build states, preserve source order, update the source/build map,
    and integrate structural changes into the same WIP deck.
-6. Re-export and inspect all 142+ pages after repairs. Complete the final map,
-   native readback, source comparison, exception log, and acceptance record.
+6. Re-export and inspect the full rebuilt deck (currently 147 local pages)
+   after repairs. Complete the final map, native readback, source comparison,
+   exception log, and acceptance record.
    Begin Batch 2 only after Batch 1 passes every gate.
 
 ## Repair route to use

@@ -79,7 +79,8 @@ Keynote. The exact gaps and the Round 15–17 diagnostics and repairs are in the
 
 ## Project documents
 
-- [Overall completion goal and project rules](../GOAL.md)
+- [Overall completion goal and project rules](../GOAL.md) — read this file, but
+  do not edit it unless the user explicitly asks.
 - [Copy-ready prompt for a fresh session](../PROMPT.md)
 - [Live plan and time estimates](PLAN.md)
 - [Last-resort manual Keynote-to-PDF request list](MANUALLYCONVERT.md)
@@ -99,7 +100,7 @@ Keynote. The exact gaps and the Round 15–17 diagnostics and repairs are in the
   and [Fault/Error sequence audit](combined/final-batches/batch-01-fault-error-build-sequences.csv)
 - [Build-state expander](combined/expand_batch_build_states.py),
   [small-pilot PPTX slide/package pruner](combined/prune_pptx_slides.py), and
-  [Batch 1 build-expansion manifest](combined/final-batches/batch-01-build-expansion.json)
+  [Batch 1 build-state decisions and chunk map](combined/final-batches/batch-01-build-expansion.json)
 - [Conversion runbook, pilot logs, and reusable repair rules](combined/SLIDE_CONVERSION.md)
 - [Google Drive access and paced upload/export workflow](combined/GOOGLE_DRIVE_ACCESS.md)
 
@@ -150,7 +151,13 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   and [per-topic overlap summary](combined/fall-topic-overlap-summary.csv)
 - [Final batch workspace](combined/final-batches/), including the
   [Batch 1 diagnostic findings](combined/final-batches/batch-01-diagnostic.md),
-  durable provisional page maps and candidate/build audits, plus the
+  Introduction [provisional page map](combined/final-batches/batch-01-introduction-provisional-page-map.csv),
+  [candidate audit](combined/final-batches/batch-01-introduction-candidate-audit.csv),
+  and [build-marker audit](combined/final-batches/batch-01-introduction-build-marker-audit.csv),
+  Fault/Error [provisional page map](combined/final-batches/batch-01-fault-error-provisional-page-map.csv),
+  [candidate audit](combined/final-batches/batch-01-fault-error-candidate-audit.csv),
+  and [build-marker audit](combined/final-batches/batch-01-fault-error-build-marker-audit.csv),
+  durable sequence/build maps, plus the
   [alignment audit script](combined/audit_batch_source_alignment.py) and
   [unmatched-slide contact-sheet script](combined/render_unmatched_contact_sheets.py),
   [Keynote build-marker audit](combined/audit_keynote_build_markers.py), and
@@ -221,26 +228,37 @@ confirms the native Google Docs MIME type and project-root parent folder.
   mismatch. Build stages on 17 Introduction slides and 35 Fault/Error slides
   are decoded (74/113 Introduction build archives/chunks and 92/185 for
   Fault/Error). Three paragraph-build families are confirmed on Introduction
-  PDF pages 4, 6, and 15, and a mixed banner/question build on page 17 are also
+  PDF pages 4, 6, and 15; Round 26 also mapped the two-object and three-object
+  sequences on pages 2 and 3. The mixed banner/question build on page 17 is
   converted. Introduction PDF page 12's two-step AI-policy build is now
   classified: its subtitle appears first, then its editable policy list. The
-  single-chunk All at Once build on page 16 needs no extra slide. Seven of 52
-  build-bearing slides are classified; 45 remain.
+  single-chunk All at Once builds on pages 14 and 16 need no extra slide. Eleven
+  of 52 build-bearing slides are classified; 41 remain. Round 27 added the
+  three paragraph states on Introduction page 27, mapped to local output pages
+  62–64. The editable list's missing bullet, geometry, and line spacing were
+  repaired from the Fall PDF. Linux LibreOffice substitutes Source Sans Pro
+  with Liberation Sans, changing some line wraps; native Google verification
+  remains open. Round 27's evidence is recorded in the
+  [conversion runbook](combined/SLIDE_CONVERSION.md#round-27--batch-1-introduction-learning-objective-paragraph-build).
   In the current session, the repaired source packages and full local
-  candidate were regenerated: 111 mapped source/divider slides plus the
-  six classified expansions produce 142 ordered slides. The output map has
-  142 consecutive rows, and the PPTX order, relationships, slide parts, and
-  ZIP integrity check pass. The local diagnostic PDF has 142 pages and is
-  32,564,269 bytes; Linux font substitutions make it diagnostic only. This
-  rebuilt `.build` candidate has not replaced or changed the existing Drive
+  candidate were regenerated. The output map has 147 consecutive rows, and
+  PPTX order, relationships, slide parts, and ZIP integrity pass. Local divider
+  rows are at pages 1 and 68. The local diagnostic PDF has 147 pages, is
+  4,158,723 bytes, and has SHA256
+  `ef72b57542fb5457e387f23082525977d1cf68f2e945abf33d628c41170d9a88`; Linux
+  font substitutions make it diagnostic only. This rebuilt `.build` candidate
+  has not replaced or changed the existing Drive
   WIP.
   Confirmed repair areas include Introduction tables/text/diagram fit and
   Fault/Error diagrams, video composition, and colored outcome tables. A
   111-page local baseline includes editable source-deck dividers; the current
-  expanded candidate has 142 pages after adding 10, 6, 1, 8, 5, and 1 net
-  state for pages 4, 6, 12, 15, 17, and 18. All 37 expanded states were
-  inspected locally and in separate native Google pilots. Their PDFs confirmed
-  ordered progression, bullet hierarchy, emphasis, and line fit. The final
+  expanded candidate has 147 pages after the earlier states and the five new
+  object states on pages 2–3 plus page 27's three states. The original 37
+  expanded states were inspected locally and in separate native Google pilots.
+  The newer page 2–3 and page 27 states passed local order/content review and
+  still need Google verification. Existing pilot PDFs confirmed ordered
+  progression, bullet hierarchy, emphasis, and line fit for their reviewed
+  builds. The final
   states closely match their Fall references; page 12's explicit Arial sizes
   and native bullets survived Google import without a Google-side patch, while
   page 18 retains a small Google
@@ -254,7 +272,8 @@ confirms the native Google Docs MIME type and project-root parent folder.
   73, 74, 76, and 77 also have local repairs; three diagram-only image crops
   are documented last resorts. The 36 pt page 68 label repair has passed a
   Google pilot, and the provisional candidate was rebuilt with that change;
-  its local output page 100 was reviewed. Meaningful builds, other repairs, the final
+  its output page 100 in the pre-Round27 candidate (now page 102) was reviewed.
+  Meaningful builds, other repairs, the final
   remaining build classifications, the final map, and full-batch Google
   verification remain open. The 142-slide [working deck](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit)
   is uploaded at the shared Drive root as `WIP - needs fixes`; native outline
@@ -314,8 +333,8 @@ confirms the native Google Docs MIME type and project-root parent folder.
   The Introduction
   course schedule slide is user-owned: leave its schedule content alone while
   completing other Batch 1 work; the user will edit it.
-- **Latest full baseline.** [Round 4 Part 1](combined/google-slides-pilot/cs408-editable-part-01-round4.pptx)
-  contains combined slides 1–260. The [Round 4 Google PDF](combined/google-slides-pilot/cs408-editable-part-01-round4.pdf)
+- **Latest full baseline.** Round 4 Part 1 (recorded local artifact: `combined/google-slides-pilot/cs408-editable-part-01-round4.pptx`; may be absent from this checkout)
+  contains combined slides 1–260. The Round 4 Google PDF (recorded local artifact: `combined/google-slides-pilot/cs408-editable-part-01-round4.pdf`; may be absent from this checkout)
   gives the full-batch comparison baseline.
 - **Most recent `.key` build-conversion pilot.** [Round 23](combined/SLIDE_CONVERSION.md#round-23--batch-1-introduction-page-12-ai-policy-build)
   tests the AI-policy subtitle/list sequence; locally repaired fonts and
@@ -374,8 +393,8 @@ confirms the native Google Docs MIME type and project-root parent folder.
   Spring tutorial out of the selected set as superseded. The explicit Fall
   handout deadline (Oct 30) conflicts with the syllabus table (Nov 3); this
   remains recorded for reconciliation. Its [native deck](https://docs.google.com/presentation/d/1wHRFaaLfwfrOnY_fKJbG69xQf9x0Yql47D6ZFCoZb7g/edit),
-  [PPTX](combined/google-slides-pilot/cs408-fall-project-1-pilot-round13.pptx),
-  [Google PDF](combined/google-slides-pilot/cs408-fall-project-1-round13-review/presentation.pdf),
+  PPTX (recorded local artifact: `combined/google-slides-pilot/cs408-fall-project-1-pilot-round13.pptx`; may be absent from this checkout),
+  Google PDF (recorded local artifact: `combined/google-slides-pilot/cs408-fall-project-1-round13-review/presentation.pdf`; may be absent from this checkout),
   [slide/build map](combined/google-slides-pilot/cs408-fall-project-1-pilot-round13-map.csv),
   and [builder](combined/google-slides-pilot/build_fall_lab1_pilot_round13.py)
   are documented in the runbook.
@@ -385,11 +404,11 @@ confirms the native Google Docs MIME type and project-root parent folder.
   are not carried into final content.
 - **Animation/build example verified.** Combined slides 205–206 preserve the
   concurrency comic reveal as two Google slides: first panel, then full comic.
-  The latest Keynote export and [Round 4 Google PDF](combined/google-slides-pilot/cs408-editable-part-01-round4.pdf)
+  The latest Keynote export and Round 4 Google PDF (recorded local artifact: `combined/google-slides-pilot/cs408-editable-part-01-round4.pdf`; may be absent from this checkout)
   agree. The older static reference PDF repeats the final comic and is not the
   build-order authority for this case. See the [build audit](combined/SLIDE_CONVERSION.md#animationbuild-audit-combined-slides-205206).
 - **Part 2 visual scale check complete.** [Rev3 native Google deck](https://docs.google.com/presentation/d/1OTrLWNKqwFOokESPsZuoBoqWI6Qjm-7IxiSmsa0f50I/edit)
-  is in `Pilots`; its [232-page Google PDF](combined/google-slides-pilot/cs408-editable-part-02-scale-rev3-google.pdf)
+  is in `Pilots`; its 232-page Google PDF (recorded local artifact: `combined/google-slides-pilot/cs408-editable-part-02-scale-rev3-google.pdf`; may be absent from this checkout)
   and [source map](combined/google-slides-pilot/cs408-editable-part-02-scale-rev3-map.csv)
   are saved locally. Native readback confirmed `p1`–`p232` in order. The
   [visual regression report](combined/google-slides-pilot/cs408-editable-part-02-scale-rev3-visual-diff.csv)
@@ -442,10 +461,10 @@ current section and link to its lectures and exercises.
 
 | Part | Pages in the full guide | Content |
 | --- | ---: | --- |
-| [1. Foundations and coverage](cs408-study-guide-1.pdf) | 1–485 (485 pages) | Quick review, contents, syllabus, test design, input space partitioning, control flow, data flow, and logic coverage. |
-| [2. Mutation, oracles, fuzzing, and minimization](cs408-study-guide-2.pdf) | 486–974 (489 pages) | Mutation testing, test oracles, property-based testing, Midterm 1 practice, fuzzing, Project 1, and delta debugging. |
-| [3. Symbolic execution, regression, and advanced topics](cs408-study-guide-3.pdf) | 975–1489 (515 pages) | Symbolic and concolic execution, regression and integration testing, Midterm 2 practice, concurrency, static analysis, verification, and Project 2. |
-| [4. Final review and supplemental topics](cs408-study-guide-4.pdf) | 1490–1838 (349 pages) | Course review, a practice final with worked solutions, and earlier material on bug reporting, production coverage, concurrency testing, record and replay, deterministic execution, and static testing tools. |
+| 1. Foundations and coverage (recorded local artifact: `cs408-study-guide-1.pdf`; may be absent from this checkout) | 1–485 (485 pages) | Quick review, contents, syllabus, test design, input space partitioning, control flow, data flow, and logic coverage. |
+| 2. Mutation, oracles, fuzzing, and minimization (recorded local artifact: `cs408-study-guide-2.pdf`; may be absent from this checkout) | 486–974 (489 pages) | Mutation testing, test oracles, property-based testing, Midterm 1 practice, fuzzing, Project 1, and delta debugging. |
+| 3. Symbolic execution, regression, and advanced topics (recorded local artifact: `cs408-study-guide-3.pdf`; may be absent from this checkout) | 975–1489 (515 pages) | Symbolic and concolic execution, regression and integration testing, Midterm 2 practice, concurrency, static analysis, verification, and Project 2. |
+| 4. Final review and supplemental topics (recorded local artifact: `cs408-study-guide-4.pdf`; may be absent from this checkout) | 1490–1838 (349 pages) | Course review, a practice final with worked solutions, and earlier material on bug reporting, production coverage, concurrency testing, record and replay, deterministic execution, and static testing tools. |
 
 Parts 2–4 begin on existing course maps at natural changes of topic. The first
 part builds the vocabulary and coverage criteria. The second pairs automated

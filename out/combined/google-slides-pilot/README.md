@@ -1,12 +1,11 @@
 # Pilot files
 
-This local folder holds pilot and comparison artifacts: small conversion
-rounds, full-size comparison materials such as Round 4, revisions, local PDFs,
-Google exports, slide maps, rebuild scripts, and local audit scripts. It can
-contain large local references; the Google Drive `Pilots` folder is narrower
-and holds only small isolated test decks. Keep each round's inputs and evidence
-together here. Put temporary renders and transfer scratch files in
-`out/.build/` instead of this folder.
+This folder holds durable pilot documentation, source/build maps, rebuild
+scripts, and compact review reports. Older round logs may name local PPTX/PDF
+files that are absent from a fresh checkout. Keep rebuildable PPTX/PDF/render
+outputs and transfer scratch in ignored `out/.build/`, not here. The Google
+Drive `Pilots` folder is narrower and holds only small isolated native test
+decks.
 
 Persistent source/build maps, scripts, and the editable-parts manifest stay in
 `out/combined/`. Temporary full-batch PPTX candidates and local PDF renders
@@ -54,8 +53,8 @@ and [Round 25 table record](../SLIDE_CONVERSION.md#round-25--batch-1-course-grad
 
 Round 12 revision 2 reconstructs older Test Case Minimization PDF pages 38–41
 (combined slides 840–843) as four editable slides. The
-[PPTX](cs408-tcm-supplement-round12-rev2.pptx),
-[Google PDF](cs408-tcm-supplement-round12-rev2-google.pdf),
+PPTX (recorded local artifact: `cs408-tcm-supplement-round12-rev2.pptx`; may be absent from this checkout),
+Google PDF (recorded local artifact: `cs408-tcm-supplement-round12-rev2-google.pdf`; may be absent from this checkout),
 [page map](cs408-tcm-supplement-round12-rev2-map.csv), and
 [rebuild script](rebuild_tcm_supplement_round12.py) are here; the native
 Google Slides result is linked in the
@@ -68,20 +67,22 @@ notes/builds are not part of this reconstruction.
 ## Current scale pilot: Part 2 rev3
 
 The current large pilot is the 232-slide
-[`Part 2 rev3 PPTX`](cs408-editable-part-02-scale-rev3.pptx), imported as
+`Part 2 rev3 PPTX` (recorded local artifact: `cs408-editable-part-02-scale-rev3.pptx`; may be absent from this checkout), imported as
 [native Google Slides](https://docs.google.com/presentation/d/1OTrLWNKqwFOokESPsZuoBoqWI6Qjm-7IxiSmsa0f50I/edit).
-Its [Google PDF](cs408-editable-part-02-scale-rev3-google.pdf),
+Its Google PDF (recorded local artifact: `cs408-editable-part-02-scale-rev3-google.pdf`; may be absent from this checkout),
 [page map](cs408-editable-part-02-scale-rev3-map.csv), and
 [232-page visual-diff report](cs408-editable-part-02-scale-rev3-visual-diff.csv)
 are the acceptance evidence. The 70% white shape fills on slides 214 and 216
 restore contrast while leaving body text editable. The corresponding
 [repair script](repair_part02_contrast_panels.py) starts from rev2 and emits
-rev3 plus its map. Two comparison images are retained for the affected slides.
+rev3 plus its map. Compact review reports are kept here; generated PPTX, PDF,
+and image outputs belong in ignored `out/.build/`.
 
 The verified export helper's no-curl transfer recipe and the Google readback
 are in [`GOOGLE_DRIVE_ACCESS.md`](../GOOGLE_DRIVE_ACCESS.md#download-the-google-rendered-pdf).
-Temporary full-deck page renders stay in `out/.build/`; keep the PDF, PPTX,
-source map, diff report, repair script, and reviewed target comparisons here.
+Keep the source map, diff report, repair script, and compact reviewed target
+comparisons here. Generated PDF, PPTX, and full-deck render files stay in
+ignored `out/.build/`.
 
 ## Round 13: Fall Lab 1 fuzzing tutorial
 
@@ -95,9 +96,9 @@ full-slide image over the thumbnail. No `p:timing` metadata is present for
 that pair, so the map explicitly records the inference and preserves both
 source pages in order.
 
-- [Editable PPTX](cs408-fall-project-1-pilot-round13.pptx)
+- Editable PPTX (recorded local artifact: `cs408-fall-project-1-pilot-round13.pptx`; may be absent from this checkout)
 - [Native Google Slides deck](https://docs.google.com/presentation/d/1wHRFaaLfwfrOnY_fKJbG69xQf9x0Yql47D6ZFCoZb7g/edit)
-- [Google-rendered PDF](cs408-fall-project-1-round13-review/presentation.pdf)
+- Google-rendered PDF (recorded local artifact: `cs408-fall-project-1-round13-review/presentation.pdf`; may be absent from this checkout)
 - [62-row source/build map](cs408-fall-project-1-pilot-round13-map.csv)
 - [Builder](build_fall_lab1_pilot_round13.py)
 - [62-page contact sheets and renders](cs408-fall-project-1-round13-review/)
@@ -139,7 +140,7 @@ defects on slides 3 and 9 plus a then-unmapped quote/build page on slide 6
 kept the Round 15 revision from acceptance. Round 16 later identified slide 6
 as valid Keynote-only content and applies targeted repairs to slides 3 and 9.
 
-- [PPTX](cs408-fall-test-anatomy-round15.pptx)
+- PPTX (recorded local artifact: `cs408-fall-test-anatomy-round15.pptx`; may be absent from this checkout)
 - [Google Slides deck](https://docs.google.com/presentation/d/1JC2rK8jAj1pJg9UAhahCvJZoWVTaa-o8xHpG7WDrsz8/edit)
 - [Google PDF, contact sheets, and discrepancy crops](cs408-fall-test-anatomy-round15-review/)
 - [Provisional page map](cs408-fall-test-anatomy-round15-map.csv)
@@ -158,8 +159,8 @@ Details and the broader list of missing PDF references are in the
 
 Round 16 is a diagnostic `.key`-to-PPTX-to-Google-Slides run, not a production
 batch. Its purpose is to test repair patterns on representative conversion
-defects before those patterns are used across the full course. The [Round 16
-PPTX](cs408-fall-test-anatomy-round16.pptx) and
+defects before those patterns are used across the full course. The Round 16
+PPTX (recorded local artifact: `cs408-fall-test-anatomy-round16.pptx`; may be absent from this checkout) and
 [repair script](repair_round15_keynote_layout.py) preserve native editable
 text and shapes where practical. The native Google deck is
 [here](https://docs.google.com/presentation/d/1QvRYYjInRSlz_2ZU7RUPd2lqcNRUGsw-BVzuhIqIaLk/edit).
@@ -171,7 +172,7 @@ build, and slides 7–38 to September PDF pages 6–37.
 
 The latest [Google PDF and contact sheets](cs408-fall-test-anatomy-round16-review/)
 contain 38 pages; the PDF is 5,101,352 bytes. The folder also contains a
-[slide 25 code comparison](cs408-fall-test-anatomy-round16-review/slide25-code-gap-comparison.png).
+slide 25 code comparison (recorded local artifact: `cs408-fall-test-anatomy-round16-review/slide25-code-gap-comparison.png`; may be absent from this checkout).
 Slide 1's unsupported green gradient was removed and its missing brown title
 banner fill restored. Slide 2's two empty bullet paragraphs were deleted and
 the HW1 announcement line was reduced to 33 pt, keeping it editable and on one

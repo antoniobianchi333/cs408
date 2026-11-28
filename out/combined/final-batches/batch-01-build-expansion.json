@@ -1,8 +1,22 @@
 {
   "batch": 1,
-  "status": "Seven of 52 build-bearing slides are structurally classified: three paragraph reveals, one single-chunk All at Once slide that needs no extra state, one two-state AI-policy subtitle/list build, one mixed six-state banner/question build, and one two-state article-image/headline build. The six expanded slides account for 37 states and a 142-page partial candidate. Introduction PDF page 12's local repair and native Google pilot passed review without a Google-side fix. The earlier five expansions, representing 35 states, had already passed native Google PDF review; 45 build-bearing slides remain unclassified. Full-batch integration and review remain pending.",
+  "status": "Eleven of 52 build-bearing slides are structurally classified: nine expanded Introduction slides account for 45 cumulative static states, while two one-chunk All at Once builds retain a single final static slide. The local candidate now has 147 ordered slides. Introduction page 27's three paragraph states are mapped to local output pages 62–64; cumulative order, editable text, repaired bullet glyph and indentation, and source-based geometry were checked against the exact Fall PDF. LibreOffice substitutes Source Sans Pro with Liberation Sans and changes some line wraps, so Google-native verification is still pending. The five new states on Introduction pages 2–3 also passed local review, with native Google verification pending. The remaining 41 build-bearing slides need classification; full-batch integration and review remain open.",
   "policy": "Each selected state is cumulative and stays adjacent to its source slide within the original deck. Do not expand a decorative-only effect. Do not infer instructional meaning from chunk count alone.",
   "non_expansions": [
+    {
+      "source_filename": "01-408st-introduction.key",
+      "source_topic": "Introduction and administrivia",
+      "source_keynote_slide_order": 15,
+      "reference_pdf_page": 14,
+      "converted_pptx_slide": 15,
+      "decision": "One All at Once apple:appear chunk targets the acknowledgments text group. The complete acknowledgment sentence and name list arrive together, with no internal paragraph sequence. Preserve the completed editable slide as one static state and do not add a duplicate reveal slide.",
+      "build_status": "One All at Once chunk; one final static acknowledgments slide; no additional state.",
+      "source_build_state": "single final static state",
+      "build_chunk_ids": [
+        "1423417"
+      ],
+      "review_status": "The target is a single text group with one all-at-once appearance. The local candidate page was visually checked against Fall PDF page 14 and retains the full text, arrows, and photos. No internal reveal order needs expansion; native Google verification remains part of full-batch review."
+    },
     {
       "source_filename": "01-408st-introduction.key",
       "source_topic": "Introduction and administrivia",
@@ -10,11 +24,89 @@
       "reference_pdf_page": 16,
       "converted_pptx_slide": 17,
       "decision": "One All at Once pop build with a single chunk reveals the slide as a whole. Preserve the existing single static slide; do not add a duplicate state.",
-      "build_chunk_ids": ["1512343"],
-      "review_status": "Build structure classified; the existing local slide is present in the current candidate. No extra static state is required."
+      "build_chunk_ids": [
+        "1512343"
+      ],
+      "review_status": "The existing local final slide is present in the candidate. Its single chunk has no internal reveal sequence; no extra static state is required.",
+      "build_status": "One All at Once pop chunk reveals the entire slide; retain one static slide without an extra state.",
+      "source_build_state": "single final static state"
     }
   ],
   "expansions": [
+    {
+      "output_slide": 3,
+      "source_filename": "01-408st-introduction.key",
+      "source_topic": "Introduction and administrivia",
+      "source_keynote_slide_order": 3,
+      "reference_pdf_page": 2,
+      "converted_pptx_slide": 3,
+      "decision": "Two ordered All at Once builds reveal the editable WHERE value/label, followed by the WHEN value/label. Preserve two cumulative states; the second state retains the Fall 2026 repair in place of the stale seasonal phrase.",
+      "build_status": "Two cumulative object states: WHERE details first, then WHEN details.",
+      "review_status": "Local output pages 3–4 were inspected against the exact Fall PDF page 2. State 1 reveals the WHERE label/value; state 2 adds WHEN and retains the Fall-corrected value. Editable text, order, and local layout were checked. Native Google readback and PDF review remain pending.",
+      "states": [
+        {
+          "label": "1/2",
+          "build_chunk_ids": [
+            "1408959"
+          ],
+          "operations": {
+            "hidden_shape_ids": [
+              "172"
+            ]
+          }
+        },
+        {
+          "label": "2/2",
+          "build_chunk_ids": [
+            "1408960"
+          ],
+          "operations": {}
+        }
+      ]
+    },
+    {
+      "output_slide": 4,
+      "source_filename": "01-408st-introduction.key",
+      "source_topic": "Introduction and administrivia",
+      "source_keynote_slide_order": 4,
+      "reference_pdf_page": 3,
+      "converted_pptx_slide": 4,
+      "decision": "Three ordered All at Once builds add the lecture block, the attendance/course-material note, and then the communication block. Preserve the three cumulative object states while leaving the static title and textbook block visible throughout.",
+      "build_status": "Three cumulative object states: lectures; attendance/course-material note; communication details.",
+      "review_status": "Local output pages 5–7 were inspected against the exact Fall PDF page 3. The lecture block appears first, then the attendance/course-material note, then communication details; the title and textbook block remain visible throughout. Editable objects, order, and local layout were checked. Native Google readback and PDF review remain pending.",
+      "states": [
+        {
+          "label": "1/3",
+          "build_chunk_ids": [
+            "1239500"
+          ],
+          "operations": {
+            "hidden_shape_ids": [
+              "190",
+              "192"
+            ]
+          }
+        },
+        {
+          "label": "2/3",
+          "build_chunk_ids": [
+            "1585362"
+          ],
+          "operations": {
+            "hidden_shape_ids": [
+              "190"
+            ]
+          }
+        },
+        {
+          "label": "3/3",
+          "build_chunk_ids": [
+            "1276827"
+          ],
+          "operations": {}
+        }
+      ]
+    },
     {
       "output_slide": 5,
       "source_filename": "01-408st-introduction.key",
@@ -28,17 +120,127 @@
       "google_pilot_url": "https://docs.google.com/presentation/d/1mCf3kvK2-08EIXOmxRONiD6JmH27N35ykvc8XwqXtoI/edit",
       "google_pdf_review": "11 pages; visually inspected page by page; final state matches the Fall reference. Local export: out/.build/batch-01/pilots/google-render-2026-11-27/presentation.pdf",
       "states": [
-        {"label": "1/11", "build_chunk_ids": ["1408961"], "operations": {"visible_paragraphs": {"194": 1}}},
-        {"label": "2/11", "build_chunk_ids": ["1408962"], "operations": {"visible_paragraphs": {"194": 2}}},
-        {"label": "3/11", "build_chunk_ids": ["1408963"], "operations": {"visible_paragraphs": {"194": 3}}},
-        {"label": "4/11", "build_chunk_ids": ["1408964"], "operations": {"visible_paragraphs": {"194": 4}}},
-        {"label": "5/11", "build_chunk_ids": ["1408965"], "operations": {"visible_paragraphs": {"194": 5}}},
-        {"label": "6/11", "build_chunk_ids": ["1408966"], "operations": {"visible_paragraphs": {"194": 6}}},
-        {"label": "7/11", "build_chunk_ids": ["1408967"], "operations": {"visible_paragraphs": {"194": 7}}},
-        {"label": "8/11", "build_chunk_ids": ["1408968"], "operations": {"visible_paragraphs": {"194": 8}}},
-        {"label": "9/11", "build_chunk_ids": ["1408969"], "operations": {"visible_paragraphs": {"194": 9}}},
-        {"label": "10/11", "build_chunk_ids": ["1408970"], "operations": {"visible_paragraphs": {"194": 10}}},
-        {"label": "11/11", "build_chunk_ids": ["1459667"], "operations": {"visible_paragraphs": {"194": 11}}}
+        {
+          "label": "1/11",
+          "build_chunk_ids": [
+            "1408961"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "194": 1
+            }
+          }
+        },
+        {
+          "label": "2/11",
+          "build_chunk_ids": [
+            "1408962"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "194": 2
+            }
+          }
+        },
+        {
+          "label": "3/11",
+          "build_chunk_ids": [
+            "1408963"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "194": 3
+            }
+          }
+        },
+        {
+          "label": "4/11",
+          "build_chunk_ids": [
+            "1408964"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "194": 4
+            }
+          }
+        },
+        {
+          "label": "5/11",
+          "build_chunk_ids": [
+            "1408965"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "194": 5
+            }
+          }
+        },
+        {
+          "label": "6/11",
+          "build_chunk_ids": [
+            "1408966"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "194": 6
+            }
+          }
+        },
+        {
+          "label": "7/11",
+          "build_chunk_ids": [
+            "1408967"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "194": 7
+            }
+          }
+        },
+        {
+          "label": "8/11",
+          "build_chunk_ids": [
+            "1408968"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "194": 8
+            }
+          }
+        },
+        {
+          "label": "9/11",
+          "build_chunk_ids": [
+            "1408969"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "194": 9
+            }
+          }
+        },
+        {
+          "label": "10/11",
+          "build_chunk_ids": [
+            "1408970"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "194": 10
+            }
+          }
+        },
+        {
+          "label": "11/11",
+          "build_chunk_ids": [
+            "1459667"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "194": 11
+            }
+          }
+        }
       ]
     },
     {
@@ -54,13 +256,83 @@
       "google_pilot_url": "https://docs.google.com/presentation/d/1GXnEv1AfcqdL2rVJEqtDkvLmh0SCdVXOi0CzmePTstI/edit",
       "google_pdf_review": "7 pages; all states visually inspected. Export: 65,752 bytes. Local render: out/.build/batch-01/pilots/course-grading-google-render/presentation.pdf",
       "states": [
-        {"label": "1/7", "build_chunk_ids": ["1587748"], "operations": {"visible_paragraphs": {"207": 1}}},
-        {"label": "2/7", "build_chunk_ids": ["1587749"], "operations": {"visible_paragraphs": {"207": 2}}},
-        {"label": "3/7", "build_chunk_ids": ["1587750"], "operations": {"visible_paragraphs": {"207": 3}}},
-        {"label": "4/7", "build_chunk_ids": ["1587751"], "operations": {"visible_paragraphs": {"207": 4}}},
-        {"label": "5/7", "build_chunk_ids": ["1587752"], "operations": {"visible_paragraphs": {"207": 5}}},
-        {"label": "6/7", "build_chunk_ids": ["1587753"], "operations": {"visible_paragraphs": {"207": 6}}},
-        {"label": "7/7", "build_chunk_ids": ["1587754"], "operations": {"visible_paragraphs": {"207": 7}}}
+        {
+          "label": "1/7",
+          "build_chunk_ids": [
+            "1587748"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "207": 1
+            }
+          }
+        },
+        {
+          "label": "2/7",
+          "build_chunk_ids": [
+            "1587749"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "207": 2
+            }
+          }
+        },
+        {
+          "label": "3/7",
+          "build_chunk_ids": [
+            "1587750"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "207": 3
+            }
+          }
+        },
+        {
+          "label": "4/7",
+          "build_chunk_ids": [
+            "1587751"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "207": 4
+            }
+          }
+        },
+        {
+          "label": "5/7",
+          "build_chunk_ids": [
+            "1587752"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "207": 5
+            }
+          }
+        },
+        {
+          "label": "6/7",
+          "build_chunk_ids": [
+            "1587753"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "207": 6
+            }
+          }
+        },
+        {
+          "label": "7/7",
+          "build_chunk_ids": [
+            "1587754"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "207": 7
+            }
+          }
+        }
       ]
     },
     {
@@ -75,16 +347,27 @@
       "review_status": "The local repair sets Arial title/subtitle/body to 72/61/33 pt, restores native bullet glyphs and indentation, and matches the Fall PDF's line breaks. Both local states and both native Google PDF pages passed visual review at matching 512 x 384 resolution. Google retained the editable text and layout; no Google-side repair was needed.",
       "google_pilot_url": "https://docs.google.com/presentation/d/1muNbqcniyME0GVQnnwVEM2oi2WpGUOapIpsVQ9pnJ88/edit",
       "google_pdf_review": "Two native slides read back in order with the title, subtitle, four-paragraph policy list, and speaker notes retained. Final Google PDF: 44,489 bytes; both pages visually inspected against Fall PDF page 12. Page 1 has title and subtitle only; page 2 adds the editable list. No wrapping, clipping, or Google-only repair. Render: out/.build/batch-01/round23-google-render/",
-      "build_target_ids": ["1394224", "1391987"],
+      "build_target_ids": [
+        "1394224",
+        "1391987"
+      ],
       "states": [
         {
           "label": "1/2",
-          "build_chunk_ids": ["1410287"],
-          "operations": {"hidden_shape_ids": ["225"]}
+          "build_chunk_ids": [
+            "1410287"
+          ],
+          "operations": {
+            "hidden_shape_ids": [
+              "225"
+            ]
+          }
         },
         {
           "label": "2/2",
-          "build_chunk_ids": ["1410288"],
+          "build_chunk_ids": [
+            "1410288"
+          ],
           "operations": {}
         }
       ]
@@ -102,15 +385,105 @@
       "google_pilot_url": "https://docs.google.com/presentation/d/1V61ibVuXM_6DQyQHDUjWUC1i701EVe63yDTBlHejBho/edit",
       "google_pdf_review": "9 pages; all states visually inspected for cumulative progression, bullet hierarchy, bold/red emphasis, line fit, and final-state match. Export: 53,569 bytes. Local render: out/.build/batch-01/pilots/course-objectives-google-render/presentation.pdf",
       "states": [
-        {"label": "1/9", "build_chunk_ids": ["1410829"], "operations": {"visible_paragraphs": {"244": 1}}},
-        {"label": "2/9", "build_chunk_ids": ["1410830"], "operations": {"visible_paragraphs": {"244": 2}}},
-        {"label": "3/9", "build_chunk_ids": ["1410831"], "operations": {"visible_paragraphs": {"244": 3}}},
-        {"label": "4/9", "build_chunk_ids": ["1410832"], "operations": {"visible_paragraphs": {"244": 4}}},
-        {"label": "5/9", "build_chunk_ids": ["1410833"], "operations": {"visible_paragraphs": {"244": 5}}},
-        {"label": "6/9", "build_chunk_ids": ["1410834"], "operations": {"visible_paragraphs": {"244": 6}}},
-        {"label": "7/9", "build_chunk_ids": ["1410835"], "operations": {"visible_paragraphs": {"244": 7}}},
-        {"label": "8/9", "build_chunk_ids": ["1410836"], "operations": {"visible_paragraphs": {"244": 8}}},
-        {"label": "9/9", "build_chunk_ids": ["1410837"], "operations": {"visible_paragraphs": {"244": 9}}}
+        {
+          "label": "1/9",
+          "build_chunk_ids": [
+            "1410829"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "244": 1
+            }
+          }
+        },
+        {
+          "label": "2/9",
+          "build_chunk_ids": [
+            "1410830"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "244": 2
+            }
+          }
+        },
+        {
+          "label": "3/9",
+          "build_chunk_ids": [
+            "1410831"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "244": 3
+            }
+          }
+        },
+        {
+          "label": "4/9",
+          "build_chunk_ids": [
+            "1410832"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "244": 4
+            }
+          }
+        },
+        {
+          "label": "5/9",
+          "build_chunk_ids": [
+            "1410833"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "244": 5
+            }
+          }
+        },
+        {
+          "label": "6/9",
+          "build_chunk_ids": [
+            "1410834"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "244": 6
+            }
+          }
+        },
+        {
+          "label": "7/9",
+          "build_chunk_ids": [
+            "1410835"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "244": 7
+            }
+          }
+        },
+        {
+          "label": "8/9",
+          "build_chunk_ids": [
+            "1410836"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "244": 8
+            }
+          }
+        },
+        {
+          "label": "9/9",
+          "build_chunk_ids": [
+            "1410837"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "244": 9
+            }
+          }
+        }
       ]
     },
     {
@@ -126,12 +499,72 @@
       "google_pilot_url": "https://docs.google.com/presentation/d/1-5fHYWt5-CrwBGVkAwGXopHCW09CvbwHtjs3ZyyL3xE/edit",
       "google_pdf_review": "6 pages; all states visually inspected for progression and layout. A single batchUpdate changed outline.dashStyle to DOT on the banner background in all six slides; native readback confirmed DOT on all six. Final Google PDF: 47,286 bytes. Render: out/.build/batch-01/pilots/round21-google-render-after-native-fix/",
       "states": [
-        {"label": "1/6", "build_chunk_ids": ["1580524"], "operations": {"visible_paragraphs": {"272": 0}}},
-        {"label": "2/6", "build_chunk_ids": ["1580595"], "operations": {"visible_paragraphs": {"272": 1}}},
-        {"label": "3/6", "build_chunk_ids": ["1580557"], "operations": {"visible_paragraphs": {"272": 2}}},
-        {"label": "4/6", "build_chunk_ids": ["1580583"], "operations": {"visible_paragraphs": {"272": 3}}},
-        {"label": "5/6", "build_chunk_ids": ["1580549"], "operations": {"visible_paragraphs": {"272": 4}}},
-        {"label": "6/6", "build_chunk_ids": ["1593231"], "operations": {"visible_paragraphs": {"272": 5}}}
+        {
+          "label": "1/6",
+          "build_chunk_ids": [
+            "1580524"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "272": 0
+            }
+          }
+        },
+        {
+          "label": "2/6",
+          "build_chunk_ids": [
+            "1580595"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "272": 1
+            }
+          }
+        },
+        {
+          "label": "3/6",
+          "build_chunk_ids": [
+            "1580557"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "272": 2
+            }
+          }
+        },
+        {
+          "label": "4/6",
+          "build_chunk_ids": [
+            "1580583"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "272": 3
+            }
+          }
+        },
+        {
+          "label": "5/6",
+          "build_chunk_ids": [
+            "1580549"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "272": 4
+            }
+          }
+        },
+        {
+          "label": "6/6",
+          "build_chunk_ids": [
+            "1593231"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "272": 5
+            }
+          }
+        }
       ]
     },
     {
@@ -144,19 +577,76 @@
       "decision": "The decoded order is an article-image build followed by a headline text build. Restore the source article image from Data/pasted-image-4629.tiff and keep the article headline as a native editable text shape. Preserve two cumulative states: article image first, headline second.",
       "build_status": "Two-object appear build; 2 cumulative states: scanned article excerpt, then the editable headline.",
       "review_status": "Both local and native Google two-page PDFs were inspected. The source screenshot is restored from the embedded Keynote asset with a 20.2% top crop; the editable headline is the second state. Google imported the 27 pt local headline 13% narrower than the source line, so one native edit set 31 pt and moved the text box up 75,000 EMU. The final line fits on one line and its PDF baseline and width closely match the Fall reference; its rendered height is 31 pt versus 35.9 pt in the reference. Full Batch 1 integration remains pending.",
-      "build_target_ids": ["1513790", "1514058"],
+      "build_target_ids": [
+        "1513790",
+        "1514058"
+      ],
       "google_pilot_url": "https://docs.google.com/presentation/d/1v2k50MCauNUHFpSalMdhsQTmCK227KzTSJBN8pw2FkU/edit",
       "google_pdf_review": "Two native slides read back in order. Final Google PDF: 183,530 bytes; both pages inspected. Page 1 shows the article scan without its headline; page 2 adds the editable headline. Its measured PDF bounds are x=335.7–1023.2 pt, y=434.1–465.1 pt, versus source x=330.2–1020.1 pt, y=433.9–469.8 pt. The line is readable, on one line, and not clipped. Render: out/.build/batch-01/round22-google-render-rev2/",
       "states": [
         {
           "label": "1/2",
-          "build_chunk_ids": ["1513933"],
-          "operations": {"hidden_shape_ids": ["278"]}
+          "build_chunk_ids": [
+            "1513933"
+          ],
+          "operations": {
+            "hidden_shape_ids": [
+              "278"
+            ]
+          }
         },
         {
           "label": "2/2",
-          "build_chunk_ids": ["1514037"],
+          "build_chunk_ids": [
+            "1514037"
+          ],
           "operations": {}
+        }
+      ]
+    },
+    {
+      "output_slide": 28,
+      "source_filename": "01-408st-introduction.key",
+      "source_topic": "Introduction and administrivia",
+      "source_keynote_slide_order": 30,
+      "reference_pdf_page": 27,
+      "converted_pptx_slide": 30,
+      "decision": "The active Keynote slide has one By Paragraph build with three ordered chunks matching the three editable Learning Objective 1 paragraphs. Preserve the instructional reveal as three cumulative static states, following the verified paragraph-state method.",
+      "build_status": "Three cumulative paragraph states; each state reveals the next objective paragraph.",
+      "review_status": "Local output pages 62–64 reveal the three editable paragraphs cumulatively in chunk order 1574228, 1574267, and 1574300. The exact Fall PDF page 27 was checked: the missing bullet glyph was repaired, heading/body sizes and geometry were set to the source hierarchy, text remains editable, and the 45 pt line spacing matches the source rhythm. LibreOffice substitutes Source Sans Pro with Liberation Sans, so some paragraphs wrap to four lines locally instead of the three source lines; verify the native Google render before acceptance.",
+      "states": [
+        {
+          "label": "1/3",
+          "build_chunk_ids": [
+            "1574228"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "352": 1
+            }
+          }
+        },
+        {
+          "label": "2/3",
+          "build_chunk_ids": [
+            "1574267"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "352": 2
+            }
+          }
+        },
+        {
+          "label": "3/3",
+          "build_chunk_ids": [
+            "1574300"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "352": 3
+            }
+          }
         }
       ]
     }
