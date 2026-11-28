@@ -46,7 +46,7 @@ Read these files before making changes:
 5. [`out/combined/BATCH_BOUNDARIES.md`](out/combined/BATCH_BOUNDARIES.md) — the
    completed 16-batch outline and whole-topic rules.
 6. [`out/combined/SLIDE_CONVERSION.md`](out/combined/SLIDE_CONVERSION.md) — conversion
-   and repair evidence, especially Rounds 24–28.
+   and repair evidence, especially Rounds 24–29.
 7. [`out/combined/GOOGLE_DRIVE_ACCESS.md`](out/combined/GOOGLE_DRIVE_ACCESS.md) — Drive
    access, file organization, pacing, export, and no-curl rules.
 8. [`out/combined/final-batches/README.md`](out/combined/final-batches/README.md) and
@@ -126,31 +126,32 @@ Google Slides WIP is in the shared folder root, not `Pilots`:
 
 - Deck ID: `1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME`
 - URL: https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit
-- It has 142 ordered slides. The latest checked native revision was
-  `MDNZfA_IWLdgQg`; verify again before a write.
-- Latest full Google PDF: 142 pages, 5,233,045 bytes, SHA256
-  `5b9a067f0c27afe19439008a4e8b291d86de6842da6f692309076cb8b0bdf66d`.
-  Previous local copy was
-  `out/.build/batch-01/round24-grading-cell-style/presentation.pdf`; re-export
-  if the ignored file is absent or the Drive deck has changed.
+- It has 142 ordered slides. The latest checked native revision is
+  `mEV_c_nCguc_IQ`; verify again before a write.
+- Latest full Google PDF: 142 pages, 5,299,986 bytes, SHA256
+  `fb172ef445e150960d683aa3b01cfcfeba5f627ceb2c0172eefde5168359e2c2`.
+  Its local copy is under
+  `out/.build/batch-01/wip-round29-after-cover-photo-panels/`; regenerate
+  through the connected export helper if absent or if Drive has changed.
 - The Drive title still includes `Round 23`; it is the same WIP deck. Do not
   create a second full-batch deck or move it into `Pilots`.
 
-The Round 27 local candidate has 147 ordered slides and a 147-row map. Eleven
-of 52 build-bearing slides are classified; 41 remain. Nine expanded slides
-account for 45 cumulative static states; the one-chunk builds on Introduction
-PDF pages 14 and 16 remain single static slides. Round 28 imported a focused
-8-slide verification pilot to Drive `Pilots` for the page 2–3 and page 27
-states. Native readback confirmed all eight ordered, editable slides. Its
-591,184-byte Google PDF (SHA256
-`9f79d475cfb53ef87443b4b5430140b16abf876997f969bb1ea90f30fdafe397`) was
-visually reviewed page by page against the exact Fall PDFs. The pilot is
-`https://docs.google.com/presentation/d/1yVQs-RXPXoLUeMr8nnDLEsn-9jj6tHp7IW-tjVj_GuQ/edit`;
-the eight-row source/build map is tracked in `out/combined/final-batches/`.
-The page 27 bullet, editable heading/body sizes, geometry, and 45 pt line
-spacing passed. LibreOffice substitutes Source Sans Pro with Liberation Sans
-and changes some local line wraps. The 142-slide native WIP has not yet been
-structurally updated; full-batch review remains open.
+The Round 29 local candidate has 147 ordered slides and a 147-row map at
+`out/.build/batch-01/round29/rebuild-v2/`; its PPTX ZIP/order checks pass.
+Its 147-page diagnostic PDF is 28,501,659 bytes (SHA256
+`06748e758845faf5f28695da2c43d8059e8183dbded3ed2e5e13b3064a1927d4`). Linux
+LibreOffice substitutes Source Sans Pro and Roboto Condensed, so use the
+Google PDF for font-sensitive review. Eleven of 52 build-bearing slides are
+classified; 41 remain. Nine expanded Introduction slides account for 45
+cumulative static states; one-chunk builds on pages 14 and 16 remain single
+slides. Round 28's focused 8-slide pilot in `Pilots` verified the page 2–3 and
+page 27 states against exact Fall PDFs. Round 29 repaired output page 2 with
+the exact Fall cover crop behind editable title/quote objects and repaired
+output page 64's cover panels/title directly in the same full native WIP.
+Readback and the latest 142-page Google PDF confirmed both pages against their
+exact Fall cover references. Six of 142 WIP pages are confirmed repaired
+(about 4%); the full-size review has not counted all remaining defects. The
+147-slide local structure has not yet been integrated into the WIP.
 
 ### Confirmed divider rule — Round 24
 
@@ -212,8 +213,8 @@ sources.
 1. Read the latest diagnostic and verify the current deck/revision in Drive.
    Continue working in the same native WIP.
 2. Continue full-size follow-up on the flagged pages. Known leads from the
-   contact-sheet review: output page 2 cover/panel/title; page 64 second cover;
-   pages 42–48 dotted-banner/build states; pages 49–50 article-image/headline;
+   contact-sheet review: pages 42–48 dotted-banner/build states; pages 49–50
+   article-image/headline;
    page 70 layout; pages 87–90 composites; pages 123–125 error-state diagram
    and callouts; page 132 testing/debugging diagram/code; and pages 139–140
    table/title sizing. Regenerate only the pages needed from the current Google
@@ -223,8 +224,8 @@ sources.
    page 29 in the expanded local candidate. Do not edit it.
 4. Confirm the full-deck status of the page 17 dotted-outline repair and the
    page 18 article image. Check existing local repairs on Introduction pages
-   2, 6, 12, 15, 17 and Fault/Error pages 65, 68, 73, 74, 76, 77 against the
-   full Google export.
+   6, 12, 15, 17 and Fault/Error pages 65, 68, 73, 74, 76, 77 against the
+   full Google export; pages 2 and 64 were repaired and checked in Round 29.
 5. Classify the 41 remaining build-bearing slides. Expand only meaningful
    animation/build states, preserve source order, update the source/build map,
    and integrate structural changes into the same WIP deck.
