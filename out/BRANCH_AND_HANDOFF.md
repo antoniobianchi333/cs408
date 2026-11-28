@@ -129,6 +129,13 @@ be able to:
    run a standalone large-file test. If a real complete batch exceeds the
    direct export limit, use the documented no-curl LRO or authenticated
    browser route; never split a source deck/topic or use a shell downloader.
+9. Maintain the single editable Google Doc `STATUS` in the CS 408 project
+   folder root, above `Pilots`. Refresh it about hourly and after major
+   milestones. Use the order documented in [`PLAN.md`](PLAN.md#required-live-status-document):
+   pending permissions, percentages from [`codex_usage.py`](../codex_usage.py),
+   current and near-term work, complete `MANUALLYCONVERT.md`, then complete
+   `PLAN.md`. Read the current sources before each update and keep the verified
+   document link in [`README.md`](README.md).
 
 The root [`README.md`](README.md) is the navigation hub and must link to every
 relevant project Markdown file, script, map, and artifact folder. Update that
@@ -146,7 +153,10 @@ images remain unadded. The 20-row Fall PDF metadata audit is tracked as
 [`combined/fall-source-metadata.csv`](combined/fall-source-metadata.csv).
 The top-level
 [`GOAL.md`](../GOAL.md) and [`PROMPT.md`](../PROMPT.md) are part of that restart kit;
-the main README links both and the current progress documents.
+the main README links both and the current progress documents. The
+[`codex_usage.py`](../codex_usage.py) helper supplies usage percentages for the
+required live Drive `STATUS` document and should be included in the user's Git
+review when the helper is present in the checkout.
 
 This inventory is the policy for selecting files, not evidence that every
 large local artifact already has a Drive copy. The Google folder must be

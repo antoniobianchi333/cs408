@@ -540,6 +540,14 @@ improved; rename it as the accepted batch only after every acceptance check
 passes. The [`Pilots` subfolder](https://drive.google.com/drive/folders/1PHuKHahwY2PxviNWTM2f8kYmb7K-37Dj)
 is only for small, isolated test decks and disposable edit tests, never a
 full-batch working copy.
+Keep one native Google Doc titled `STATUS` directly in this same project
+folder root, above `Pilots`. It is the live progress report, not a pilot.
+Update the same document about hourly during sustained work and after major
+milestones, with pending permissions, usage percentages from `codex_usage.py`,
+current/near-term work, and the full current manual-conversion list and plan
+in the order specified by [`PLAN.md`](../PLAN.md#required-live-status-document).
+Verify its file ID, title, MIME type, and parent folder before each edit, and
+keep its Drive URL in [`out/README.md`](../README.md).
 On November 24, 2026, all 17 presentations in the shared root were confirmed
 to be pilots or test copies; their parent metadata was read before they were
 moved into `Pilots`. New pilot rounds follow the same organization; final

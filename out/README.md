@@ -86,7 +86,7 @@ Keynote. The exact gaps and the Round 15–17 diagnostics and repairs are in the
 - [Codex usage reader for the live status report](../codex_usage.py)
 - Live Google Drive `STATUS` document: create or verify it in the CS 408 project
   folder root, above `Pilots`; refresh it hourly using the ordered fields in
-  [the project goal](../GOAL.md#operating-rules).
+  [the live plan](PLAN.md#required-live-status-document).
 - [Branch, restart-kit, and artifact-tracking policy](BRANCH_AND_HANDOFF.md)
 - [Combined slide collection and source map](combined/README.md)
 - [Final 16-batch boundaries and deck/topic sequence](combined/BATCH_BOUNDARIES.md)
