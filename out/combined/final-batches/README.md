@@ -46,8 +46,9 @@ confirmed a 9 pt notes page on every local candidate slide, including 117
 blank-note anchors. Round 39 repairs Fault/Error pages 24, 61,
 and 69 in the local candidate. Full Google review and structural integration
 remain open; Batch 1 is not accepted. See the
-[Round 35 record](../SLIDE_CONVERSION.md#round-35--8-pt-speaker-notes-and-single-state-build-classifications)
-and [Round 39 record](../SLIDE_CONVERSION.md#round-39--source-page-24-and-page-61-repairs).
+[historical Round 35 record](../SLIDE_CONVERSION.md#round-35--8-pt-speaker-notes-and-single-state-build-classifications),
+[Round 39 record](../SLIDE_CONVERSION.md#round-39--source-page-24-and-page-61-repairs),
+and [current Round 40 record](../SLIDE_CONVERSION.md#round-40--speaker-notes-and-structural-insertion-pilot).
 The latest notes-free native text comparison corrected 14 provisional WIP
 state matches; these are map corrections, not visual repairs. The
 correspondence map now covers all 142 WIP slides, while

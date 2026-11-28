@@ -1,8 +1,8 @@
 wip_slide_number,wip_slide_object_id,candidate_output_slide,row_type,source_filename,source_pdf_page,source_build_state,alignment_score,alignment_basis
 1,p1,1,source_deck_divider,01-408st-introduction.key,,,1.000,native_text_ordered_same_source_page
 2,p2,2,source_pdf_page_candidate,01-408st-introduction.key,1,,1.000,native_text_ordered_same_source_page
-3,p3,3,source_build_state,01-408st-introduction.key,2,1/2,0.951,native_text_ordered_same_source_page
-4,p4,6,source_build_state,01-408st-introduction.key,3,2/3,0.850,native_text_ordered_same_source_page
+3,p3,4,source_build_state,01-408st-introduction.key,2,2/2,1.000,native_text_ordered_same_source_page
+4,p4,7,source_build_state,01-408st-introduction.key,3,3/3,1.000,native_text_ordered_same_source_page
 5,p5,8,source_build_state,01-408st-introduction.key,4,1/11,1.000,native_text_ordered_same_source_page
 6,p6,9,source_build_state,01-408st-introduction.key,4,2/11,1.000,native_text_ordered_same_source_page
 7,p7,10,source_build_state,01-408st-introduction.key,4,3/11,1.000,native_text_ordered_same_source_page
@@ -14,7 +14,7 @@ wip_slide_number,wip_slide_object_id,candidate_output_slide,row_type,source_file
 13,p13,16,source_build_state,01-408st-introduction.key,4,9/11,1.000,native_text_ordered_same_source_page
 14,p14,17,source_build_state,01-408st-introduction.key,4,10/11,1.000,native_text_ordered_same_source_page
 15,p15,18,source_build_state,01-408st-introduction.key,4,11/11,1.000,native_text_ordered_same_source_page
-16,p16,19,source_pdf_page_candidate,01-408st-introduction.key,5,single final static state,0.028,native_text_ordered_same_source_page
+16,p16,19,source_pdf_page_candidate,01-408st-introduction.key,5,single final static state,1.000,native_text_ordered_same_source_page
 17,p17,20,source_build_state,01-408st-introduction.key,6,1/7,1.000,native_text_ordered_same_source_page
 18,p18,21,source_build_state,01-408st-introduction.key,6,2/7,1.000,native_text_ordered_same_source_page
 19,p19,22,source_build_state,01-408st-introduction.key,6,3/7,1.000,native_text_ordered_same_source_page
@@ -30,7 +30,7 @@ wip_slide_number,wip_slide_object_id,candidate_output_slide,row_type,source_file
 29,p29,32,source_build_state,01-408st-introduction.key,12,1/2,1.000,native_text_ordered_same_source_page
 30,p30,33,source_build_state,01-408st-introduction.key,12,2/2,1.000,native_text_ordered_same_source_page
 31,p31,34,source_pdf_page_candidate,01-408st-introduction.key,13,,1.000,native_text_ordered_same_source_page
-32,p32,35,source_pdf_page_candidate,01-408st-introduction.key,14,single final static state,0.899,native_text_ordered_same_source_page
+32,p32,35,source_pdf_page_candidate,01-408st-introduction.key,14,single final static state,1.000,native_text_ordered_same_source_page
 33,p33,36,source_build_state,01-408st-introduction.key,15,1/9,1.000,native_text_ordered_same_source_page
 34,p34,37,source_build_state,01-408st-introduction.key,15,2/9,1.000,native_text_ordered_same_source_page
 35,p35,38,source_build_state,01-408st-introduction.key,15,3/9,1.000,native_text_ordered_same_source_page
@@ -40,7 +40,7 @@ wip_slide_number,wip_slide_object_id,candidate_output_slide,row_type,source_file
 39,p39,42,source_build_state,01-408st-introduction.key,15,7/9,1.000,native_text_ordered_same_source_page
 40,p40,43,source_build_state,01-408st-introduction.key,15,8/9,1.000,native_text_ordered_same_source_page
 41,p41,44,source_build_state,01-408st-introduction.key,15,9/9,1.000,native_text_ordered_same_source_page
-42,p42,45,source_pdf_page_candidate,01-408st-introduction.key,16,single final static state,0.780,native_text_ordered_same_source_page
+42,p42,45,source_pdf_page_candidate,01-408st-introduction.key,16,single final static state,1.000,native_text_ordered_same_source_page
 43,p43,46,source_build_state,01-408st-introduction.key,17,1/6,1.000,native_text_ordered_same_source_page
 44,p44,47,source_build_state,01-408st-introduction.key,17,2/6,1.000,native_text_ordered_same_source_page
 45,p45,48,source_build_state,01-408st-introduction.key,17,3/6,1.000,native_text_ordered_same_source_page
@@ -130,7 +130,7 @@ wip_slide_number,wip_slide_object_id,candidate_output_slide,row_type,source_file
 129,p129,217,source_pdf_page_candidate,02-408st-fault-error-failure.key,66,,1.000,native_text_ordered_same_source_page
 130,p130,220,source_build_state,02-408st-fault-error-failure.key,67,3/3,1.000,native_text_ordered_same_source_page
 131,p131,221,source_pdf_page_candidate,02-408st-fault-error-failure.key,68,,1.000,native_text_ordered_same_source_page
-132,p132,225,source_build_state,02-408st-fault-error-failure.key,69,4/4,0.643,native_text_ordered_same_source_page
+132,p132,225,source_build_state,02-408st-fault-error-failure.key,69,4/4,0.951,native_text_ordered_same_source_page
 133,p133,228,source_build_state,02-408st-fault-error-failure.key,70,3/3,1.000,native_text_ordered_same_source_page
 134,p134,235,source_build_state,02-408st-fault-error-failure.key,71,7/7,0.968,native_text_ordered_same_source_page
 135,p135,239,source_build_state,02-408st-fault-error-failure.key,72,4/4,1.000,native_text_ordered_same_source_page

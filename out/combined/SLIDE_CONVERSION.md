@@ -3196,7 +3196,7 @@ permission, first try to update the live `STATUS` Doc with the exact blocked
 action and scope. If the Doc update is blocked too, use the platform's actual
 approval flow; do not send an ordinary chat approval request. Current project
 Drive and `libreoffice --headless` access are active. The latest
-`python3 codex_usage.py read` returned `5h 96% left · weekly 75% left`.
+`python3 codex_usage.py read` returned `5h 95% left · weekly 75% left`.
 
 Batch 1 remains unaccepted. Next, insert the 130 mapped rows at their 32
 anchors into the same native WIP, preserving source/build order and the

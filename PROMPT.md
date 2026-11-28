@@ -42,7 +42,7 @@ Read these files before making changes:
 5. [`out/combined/BATCH_BOUNDARIES.md`](out/combined/BATCH_BOUNDARIES.md) — the
    completed 16-batch outline and whole-topic rules.
 6. [`out/combined/SLIDE_CONVERSION.md`](out/combined/SLIDE_CONVERSION.md) — conversion
-   and repair evidence, especially Rounds 24–34.
+   and repair evidence, especially Rounds 24–40.
 7. [`out/combined/GOOGLE_DRIVE_ACCESS.md`](out/combined/GOOGLE_DRIVE_ACCESS.md) — Drive
    access, file organization, pacing, export, and no-curl rules.
 8. [`out/combined/final-batches/README.md`](out/combined/final-batches/README.md) and
