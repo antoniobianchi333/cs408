@@ -63,6 +63,16 @@ Markdown file, script, map, and artifact folder. Update it and the PLAN as the
 work changes. Refresh PLAN about hourly during sustained work and at each major
 milestone.
 
+Maintain one native Google Doc titled `STATUS` directly in the CS 408 project
+Drive folder root, above `Pilots`. Create it if absent; verify its exact file
+metadata before editing. About hourly during sustained work and after major
+milestones, refresh that same document in this order: pending permissions (or
+none), current 5-hour and weekly usage percentages from the root
+[`codex_usage.py`](codex_usage.py) script, current work and near-term plan,
+the full contents of `out/MANUALLYCONVERT.md`, and the full contents of
+`out/PLAN.md`. Read the local sources for each refresh, and link the verified
+Google Doc from `out/README.md`.
+
 ## Verify this checkout and Drive state
 
 - Check `git branch --show-current`, `git status --short`, and the current Git
@@ -76,6 +86,8 @@ milestone.
   missing on this machine. Do not treat local `.build` paths below as durable
   handoff artifacts. Regenerate temporary outputs from tracked scripts and
   authoritative sources as needed.
+- Read `codex_usage.py` and use it for every `STATUS` refresh. The working
+  checkout may show it as untracked; do not overwrite or remove it.
 - Recheck Google Drive through the connected Drive/Slides tools. Use only the
   project folder
   [`16vTRNocHa1rlPN1bii_w0b8Ce90XrFbn`](https://drive.google.com/drive/folders/16vTRNocHa1rlPN1bii_w0b8Ce90XrFbn)

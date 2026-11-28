@@ -83,6 +83,10 @@ Keynote. The exact gaps and the Round 15–17 diagnostics and repairs are in the
 - [Copy-ready prompt for a fresh session](../PROMPT.md)
 - [Live plan and time estimates](PLAN.md)
 - [Last-resort manual Keynote-to-PDF request list](MANUALLYCONVERT.md)
+- [Codex usage reader for the live status report](../codex_usage.py)
+- Live Google Drive `STATUS` document: create or verify it in the CS 408 project
+  folder root, above `Pilots`; refresh it hourly using the ordered fields in
+  [the project goal](../GOAL.md#operating-rules).
 - [Branch, restart-kit, and artifact-tracking policy](BRANCH_AND_HANDOFF.md)
 - [Combined slide collection and source map](combined/README.md)
 - [Final 16-batch boundaries and deck/topic sequence](combined/BATCH_BOUNDARIES.md)
@@ -191,6 +195,16 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   `combined/google-slides-pilot/`.
 
 ## Current conversion status
+
+**Required live status document:** keep a single editable Google Doc titled
+`STATUS` directly in the CS 408 project Drive folder root, above `Pilots`.
+Refresh it about hourly during sustained work and after major milestones. Its
+sections must stay in this order: pending permissions; current code-usage
+percentages from [`codex_usage.py`](../codex_usage.py); current work and the
+near-term plan; the complete [manual conversion list](MANUALLYCONVERT.md); and
+the complete [plan](PLAN.md). Use the connected Drive tools only in the
+documented CS 408 project folder, and link the live document here after its
+metadata and URL have been verified.
 
 - **Batch 1 is active; its full native WIP is the live repair surface in Google Drive.** Keep the local PPTX and maps as the reproducible source. Make confirmed visual-only fixes in the same native WIP; rebuild and reconcile locally when content, build states, order, or structure changes, or when a local repair is needed to preserve the intended result through import. The paired page 2 and page 68 tests support local source repairs for those cases; Round 17 and Round 25 show targeted native Google edits for import-specific differences. See the [documented route decision](combined/SLIDE_CONVERSION.md#full-batch-working-deck-workflow). The current Fall Introduction
   and Fault/Error/Failure Keynote sources convert to 92 and 108 LibreOffice

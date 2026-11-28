@@ -141,6 +141,19 @@ read-only Drive root listing returned only `Pilots`. The current 142-slide
 WIP deck is now in the root; its placement is documented in the
 [Drive guide](combined/GOOGLE_DRIVE_ACCESS.md#pilot-and-final-batch-folder-organization).
 
+## Required live status document
+
+Keep one native Google Doc titled `STATUS` directly in the CS 408 project
+Drive folder root (`16vTRNocHa1rlPN1bii_w0b8Ce90XrFbn`), above `Pilots`.
+Create or verify it before the next Drive work, then update the same document
+about hourly during sustained work and after major milestones. Every update
+must put these items in order: permission approvals needed (or none pending),
+the current 5-hour and weekly usage percentages from `codex_usage.py`, current
+work and near-term plan, the full contents of `MANUALLYCONVERT.md`, and the
+full contents of this plan. Link the verified live document from
+[`README.md`](README.md). The status Doc belongs in the project root and is
+not a pilot artifact.
+
 **Working branch:** `spring+2027+bianchi`, based on the newest available
 course branch, `others/fall+2026` at `900304aa` (2026-11-15). Its selected
 documentation, scripts, and compact maps are being added; generated slide
@@ -590,15 +603,18 @@ behavior and for full-deck visual review.
 
 ## Next action
 
-1. Continue reviewing the remaining Batch 1 build chunks in decoded playback
+1. Create or verify the `STATUS` Google Doc in the project root after Drive
+   access is granted. Confirm its parent folder and native Google Docs type,
+   then publish the current ordered status and link it from `README.md`.
+2. Continue reviewing the remaining Batch 1 build chunks in decoded playback
    order. Introduction PDF pages 4, 6, 12, 15, 17, and 18 have verified
    expansions of 11, 7, 2, 9, 6, and 2 cumulative states; page 16's one-chunk
    All at Once build adds no extra slide. Seven of 52 build-bearing slides are
    classified; 45 remain. Map every meaningful state.
-2. Finalize the complete ordered map, expand meaningful states, resolve the
+3. Finalize the complete ordered map, expand meaningful states, resolve the
    remaining page defects, then rebuild and audit the full local PPTX. Keep each
    source deck and topic whole and retain the required editable dividers.
-3. The current full-size WIP deck is in the shared Drive root. Its 142-page
+4. The current full-size WIP deck is in the shared Drive root. Its 142-page
    Google PDF has been exported and all pages have had a contact-sheet review.
    Confirm flagged exceptions at full size and make verified visual fixes in
    that same native deck. Keep the local PPTX and maps as the reproducible
