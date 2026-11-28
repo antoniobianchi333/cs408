@@ -179,22 +179,24 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   [Round 14 rev2 builder](combined/google-slides-pilot/build_concurrency_lab_round14_rev2.py),
   and [Round 14 rev3 builder](combined/google-slides-pilot/build_concurrency_lab_round14_rev3.py),
   [Round 15-to-16 repair script](combined/google-slides-pilot/repair_round15_keynote_layout.py)
-  and [Round 16 PPTX](combined/google-slides-pilot/cs408-fall-test-anatomy-round16.pptx),
-  [Round 16 page map](combined/google-slides-pilot/cs408-fall-test-anatomy-round16-map.csv),
+  and the [Round 16 page map](combined/google-slides-pilot/cs408-fall-test-anatomy-round16-map.csv),
   and [Round 16 review folder](combined/google-slides-pilot/cs408-fall-test-anatomy-round16-review/),
   [Fall text-overlap audit script](combined/audit_fall_text_overlap.py),
   [source-deck topic audit script](combined/audit_source_deck_topics.py), and
   [older-topic selection audit](combined/older-topic-selection-audit.csv), plus
   [local conversion audit script](combined/google-slides-pilot/audit_conversion_pilot.py)
-- [Full combined slide PDF](combined/cs408-all-slides.pdf),
-  [full editable PowerPoint](combined/cs408-all-slides-editable.pptx), and
-  [image-based PowerPoint parts](combined/import-parts.json)
+- [Legacy combined-slide manifest and mapping](combined/editable-parts-manifest.json)
+  and [image-based part manifest](combined/import-parts.json). The generated
+  combined PPTX/PDF files are not in this checkout; keep rebuildable binaries
+  in ignored `.build/` rather than `out/combined/`.
 - [Google Drive Pilots folder](https://drive.google.com/drive/folders/1PHuKHahwY2PxviNWTM2f8kYmb7K-37Dj)
   contains the historical pilot and disposable decks. The shared Drive
   folder root is reserved for final batch decks.
-- [Temporary local render and audit work](.build/). These are diagnostic
-  outputs; the versioned pilot artifacts and PDFs are kept in
-  `combined/google-slides-pilot/`.
+- [Temporary local render and audit work](.build/). Keep rebuildable PPTX,
+  PDF, render, and transfer files here, ignored by Git. Keep durable scripts,
+  maps, manifests, and compact reports in `combined/`; keep only small live
+  test decks in Drive `Pilots` and full-batch WIP/accepted native decks in the
+  shared Drive root.
 
 ## Current conversion status
 
@@ -412,26 +414,27 @@ confirms the native Google Docs MIME type and project-root parent folder.
   PDFs first and consult `MANUALLYCONVERT.md` only as a last resort. Aim for a
   Google PDF below 10 MB when conceptual boundaries naturally allow it; if a
   complete batch is larger, use the documented no-curl fallback rather than
-  splitting a deck or topic. Only final numbered batch decks go in the shared
-  Drive root above `Pilots`. Native text edits and a reversible
+  splitting a deck or topic. Put every full-batch WIP and accepted native
+  deck in the shared Drive root above `Pilots`. Native text edits and a reversible
   native line-position edit/readback have passed; a line-style update was
   rejected for the imported arrow object. Other object types still need
   editability checks as they occur in each batch. See the
   [current Batch 1 open work](combined/final-batches/batch-01-diagnostic.md#next-actions-for-this-batch).
 
-Keep final editable batch PowerPoints directly in `out/combined/`. Keep every
-local pilot input, revision, page map, reference render, and Google PDF in
-`out/combined/google-slides-pilot/`, following its [folder guide](combined/google-slides-pilot/README.md).
-In Drive, put full-batch WIP and accepted decks directly in the shared folder
-root, with an explicit WIP title until acceptance; use the `Pilots` subfolder
-only for small test sets. After each round, update its
-runbook entry, pilot page map, current open-work list, and status on this
-page. Update the collection source maps when source selection or provenance
+Keep rebuildable local PPTX candidates, PDFs, renders, and temporary files in
+ignored `out/.build/`. Keep durable scripts, manifests, maps, repair rules, and
+compact QA reports in `out/combined/`. See the [pilot folder guide](combined/google-slides-pilot/README.md)
+for historical pilot evidence and current artifact placement. Store small
+native test decks in Drive `Pilots`; put each full-batch WIP and accepted
+native Slides deck directly in the shared Drive root. After each round, update
+its runbook entry, source/build map, open-work list, and this status page.
+Update the collection source maps only when source selection or provenance
 changes.
 
 ## Fall 2026 study guide
 
-The [full study guide](cs408-study-guide.pdf) has 1,838 pages. It opens with a
+The historical study guide has 1,838 pages. Its generated PDF is not in this
+checkout and is separate from the active slide-conversion inputs. It opens with a
 six-page quick review and linked contents. Nine course maps highlight the
 current section and link to its lectures and exercises.
 

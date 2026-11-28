@@ -11,6 +11,11 @@ wherever Fall covers a topic and include older material only as a complete
 topic absent from Fall. Keep older material within a Fall-covered topic as
 comparison/provenance evidence, not as isolated supplements. Final source/build
 maps are being made batch by batch.
+Keep durable scripts, manifests, maps, and compact QA reports in this folder.
+Generated PPTX/PDF/render files belong under ignored `out/.build/`; older
+round logs may record local artifact paths that are not present in a fresh
+checkout. Full-batch native Google Slides decks belong in the shared Drive
+root, and small live tests belong in `Pilots`.
 For the newer reading and exercise sequence, see the
 [Fall 2026 study guide](../README.md#fall-2026-study-guide).
 
@@ -24,10 +29,9 @@ mapping remain to be completed in their assigned batches.
 
 ## Test the editable import first
 
-The [Round 4 PPTX](google-slides-pilot/cs408-editable-part-01-round4.pptx)
-is the current full Part 1 comparison baseline. Its
-[Google export](google-slides-pilot/cs408-editable-part-01-round4.pdf)
-has all 260 pages. Rounds 5–11 tested targeted repairs in smaller native
+The Round 4 PPTX is the historical full Part 1 comparison baseline; its local
+PPTX/PDF artifacts may be absent from a fresh checkout. The recorded Google
+export had 260 pages. Rounds 5–11 tested targeted repairs in smaller native
 decks. Round 11 revision 4 is the latest label-fit repair:
 [Round 11 PPTX](google-slides-pilot/cs408-conversion-pilot-round11-rev4.pptx),
 with its [Google PDF](google-slides-pilot/cs408-conversion-pilot-round11-rev4-google.pdf)
