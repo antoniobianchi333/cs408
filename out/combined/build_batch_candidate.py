@@ -7,8 +7,9 @@ audit_batch_source_alignment.py. The builder adds a full-slide solid pale-yellow
 (`#FFF2CC`) editable divider before each source deck, with centered 24 pt bold
 Arial filename text and 28 pt regular Arial topic text. Divider text boxes use
 explicit DrawingML rectangle geometry. The builder copies selected slides
-and notes, and records every output page. It deliberately does not expand Keynote animation builds or
-repair imported layouts; the output map labels those items as pending.
+and notes, sets speaker-note text to 8 pt, and records every output page. It
+deliberately does not expand Keynote animation builds or repair imported
+layouts; the output map labels those items as pending.
 
 This package-level copier supports LibreOffice PPTX inputs whose slide
 relationships point only to slide layouts, images, and speaker notes. It
@@ -340,7 +341,9 @@ def copy_notes(source: dict[str, bytes], output: dict[str, bytes], source_part: 
         raise ValueError(f"missing notes slide part {source_part}")
     notes_serial[0] += 1
     target_part = f"ppt/notesSlides/notesSlide{notes_serial[0]}.xml"
-    output[target_part] = source[source_part]
+    notes_root = etree.fromstring(source[source_part])
+    set_speaker_notes_font_size(notes_root)
+    output[target_part] = xml_bytes(notes_root)
     source_rels = rel_root(source, source_part)
     target_rels = etree.Element(f"{{{REL}}}Relationships", nsmap={None: REL})
     for rel in source_rels.findall("rel:Relationship", NS):
@@ -363,6 +366,28 @@ def copy_notes(source: dict[str, bytes], output: dict[str, bytes], source_part: 
     output["[Content_Types].xml"] = xml_bytes(ct_root)
     notes_cache[cache_key] = target_part
     return target_part
+
+
+def set_speaker_notes_font_size(notes_root: etree._Element) -> None:
+    """Set every existing speaker-note text run and paragraph default to 8 pt."""
+    property_tags = {
+        f"{{{A}}}rPr",
+        f"{{{A}}}defRPr",
+        f"{{{A}}}endParaRPr",
+    }
+    for node in notes_root.iter():
+        if node.tag in property_tags:
+            node.set("sz", "800")
+
+    # Some source runs omit explicit properties and inherit a larger size from
+    # the notes master. Add a local run property so the 8 pt rule survives import.
+    for tag in ("r", "fld"):
+        for run in notes_root.findall(f".//a:{tag}", NS):
+            run_properties = run.find("a:rPr", NS)
+            if run_properties is None:
+                run_properties = etree.Element(f"{{{A}}}rPr")
+                run.insert(0, run_properties)
+            run_properties.set("sz", "800")
 
 
 def divider_xml(filename: str, topic: str, width: int, height: int) -> bytes:

@@ -86,6 +86,17 @@ def find_text_shape(root: etree._Element, predicate, label: str) -> etree._Eleme
     return matches[0]
 
 
+def find_shape_by_id(root: etree._Element, shape_id: int, label: str) -> etree._Element:
+    matches = root.xpath(
+        ".//p:sp[p:nvSpPr/p:cNvPr[@id=$shape_id]]",
+        namespaces=NS,
+        shape_id=str(shape_id),
+    )
+    if len(matches) != 1:
+        raise ValueError(f"expected exactly one {label} shape {shape_id}; found {len(matches)}")
+    return matches[0]
+
+
 def find_slide_shape(root: etree._Element, index: int) -> etree._Element:
     matches = root.findall(".//p:sp", NS)
     if index < 0 or index >= len(matches):
@@ -1088,6 +1099,28 @@ def repair(pptx_in: Path, pptx_out: Path) -> None:
             body29 = find_text_shape(slide29, lambda text: text.startswith("Testing allows us to"), "testing-intent bullets")
             set_shape_box(body29, 75, 204, 874, 150)
             set_font_size(body29, 24)
+            # The three editable oracle labels imported at 44 pt wrap into two
+            # lines and overlap adjacent rows. Keep one centered line inside
+            # each source-aligned oracle box.
+            oracle_boxes = (
+                (300, 523.08, 476.65),
+                (318, 523.08, 576.31),
+                (328, 523.08, 675.35),
+            )
+            for shape_id, x, y in oracle_boxes:
+                oracle = find_shape_by_id(slide29, shape_id, "test oracle")
+                set_shape_box(oracle, x, y, 216.23, 79.0)
+                set_font_size(oracle, 36)
+                disable_text_autofit(oracle)
+                body = oracle.find("./p:txBody/a:bodyPr", NS)
+                body.set("wrap", "none")
+                body.set("anchor", "ctr")
+                paragraph = oracle.find("./p:txBody/a:p", NS)
+                ppr = paragraph.find("./a:pPr", NS)
+                if ppr is None:
+                    ppr = etree.Element(f"{{{A}}}pPr")
+                    paragraph.insert(0, ppr)
+                ppr.set("algn", "ctr")
             # These two empty vector paths have extreme off-slide coordinates
             # and render as stray arrows over the source diagram. Remove only
             # those path shapes; the rest of the diagram is replaced below by

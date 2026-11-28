@@ -1,6 +1,6 @@
 {
   "batch": 1,
-  "status": "Eleven of 52 build-bearing slides are structurally classified: nine expanded Introduction slides account for 45 cumulative static states, while two one-chunk All at Once builds retain a single final static slide. The local candidate now has 147 ordered slides. The five states on Introduction PDF pages 2–3 and the three paragraph states on page 27 passed local review and native Google pilot readback/PDF inspection against their exact Fall references. The page 27 states retain editable 40 pt heading and 36 pt body text; Google rendering matches the source line progression. The Round 28 pilot evidence and page map are recorded in the conversion runbook and final-batch workspace. Full-batch integration and review remain open; 41 build-bearing slides still need classification.",
+  "status": "All 52 of 52 build-bearing slides are structurally classified: 37 expanded source slides account for 198 cumulative static states, and 15 no-expansion decisions retain one final static slide. The local candidate is expected to contain 272 ordered slides. Full package integration, generated-state review, Google import, and Batch 1 acceptance remain open.",
   "policy": "Each selected state is cumulative and stays adjacent to its source slide within the original deck. Do not expand a decorative-only effect. Do not infer instructional meaning from chunk count alone.",
   "non_expansions": [
     {
@@ -30,6 +30,195 @@
       "review_status": "The existing local final slide is present in the candidate. Its single chunk has no internal reveal sequence; no extra static state is required.",
       "build_status": "One All at Once pop chunk reveals the entire slide; retain one static slide without an extra state.",
       "source_build_state": "single final static state"
+    },
+    {
+      "source_filename": "01-408st-introduction.key",
+      "source_topic": "Introduction and administrivia",
+      "source_keynote_slide_order": 6,
+      "reference_pdf_page": 5,
+      "converted_pptx_slide": 6,
+      "decision": "One All at Once apple:appear chunk targets the Group Projects and Exams content. The full list appears together, with no within-slide paragraph or object sequence. Keep the complete editable slide as one static state; do not add another slide.",
+      "build_status": "One All at Once chunk; one final static slide; no additional state.",
+      "source_build_state": "single final static state",
+      "build_chunk_ids": [
+        "1251676"
+      ],
+      "review_status": "The full WIP output page 16 was visually compared with exact Fall Introduction PDF page 5. The complete Group Projects and Exams content is present in one slide, with no intermediate instructional state; retain one static slide. The local LibreOffice candidate substitutes fonts and renders smaller text/hollow bullets, so use the current Google WIP rendering for visual acceptance."
+    },
+    {
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 23,
+      "reference_pdf_page": 5,
+      "converted_pptx_slide": 23,
+      "decision": "One All at Once apple:dropbuild chunk targets the analogy slide as a single object group. The source's static page shows the completed composition; no intermediate instructional content is revealed.",
+      "build_status": "One All at Once chunk; one completed static analogy slide; no additional state.",
+      "source_build_state": "single final static state",
+      "build_chunk_ids": [
+        "1709109"
+      ],
+      "review_status": "The full WIP output page 68 was compared with exact Fall Fault/Error PDF page 5. The photograph, thought bubbles, and title are present together in the final composition. Keep one static slide; the build does not add an instructional intermediate state."
+    },
+    {
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 32,
+      "reference_pdf_page": 14,
+      "converted_pptx_slide": 32,
+      "decision": "One All at Once apple:bc-pop chunk reveals the completed definition/example slide together. No intermediate state is present.",
+      "build_status": "One All at Once chunk; one completed static slide; no additional state.",
+      "source_build_state": "single final static state",
+      "build_chunk_ids": [
+        "1488439"
+      ],
+      "review_status": "The full WIP output page 77 was visually compared with exact Fall Fault/Error PDF page 14. The complete Great Expectations definition and example remain on one slide. Text wrapping differs slightly; record it with the visual repair review."
+    },
+    {
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 52,
+      "reference_pdf_page": 32,
+      "converted_pptx_slide": 52,
+      "decision": "One By Paragraph chunk contains the single question paragraph. The slide has no further paragraph to reveal, so retain one static state.",
+      "build_status": "One By Paragraph chunk and one visible question; no additional state.",
+      "source_build_state": "single final static state",
+      "build_chunk_ids": [
+        "1601414"
+      ],
+      "review_status": "The full WIP output page 95 was visually compared with exact Fall Fault/Error PDF page 32. The complete question is present. Google wraps the last words onto a second line whereas the PDF keeps one line; this is a layout issue, not a missing build state."
+    },
+    {
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 62,
+      "reference_pdf_page": 42,
+      "converted_pptx_slide": 62,
+      "decision": "One All at Once apple:bc-pop chunk reveals the completed modeling example as a single group. The final static page contains all content; do not add another state.",
+      "build_status": "One All at Once chunk; one completed static slide; no additional state.",
+      "source_build_state": "single final static state",
+      "build_chunk_ids": [
+        "1666137"
+      ],
+      "review_status": "The full WIP output page 105 was compared with exact Fall Fault/Error PDF page 42. All bullets, program-state example, code, and check/arrow marks are present together. The Google title wraps onto two lines while the source title is one line; keep that in the visual repair queue."
+    },
+    {
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 70,
+      "reference_pdf_page": 50,
+      "converted_pptx_slide": 70,
+      "decision": "One All at Once apple:bc-pop chunk targets the complete program-state example. Keep its final appearance as one static state.",
+      "build_status": "One All at Once chunk; one completed static slide; no additional state.",
+      "source_build_state": "single final static state",
+      "build_chunk_ids": [
+        "1675846"
+      ],
+      "review_status": "The full WIP output page 113 was visually compared with exact Fall Fault/Error PDF page 50. The complete code, state table, and result arrow are visible together. The title wraps onto two lines in Google versus one in the source; retain this visual difference for repair review."
+    },
+    {
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 79,
+      "reference_pdf_page": 59,
+      "converted_pptx_slide": 79,
+      "decision": "One All at Once apple:bc-pop chunk displays the completed program-state example together. Retain one final static state.",
+      "build_status": "One All at Once chunk; one completed static slide; no additional state.",
+      "source_build_state": "single final static state",
+      "build_chunk_ids": [
+        "1694881"
+      ],
+      "review_status": "The full WIP output page 122 was visually compared with exact Fall Fault/Error PDF page 59. The visible example and its verdict marks form one completed slide; no intermediate instructional state is needed."
+    },
+    {
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 104,
+      "reference_pdf_page": 76,
+      "converted_pptx_slide": 104,
+      "decision": "One All at Once apple:bc-appear chunk reveals the complete outcome-table slide. The title, table, and question appear together as one final state.",
+      "build_status": "One All at Once chunk; one completed static slide; no additional state.",
+      "source_build_state": "single final static state",
+      "build_chunk_ids": [
+        "1436457"
+      ],
+      "review_status": "The full WIP output page 139 was compared with exact Fall Fault/Error PDF page 76. The table values and title are present together. The question text's horizontal position remains under review; no extra build state is needed."
+    },
+    {
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 21,
+      "reference_pdf_page": 3,
+      "converted_pptx_slide": 21,
+      "decision": "The four decoded objects are one click group: the photo and completed thought-bubble illustration appear together. Retain one final static state; the missing thought-bubble artwork in the current candidate remains a content repair.",
+      "build_status": "One click group; retain one final animation-free static state.",
+      "source_build_state": "single final static state",
+      "build_chunk_ids": [
+        "1702964",
+        "1702963",
+        "1702965",
+        "1702966"
+      ],
+      "review_status": "Exact Fall PDF page 3 and the local static candidate were compared. The one click group needs no extra state; the candidate still lacks the thought-bubble artwork and remains in the content repair queue."
+    },
+    {
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 38,
+      "reference_pdf_page": 20,
+      "converted_pptx_slide": 38,
+      "decision": "The two chunks form one click group: the complete failure example appears, followed by its automatic result annotation. Retain one final static state; title fitting remains in the visual repair queue.",
+      "build_status": "One click group; retain one final animation-free static state.",
+      "source_build_state": "single final static state",
+      "build_chunk_ids": [
+        "1490111",
+        "1662046"
+      ],
+      "review_status": "Decoded chunk order was checked against the exact Fall PDF and local full-page comparison. This decision adds no state; page-specific visual repairs remain in the Batch 1 queue."
+    },
+    {
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 39,
+      "reference_pdf_page": 21,
+      "converted_pptx_slide": 39,
+      "decision": "The two chunks form one click group: the completed failure example and result annotation appear together. Retain one final static state; title fitting remains in the visual repair queue.",
+      "build_status": "One click group; retain one final animation-free static state.",
+      "source_build_state": "single final static state",
+      "build_chunk_ids": [
+        "1490780",
+        "1662264"
+      ],
+      "review_status": "Decoded chunk order was checked against the exact Fall PDF and local full-page comparison. This decision adds no state; page-specific visual repairs remain in the Batch 1 queue."
+    },
+    {
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 45,
+      "reference_pdf_page": 26,
+      "converted_pptx_slide": 45,
+      "decision": "The two chunks form one click group: the completed example and fault annotation appear together. Retain one final static state; title fitting remains in the visual repair queue.",
+      "build_status": "One click group; retain one final animation-free static state.",
+      "source_build_state": "single final static state",
+      "build_chunk_ids": [
+        "1502651",
+        "1663435"
+      ],
+      "review_status": "Decoded chunk order was checked against the exact Fall PDF and local full-page comparison. This decision adds no state; page-specific visual repairs remain in the Batch 1 queue."
+    },
+    {
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 102,
+      "reference_pdf_page": 74,
+      "converted_pptx_slide": 102,
+      "decision": "The line-draw and automatically chained picture form one completed click group. Retain the final scientific-method diagram as one static slide.",
+      "build_status": "One click group; retain one final animation-free static state.",
+      "source_build_state": "single final static state",
+      "build_chunk_ids": [
+        "1565281",
+        "1565382"
+      ],
+      "review_status": "Decoded chunk order was checked against the exact Fall PDF and local full-page comparison. This decision adds no state; page-specific visual repairs remain in the Batch 1 queue."
     }
   ],
   "expansions": [
@@ -653,6 +842,3054 @@
               "352": 3
             }
           }
+        }
+      ]
+    },
+    {
+      "output_slide": 26,
+      "source_filename": "01-408st-introduction.key",
+      "source_topic": "Introduction and administrivia",
+      "source_keynote_slide_order": 28,
+      "reference_pdf_page": 25,
+      "converted_pptx_slide": 28,
+      "decision": "The slide has three instructional bullet paragraphs that arrive through a By Paragraph build. Preserve those as three cumulative editable text states. The four subsequent All at Once object builds form the completed System Under Test composition, so preserve them together as one final diagram state.",
+      "build_status": "Three cumulative bullet states followed by one completed System Under Test diagram state; the four object chunks remain in source order.",
+      "review_status": "The exact Fall Introduction PDF page 25 was inspected, and the current static candidate retains the editable three-paragraph text plus its diagram objects. Paragraph and diagram mapping is recorded; expanded candidate and native Google verification remain pending.",
+      "states": [
+        {
+          "label": "1/4",
+          "build_chunk_ids": [
+            "1575799"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "290": 1
+            },
+            "hidden_shape_ids": [
+              "293",
+              "294",
+              "295",
+              "296"
+            ]
+          }
+        },
+        {
+          "label": "2/4",
+          "build_chunk_ids": [
+            "1575779"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "290": 2
+            },
+            "hidden_shape_ids": [
+              "293",
+              "294",
+              "295",
+              "296"
+            ]
+          }
+        },
+        {
+          "label": "3/4",
+          "build_chunk_ids": [
+            "1575840"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "290": 3
+            },
+            "hidden_shape_ids": [
+              "293",
+              "294",
+              "295",
+              "296"
+            ]
+          }
+        },
+        {
+          "label": "4/4",
+          "build_chunk_ids": [
+            "1575774",
+            "1575787",
+            "1575786",
+            "1575841"
+          ],
+          "operations": {}
+        }
+      ]
+    },
+    {
+      "output_slide": 29,
+      "source_filename": "01-408st-introduction.key",
+      "source_topic": "Introduction and administrivia",
+      "source_keynote_slide_order": 31,
+      "reference_pdf_page": 28,
+      "converted_pptx_slide": 31,
+      "decision": "One By Paragraph build reveals two distinct Learning Objective 2 paragraphs. Preserve two cumulative states, keeping the separate heading and title visible throughout.",
+      "build_status": "Two cumulative editable objective-paragraph states.",
+      "review_status": "The exact Fall Introduction PDF page 28 and imported paragraph structure were checked. The two objective paragraphs map to editable shape 356; expanded candidate and native Google verification remain pending.",
+      "states": [
+        {
+          "label": "1/2",
+          "build_chunk_ids": [
+            "1574237"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "356": 1
+            }
+          }
+        },
+        {
+          "label": "2/2",
+          "build_chunk_ids": [
+            "1574235"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "356": 2
+            }
+          }
+        }
+      ]
+    },
+    {
+      "output_slide": 30,
+      "source_filename": "01-408st-introduction.key",
+      "source_topic": "Introduction and administrivia",
+      "source_keynote_slide_order": 32,
+      "reference_pdf_page": 29,
+      "converted_pptx_slide": 32,
+      "decision": "One By Paragraph build reveals two distinct Learning Objective 3 paragraphs. Preserve two cumulative states, keeping the separate heading and title visible throughout.",
+      "build_status": "Two cumulative editable objective-paragraph states.",
+      "review_status": "The exact Fall Introduction PDF page 29 and imported paragraph structure were checked. The two objective paragraphs map to editable shape 360; expanded candidate and native Google verification remain pending.",
+      "states": [
+        {
+          "label": "1/2",
+          "build_chunk_ids": [
+            "1574229"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "360": 1
+            }
+          }
+        },
+        {
+          "label": "2/2",
+          "build_chunk_ids": [
+            "1574350"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "360": 2
+            }
+          }
+        }
+      ]
+    },
+    {
+      "output_slide": 31,
+      "source_filename": "01-408st-introduction.key",
+      "source_topic": "Introduction and administrivia",
+      "source_keynote_slide_order": 33,
+      "reference_pdf_page": 30,
+      "converted_pptx_slide": 33,
+      "decision": "The Recap body has six By Paragraph chunks, including one spacing-only paragraph. Preserve the five visible text additions as cumulative states and group the spacing-only chunk with the neighboring Next Time heading so no duplicate blank slide is emitted.",
+      "build_status": "Five cumulative editable recap states; the spacing-only source chunk is grouped with the Next Time heading.",
+      "review_status": "The exact Fall Introduction PDF page 30 and imported text structure were checked. The five visible body paragraphs map to editable shape 363; one spacing-only build chunk is paired with the Next Time heading. Expanded candidate and native Google verification remain pending.",
+      "states": [
+        {
+          "label": "1/5",
+          "build_chunk_ids": [
+            "1514807"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "363": 1
+            }
+          }
+        },
+        {
+          "label": "2/5",
+          "build_chunk_ids": [
+            "1514717"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "363": 2
+            }
+          }
+        },
+        {
+          "label": "3/5",
+          "build_chunk_ids": [
+            "1514820"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "363": 3
+            }
+          }
+        },
+        {
+          "label": "4/5",
+          "build_chunk_ids": [
+            "1514774",
+            "1514803"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "363": 4
+            }
+          }
+        },
+        {
+          "label": "5/5",
+          "build_chunk_ids": [
+            "1514663"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "363": 5
+            }
+          }
+        }
+      ]
+    },
+    {
+      "output_slide": 34,
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 20,
+      "reference_pdf_page": 2,
+      "converted_pptx_slide": 20,
+      "decision": "The exact Fall Fault/Error PDF page 2 has 9 instructional content paragraphs revealed by one By Paragraph build. Preserve the complete cumulative sequence as editable text states while the separate title and other static slide objects remain visible.",
+      "build_status": "9 cumulative editable paragraph states.",
+      "review_status": "Exact Fall Fault/Error PDF page 2 inspected; the static candidate contains 9 content paragraphs in editable shape 288, matching the decoded chunk count. Expanded candidate and native Google verification remain pending.",
+      "states": [
+        {
+          "label": "1/9",
+          "build_chunk_ids": [
+            "1475321"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "288": 1
+            }
+          }
+        },
+        {
+          "label": "2/9",
+          "build_chunk_ids": [
+            "1475320"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "288": 2
+            }
+          }
+        },
+        {
+          "label": "3/9",
+          "build_chunk_ids": [
+            "1475325"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "288": 3
+            }
+          }
+        },
+        {
+          "label": "4/9",
+          "build_chunk_ids": [
+            "1475299"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "288": 4
+            }
+          }
+        },
+        {
+          "label": "5/9",
+          "build_chunk_ids": [
+            "1475317"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "288": 5
+            }
+          }
+        },
+        {
+          "label": "6/9",
+          "build_chunk_ids": [
+            "1475271"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "288": 6
+            }
+          }
+        },
+        {
+          "label": "7/9",
+          "build_chunk_ids": [
+            "1479999"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "288": 7
+            }
+          }
+        },
+        {
+          "label": "8/9",
+          "build_chunk_ids": [
+            "1480000"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "288": 8
+            }
+          }
+        },
+        {
+          "label": "9/9",
+          "build_chunk_ids": [
+            "1761827"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "288": 9
+            }
+          }
+        }
+      ]
+    },
+    {
+      "output_slide": 55,
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 42,
+      "reference_pdf_page": 23,
+      "converted_pptx_slide": 42,
+      "decision": "The exact Fall Fault/Error PDF page 23 has 5 instructional content paragraphs revealed by one By Paragraph build. Preserve the complete cumulative sequence as editable text states while the separate title and other static slide objects remain visible.",
+      "build_status": "5 cumulative editable paragraph states.",
+      "review_status": "Exact Fall Fault/Error PDF page 23 inspected; the static candidate contains 5 content paragraphs in editable shape 389, matching the decoded chunk count. Expanded candidate and native Google verification remain pending.",
+      "states": [
+        {
+          "label": "1/5",
+          "build_chunk_ids": [
+            "1223828"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "389": 1
+            }
+          }
+        },
+        {
+          "label": "2/5",
+          "build_chunk_ids": [
+            "1301206"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "389": 2
+            }
+          }
+        },
+        {
+          "label": "3/5",
+          "build_chunk_ids": [
+            "1301207"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "389": 3
+            }
+          }
+        },
+        {
+          "label": "4/5",
+          "build_chunk_ids": [
+            "1301208"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "389": 4
+            }
+          }
+        },
+        {
+          "label": "5/5",
+          "build_chunk_ids": [
+            "1301209"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "389": 5
+            }
+          }
+        }
+      ]
+    },
+    {
+      "output_slide": 62,
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 50,
+      "reference_pdf_page": 30,
+      "converted_pptx_slide": 50,
+      "decision": "The exact Fall Fault/Error PDF page 30 has 7 instructional content paragraphs revealed by one By Paragraph build. Preserve the complete cumulative sequence as editable text states while the separate title and other static slide objects remain visible.",
+      "build_status": "7 cumulative editable paragraph states.",
+      "review_status": "Exact Fall Fault/Error PDF page 30 inspected; the static candidate contains 7 content paragraphs in editable shape 428, matching the decoded chunk count. Expanded candidate and native Google verification remain pending.",
+      "states": [
+        {
+          "label": "1/7",
+          "build_chunk_ids": [
+            "1339444"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "428": 1
+            }
+          }
+        },
+        {
+          "label": "2/7",
+          "build_chunk_ids": [
+            "1339405"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "428": 2
+            }
+          }
+        },
+        {
+          "label": "3/7",
+          "build_chunk_ids": [
+            "1339403"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "428": 3
+            }
+          }
+        },
+        {
+          "label": "4/7",
+          "build_chunk_ids": [
+            "1339429"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "428": 4
+            }
+          }
+        },
+        {
+          "label": "5/7",
+          "build_chunk_ids": [
+            "1339406"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "428": 5
+            }
+          }
+        },
+        {
+          "label": "6/7",
+          "build_chunk_ids": [
+            "1340796"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "428": 6
+            }
+          }
+        },
+        {
+          "label": "7/7",
+          "build_chunk_ids": [
+            "1340797"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "428": 7
+            }
+          }
+        }
+      ]
+    },
+    {
+      "output_slide": 65,
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 53,
+      "reference_pdf_page": 33,
+      "converted_pptx_slide": 53,
+      "decision": "The exact Fall Fault/Error PDF page 33 has 8 instructional content paragraphs revealed by one By Paragraph build. Preserve the complete cumulative sequence as editable text states while the separate title and other static slide objects remain visible.",
+      "build_status": "8 cumulative editable paragraph states.",
+      "review_status": "Exact Fall Fault/Error PDF page 33 inspected; the static candidate contains 8 content paragraphs in editable shape 435, matching the decoded chunk count. Expanded candidate and native Google verification remain pending.",
+      "states": [
+        {
+          "label": "1/8",
+          "build_chunk_ids": [
+            "1634063"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "435": 1
+            }
+          }
+        },
+        {
+          "label": "2/8",
+          "build_chunk_ids": [
+            "1634074"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "435": 2
+            }
+          }
+        },
+        {
+          "label": "3/8",
+          "build_chunk_ids": [
+            "1634083"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "435": 3
+            }
+          }
+        },
+        {
+          "label": "4/8",
+          "build_chunk_ids": [
+            "1634080"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "435": 4
+            }
+          }
+        },
+        {
+          "label": "5/8",
+          "build_chunk_ids": [
+            "1634105"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "435": 5
+            }
+          }
+        },
+        {
+          "label": "6/8",
+          "build_chunk_ids": [
+            "1634111"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "435": 6
+            }
+          }
+        },
+        {
+          "label": "7/8",
+          "build_chunk_ids": [
+            "1634075"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "435": 7
+            }
+          }
+        },
+        {
+          "label": "8/8",
+          "build_chunk_ids": [
+            "1634058"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "435": 8
+            }
+          }
+        }
+      ]
+    },
+    {
+      "output_slide": 67,
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 55,
+      "reference_pdf_page": 35,
+      "converted_pptx_slide": 55,
+      "decision": "The exact Fall Fault/Error PDF page 35 has 8 instructional content paragraphs revealed by one By Paragraph build. Preserve the complete cumulative sequence as editable text states while the separate title and other static slide objects remain visible.",
+      "build_status": "8 cumulative editable paragraph states.",
+      "review_status": "Exact Fall Fault/Error PDF page 35 inspected; the static candidate contains 8 content paragraphs in editable shape 447, matching the decoded chunk count. Expanded candidate and native Google verification remain pending.",
+      "states": [
+        {
+          "label": "1/8",
+          "build_chunk_ids": [
+            "1608764"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "447": 1
+            }
+          }
+        },
+        {
+          "label": "2/8",
+          "build_chunk_ids": [
+            "1608775"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "447": 2
+            }
+          }
+        },
+        {
+          "label": "3/8",
+          "build_chunk_ids": [
+            "1608783"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "447": 3
+            }
+          }
+        },
+        {
+          "label": "4/8",
+          "build_chunk_ids": [
+            "1608996"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "447": 4
+            }
+          }
+        },
+        {
+          "label": "5/8",
+          "build_chunk_ids": [
+            "1608997"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "447": 5
+            }
+          }
+        },
+        {
+          "label": "6/8",
+          "build_chunk_ids": [
+            "1610016"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "447": 6
+            }
+          }
+        },
+        {
+          "label": "7/8",
+          "build_chunk_ids": [
+            "1615048"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "447": 7
+            }
+          }
+        },
+        {
+          "label": "8/8",
+          "build_chunk_ids": [
+            "1616071"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "447": 8
+            }
+          }
+        }
+      ]
+    },
+    {
+      "output_slide": 96,
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 89,
+      "reference_pdf_page": 64,
+      "converted_pptx_slide": 89,
+      "decision": "The exact Fall Fault/Error PDF page 64 has 5 instructional content paragraphs revealed by one By Paragraph build. Preserve the complete cumulative sequence as editable text states while the separate title and other static slide objects remain visible.",
+      "build_status": "5 cumulative editable paragraph states.",
+      "review_status": "Exact Fall Fault/Error PDF page 64 inspected; the static candidate contains 5 content paragraphs in editable shape 653, matching the decoded chunk count. Expanded candidate and native Google verification remain pending.",
+      "states": [
+        {
+          "label": "1/5",
+          "build_chunk_ids": [
+            "1523252"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "653": 1
+            }
+          }
+        },
+        {
+          "label": "2/5",
+          "build_chunk_ids": [
+            "1523253"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "653": 2
+            }
+          }
+        },
+        {
+          "label": "3/5",
+          "build_chunk_ids": [
+            "1523254"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "653": 3
+            }
+          }
+        },
+        {
+          "label": "4/5",
+          "build_chunk_ids": [
+            "1523255"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "653": 4
+            }
+          }
+        },
+        {
+          "label": "5/5",
+          "build_chunk_ids": [
+            "1523256"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "653": 5
+            }
+          }
+        }
+      ]
+    },
+    {
+      "output_slide": 102,
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 96,
+      "reference_pdf_page": 70,
+      "converted_pptx_slide": 96,
+      "decision": "The exact Fall Fault/Error PDF page 70 has 3 instructional content paragraphs revealed by one By Paragraph build. Preserve the complete cumulative sequence as editable text states while the separate title and other static slide objects remain visible.",
+      "build_status": "3 cumulative editable paragraph states.",
+      "review_status": "Exact Fall Fault/Error PDF page 70 inspected; the static candidate contains 3 content paragraphs in editable shape 705, matching the decoded chunk count. Expanded candidate and native Google verification remain pending.",
+      "states": [
+        {
+          "label": "1/3",
+          "build_chunk_ids": [
+            "1523070"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "705": 1
+            }
+          }
+        },
+        {
+          "label": "2/3",
+          "build_chunk_ids": [
+            "1523064"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "705": 2
+            }
+          }
+        },
+        {
+          "label": "3/3",
+          "build_chunk_ids": [
+            "1523060"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "705": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "output_slide": 103,
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 97,
+      "reference_pdf_page": 71,
+      "converted_pptx_slide": 97,
+      "decision": "The exact Fall Fault/Error PDF page 71 has 7 instructional content paragraphs revealed by one By Paragraph build. Preserve the complete cumulative sequence as editable text states while the separate title and other static slide objects remain visible.",
+      "build_status": "7 cumulative editable paragraph states.",
+      "review_status": "Exact Fall Fault/Error PDF page 71 inspected; the static candidate contains 7 content paragraphs in editable shape 708, matching the decoded chunk count. Expanded candidate and native Google verification remain pending.",
+      "states": [
+        {
+          "label": "1/7",
+          "build_chunk_ids": [
+            "1536060"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "708": 1
+            }
+          }
+        },
+        {
+          "label": "2/7",
+          "build_chunk_ids": [
+            "1536061"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "708": 2
+            }
+          }
+        },
+        {
+          "label": "3/7",
+          "build_chunk_ids": [
+            "1536062"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "708": 3
+            }
+          }
+        },
+        {
+          "label": "4/7",
+          "build_chunk_ids": [
+            "1536063"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "708": 4
+            }
+          }
+        },
+        {
+          "label": "5/7",
+          "build_chunk_ids": [
+            "1536064"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "708": 5
+            }
+          }
+        },
+        {
+          "label": "6/7",
+          "build_chunk_ids": [
+            "1536065"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "708": 6
+            }
+          }
+        },
+        {
+          "label": "7/7",
+          "build_chunk_ids": [
+            "1536066"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "708": 7
+            }
+          }
+        }
+      ]
+    },
+    {
+      "output_slide": 104,
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 100,
+      "reference_pdf_page": 72,
+      "converted_pptx_slide": 100,
+      "decision": "The exact Fall Fault/Error PDF page 72 has 4 instructional content paragraphs revealed by one By Paragraph build. Preserve the complete cumulative sequence as editable text states while the separate title and other static slide objects remain visible.",
+      "build_status": "4 cumulative editable paragraph states.",
+      "review_status": "Exact Fall Fault/Error PDF page 72 inspected; the static candidate contains 4 content paragraphs in editable shape 714, matching the decoded chunk count. Expanded candidate and native Google verification remain pending.",
+      "states": [
+        {
+          "label": "1/4",
+          "build_chunk_ids": [
+            "1537103"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "714": 1
+            }
+          }
+        },
+        {
+          "label": "2/4",
+          "build_chunk_ids": [
+            "1537128"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "714": 2
+            }
+          }
+        },
+        {
+          "label": "3/4",
+          "build_chunk_ids": [
+            "1537106"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "714": 3
+            }
+          }
+        },
+        {
+          "label": "4/4",
+          "build_chunk_ids": [
+            "1537330"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "714": 4
+            }
+          }
+        }
+      ]
+    },
+    {
+      "output_slide": 107,
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 103,
+      "reference_pdf_page": 75,
+      "converted_pptx_slide": 103,
+      "decision": "The exact Fall Fault/Error PDF page 75 has 7 instructional content paragraphs revealed by one By Paragraph build. Preserve the complete cumulative sequence as editable text states while the separate title and other static slide objects remain visible.",
+      "build_status": "7 cumulative editable paragraph states.",
+      "review_status": "Exact Fall Fault/Error PDF page 75 inspected; the static candidate contains 7 content paragraphs in editable shape 759, matching the decoded chunk count. Expanded candidate and native Google verification remain pending.",
+      "states": [
+        {
+          "label": "1/7",
+          "build_chunk_ids": [
+            "1452279"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "759": 1
+            }
+          }
+        },
+        {
+          "label": "2/7",
+          "build_chunk_ids": [
+            "1452289"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "759": 2
+            }
+          }
+        },
+        {
+          "label": "3/7",
+          "build_chunk_ids": [
+            "1452313"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "759": 3
+            }
+          }
+        },
+        {
+          "label": "4/7",
+          "build_chunk_ids": [
+            "1452292"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "759": 4
+            }
+          }
+        },
+        {
+          "label": "5/7",
+          "build_chunk_ids": [
+            "1452273"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "759": 5
+            }
+          }
+        },
+        {
+          "label": "6/7",
+          "build_chunk_ids": [
+            "1452311"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "759": 6
+            }
+          }
+        },
+        {
+          "label": "7/7",
+          "build_chunk_ids": [
+            "1452256"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "759": 7
+            }
+          }
+        }
+      ]
+    },
+    {
+      "output_slide": 51,
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 37,
+      "reference_pdf_page": 19,
+      "converted_pptx_slide": 37,
+      "decision": "One By Bullet Group build reveals the three scenario bullets beneath the persistent “A hypothetical scenario:” lead-in. Preserve three cumulative static states; the question banner and lead-in stay visible throughout.",
+      "build_status": "Three cumulative scenario-bullet states after the lead-in.",
+      "review_status": "The exact Fall Fault/Error PDF page 19 was inspected. The three ordered build chunks correspond to content paragraphs 2–4 of editable shape 368, with the lead-in as paragraph 1. Expanded candidate and native Google verification remain pending.",
+      "states": [
+        {
+          "label": "1/3",
+          "build_chunk_ids": [
+            "1372105"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "368": 2
+            }
+          }
+        },
+        {
+          "label": "2/3",
+          "build_chunk_ids": [
+            "1372125"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "368": 3
+            }
+          }
+        },
+        {
+          "label": "3/3",
+          "build_chunk_ids": [
+            "1378101"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "368": 4
+            }
+          }
+        }
+      ]
+    },
+    {
+      "output_slide": 111,
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 107,
+      "reference_pdf_page": 79,
+      "converted_pptx_slide": 107,
+      "decision": "One By Paragraph sequence reveals seven recap lines. Preserve the seven cumulative text states; pair the spacing-only chunk with the following Next Time line so it does not create a blank duplicate slide. Keep the Recap title visible throughout.",
+      "build_status": "Seven cumulative recap states; one spacing-only chunk is grouped with the Next Time paragraph.",
+      "review_status": "The exact Fall Fault/Error PDF page 79 and imported text structure were inspected. Editable shape 773 contains seven content paragraphs matching the seven visible recap lines. The spacing chunk 1475772 is paired with the Next Time chunk 1759830. Expanded candidate and native Google verification remain pending.",
+      "states": [
+        {
+          "label": "1/7",
+          "build_chunk_ids": [
+            "1475749"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "773": 1
+            }
+          }
+        },
+        {
+          "label": "2/7",
+          "build_chunk_ids": [
+            "1475777"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "773": 2
+            }
+          }
+        },
+        {
+          "label": "3/7",
+          "build_chunk_ids": [
+            "1475779"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "773": 3
+            }
+          }
+        },
+        {
+          "label": "4/7",
+          "build_chunk_ids": [
+            "1475769"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "773": 4
+            }
+          }
+        },
+        {
+          "label": "5/7",
+          "build_chunk_ids": [
+            "1475762"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "773": 5
+            }
+          }
+        },
+        {
+          "label": "6/7",
+          "build_chunk_ids": [
+            "1475772",
+            "1759830"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "773": 6
+            }
+          }
+        },
+        {
+          "label": "7/7",
+          "build_chunk_ids": [
+            "1759831"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "773": 7
+            }
+          }
+        }
+      ]
+    },
+    {
+      "output_slide": 59,
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 47,
+      "reference_pdf_page": 27,
+      "converted_pptx_slide": 47,
+      "decision": "The slide builds two “Why do we test?” paragraphs, then the “Why do we find faults?” answer group, and finally draws the strike-through correction. Preserve four cumulative states in source event order.",
+      "build_status": "Two cumulative test-motivation paragraph states, followed by the fault-fixing answer and final strike-through annotation.",
+      "review_status": "The exact Fall Fault/Error PDF page 27 was inspected. The first build targets editable shape 412, the second content group is shapes 414–415, and the final line-draw is shape 413. The line annotation is retained as the fourth state. Expanded candidate and native Google verification remain pending.",
+      "states": [
+        {
+          "label": "1/4",
+          "build_chunk_ids": [
+            "1409948"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "412": 1
+            },
+            "hidden_shape_ids": [
+              "413",
+              "414",
+              "415"
+            ]
+          }
+        },
+        {
+          "label": "2/4",
+          "build_chunk_ids": [
+            "1409968"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "412": 2
+            },
+            "hidden_shape_ids": [
+              "413",
+              "414",
+              "415"
+            ]
+          }
+        },
+        {
+          "label": "3/4",
+          "build_chunk_ids": [
+            "1428776"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "412": 2
+            },
+            "hidden_shape_ids": [
+              "413"
+            ]
+          }
+        },
+        {
+          "label": "4/4",
+          "build_chunk_ids": [
+            "1409969"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "412": 2
+            }
+          }
+        }
+      ]
+    },
+    {
+      "output_slide": 109,
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 105,
+      "reference_pdf_page": 77,
+      "converted_pptx_slide": 105,
+      "decision": "One By Row build reveals the header and eight combinations in two synchronized editable tables. Preserve nine cumulative table states, keeping both aligned table frames native and adding each row in source order.",
+      "build_status": "Nine cumulative states; synchronized editable tables grow from the header through all eight combinations.",
+      "review_status": "The exact Fall Fault/Error PDF page 77 was inspected. The static candidate contains aligned editable tables in graphic frames 766 (three columns) and 768 (Possible? column), each with nine rows. The one-to-one row progression matches the nine decoded chunks; local state expansion and native Google verification remain pending.",
+      "states": [
+        {
+          "label": "1/9",
+          "build_chunk_ids": [
+            "1473671"
+          ],
+          "operations": {
+            "visible_table_rows": {
+              "766": 1,
+              "768": 1
+            }
+          }
+        },
+        {
+          "label": "2/9",
+          "build_chunk_ids": [
+            "1473672"
+          ],
+          "operations": {
+            "visible_table_rows": {
+              "766": 2,
+              "768": 2
+            }
+          }
+        },
+        {
+          "label": "3/9",
+          "build_chunk_ids": [
+            "1473673"
+          ],
+          "operations": {
+            "visible_table_rows": {
+              "766": 3,
+              "768": 3
+            }
+          }
+        },
+        {
+          "label": "4/9",
+          "build_chunk_ids": [
+            "1473674"
+          ],
+          "operations": {
+            "visible_table_rows": {
+              "766": 4,
+              "768": 4
+            }
+          }
+        },
+        {
+          "label": "5/9",
+          "build_chunk_ids": [
+            "1473675"
+          ],
+          "operations": {
+            "visible_table_rows": {
+              "766": 5,
+              "768": 5
+            }
+          }
+        },
+        {
+          "label": "6/9",
+          "build_chunk_ids": [
+            "1473676"
+          ],
+          "operations": {
+            "visible_table_rows": {
+              "766": 6,
+              "768": 6
+            }
+          }
+        },
+        {
+          "label": "7/9",
+          "build_chunk_ids": [
+            "1473677"
+          ],
+          "operations": {
+            "visible_table_rows": {
+              "766": 7,
+              "768": 7
+            }
+          }
+        },
+        {
+          "label": "8/9",
+          "build_chunk_ids": [
+            "1473678"
+          ],
+          "operations": {
+            "visible_table_rows": {
+              "766": 8,
+              "768": 8
+            }
+          }
+        },
+        {
+          "label": "9/9",
+          "build_chunk_ids": [
+            "1473679"
+          ],
+          "operations": {
+            "visible_table_rows": {
+              "766": 9,
+              "768": 9
+            }
+          }
+        }
+      ]
+    },
+    {
+      "output_slide": 27,
+      "source_filename": "01-408st-introduction.key",
+      "source_topic": "Introduction and administrivia",
+      "source_keynote_slide_order": 29,
+      "reference_pdf_page": 26,
+      "converted_pptx_slide": 29,
+      "decision": "The 48 ordered build chunks progressively reveal the Black-Box, Grey-Box, and White-Box testing diagram, its inputs, oracles, checks, and connectors. Retain nine cumulative states at click boundaries; merge automatically chained chunks with their triggering click. Keep the title and upper explanatory bullets outside the diagram crop visible throughout.",
+      "build_status": "9 cumulative diagram states; all decoded build chunks remain ordered and mapped to their source object bounds.",
+      "review_status": "States 1–8 reveal the editable converted diagram objects in decoded build order. The corrupted loop paths are excluded from those states; the exact Fall source crop supplies the complete final state. Local and Google state review remains open.",
+      "states": [
+        {
+          "label": "1/9",
+          "build_chunk_ids": [
+            "1547331"
+          ],
+          "operations": {
+            "hidden_shape_ids": [
+              "299",
+              "300",
+              "301",
+              "302",
+              "303",
+              "304",
+              "305",
+              "306",
+              "307",
+              "308",
+              "309",
+              "310",
+              "311",
+              "312",
+              "313",
+              "314",
+              "315",
+              "316",
+              "317",
+              "318",
+              "319",
+              "320",
+              "321",
+              "322",
+              "323",
+              "324",
+              "325",
+              "326",
+              "327",
+              "328",
+              "329",
+              "330",
+              "331",
+              "332",
+              "333",
+              "334",
+              "336",
+              "338",
+              "339",
+              "340",
+              "341",
+              "342",
+              "343",
+              "347",
+              "350"
+            ]
+          },
+          "build_status": "Introduction PDF page 26 testing diagram: cumulative static state 1 of 9; future build-object bounds are masked in the source-page diagram crop.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "2/9",
+          "build_chunk_ids": [
+            "1547314",
+            "1547320",
+            "1547308",
+            "1547315",
+            "1547306",
+            "1547297"
+          ],
+          "operations": {
+            "hidden_shape_ids": [
+              "300",
+              "303",
+              "307",
+              "308",
+              "309",
+              "310",
+              "311",
+              "312",
+              "313",
+              "314",
+              "315",
+              "316",
+              "317",
+              "318",
+              "319",
+              "320",
+              "321",
+              "322",
+              "323",
+              "324",
+              "325",
+              "326",
+              "327",
+              "328",
+              "329",
+              "330",
+              "331",
+              "332",
+              "333",
+              "334",
+              "336",
+              "338",
+              "339",
+              "340",
+              "341",
+              "342",
+              "343",
+              "347",
+              "350"
+            ]
+          },
+          "build_status": "Introduction PDF page 26 testing diagram: cumulative static state 2 of 9; future build-object bounds are masked in the source-page diagram crop.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "3/9",
+          "build_chunk_ids": [
+            "1547327",
+            "1547323",
+            "1547318",
+            "1547301",
+            "1547330",
+            "1547295",
+            "1547304"
+          ],
+          "operations": {
+            "hidden_shape_ids": [
+              "303",
+              "310",
+              "311",
+              "312",
+              "313",
+              "314",
+              "315",
+              "316",
+              "317",
+              "318",
+              "322",
+              "323",
+              "324",
+              "325",
+              "326",
+              "327",
+              "328",
+              "329",
+              "330",
+              "331",
+              "332",
+              "333",
+              "334",
+              "336",
+              "338",
+              "339",
+              "340",
+              "341",
+              "342",
+              "343",
+              "347",
+              "350"
+            ]
+          },
+          "build_status": "Introduction PDF page 26 testing diagram: cumulative static state 3 of 9; future build-object bounds are masked in the source-page diagram crop.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "4/9",
+          "build_chunk_ids": [
+            "1547319",
+            "1547305",
+            "1547299",
+            "1547317"
+          ],
+          "operations": {
+            "hidden_shape_ids": [
+              "303",
+              "311",
+              "315",
+              "316",
+              "317",
+              "318",
+              "322",
+              "323",
+              "324",
+              "325",
+              "326",
+              "327",
+              "328",
+              "329",
+              "330",
+              "331",
+              "332",
+              "333",
+              "334",
+              "336",
+              "338",
+              "339",
+              "340",
+              "341",
+              "342",
+              "343",
+              "347",
+              "350"
+            ]
+          },
+          "build_status": "Introduction PDF page 26 testing diagram: cumulative static state 4 of 9; future build-object bounds are masked in the source-page diagram crop.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "5/9",
+          "build_chunk_ids": [
+            "1547324",
+            "1547316",
+            "1547328",
+            "1547333"
+          ],
+          "operations": {
+            "hidden_shape_ids": [
+              "303",
+              "318",
+              "322",
+              "323",
+              "324",
+              "325",
+              "326",
+              "327",
+              "328",
+              "329",
+              "330",
+              "331",
+              "332",
+              "333",
+              "334",
+              "336",
+              "338",
+              "339",
+              "340",
+              "341",
+              "342",
+              "343",
+              "347",
+              "350"
+            ]
+          },
+          "build_status": "Introduction PDF page 26 testing diagram: cumulative static state 5 of 9; future build-object bounds are masked in the source-page diagram crop.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "6/9",
+          "build_chunk_ids": [
+            "1547303",
+            "1547307",
+            "1547309",
+            "1547298",
+            "1547310",
+            "1547332",
+            "1547302",
+            "1547300",
+            "1547312",
+            "1547313",
+            "1547321",
+            "1547325",
+            "1547322",
+            "1547329"
+          ],
+          "operations": {
+            "hidden_shape_ids": [
+              "303",
+              "336",
+              "338",
+              "339",
+              "340",
+              "341",
+              "342",
+              "343",
+              "347",
+              "350"
+            ]
+          },
+          "build_status": "Introduction PDF page 26 testing diagram: cumulative static state 6 of 9; future build-object bounds are masked in the source-page diagram crop.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "7/9",
+          "build_chunk_ids": [
+            "1563827",
+            "1547311"
+          ],
+          "operations": {
+            "hidden_shape_ids": [
+              "336",
+              "338",
+              "339",
+              "340",
+              "341",
+              "342",
+              "343",
+              "347",
+              "350"
+            ]
+          },
+          "build_status": "Introduction PDF page 26 testing diagram: cumulative static state 7 of 9; future build-object bounds are masked in the source-page diagram crop.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "8/9",
+          "build_chunk_ids": [
+            "1563715",
+            "1563393",
+            "1562920",
+            "1562924",
+            "1562921",
+            "1562923",
+            "1562922",
+            "1562926",
+            "1562925"
+          ],
+          "operations": {
+            "hidden_shape_ids": [
+              "347",
+              "350"
+            ]
+          },
+          "build_status": "Introduction PDF page 26 testing diagram: cumulative static state 8 of 9; future build-object bounds are masked in the source-page diagram crop.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "9/9",
+          "build_chunk_ids": [
+            "1573112"
+          ],
+          "operations": {
+            "hidden_shape_ids": [
+              "298",
+              "299",
+              "300",
+              "301",
+              "302",
+              "303",
+              "304",
+              "305",
+              "306",
+              "307",
+              "308",
+              "309",
+              "310",
+              "311",
+              "312",
+              "313",
+              "314",
+              "315",
+              "316",
+              "317",
+              "318",
+              "319",
+              "320",
+              "321",
+              "322",
+              "323",
+              "324",
+              "325",
+              "326",
+              "327",
+              "328",
+              "329",
+              "330",
+              "331",
+              "332",
+              "333",
+              "334",
+              "336",
+              "338",
+              "339",
+              "340",
+              "341",
+              "342",
+              "343",
+              "347"
+            ]
+          },
+          "build_status": "Introduction PDF page 26 testing diagram: cumulative static state 9 of 9; future build-object bounds are masked in the source-page diagram crop.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        }
+      ]
+    },
+    {
+      "output_slide": 38,
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 24,
+      "reference_pdf_page": 6,
+      "converted_pptx_slide": 24,
+      "decision": "The first text paragraph appears, then a separate line-draw crosses it out, then the second paragraph appears. Preserve three cumulative states.",
+      "build_status": "Three ordered states: one paragraph, strike-through, then both paragraphs.",
+      "review_status": "Exact Fall PDF page 6 and static candidate were compared; the editable text is in shape 316 and the separate strike-through is object 317. State renders and Google import remain open.",
+      "states": [
+        {
+          "label": "1/3",
+          "build_chunk_ids": [
+            "1230316"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "316": 1
+            },
+            "hidden_drawing_object_ids": [
+              "317"
+            ]
+          },
+          "build_status": "First motivation paragraph; strike-through waits for the next click.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "2/3",
+          "build_chunk_ids": [
+            "1232266"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "316": 1
+            }
+          },
+          "build_status": "Strike through the first motivation paragraph.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "3/3",
+          "build_chunk_ids": [
+            "1230316"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "316": 2
+            }
+          },
+          "build_status": "Reveal the second motivation paragraph.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        }
+      ]
+    },
+    {
+      "output_slide": 39,
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 25,
+      "reference_pdf_page": 7,
+      "converted_pptx_slide": 25,
+      "decision": "A dictionary graphic appears, followed by five ordered definition paragraphs in two click groups, then a separate emphasis object. Preserve four cumulative states.",
+      "build_status": "Four states: opening graphic; three definition paragraphs; all five paragraphs; final emphasis.",
+      "review_status": "Exact Fall PDF page 7 and static candidate were compared. Shape 319 contains the five ordered definition paragraphs, picture 320 is the opening dictionary mark, and object 321 is the final emphasis. State renders and Google import remain open.",
+      "states": [
+        {
+          "label": "1/4",
+          "build_chunk_ids": [
+            "1486313"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "319": 0
+            },
+            "hidden_drawing_object_ids": [
+              "321"
+            ]
+          },
+          "build_status": "The opening dictionary mark appears before the definition text.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "2/4",
+          "build_chunk_ids": [
+            "1236551",
+            "1236551",
+            "1236551"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "319": 3
+            },
+            "hidden_drawing_object_ids": [
+              "321"
+            ]
+          },
+          "build_status": "Reveal the headword, part of speech, and first definition paragraph.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "3/4",
+          "build_chunk_ids": [
+            "1236551",
+            "1236551"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "319": 5
+            },
+            "hidden_drawing_object_ids": [
+              "321"
+            ]
+          },
+          "build_status": "Reveal the second definition and example sentence.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "4/4",
+          "build_chunk_ids": [
+            "1487599"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "319": 5
+            }
+          },
+          "build_status": "Add the final emphasis/pop object.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        }
+      ]
+    },
+    {
+      "output_slide": 44,
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 30,
+      "reference_pdf_page": 12,
+      "converted_pptx_slide": 30,
+      "decision": "Three definition paragraphs build first, then the example table and final mark appear together through automatic chaining. Preserve three cumulative states.",
+      "build_status": "Three states: definition lead-in; full definition; definition plus example.",
+      "review_status": "Exact Fall PDF page 12 and static candidate were compared. Editable paragraphs are shape 338, the example is shape 340, and its final mark is shape 341. State renders and Google import remain open.",
+      "states": [
+        {
+          "label": "1/3",
+          "build_chunk_ids": [
+            "1321061"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "338": 1
+            },
+            "hidden_drawing_object_ids": [
+              "340",
+              "341"
+            ]
+          },
+          "build_status": "The definition lead-in appears.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "2/3",
+          "build_chunk_ids": [
+            "1321061",
+            "1321061"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "338": 3
+            },
+            "hidden_drawing_object_ids": [
+              "340",
+              "341"
+            ]
+          },
+          "build_status": "Complete the three-paragraph definition.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "3/3",
+          "build_chunk_ids": [
+            "1487716",
+            "1661954"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "338": 3
+            }
+          },
+          "build_status": "Reveal the example table and its final mark.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        }
+      ]
+    },
+    {
+      "output_slide": 69,
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 57,
+      "reference_pdf_page": 37,
+      "converted_pptx_slide": 57,
+      "decision": "Five ordered By Paragraph states reveal the question and four lines; automatic build objects add the code and initial-state diagram at their source trigger points. Preserve five cumulative states.",
+      "build_status": "Five ordered paragraph/build states; code, frame, and initial-state objects are retained and revealed in source event order.",
+      "review_status": "Exact Fall PDF page 37 and static candidate were compared. Body text is shape 459, code is shape 460, the state annotation is shape 461, and the initial-state box is shape 462. State renders and Google import remain open.",
+      "states": [
+        {
+          "label": "1/5",
+          "build_chunk_ids": [
+            "1654399"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "459": 1
+            },
+            "hidden_drawing_object_ids": [
+              "460",
+              "461",
+              "462"
+            ]
+          },
+          "build_status": "Reveal content through paragraph 1; automatically chained code and state objects enter after the paragraph that triggers them.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "2/5",
+          "build_chunk_ids": [
+            "1654399",
+            "1736946"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "459": 2
+            },
+            "hidden_drawing_object_ids": [
+              "461",
+              "462"
+            ]
+          },
+          "build_status": "Reveal content through paragraph 2; automatically chained code and state objects enter after the paragraph that triggers them.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "3/5",
+          "build_chunk_ids": [
+            "1654399",
+            "1737138"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "459": 3
+            },
+            "hidden_drawing_object_ids": [
+              "461"
+            ]
+          },
+          "build_status": "Reveal content through paragraph 3; automatically chained code and state objects enter after the paragraph that triggers them.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "4/5",
+          "build_chunk_ids": [
+            "1654399",
+            "1737029"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "459": 4
+            }
+          },
+          "build_status": "Reveal content through paragraph 4; automatically chained code and state objects enter after the paragraph that triggers them.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "5/5",
+          "build_chunk_ids": [
+            "1654399"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "459": 5
+            }
+          },
+          "build_status": "Reveal content through paragraph 5; automatically chained code and state objects enter after the paragraph that triggers them.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        }
+      ]
+    },
+    {
+      "output_slide": 92,
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 80,
+      "reference_pdf_page": 60,
+      "converted_pptx_slide": 80,
+      "decision": "The program execution trace builds in nine ordered click groups. Each group adds its state box and, where present, its code-line marker. Preserve nine cumulative diagram states.",
+      "build_status": "Nine cumulative states: initial, first through seventh, then final execution state.",
+      "review_status": "Exact Fall PDF page 60 and static candidate were compared. State boxes and five code-line markers are editable objects 579–592 and are mapped to the 14 decoded chunks. State renders and Google import remain open.",
+      "states": [
+        {
+          "label": "1/9",
+          "build_chunk_ids": [
+            "1678600"
+          ],
+          "operations": {
+            "hidden_drawing_object_ids": [
+              "582",
+              "580",
+              "583",
+              "581",
+              "584",
+              "585",
+              "587",
+              "586",
+              "589",
+              "588",
+              "590",
+              "591",
+              "592"
+            ]
+          },
+          "build_status": "Cumulative execution-trace diagram through source click 1 of 9.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "2/9",
+          "build_chunk_ids": [
+            "1746800",
+            "1679272"
+          ],
+          "operations": {
+            "hidden_drawing_object_ids": [
+              "583",
+              "581",
+              "584",
+              "585",
+              "587",
+              "586",
+              "589",
+              "588",
+              "590",
+              "591",
+              "592"
+            ]
+          },
+          "build_status": "Cumulative execution-trace diagram through source click 2 of 9.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "3/9",
+          "build_chunk_ids": [
+            "1746801",
+            "1681034"
+          ],
+          "operations": {
+            "hidden_drawing_object_ids": [
+              "584",
+              "585",
+              "587",
+              "586",
+              "589",
+              "588",
+              "590",
+              "591",
+              "592"
+            ]
+          },
+          "build_status": "Cumulative execution-trace diagram through source click 3 of 9.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "4/9",
+          "build_chunk_ids": [
+            "1746802",
+            "1683408"
+          ],
+          "operations": {
+            "hidden_drawing_object_ids": [
+              "587",
+              "586",
+              "589",
+              "588",
+              "590",
+              "591",
+              "592"
+            ]
+          },
+          "build_status": "Cumulative execution-trace diagram through source click 4 of 9.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "5/9",
+          "build_chunk_ids": [
+            "1746803",
+            "1683615"
+          ],
+          "operations": {
+            "hidden_drawing_object_ids": [
+              "589",
+              "588",
+              "590",
+              "591",
+              "592"
+            ]
+          },
+          "build_status": "Cumulative execution-trace diagram through source click 5 of 9.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "6/9",
+          "build_chunk_ids": [
+            "1746804",
+            "1683814"
+          ],
+          "operations": {
+            "hidden_drawing_object_ids": [
+              "590",
+              "591",
+              "592"
+            ]
+          },
+          "build_status": "Cumulative execution-trace diagram through source click 6 of 9.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "7/9",
+          "build_chunk_ids": [
+            "1687742"
+          ],
+          "operations": {
+            "hidden_drawing_object_ids": [
+              "591",
+              "592"
+            ]
+          },
+          "build_status": "Cumulative execution-trace diagram through source click 7 of 9.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "8/9",
+          "build_chunk_ids": [
+            "1688940"
+          ],
+          "operations": {
+            "hidden_drawing_object_ids": [
+              "592"
+            ]
+          },
+          "build_status": "Cumulative execution-trace diagram through source click 8 of 9.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "9/9",
+          "build_chunk_ids": [
+            "1689080"
+          ],
+          "operations": {
+            "hidden_drawing_object_ids": []
+          },
+          "build_status": "Cumulative execution-trace diagram through source click 9 of 9.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        }
+      ]
+    },
+    {
+      "output_slide": 99,
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 93,
+      "reference_pdf_page": 67,
+      "converted_pptx_slide": 93,
+      "decision": "Two paragraphs appear automatically, then a line-draw crosses the second option, then the evidence paragraph appears. Preserve three cumulative states.",
+      "build_status": "Three states: initial options; crossed-out option; evidence paragraph.",
+      "review_status": "Exact Fall PDF page 67 and static candidate were compared. Body text is shape 690 and the separate line-draw is object 692. State renders and Google import remain open.",
+      "states": [
+        {
+          "label": "1/3",
+          "build_chunk_ids": [
+            "1516964",
+            "1516964"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "690": 2
+            },
+            "hidden_drawing_object_ids": [
+              "692"
+            ]
+          },
+          "build_status": "The two initial motivation options appear; the second strike-through is not drawn yet.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "2/3",
+          "build_chunk_ids": [
+            "1516965"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "690": 2
+            }
+          },
+          "build_status": "Draw the second strike-through.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "3/3",
+          "build_chunk_ids": [
+            "1516964"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "690": 3
+            }
+          },
+          "build_status": "Reveal the evidence-based testing motivation.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        }
+      ]
+    },
+    {
+      "output_slide": 101,
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 95,
+      "reference_pdf_page": 69,
+      "converted_pptx_slide": 95,
+      "decision": "Four click groups build the definitions and challenges, with the code example inserted by the automatic event between the testing and debugging sections. Preserve four cumulative states.",
+      "build_status": "Four states: testing definition; both definitions; testing challenge and code; complete debugging challenge.",
+      "review_status": "Exact Fall PDF page 69 and static candidate were compared. The body is shape 699; source code and example region are grouped in objects 700–703. State renders and Google import remain open.",
+      "states": [
+        {
+          "label": "1/4",
+          "build_chunk_ids": [
+            "1521646"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "699": 1
+            },
+            "hidden_drawing_object_ids": [
+              "700"
+            ]
+          },
+          "build_status": "Introduce the testing definition.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "2/4",
+          "build_chunk_ids": [
+            "1521646"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "699": 2
+            },
+            "hidden_drawing_object_ids": [
+              "700"
+            ]
+          },
+          "build_status": "Add the debugging definition.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "3/4",
+          "build_chunk_ids": [
+            "1521646",
+            "1521646",
+            "1521646",
+            "1521646",
+            "1521646",
+            "1521646",
+            "1521784"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "699": 4
+            }
+          },
+          "build_status": "Add the testing challenge, input-subset explanation, and automatically chained code example.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "4/4",
+          "build_chunk_ids": [
+            "1521646",
+            "1521646"
+          ],
+          "operations": {
+            "visible_paragraphs": {
+              "699": 6
+            }
+          },
+          "build_status": "Add the debugging challenge and concluding fault-identification statement.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        }
+      ]
+    },
+    {
+      "output_slide": 97,
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 90,
+      "reference_pdf_page": 65,
+      "converted_pptx_slide": 90,
+      "decision": "The R-I-P-R model builds through seven click groups, combining each line or shape with automatic follow-up objects. The repaired diagram remains a source-PDF crop; progressively mask later decoded object bounds while each state reveals its cumulative source sequence.",
+      "build_status": "7 cumulative diagram states; all decoded build chunks remain ordered and mapped to their source object bounds.",
+      "review_status": "Exact Fall PDF final state and converted crop were compared. State-by-state crop masks are generated from decoded Keynote object bounds; every state still requires rendered and Google-import review.",
+      "states": [
+        {
+          "label": "1/7",
+          "build_chunk_ids": [
+            "1754341",
+            "1754352",
+            "1754349"
+          ],
+          "operations": {
+            "picture_region_masks": [
+              {
+                "picture_shape_id": "655",
+                "padding_pt": 4,
+                "bounds_pt": [
+                  [
+                    165.951,
+                    499.52,
+                    0.0,
+                    50.933
+                  ],
+                  [
+                    173.265,
+                    525.512,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    25.294,
+                    551.953,
+                    281.314,
+                    150.052
+                  ],
+                  [
+                    274.216,
+                    477.38,
+                    217.794,
+                    99.926
+                  ],
+                  [
+                    459.625,
+                    352.677,
+                    281.314,
+                    150.052
+                  ],
+                  [
+                    303.206,
+                    596.566,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    703.154,
+                    382.528,
+                    34.82,
+                    80.324
+                  ],
+                  [
+                    720.564,
+                    464.34,
+                    0.0,
+                    153.761
+                  ],
+                  [
+                    745.87,
+                    593.558,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    283.016,
+                    614.93,
+                    267.517,
+                    140.951
+                  ],
+                  [
+                    792.584,
+                    618.098,
+                    215.623,
+                    140.616
+                  ],
+                  [
+                    972.104,
+                    714.129,
+                    34.824,
+                    41.151
+                  ]
+                ]
+              }
+            ]
+          },
+          "build_status": "R-I-P-R model diagram: cumulative static state 1 of 7; future build-object bounds are masked in the source-page diagram crop.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "2/7",
+          "build_chunk_ids": [
+            "1754351",
+            "1754342",
+            "1754340"
+          ],
+          "operations": {
+            "picture_region_masks": [
+              {
+                "picture_shape_id": "655",
+                "padding_pt": 4,
+                "bounds_pt": [
+                  [
+                    274.216,
+                    477.38,
+                    217.794,
+                    99.926
+                  ],
+                  [
+                    459.625,
+                    352.677,
+                    281.314,
+                    150.052
+                  ],
+                  [
+                    303.206,
+                    596.566,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    703.154,
+                    382.528,
+                    34.82,
+                    80.324
+                  ],
+                  [
+                    720.564,
+                    464.34,
+                    0.0,
+                    153.761
+                  ],
+                  [
+                    745.87,
+                    593.558,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    283.016,
+                    614.93,
+                    267.517,
+                    140.951
+                  ],
+                  [
+                    792.584,
+                    618.098,
+                    215.623,
+                    140.616
+                  ],
+                  [
+                    972.104,
+                    714.129,
+                    34.824,
+                    41.151
+                  ]
+                ]
+              }
+            ]
+          },
+          "build_status": "R-I-P-R model diagram: cumulative static state 2 of 7; future build-object bounds are masked in the source-page diagram crop.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "3/7",
+          "build_chunk_ids": [
+            "1754353",
+            "1754354",
+            "1754343"
+          ],
+          "operations": {
+            "picture_region_masks": [
+              {
+                "picture_shape_id": "655",
+                "padding_pt": 4,
+                "bounds_pt": [
+                  [
+                    703.154,
+                    382.528,
+                    34.82,
+                    80.324
+                  ],
+                  [
+                    720.564,
+                    464.34,
+                    0.0,
+                    153.761
+                  ],
+                  [
+                    745.87,
+                    593.558,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    283.016,
+                    614.93,
+                    267.517,
+                    140.951
+                  ],
+                  [
+                    792.584,
+                    618.098,
+                    215.623,
+                    140.616
+                  ],
+                  [
+                    972.104,
+                    714.129,
+                    34.824,
+                    41.151
+                  ]
+                ]
+              }
+            ]
+          },
+          "build_status": "R-I-P-R model diagram: cumulative static state 3 of 7; future build-object bounds are masked in the source-page diagram crop.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "4/7",
+          "build_chunk_ids": [
+            "1754345"
+          ],
+          "operations": {
+            "picture_region_masks": [
+              {
+                "picture_shape_id": "655",
+                "padding_pt": 4,
+                "bounds_pt": [
+                  [
+                    720.564,
+                    464.34,
+                    0.0,
+                    153.761
+                  ],
+                  [
+                    745.87,
+                    593.558,
+                    0.0,
+                    0.0
+                  ],
+                  [
+                    283.016,
+                    614.93,
+                    267.517,
+                    140.951
+                  ],
+                  [
+                    792.584,
+                    618.098,
+                    215.623,
+                    140.616
+                  ],
+                  [
+                    972.104,
+                    714.129,
+                    34.824,
+                    41.151
+                  ]
+                ]
+              }
+            ]
+          },
+          "build_status": "R-I-P-R model diagram: cumulative static state 4 of 7; future build-object bounds are masked in the source-page diagram crop.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "5/7",
+          "build_chunk_ids": [
+            "1754346",
+            "1754350"
+          ],
+          "operations": {
+            "picture_region_masks": [
+              {
+                "picture_shape_id": "655",
+                "padding_pt": 4,
+                "bounds_pt": [
+                  [
+                    283.016,
+                    614.93,
+                    267.517,
+                    140.951
+                  ],
+                  [
+                    792.584,
+                    618.098,
+                    215.623,
+                    140.616
+                  ],
+                  [
+                    972.104,
+                    714.129,
+                    34.824,
+                    41.151
+                  ]
+                ]
+              }
+            ]
+          },
+          "build_status": "R-I-P-R model diagram: cumulative static state 5 of 7; future build-object bounds are masked in the source-page diagram crop.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "6/7",
+          "build_chunk_ids": [
+            "1754344"
+          ],
+          "operations": {
+            "picture_region_masks": [
+              {
+                "picture_shape_id": "655",
+                "padding_pt": 4,
+                "bounds_pt": [
+                  [
+                    792.584,
+                    618.098,
+                    215.623,
+                    140.616
+                  ],
+                  [
+                    972.104,
+                    714.129,
+                    34.824,
+                    41.151
+                  ]
+                ]
+              }
+            ]
+          },
+          "build_status": "R-I-P-R model diagram: cumulative static state 6 of 7; future build-object bounds are masked in the source-page diagram crop.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "7/7",
+          "build_chunk_ids": [
+            "1754347",
+            "1754348"
+          ],
+          "operations": {},
+          "build_status": "R-I-P-R model diagram: cumulative static state 7 of 7; future build-object bounds are masked in the source-page diagram crop.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        }
+      ]
+    },
+    {
+      "output_slide": 105,
+      "source_filename": "02-408st-fault-error-failure.key",
+      "source_topic": "Faults, Errors, and Failures",
+      "source_keynote_slide_order": 101,
+      "reference_pdf_page": 73,
+      "converted_pptx_slide": 101,
+      "decision": "The scientific-method diagram builds through seven click groups of arrows, test states, and final-state objects. The repaired diagram remains a source-PDF crop; progressively mask later decoded object bounds while each state reveals its cumulative source sequence.",
+      "build_status": "7 cumulative diagram states; all decoded build chunks remain ordered and mapped to their source object bounds.",
+      "review_status": "Exact Fall PDF final state and converted crop were compared. State-by-state crop masks are generated from decoded Keynote object bounds; every state still requires rendered and Google-import review.",
+      "states": [
+        {
+          "label": "1/7",
+          "build_chunk_ids": [
+            "1544473",
+            "1544060"
+          ],
+          "operations": {
+            "picture_region_masks": [
+              {
+                "picture_shape_id": "717",
+                "padding_pt": 4,
+                "bounds_pt": [
+                  [
+                    165.106,
+                    397.85,
+                    8.493,
+                    123.728
+                  ],
+                  [
+                    436.698,
+                    149.11,
+                    100.0,
+                    0.0
+                  ],
+                  [
+                    253.274,
+                    471.766,
+                    344.181,
+                    12.232
+                  ],
+                  [
+                    597.442,
+                    451.374,
+                    39.384,
+                    39.384
+                  ],
+                  [
+                    220.88,
+                    390.363,
+                    372.065,
+                    54.332
+                  ],
+                  [
+                    71.471,
+                    369.544,
+                    73.102,
+                    202.236
+                  ],
+                  [
+                    556.837,
+                    149.11,
+                    100.0,
+                    0.0
+                  ],
+                  [
+                    237.215,
+                    461.226,
+                    214.748,
+                    113.851
+                  ],
+                  [
+                    449.674,
+                    432.308,
+                    39.384,
+                    39.384
+                  ],
+                  [
+                    216.885,
+                    326.567,
+                    459.644,
+                    77.056
+                  ]
+                ]
+              }
+            ]
+          },
+          "build_status": "Scientific Method diagram: cumulative static state 1 of 7; future build-object bounds are masked in the source-page diagram crop.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "2/7",
+          "build_chunk_ids": [
+            "1442453",
+            "1544062"
+          ],
+          "operations": {
+            "picture_region_masks": [
+              {
+                "picture_shape_id": "717",
+                "padding_pt": 4,
+                "bounds_pt": [
+                  [
+                    253.274,
+                    471.766,
+                    344.181,
+                    12.232
+                  ],
+                  [
+                    597.442,
+                    451.374,
+                    39.384,
+                    39.384
+                  ],
+                  [
+                    220.88,
+                    390.363,
+                    372.065,
+                    54.332
+                  ],
+                  [
+                    71.471,
+                    369.544,
+                    73.102,
+                    202.236
+                  ],
+                  [
+                    556.837,
+                    149.11,
+                    100.0,
+                    0.0
+                  ],
+                  [
+                    237.215,
+                    461.226,
+                    214.748,
+                    113.851
+                  ],
+                  [
+                    449.674,
+                    432.308,
+                    39.384,
+                    39.384
+                  ],
+                  [
+                    216.885,
+                    326.567,
+                    459.644,
+                    77.056
+                  ]
+                ]
+              }
+            ]
+          },
+          "build_status": "Scientific Method diagram: cumulative static state 2 of 7; future build-object bounds are masked in the source-page diagram crop.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "3/7",
+          "build_chunk_ids": [
+            "1440291",
+            "1544063"
+          ],
+          "operations": {
+            "picture_region_masks": [
+              {
+                "picture_shape_id": "717",
+                "padding_pt": 4,
+                "bounds_pt": [
+                  [
+                    220.88,
+                    390.363,
+                    372.065,
+                    54.332
+                  ],
+                  [
+                    71.471,
+                    369.544,
+                    73.102,
+                    202.236
+                  ],
+                  [
+                    556.837,
+                    149.11,
+                    100.0,
+                    0.0
+                  ],
+                  [
+                    237.215,
+                    461.226,
+                    214.748,
+                    113.851
+                  ],
+                  [
+                    449.674,
+                    432.308,
+                    39.384,
+                    39.384
+                  ],
+                  [
+                    216.885,
+                    326.567,
+                    459.644,
+                    77.056
+                  ]
+                ]
+              }
+            ]
+          },
+          "build_status": "Scientific Method diagram: cumulative static state 3 of 7; future build-object bounds are masked in the source-page diagram crop.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "4/7",
+          "build_chunk_ids": [
+            "1440287"
+          ],
+          "operations": {
+            "picture_region_masks": [
+              {
+                "picture_shape_id": "717",
+                "padding_pt": 4,
+                "bounds_pt": [
+                  [
+                    71.471,
+                    369.544,
+                    73.102,
+                    202.236
+                  ],
+                  [
+                    556.837,
+                    149.11,
+                    100.0,
+                    0.0
+                  ],
+                  [
+                    237.215,
+                    461.226,
+                    214.748,
+                    113.851
+                  ],
+                  [
+                    449.674,
+                    432.308,
+                    39.384,
+                    39.384
+                  ],
+                  [
+                    216.885,
+                    326.567,
+                    459.644,
+                    77.056
+                  ]
+                ]
+              }
+            ]
+          },
+          "build_status": "Scientific Method diagram: cumulative static state 4 of 7; future build-object bounds are masked in the source-page diagram crop.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "5/7",
+          "build_chunk_ids": [
+            "1444498",
+            "1544064"
+          ],
+          "operations": {
+            "picture_region_masks": [
+              {
+                "picture_shape_id": "717",
+                "padding_pt": 4,
+                "bounds_pt": [
+                  [
+                    237.215,
+                    461.226,
+                    214.748,
+                    113.851
+                  ],
+                  [
+                    449.674,
+                    432.308,
+                    39.384,
+                    39.384
+                  ],
+                  [
+                    216.885,
+                    326.567,
+                    459.644,
+                    77.056
+                  ]
+                ]
+              }
+            ]
+          },
+          "build_status": "Scientific Method diagram: cumulative static state 5 of 7; future build-object bounds are masked in the source-page diagram crop.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "6/7",
+          "build_chunk_ids": [
+            "1442715",
+            "1544061"
+          ],
+          "operations": {
+            "picture_region_masks": [
+              {
+                "picture_shape_id": "717",
+                "padding_pt": 4,
+                "bounds_pt": [
+                  [
+                    216.885,
+                    326.567,
+                    459.644,
+                    77.056
+                  ]
+                ]
+              }
+            ]
+          },
+          "build_status": "Scientific Method diagram: cumulative static state 6 of 7; future build-object bounds are masked in the source-page diagram crop.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
+        },
+        {
+          "label": "7/7",
+          "build_chunk_ids": [
+            "1442554"
+          ],
+          "operations": {},
+          "build_status": "Scientific Method diagram: cumulative static state 7 of 7; future build-object bounds are masked in the source-page diagram crop.",
+          "review_status": "Chunk order, target objects, and cumulative state grouping are mapped; exact Fall PDF comparison of every generated state and Google import remain open."
         }
       ]
     }

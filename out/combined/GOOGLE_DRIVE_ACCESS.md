@@ -9,7 +9,10 @@ artifact paths in round records may not exist in a fresh checkout.
 Use this guide for the part of the conversion that runs in Google. The
 local PPTX and the page map identify the exact test input. A native Google
 Slides copy and its PDF record what Google imported for that round. The
-Google-import evidence documented here includes Rounds 5–25 and Round 28.
+Google-import evidence documented here includes Rounds 5–25 and Round 28,
+plus full-batch repair/export work in Rounds 29–35. Rounds 37–39 refreshed the
+local Batch 1 build map and source repairs; they made no full-batch Slides
+write. The latest WIP and PDF state is recorded at the end of this guide.
 Rounds 26–27 expanded the local Batch 1 candidate; Round 28 verified the five
 page 2–3 states and three page 27 states in an 8-slide native pilot. Round 29
 repaired output pages 2 and 64 directly in the same full WIP. The fresh
@@ -34,9 +37,11 @@ banner shapes. Round 21 applied the repair to all six slides in a mixed-build
 pilot; the evidence and limits are recorded below. The current Batch 1 divider
 and grading-table imports are recorded in Rounds 24–25 of the conversion
 runbook. Rounds 26–27 expanded the local candidate with page 2–3 and page 27
-states. Round 28 verified these eight states in a small native pilot; the
-147-slide structure is not yet integrated into the same 142-slide full-batch
-WIP in the project root.
+states. Round 28 verified these eight states in a small native pilot. Round 37
+records the 272-slide local candidate and complete 52/52 build dispositions;
+Round 39 adds local repairs for Fault/Error PDF pages 24, 61, and 69. The
+candidate is not integrated into the same 142-slide full-batch WIP in the
+project root.
 
 **Connector check before the Round 23 full-deck upload (November 27, 2026):** read-only listing works
 for the exact shared project folder. The folder listing returned its `Pilots`
@@ -95,7 +100,7 @@ time and keep the same pacing before larger imports, exports, or readbacks.
 
 ## Verified for this project
 
-**Current-session authorization check (November 27, 2026):** listing the exact
+**Current-session authorization check (November 28, 2026):** listing the exact
 project folder works, and the native Google Doc `STATUS` has been read and
 edited there. The user changed the Google Drive plugin setting to “Allow all
 tools”; no approval is pending. This setting does not change the working
@@ -706,7 +711,7 @@ compatibility path from the outset and its chunk receiver. It required no
 `curl`, shell downloader, or preliminary failed fetch. Drive operations were
 serialized with at least 5.5 seconds between calls.
 
-## Current Batch 1 WIP — Round 29
+## Batch 1 WIP — Round 29 checkpoint (superseded by Round 34)
 
 The full-batch deck remains the same native Slides file in the project root:
 [CS408 Batch 1 WIP](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit),
@@ -728,3 +733,111 @@ each source deck. This same WIP remains unaccepted; the 147-slide local
 candidate is not yet integrated. The export used the documented connected
 helper and bounded compatibility route. No shell or network downloader was
 used.
+
+## Current Batch 1 WIP — Round 34
+
+On 2026-11-28, Drive metadata confirmed that the same full-batch WIP remains
+in the CS 408 project root: ID
+`1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME`, native Slides MIME type,
+parent `16vTRNocHa1rlPN1bii_w0b8Ce90XrFbn`, title
+`CS408 Batch 1 - WIP - needs fixes - 142 slides (Round 23)`, and size
+20,356,502 bytes. Native Slides readback returned revision `2TePmxHN4YTmwg`.
+There is one full-batch WIP; it has not been moved to `Pilots` or duplicated.
+
+The fresh Round 34 Google export has 142 pages, is 5,278,199 bytes, and has
+SHA256 `f209ce582c79ec0934992b157639c6ead8b53ff237867988ba5e2641cc5f72aa`.
+It is at `out/.build/batch-01/round34-final-review/presentation.pdf`; its
+142 pages were rendered at 72 dpi under the same ignored directory. The
+export used the Slides helper with one bounded `include_base64: true`
+compatibility fetch; no shell or network downloader was used.
+
+Output page 42 maps to Fall Introduction PDF page 16. The fresh export was
+visually compared with that exact source after the last native heading edit;
+the heading position and size, rotated banner text, three editable white
+bullet dots, and banner placement now closely match. Other selected Round
+30–34 repairs are listed in the [conversion runbook](SLIDE_CONVERSION.md).
+All 76 populated speaker-note text objects in the WIP were set to 8 pt and
+native readback confirmed every populated text run at 8 pt; 66 note
+placeholders have no text and remain empty. Apply and read back this 8 pt rule
+on each later batch without a visual notes review. Full-page source comparison
+and build classification remain open; the WIP is not accepted.
+
+## Round 35 checkpoint
+
+The same native WIP remains in the project root, ID
+`1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME`, with 142 ordered slides at
+native revision `To489WEWXyjpnw`. The Round 34 PDF remains the latest slide
+export: 142 pages, 5,278,199 bytes, SHA256
+`f209ce582c79ec0934992b157639c6ead8b53ff237867988ba5e2641cc5f72aa`. Round
+35 made only a speaker-note formatting change; it did not change slide order
+or visible slide content, so the PDF remains current for slide review.
+
+All 273 text runs across 76 populated speaker-note shapes now read back at
+8 pt. The other 66 note placeholders have no text. The tracked batch candidate
+builder applies explicit 8 pt styling to copied notes. The updated build map
+classifies 19 of 52 build-bearing slides; 33 remain. Batch 1 is not accepted;
+full-page review, structural reconciliation, and remaining repair work are
+open. Continue in the same full WIP and keep Drive operations within the CS
+408 project folder, paced at least 5.5 seconds apart.
+
+## Batch 1 checkpoint after Round 36
+
+At the end of Round 36, the same native WIP remained a 142-slide presentation in the project
+root, ID `1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME`, at revision
+`To489WEWXyjpnw`. Its latest slide export remains the Round 34 Google PDF:
+142 pages, 5,278,199 bytes, SHA256
+`f209ce582c79ec0934992b157639c6ead8b53ff237867988ba5e2641cc5f72aa`. No
+Google Slides write was made during Round 36, so the native order and PDF remain
+unchanged.
+
+The Round 36 ignored local candidate was
+`out/.build/batch-01/round36-build-classification/`. It has 228 ordered slides,
+a 228-row source/build map, valid ZIP integrity, and a 228-page diagnostic PDF.
+Twenty-seven source slides expand into 144 cumulative states; ten
+no-expansion decisions retain one static slide each. Thirty-seven of 52
+build-bearing slides are classified and 15 remain. The row-by-row build on
+Fault/Error PDF page 77 retains both tables as editable tables. All 270
+populated local candidate note runs and all 273 populated WIP note runs read
+back at 8 pt; no note visual review was done. Batch 1 remains unaccepted.
+
+At that checkpoint, the remaining build classifications, full-page review,
+and structural reconciliation were open. The Introduction schedule at Google
+output page 26 remains user-owned and untouched. Pace Drive calls at least 5.5
+seconds apart and keep work within the CS 408 project folder.
+
+## Current Batch 1 state after Round 39
+
+The WIP is still the single 142-slide native presentation in the project root,
+ID `1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME`. Drive metadata confirms
+native Slides MIME type, project-folder parent
+`16vTRNocHa1rlPN1bii_w0b8Ce90XrFbn`, and size 20,356,502 bytes. Native
+presentation readback confirms revision `To489WEWXyjpnw`. The latest Google
+PDF remains Round 34: 142 pages, 5,278,199 bytes, SHA256
+`f209ce582c79ec0934992b157639c6ead8b53ff237867988ba5e2641cc5f72aa`.
+
+The local candidate in ignored
+`out/.build/batch-01/round39-page24-repair/` has 272 ordered slides and map
+rows, valid ZIP integrity, and 272 local PDF pages. Its PPTX is 41,741,711
+bytes, SHA256
+`3fc340887af03f12bd5669a4dbfe5453f5e4ea06714121e48c376df56f96c164`; its
+diagnostic PDF is 5,228,469 bytes, SHA256
+`86b78b494deac683ab634a181623566c16b373859d1ef00da044b716e145cb53`. All 52
+build-bearing slides are classified: 37 expand into 198 cumulative states
+and 15 keep one static slide. Its 305 populated note runs read back at 8 pt.
+Earlier native readback recorded 273 populated WIP runs; this session's native
+API response returned 133 populated runs, all explicitly 8 pt. Sixty-six
+placeholders have no text. No speaker notes were visually inspected. Round 39
+made no Slides write, so the WIP order and Round 34 PDF are unchanged. Full
+local page review is complete; structural integration into the same native
+WIP, fresh Google export, native readback, and page-by-page Google review
+remain open. Batch 1 is not accepted. Keep the user-owned Introduction
+schedule at Google output page 26 untouched. Continue to pace Drive calls at
+least 5.5 seconds apart and use Drive only within the CS 408 project folder.
+
+The latest notes-free native text readback was reconciled against the complete
+local candidate. The tracked correspondence map covers all 142 current WIP
+slides; 14 provisional state assignments were corrected. The companion gap map
+records the remaining 130 candidate slides at 32 insertion anchors, and both
+maps cover all 272 candidate rows. See the
+[correspondence reconciler](reconcile_batch01_wip_candidate.py). This step was
+read-only; the WIP remains at revision `To489WEWXyjpnw`.

@@ -101,6 +101,7 @@ Keynote. The exact gaps and the Round 15–17 diagnostics and repairs are in the
 - [Build-state expander](combined/expand_batch_build_states.py),
   [small-pilot PPTX slide/package pruner](combined/prune_pptx_slides.py), and
   [Batch 1 build-state decisions and chunk map](combined/final-batches/batch-01-build-expansion.json)
+- [Batch 1 Round 30 repair-asset builder](combined/build_batch01_round30_repair_assets.py)
 - [Conversion runbook, pilot logs, and reusable repair rules](combined/SLIDE_CONVERSION.md)
 - [Google Drive access and paced upload/export workflow](combined/GOOGLE_DRIVE_ACCESS.md)
 
@@ -151,6 +152,11 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   and [per-topic overlap summary](combined/fall-topic-overlap-summary.csv)
 - [Final batch workspace](combined/final-batches/), including the
   [Batch 1 diagnostic findings](combined/final-batches/batch-01-diagnostic.md),
+  [Round 39 expanded source/build map](combined/final-batches/batch-01-round39-expanded-map.csv),
+  [Round 39 WIP-to-candidate correspondence map](combined/final-batches/batch-01-wip-round39-correspondence.csv),
+  [Round 39 WIP expansion-gap map](combined/final-batches/batch-01-round39-wip-expansion-gaps.csv),
+  [WIP correspondence reconciler](combined/reconcile_batch01_wip_candidate.py),
+  [historical Round 37 source/build map](combined/final-batches/batch-01-round37-expanded-map.csv),
   Introduction [provisional page map](combined/final-batches/batch-01-introduction-provisional-page-map.csv),
   [candidate audit](combined/final-batches/batch-01-introduction-candidate-audit.csv),
   and [build-marker audit](combined/final-batches/batch-01-introduction-build-marker-audit.csv),
@@ -160,11 +166,13 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   durable sequence/build maps, plus the
   [alignment audit script](combined/audit_batch_source_alignment.py) and
   [unmatched-slide contact-sheet script](combined/render_unmatched_contact_sheets.py),
+  [mapped source/output review-sheet script](combined/render_batch_review_contact_sheets.py),
   [Keynote build-marker audit](combined/audit_keynote_build_markers.py), and
   [batch-candidate builder](combined/build_batch_candidate.py) with its
   [Batch 1 input manifest](combined/final-batches/batch-01-inputs.json), plus
   [Batch 1 Introduction text repair](combined/repair_batch01_introduction.py),
   [Batch 1 Fault/Error repairs](combined/repair_batch01_fault_error.py), and
+  [Round 30 source-picture repair assets](combined/build_batch01_round30_repair_assets.py),
   [page 18 image/build reconstruction](combined/prepare_intro_page18_build.py)
 - [Legacy editable batch baselines](combined/) and their
   [batch manifest](combined/editable-parts-manifest.json). The manifest keeps
@@ -219,6 +227,29 @@ documented CS 408 project folder. The live document is
 (Drive ID `1TAFn9A9Nkkr8YU8R0Hpfge4Q7MBOvBPT4F7XHiDG9UU`); its metadata
 confirms the native Google Docs MIME type and project-root parent folder.
 
+**Batch 1 checkpoint — 2026-11-28:** the single 142-slide native WIP is at
+revision `To489WEWXyjpnw` in the project root. Its latest export is the Round
+34 Google PDF: 142 pages, 5,278,199 bytes, SHA256
+`f209ce582c79ec0934992b157639c6ead8b53ff237867988ba5e2641cc5f72aa`. All 52
+build-bearing slides are classified: 37 expand into 198 cumulative states and
+15 retain one static slide. The Round 39 local candidate has 272 ordered slides
+and map rows, passes package/order checks, and is not integrated into the WIP.
+Its PPTX is 41,741,711 bytes, SHA256
+`3fc340887af03f12bd5669a4dbfe5453f5e4ea06714121e48c376df56f96c164`; the
+272-page local PDF is 5,228,469 bytes, SHA256
+`86b78b494deac683ab634a181623566c16b373859d1ef00da044b716e145cb53`. All 305
+populated local note runs are 8 pt. Current native readback returned 133
+populated note runs and every one is explicitly 8 pt; no note visual review is
+needed. Round 39 repaired Fault/Error PDF pages 24, 61, and 69 in the local
+candidate; their output pages are 130, 202, and 224–225. The current 142-slide
+WIP maps in order to 142 candidate rows; 130 rows remain to insert at 32
+anchors. A notes-free native text readback corrected 14 provisional state
+matches, including pages where the WIP already held the later build state.
+The complete correspondence, insertion maps, and reconciler are linked above.
+Full Google review and structural reconciliation remain open, so Batch 1 is
+not accepted. See the
+[Round 39 record](combined/SLIDE_CONVERSION.md#round-39--source-page-24-and-page-61-repairs).
+
 - **Batch 1 is active; its full native WIP is the live repair surface in Google Drive.** Keep the local PPTX and maps as the reproducible source. Make confirmed visual-only fixes in the same native WIP; rebuild and reconcile locally when content, build states, order, or structure changes, or when a local repair is needed to preserve the intended result through import. The paired page 2 and page 68 tests support local source repairs for those cases; Round 17 and Round 25 show targeted native Google edits for import-specific differences. See the [documented route decision](combined/SLIDE_CONVERSION.md#full-batch-working-deck-workflow). The current Fall Introduction
   and Fault/Error/Failure Keynote sources convert to 92 and 108 LibreOffice
   PPTX slides, while their reference PDFs contain 30 and 79 pages. A structural
@@ -232,8 +263,9 @@ confirms the native Google Docs MIME type and project-root parent folder.
   sequences on pages 2 and 3. The mixed banner/question build on page 17 is
   converted. Introduction PDF page 12's two-step AI-policy build is now
   classified: its subtitle appears first, then its editable policy list. The
-  single-chunk All at Once builds on pages 14 and 16 need no extra slide. Eleven
-  of 52 build-bearing slides are classified; 41 remain. Round 27 added the
+  single-chunk All at Once builds on pages 14 and 16 need no extra slide.
+  At the Round 27 checkpoint, 11 of 52 build-bearing slides were classified
+  and 41 remained. Round 27 added the
   three paragraph states on Introduction page 27, mapped to local output pages
   62–64. The editable list's missing bullet, geometry, and line spacing were
   repaired from the Fall PDF. Round 28 imported an 8-slide native pilot for
@@ -245,19 +277,19 @@ confirms the native Google Docs MIME type and project-root parent folder.
   Linux LibreOffice substitutes Source Sans Pro with Liberation Sans, changing
   some local line wraps; native Google review resolved that preview issue for
   these states.
-  The current local candidate is under
-  `out/.build/batch-01/round29/rebuild-v2/`. Its map has 147 consecutive rows;
+  At the historical Round 29 checkpoint, the local candidate was under
+  `out/.build/batch-01/round29/rebuild-v2/`. Its map had 147 consecutive rows;
   PPTX order, relationships, slide parts, and ZIP integrity pass. Local
   divider rows are at pages 1 and 68. The PPTX is 39,494,683 bytes, SHA256
   `5e12bceca939cb6dbda4baf7a7ca616e0955786e7ba9afe2359fcc761ce4e9e0`; its
-  147-page local diagnostic PDF is 28,501,659 bytes, SHA256
+  147-page local diagnostic PDF was 28,501,659 bytes, SHA256
   `06748e758845faf5f28695da2c43d8059e8183dbded3ed2e5e13b3064a1927d4`. Linux
   font substitutions make it diagnostic only. This local candidate has not
   replaced or changed the existing Drive WIP.
   Confirmed repair areas include Introduction tables/text/diagram fit and
   Fault/Error diagrams, video composition, and colored outcome tables. A
-  111-page local baseline includes editable source-deck dividers; the current
-  expanded candidate has 147 pages after the earlier states and the five new
+  111-page local baseline includes editable source-deck dividers; that Round 29
+  expanded candidate had 147 pages after the earlier states and the five new
   object states on pages 2–3 plus page 27's three states. The original 37
   expanded states were inspected locally and in separate native Google pilots.
   The newer page 2–3 and page 27 states passed local review and the Round 28
@@ -278,18 +310,23 @@ confirms the native Google Docs MIME type and project-root parent folder.
   are documented last resorts. The 36 pt page 68 label repair has passed a
   Google pilot, and the provisional candidate was rebuilt with that change;
   its output page 100 in the pre-Round27 candidate (now page 102) was reviewed.
-  Meaningful builds, other repairs, the final
-  remaining build classifications, the final map, and full-batch Google
+  Meaningful builds and their dispositions are complete. Full local page
+  review, structural reconciliation, the final map, and full-batch Google
   verification remain open. The 142-slide [working deck](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit)
   is uploaded at the shared Drive root as `WIP - needs fixes`; native readback
-  confirms 142 ordered slides at revision `mEV_c_nCguc_IQ`. The latest Google
-  PDF export has 142 pages, is 5,299,986 bytes, and has SHA256
-  `fb172ef445e150960d683aa3b01cfcfeba5f627ceb2c0172eefde5168359e2c2`. Round
-  29 repaired output pages 2 and 64 in that same deck and checked them against
-  the exact Fall cover references. Six of 142 pages are confirmed repaired
-  (about 4%); full-size review has not established a reliable count of all
-  remaining defects. Contact sheets have been reviewed for all pages, but the
-  batch is not accepted. The user set the Google Drive plugin to “Allow all
+  confirms 142 ordered slides at revision `To489WEWXyjpnw`. Its Round 34
+  Google PDF has 142 pages, is 5,278,199 bytes, and has SHA256
+  `f209ce582c79ec0934992b157639c6ead8b53ff237867988ba5e2641cc5f72aa`.
+  Rounds 30–34 repaired selected pages; page 42's latest heading adjustment
+  was checked against exact Fall Introduction PDF page 16. All populated WIP
+  speaker-note text is 8 pt by native readback; all 305 populated local
+  candidate runs are 8 pt. Full-size review has not established a reliable
+  remaining-defect count, so no repaired-page percentage is reported. See the
+  [Round 35 runbook](combined/SLIDE_CONVERSION.md#round-35--8-pt-speaker-notes-and-single-state-build-classifications),
+  [Round 36 runbook](combined/SLIDE_CONVERSION.md#round-36--continued-build-expansion-and-8-pt-speaker-notes),
+  [Round 37 runbook](combined/SLIDE_CONVERSION.md#round-37--complete-build-dispositions-and-local-repair-set),
+  and [Round 39 runbook](combined/SLIDE_CONVERSION.md#round-39--source-page-24-and-page-61-repairs).
+  The batch is not accepted. The user set the Google Drive plugin to “Allow all
   tools”; no approval is pending, and project operations remain limited to the
   CS 408 folder. The two source-deck dividers were blank after import because the
   generated DrawingML text boxes lacked explicit preset geometry. A two-slide

@@ -67,6 +67,22 @@ def get_usage_status(timeout: float = 20.0) -> str:
         else:
             raise TimeoutError("Timed out waiting for the Codex CLI prompt.")
 
+        # The prompt text can appear before the CLI has finished loading its
+        # local state. Sending /status immediately is race-prone: some runs
+        # accept it, while others still show the loading screen. Give startup
+        # a brief grace period, then drain the last redraw before sending the
+        # command.
+        time.sleep(0.8)
+        if process.poll() is not None:
+            raise RuntimeError("Codex CLI exited while loading its status screen.")
+        drain_deadline = time.monotonic() + 0.25
+        while time.monotonic() < drain_deadline:
+            readable, _, _ = select.select([master_fd], [], [], 0.05)
+            if readable:
+                try:
+                    os.read(master_fd, 65536)
+                except OSError:
+                    break
         output.clear()
         os.write(master_fd, b"/status\n")
         deadline = time.monotonic() + timeout

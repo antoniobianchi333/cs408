@@ -425,31 +425,44 @@ The PDF retains its original page dimensions and vector text where available.
 The source-selection gate and 16 conceptual boundaries are complete. Batch 1
 is active and not accepted. Its full native WIP is the
 [142-slide Google deck](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit)
-at the shared Drive root; current native revision `mEV_c_nCguc_IQ`. The latest
-Google export has 142 pages, is 5,299,986 bytes, and has SHA256
-`fb172ef445e150960d683aa3b01cfcfeba5f627ceb2c0172eefde5168359e2c2`. Round 29
-repaired output pages 2 and 64 in that same WIP and checked both against exact
-Fall cover references. Full-size review, repairs, and 41 remaining build
-classifications remain open. Do not repeat content selection or start Batch 2
-early. The detailed boundaries are in [BATCH_BOUNDARIES.md](BATCH_BOUNDARIES.md),
-and batch maps and acceptance records are maintained in
+at the shared Drive root; current native revision `To489WEWXyjpnw`. The latest
+Google export is the Round 34 PDF with 142 pages, 5,278,199 bytes, and SHA256
+`f209ce582c79ec0934992b157639c6ead8b53ff237867988ba5e2641cc5f72aa`. Rounds
+29–34 repaired selected pages in that same WIP. The earlier full native note
+readback recorded 273 runs across 76 populated shapes at 8 pt; this session's
+native API response returned 133 populated runs and all were explicitly 8 pt.
+The local candidate has 305 populated note runs, all 8 pt. Full-size Google
+review and structural reconciliation remain open. All 52 build dispositions
+are complete: 37 source slides expand into 198 cumulative states and 15 remain
+single static slides. Do not repeat content selection or start Batch 2 early.
+The detailed boundaries are in [BATCH_BOUNDARIES.md](BATCH_BOUNDARIES.md), and
+batch maps and acceptance records are maintained in
 [final-batches/](final-batches/).
 
-The local candidate is in ignored
-`out/.build/batch-01/round29/rebuild-v2/`. Its PPTX has 147 ordered slides,
-147 map rows, resolves all ordered slide references, and passes ZIP integrity;
-the PPTX is 39,494,683 bytes (SHA256
-`5e12bceca939cb6dbda4baf7a7ca616e0955786e7ba9afe2359fcc761ce4e9e0`). Its
-147-page diagnostic PDF is 28,501,659 bytes (SHA256
-`06748e758845faf5f28695da2c43d8059e8183dbded3ed2e5e13b3064a1927d4`). Pages
-62–64 retain the page 27 cumulative editable paragraphs. Linux LibreOffice
-substitutes Source Sans Pro and Roboto Condensed, so the Google PDF remains
-the reference for font-sensitive review. Round 28's eight-slide native pilot
-verified the five page 2–3 states and three page 27 states against exact Fall
-PDFs. Eleven of 52 build-bearing slides are classified; 41 remain. The local
-147-slide structure is not integrated into the Drive WIP. The user set the
-Google Drive plugin to “Allow all tools”; no approval is pending. Project
+The current local candidate is in ignored
+`out/.build/batch-01/round39-page24-repair/`. Its PPTX has 272 ordered slides
+and 272 map rows, resolves all ordered slide references, and passes ZIP
+integrity; it is 41,741,711 bytes with SHA256
+`3fc340887af03f12bd5669a4dbfe5453f5e4ea06714121e48c376df56f96c164`. Its
+272-page diagnostic PDF is 5,228,469 bytes, SHA256
+`86b78b494deac683ab634a181623566c16b373859d1ef00da044b716e145cb53`. The
+current source/build map is
+[`batch-01-round39-expanded-map.csv`](final-batches/batch-01-round39-expanded-map.csv).
+Round 39 repaired local Fault/Error pages 24, 61, and 69 (outputs 130, 202,
+and 224–225), retaining the page 24 title and page 61 text as editable. The
+page 77 progression keeps both tables editable. Linux LibreOffice substitutes
+fonts, so use Google rendering for font-sensitive acceptance. Round 28's
+eight-slide native pilot verified the page 2–3 and page 27 states against
+exact Fall PDFs. This local candidate is not integrated into the Drive WIP. The user set
+the Google Drive plugin to “Allow all tools”; no approval is pending. Project
 operations remain limited to the CS 408 folder.
+
+The notes-free native text readback has now been reconciled with the candidate:
+all 142 existing WIP slides map in order, and 130 candidate rows remain at 32
+insertion anchors. The reconciler corrected 14 provisional build-state
+matches; see the correspondence and insertion-gap maps in
+[final-batches/](final-batches/) and
+[reconcile_batch01_wip_candidate.py](reconcile_batch01_wip_candidate.py).
 
 The initial unmatched-slide review sheets can be regenerated with
 [render_unmatched_contact_sheets.py](render_unmatched_contact_sheets.py). The

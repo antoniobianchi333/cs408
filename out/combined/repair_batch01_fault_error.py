@@ -264,6 +264,30 @@ def shape_text(shape: etree._Element) -> str:
     return "".join(shape.xpath(".//a:t/text()", namespaces=NS)).strip()
 
 
+def repair_native_bullets(shape: etree._Element) -> None:
+    for paragraph in shape.findall("./p:txBody/a:p", NS):
+        ppr = paragraph.find("./a:pPr", NS)
+        if ppr is None:
+            continue
+        text = "".join(paragraph.xpath(".//a:t/text()", namespaces=NS)).strip()
+        if not text:
+            for child in list(ppr):
+                if etree.QName(child).localname in ("buClr", "buSzPct", "buFont", "buChar", "buNone"):
+                    ppr.remove(child)
+            continue
+        bu_none = ppr.find("./a:buNone", NS)
+        if bu_none is not None:
+            ppr.remove(bu_none)
+        bullet_font = ppr.find("./a:buFont", NS)
+        if bullet_font is None:
+            bullet_font = etree.SubElement(ppr, q(A, "buFont"))
+        bullet_font.set("typeface", "Arial")
+        bullet_char = ppr.find("./a:buChar", NS)
+        if bullet_char is None:
+            bullet_char = etree.SubElement(ppr, q(A, "buChar"))
+        bullet_char.set("char", "•")
+
+
 def repair_video_labels(root: etree._Element) -> None:
     targets = {
         "Testing": ("TESTING", 246, 108, 200, 80),
@@ -492,6 +516,7 @@ def repair(pptx_in: Path, reference_pdf: Path, pptx_out: Path, crop_dir: Path) -
         11: render_reference_region(reference_pdf, 11, (0, 0, 444, 386), crop_dir),
         13: render_reference_region(reference_pdf, 13, (0, 0, 444, 768), crop_dir),
         22: render_reference_region(reference_pdf, 22, (0, 0, 431, 406), crop_dir),
+        24: render_reference_region(reference_pdf, 24, (0, 0, 431, 406), crop_dir),
         25: render_reference_region(reference_pdf, 25, (0, 0, 432, 768), crop_dir),
     }
     analogy_patch = render_reference_region(reference_pdf, 5, (360, 0, 330, 340), crop_dir)
@@ -501,6 +526,129 @@ def repair(pptx_in: Path, reference_pdf: Path, pptx_out: Path, crop_dir: Path) -
     order = presentation_order(parts)
     if len(order) < 106:
         raise ValueError("Fault/Error source PPTX has fewer than 106 converted slides")
+
+    # Source page 61 carries newer Keynote text than the selected Fall PDF,
+    # and its imported 35 pt body extends into the state cards. Restore the
+    # exact reference wording as editable styled runs and fit it above the
+    # cards. Preserve the original emphasized terms and colors.
+    error_state_part = order[81]
+    error_state_slide = etree.fromstring(parts[error_state_part])
+    error_state_matches = [
+        shape for shape in error_state_slide.findall(".//p:sp", NS)
+        if shape_text(shape).startswith("A program run can be modeled as an execution trace")
+        and "Error states are those that could never appear" in shape_text(shape)
+    ]
+    if len(error_state_matches) != 1:
+        raise ValueError(f"Fault/Error slide 82: expected one editable error-state body, found {len(error_state_matches)}")
+    error_state_body = error_state_matches[0]
+    set_text_box(error_state_body, 75.0, 208.3, 874.0, 190.0, 28)
+    paragraphs = error_state_body.findall("./p:txBody/a:p", NS)
+    if len(paragraphs) != 2:
+        raise ValueError("Fault/Error slide 82: expected two editable error-state paragraphs")
+    first_runs = paragraphs[0].findall("./a:r", NS)
+    reference_segments = (
+        "The execution of a program can be modeled as a ",
+        "test path,",
+        " or sequence of states starting from the ",
+        "initial program state",
+    )
+    if len(first_runs) != len(reference_segments):
+        raise ValueError("Fault/Error slide 82: first body paragraph has an unexpected run structure")
+    xml_space = "{http://www.w3.org/XML/1998/namespace}space"
+    for run, text in zip(first_runs, reference_segments, strict=True):
+        text_node = run.find("./a:t", NS)
+        if text_node is None:
+            raise ValueError("Fault/Error slide 82: editable reference wording run is missing")
+        text_node.text = text
+        if text[:1].isspace() or text[-1:].isspace():
+            text_node.set(xml_space, "preserve")
+    repair_native_bullets(error_state_body)
+    error_body_properties = error_state_body.find("./p:txBody/a:bodyPr", NS)
+    if error_body_properties is not None:
+        error_body_properties.set("anchor", "t")
+        for child in list(error_body_properties):
+            if etree.QName(child).localname in ("normAutofit", "spAutoFit", "noAutofit"):
+                error_body_properties.remove(child)
+        etree.SubElement(error_body_properties, q(A, "noAutofit"))
+    parts[error_state_part] = xml_bytes(error_state_slide)
+
+    # Source page 12's combined definition text wraps beyond its intended
+    # space and collides with the example card. Preserve its editable paragraph
+    # sequence while reducing the body to a size that fits above the card.
+    definitions_part = order[29]
+    definitions_slide = etree.fromstring(parts[definitions_part])
+    definition_matches = [
+        shape for shape in definitions_slide.findall(".//p:sp", NS)
+        if "precise definition" in shape_text(shape)
+        and "Observed behavior" in shape_text(shape)
+        and "expected behavior" in shape_text(shape)
+    ]
+    if len(definition_matches) != 1:
+        raise ValueError(f"Fault/Error slide 30: expected one editable definition body, found {len(definition_matches)}")
+    set_text_box(definition_matches[0], 75.0, 208.3, 874.0, 501.9, 30)
+    repair_native_bullets(definition_matches[0])
+    parts[definitions_part] = xml_bytes(definitions_slide)
+
+    # Source page 69 has four definition/challenge paragraphs above a code
+    # example. The imported 35 pt body wraps into the code region; retain the
+    # editable text at 29 pt so those paragraphs stay above the example.
+    testing_part = order[94]
+    testing_slide = etree.fromstring(parts[testing_part])
+    testing_matches = [
+        shape for shape in testing_slide.findall(".//p:sp", NS)
+        if shape_text(shape).startswith("Testing: Evaluating software by observing its")
+        and "Given a failure" in shape_text(shape)
+    ]
+    if len(testing_matches) != 1:
+        raise ValueError(f"Fault/Error slide 95: expected one editable testing/debugging body, found {len(testing_matches)}")
+    set_text_box(testing_matches[0], 75.0, 204.0, 874.0, 556.8, 29)
+    repair_native_bullets(testing_matches[0])
+    testing_body = testing_matches[0].find("./p:txBody/a:bodyPr", NS)
+    testing_body.set("anchor", "t")
+    testing_body.set("tIns", emu(42))
+    for child in list(testing_body):
+        if etree.QName(child).localname in ("normAutofit", "spAutoFit", "noAutofit"):
+            testing_body.remove(child)
+    etree.SubElement(testing_body, q(A, "noAutofit"))
+    testing_title = next(
+        (shape for shape in testing_slide.findall(".//p:sp", NS)
+         if shape_text(shape).strip().lower() == "testing versus debugging"),
+        None,
+    )
+    if testing_title is None:
+        raise ValueError("Fault/Error slide 95: testing/debugging title could not be identified")
+    testing_tree = testing_slide.find("./p:cSld/p:spTree", NS)
+    testing_tree.remove(testing_title)
+    testing_tree.append(testing_title)
+    code_runs = testing_slide.xpath(
+        ".//p:sp[p:nvSpPr/p:cNvPr[@id='701']]//a:rPr | "
+        ".//p:sp[p:nvSpPr/p:cNvPr[@id='701']]//a:defRPr | "
+        ".//p:sp[p:nvSpPr/p:cNvPr[@id='701']]//a:endParaRPr",
+        namespaces=NS,
+    )
+    if not code_runs:
+        raise ValueError("Fault/Error slide 95: editable code text could not be identified")
+    for run in code_runs:
+        run.set("sz", "1800")
+    code_callouts = testing_slide.xpath(
+        ".//p:sp[p:nvSpPr/p:cNvPr[@id='702']]",
+        namespaces=NS,
+    )
+    if len(code_callouts) != 1:
+        raise ValueError("Fault/Error slide 95: code callout text could not be identified")
+    repair_native_bullets(code_callouts[0])
+    lower_debug_paragraph = testing_matches[0].findall("./p:txBody/a:p", NS)[8]
+    lower_debug_props = lower_debug_paragraph.find("./a:pPr", NS)
+    if lower_debug_props is None:
+        lower_debug_props = etree.Element(q(A, "pPr"))
+        lower_debug_paragraph.insert(0, lower_debug_props)
+    spacing_before = lower_debug_props.find("./a:spcBef", NS)
+    if spacing_before is None:
+        spacing_before = etree.SubElement(lower_debug_props, q(A, "spcBef"))
+    for child in list(spacing_before):
+        spacing_before.remove(child)
+    etree.SubElement(spacing_before, q(A, "spcPts")).set("val", "5000")
+    parts[testing_part] = xml_bytes(testing_slide)
 
     # Reconstruct source page 68's two editable title overlays. The book and
     # presenter image itself already matches the selected PDF crop.
@@ -558,6 +706,9 @@ def repair(pptx_in: Path, reference_pdf: Path, pptx_out: Path, crop_dir: Path) -
             "We just found a failure": (461.3, 539.4, 554.4, 156, 52),
         }),
         (41, 22, (0, 0, 431, 406), {
+            "We just fixed a failure": (461.3, 147.2, 554.4, 156, 52),
+        }),
+        (43, 24, (0, 0, 431, 406), {
             "We just fixed a failure": (461.3, 147.2, 554.4, 156, 52),
         }),
         (44, 25, (0, 0, 432, 768), {
@@ -621,7 +772,7 @@ def repair(pptx_in: Path, reference_pdf: Path, pptx_out: Path, crop_dir: Path) -
         bad = archive.testzip()
         if bad:
             raise ValueError(f"repaired PPTX has corrupt ZIP member {bad}")
-    print(f"Repaired native tables/text, 4 image panels, video labels, and 3 diagram regions: {pptx_out}")
+    print(f"Repaired native tables/text, 5 image panels, video labels, and 3 diagram regions: {pptx_out}")
     print(f"Exact PDF repair regions are under {crop_dir}")
 
 

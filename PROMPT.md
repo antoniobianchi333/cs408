@@ -33,6 +33,9 @@ If a permission is already active, do not request it again; state which one is
 active and ask only for the missing permission. Continue independent local
 documentation and read-only repository work while an approval is pending. Do
 not ask permission to stage, commit, or push; the user handles Git publishing.
+The last confirmed Google Drive plugin setting is “Allow all tools.” Check
+whether it remains active in a new session, but do not ask again if it does.
+Even with that setting, keep project operations limited to the CS 408 folder.
 
 ## Read first
 
@@ -46,7 +49,7 @@ Read these files before making changes:
 5. [`out/combined/BATCH_BOUNDARIES.md`](out/combined/BATCH_BOUNDARIES.md) — the
    completed 16-batch outline and whole-topic rules.
 6. [`out/combined/SLIDE_CONVERSION.md`](out/combined/SLIDE_CONVERSION.md) — conversion
-   and repair evidence, especially Rounds 24–29.
+   and repair evidence, especially Rounds 24–34.
 7. [`out/combined/GOOGLE_DRIVE_ACCESS.md`](out/combined/GOOGLE_DRIVE_ACCESS.md) — Drive
    access, file organization, pacing, export, and no-curl rules.
 8. [`out/combined/final-batches/README.md`](out/combined/final-batches/README.md) and
@@ -113,8 +116,12 @@ Drive ID `1TAFn9A9Nkkr8YU8R0Hpfge4Q7MBOvBPT4F7XHiDG9UU`, parent folder
   affected pages against the matching Fall PDF. For a new batch, upload one
   clearly named `WIP - needs fixes` deck directly to the shared root, then
   rename it only after the full acceptance review.
+- Set all existing speaker-note text to 8 pt in every batch. The builder
+  writes copied note runs and paragraph defaults at 8 pt before import;
+  confirm populated note text by native readback. Empty placeholders contain
+  no text and need no visual review. Do not inspect notes visually.
 
-## Current Batch 1 state (handoff snapshot: 2026-11-27)
+## Current Batch 1 state (handoff snapshot: 2026-11-28)
 
 The source-selection audit and 16 conceptual boundaries are complete. Use
 Fall 2026 sources wherever they cover a topic; include only the six complete
@@ -126,32 +133,51 @@ Google Slides WIP is in the shared folder root, not `Pilots`:
 
 - Deck ID: `1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME`
 - URL: https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit
-- It has 142 ordered slides. The latest checked native revision is
-  `mEV_c_nCguc_IQ`; verify again before a write.
-- Latest full Google PDF: 142 pages, 5,299,986 bytes, SHA256
-  `fb172ef445e150960d683aa3b01cfcfeba5f627ceb2c0172eefde5168359e2c2`.
-  Its local copy is under
-  `out/.build/batch-01/wip-round29-after-cover-photo-panels/`; regenerate
+- It has 142 ordered slides at native revision `To489WEWXyjpnw`; verify again
+  before a write. Drive metadata confirms native Slides type, project-root
+  parent, and 20,356,502 bytes.
+- The Round 34 Google PDF has 142 pages, 5,278,199 bytes, and SHA256
+  `f209ce582c79ec0934992b157639c6ead8b53ff237867988ba5e2641cc5f72aa`. Its
+  local copy is under `out/.build/batch-01/round34-final-review/`; regenerate
   through the connected export helper if absent or if Drive has changed.
 - The Drive title still includes `Round 23`; it is the same WIP deck. Do not
   create a second full-batch deck or move it into `Pilots`.
 
-The Round 29 local candidate has 147 ordered slides and a 147-row map at
-`out/.build/batch-01/round29/rebuild-v2/`; its PPTX ZIP/order checks pass.
-Its 147-page diagnostic PDF is 28,501,659 bytes (SHA256
-`06748e758845faf5f28695da2c43d8059e8183dbded3ed2e5e13b3064a1927d4`). Linux
-LibreOffice substitutes Source Sans Pro and Roboto Condensed, so use the
-Google PDF for font-sensitive review. Eleven of 52 build-bearing slides are
-classified; 41 remain. Nine expanded Introduction slides account for 45
-cumulative static states; one-chunk builds on pages 14 and 16 remain single
-slides. Round 28's focused 8-slide pilot in `Pilots` verified the page 2–3 and
-page 27 states against exact Fall PDFs. Round 29 repaired output page 2 with
+The current local candidate has 272 ordered slides and a 272-row map at
+`out/.build/batch-01/round39-page24-repair/`; its PPTX ZIP/order checks pass.
+Its diagnostic PDF has 272 pages, is 5,228,469 bytes, and has SHA256
+`86b78b494deac683ab634a181623566c16b373859d1ef00da044b716e145cb53`. The
+PPTX is 41,741,711 bytes and has SHA256
+`3fc340887af03f12bd5669a4dbfe5453f5e4ea06714121e48c376df56f96c164`. Linux
+LibreOffice substitutes fonts, so use Google PDF rendering for font-sensitive
+review. All 52 build-bearing slides are classified: 37 source slides expand
+into 198 cumulative static states, and 15 no-expansion decisions retain one
+final static slide. The durable map is
+[`batch-01-round39-expanded-map.csv`](out/combined/final-batches/batch-01-round39-expanded-map.csv).
+Round 39 added local source repairs for Fault/Error PDF pages 24, 61, and 69
+(output pages 130, 202, and 224–225). Round 28's focused 8-slide pilot in
+`Pilots` verified the page 2–3 and page 27 states against exact Fall PDFs.
+Round 29 repaired output page 2 with
 the exact Fall cover crop behind editable title/quote objects and repaired
 output page 64's cover panels/title directly in the same full native WIP.
 Readback and the latest 142-page Google PDF confirmed both pages against their
-exact Fall cover references. Six of 142 WIP pages are confirmed repaired
-(about 4%); the full-size review has not counted all remaining defects. The
-147-slide local structure has not yet been integrated into the WIP.
+exact Fall cover references. Rounds 30–34 then repaired selected pages in the
+same WIP, including pages 42–50, 64, 70, 87–90, 123–125, 132, and 139. The
+final page 42 heading adjustment was compared with exact Fall Introduction
+PDF page 16. Native readback confirms all 273 note text runs across 76 populated note
+shapes are 8 pt; 66 placeholders contain no text. This session's native API
+response returned 133 populated note runs, all explicitly 8 pt. The builder
+and expander set copied note text to 8 pt; all 305 populated note runs in the
+local candidate read back at 8 pt. Do not visually inspect notes. The 272-slide
+local structure has not yet been integrated into the WIP. Full-page review has
+not established a reliable repaired-page percentage or remaining-defect count.
+
+The latest notes-free native-text reconciliation corrected 14 provisional
+WIP-to-candidate state matches. Its correspondence map covers all 142 current
+WIP slides; its gap map records 130 remaining candidate rows at 32 insertion
+anchors. Continue from these maps and the tracked
+[reconciler](out/combined/reconcile_batch01_wip_candidate.py); do not recreate
+the earlier unverified alignment. The existing WIP is still unchanged.
 
 ### Confirmed divider rule — Round 24
 
@@ -212,27 +238,24 @@ sources.
 
 1. Read the latest diagnostic and verify the current deck/revision in Drive.
    Continue working in the same native WIP.
-2. Continue full-size follow-up on the flagged pages. Known leads from the
-   contact-sheet review: pages 42–48 dotted-banner/build states; pages 49–50
-   article-image/headline;
-   page 70 layout; pages 87–90 composites; pages 123–125 error-state diagram
-   and callouts; page 132 testing/debugging diagram/code; and pages 139–140
-   table/title sizing. Regenerate only the pages needed from the current Google
-   PDF; old broad contact sheets predate the divider repair.
+2. Review every page in the 272-slide local candidate against exact Fall PDFs
+   where available. Include the Introduction page 26 reveal states (outputs
+   64–72) and editable text-layout repairs on Introduction page 26 and
+   Fault/Error pages 12 and 69. Recheck the existing WIP repairs in the fresh
+   Google PDF. Do not edit the user-owned schedule slide at Google page 26 or
+   local page 29.
 3. Keep output page 3 aligned with the latest Fall content. The user owns the
    course schedule slide: it is output page 26 in the current Google WIP and
-   page 29 in the expanded local candidate. Do not edit it.
+   page 29 in the Round 39 local candidate. Do not edit it.
 4. Confirm the full-deck status of the page 17 dotted-outline repair and the
    page 18 article image. Check existing local repairs on Introduction pages
    6, 12, 15, 17 and Fault/Error pages 65, 68, 73, 74, 76, 77 against the
-   full Google export; pages 2 and 64 were repaired and checked in Round 29.
-5. Classify the 41 remaining build-bearing slides. Expand only meaningful
-   animation/build states, preserve source order, update the source/build map,
-   and integrate structural changes into the same WIP deck.
-6. Re-export and inspect the full rebuilt deck (currently 147 local pages)
-   after repairs. Complete the final map, native readback, source comparison,
-   exception log, and acceptance record.
-   Begin Batch 2 only after Batch 1 passes every gate.
+   full Google export; Rounds 29–34 applied and checked additional repairs.
+5. All 52 build dispositions are complete. Repair defects found by the full
+   local review, then integrate the reviewed 272-slide structure into the same
+   WIP deck. Re-export and inspect every Google page after integration.
+6. Complete the final map, native readback, source comparison, exception log,
+   and acceptance record. Begin Batch 2 only after Batch 1 passes every gate.
 
 ## Repair route to use
 

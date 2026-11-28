@@ -1,31 +1,43 @@
 # Batch 1 diagnostic: Week 1
 
-**Updated:** 2026-11-27  
+**Updated:** 2026-11-28
 **Status:** The Keynote show order and active-slide sequence are decoded.
 Introduction has 92 ordered nodes, 62 marked skipped, and 30 active;
 Fault/Error has 108 nodes, 29 skipped, and 79 active. Each active sequence
-matches its Fall PDF page map and LibreOffice candidate in order. Eleven of 52
-build-bearing slides are classified: nine expand into 45 cumulative states;
-the one-chunk All at Once builds on Introduction pages 14 and 16 add no extra
-state. Round 28 verified the five page 2–3 states and three page 27 states in
-an 8-slide native Google pilot. The same native full WIP was repaired in place
-in Round 29: output page 2 now has the exact Fall cover photo crop behind
-editable title and quote shapes; output page 64 has the matching cover panels
-and title repair. Both pages were read back and visually checked in the latest
-Google PDF against their exact Fall references. Six of 142 WIP pages are
-confirmed repaired (about 4%); full-size review has not yet produced a reliable
-count of all pages that still need repair. The flagged list is a review queue,
-not a count of confirmed defects. The local 147-slide candidate remains
-unintegrated. Page 14's one-step acknowledgments build remains a single static
-slide. Forty-one build-bearing slides still need classification.
+matches its Fall PDF page map and LibreOffice candidate in order. All 52 of
+52 build-bearing slides are classified: 37 expand into 198 cumulative states,
+and 15 no-expansion decisions retain one final static slide. The Round 39
+local candidate has a 272-row source/build map. Its latest additions include
+the Fault/Error page 24 image-region repair (output 130), exact Fall text and
+layout repair on page 61 (output 202), and a repaired four-state page 69
+(outputs 224–225). The page 77 By Row
+sequence retains two synchronized editable tables and expands through nine
+row states. Round 36 added the Introduction reveals on PDF pages 25 and 28–30;
+Fault/Error reveals on pages 2, 19, 23, 27, 30, 33, 35, 64, 70–72, 75, 77,
+and 79. The 15 no-expansion decisions include Introduction pages 5, 14, and 16
+and Fault/Error pages 5, 14, 32, 42, 50, 59, and 76. Round 28
+verified the five page 2–3 states and three page 27 states in an 8-slide native
+Google pilot. Rounds 30–34 repaired
+selected pages in the same full WIP, including output pages 42–50, 64, 70,
+87–90, 123–125, 132, and 139. The final page 42 heading adjustment was
+compared with exact Fall Introduction PDF page 16 in the Round 34 export. The
+Google PDF review has not yet counted all remaining repairs, so no current
+percentage or remaining-defect count is reported; the flagged pages are a
+review queue. The local 272-slide candidate remains unintegrated. The 142-slide
+WIP is at native revision `To489WEWXyjpnw`; the Round 34 PDF remains the latest
+slide export. All 273 note text runs across 76 populated shapes read back at 8
+pt; 66 placeholders contain no text. This session's native API response
+returned 133 populated text runs, all explicitly 8 pt; the earlier full
+readback recorded 273. The current local candidate's 305
+populated note runs also read back at 8 pt; the builder and expander set copied
+notes to 8 pt. Do not visually inspect notes.
 
 The same 142-slide WIP remains in the shared Drive root as
 [CS408 Batch 1 - WIP - needs fixes](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit);
-current native revision `mEV_c_nCguc_IQ`. Its latest Google PDF has 142 pages,
-is 5,299,986 bytes, and has SHA256
-`fb172ef445e150960d683aa3b01cfcfeba5f627ceb2c0172eefde5168359e2c2`. Full-size
-exception review and repairs remain open. A brief user visual check found
-about 90% looking fine, which is not acceptance.
+current native revision `To489WEWXyjpnw`.  Its Round 34 Google PDF has 142
+pages, is 5,278,199 bytes, and has SHA256
+`f209ce582c79ec0934992b157639c6ead8b53ff237867988ba5e2641cc5f72aa`. Full-size
+page-by-page review and repairs remain open; this export is not acceptance.
 
 The separate [Round 28 build-state pilot](https://docs.google.com/presentation/d/1yVQs-RXPXoLUeMr8nnDLEsn-9jj6tHp7IW-tjVj_GuQ/edit)
 contains eight small test slides, not a second full-batch deck. Its native
@@ -36,18 +48,57 @@ page was inspected against the exact Fall Introduction references. The
 [tracked source/build map](batch-01-round28-google-pilot-map.csv) maps each
 pilot page to its local candidate slide, source page, state, and chunk.
 
-The current local candidate at
-`out/.build/batch-01/round29/rebuild-v2/` has 147 consecutive map rows, 147
-ordered slide references resolving to existing parts, and valid ZIP integrity.
-Its PPTX is 39,494,683 bytes (SHA256
-`5e12bceca939cb6dbda4baf7a7ca616e0955786e7ba9afe2359fcc761ce4e9e0`). Its
-diagnostic PDF has 147 pages, is 28,501,659 bytes, and has SHA256
-`06748e758845faf5f28695da2c43d8059e8183dbded3ed2e5e13b3064a1927d4`; Linux
-font substitutions make it diagnostic only. The local candidate has not
-replaced the Google WIP. Its second source-deck divider is at page 68, while
-the WIP retains that divider at page 63 until structural changes are
-integrated. The user set the Google Drive plugin to “Allow all tools”; no
-approval is pending, and project work stays within the CS 408 folder.
+The current local candidate is in ignored
+`out/.build/batch-01/round39-page24-repair/`. It has 272 consecutive map rows,
+272 ordered slide references resolving to existing parts, valid ZIP integrity,
+and 272 PDF pages. Its PPTX is 41,741,711 bytes, SHA256
+`3fc340887af03f12bd5669a4dbfe5453f5e4ea06714121e48c376df56f96c164`; its
+diagnostic PDF is 5,228,469 bytes, SHA256
+`86b78b494deac683ab634a181623566c16b373859d1ef00da044b716e145cb53`. Linux
+font substitutions make that PDF diagnostic only. The source/build map places
+the Fault/Error divider at page 77; the current Google WIP retains its divider
+at page 63 until structural changes are integrated. All 305 populated local
+candidate note runs are 8 pt. The candidate has 198 states across 37 expanded
+source slides and 15 single-state no-expansion dispositions. Local visual
+review, full WIP integration, and Google acceptance remain open. The user set
+the Google Drive plugin to “Allow
+all tools”; no approval is pending, and project work stays within the CS 408
+folder.
+
+The durable 272-row candidate map is
+[batch-01-round39-expanded-map.csv](batch-01-round39-expanded-map.csv). It is a
+provisional output map until structural integration, native Google readback,
+and full Google PDF review are complete.
+
+### Round 39 structural correspondence
+
+The 142-slide native WIP is an in-order subsequence of the 272-row candidate.
+The tracked
+[batch-01-wip-round39-correspondence.csv](batch-01-wip-round39-correspondence.csv)
+maps every WIP slide to one candidate output row; 140 matches use native text
+readback including nested group text, and two image-only slides are aligned by
+their source sequence. The
+[reconciler](../reconcile_batch01_wip_candidate.py) corrected 14 provisional
+state matches with an ordered, same-source-page comparison. For example, WIP
+slide 123 already contains the final 9/9 state for Fault/Error PDF page 60,
+while WIP slide 58 contains state 8/9 for Introduction page 26; these are now
+mapped to candidate outputs 201 and 71. The companion
+[batch-01-round39-wip-expansion-gaps.csv](batch-01-round39-wip-expansion-gaps.csv)
+records the remaining 130 candidate rows and their before/after WIP anchors,
+grouped at 32 insertion points. The two maps together cover all 272 candidate
+rows. They define structural correspondence and insertion order; they do not
+claim the Google slides have already been inserted or that candidate rows
+have passed full native review. Output page 16's text remains editable inside
+native element groups; the earlier apparent missing-text result came from an
+incomplete API field mask.
+
+Next, translate the mapped state operations into same-presentation native
+Slides edits, verify a small isolated API pilot, then integrate the 130 rows
+into the existing WIP. For each duplicate, retain editable source elements and
+apply only the state-specific paragraph, shape, table-row, or picture-region
+changes recorded in the manifest. Keep the two source-deck boundaries and the
+user-owned schedule slide unchanged. After structural readback, establish the
+272-row order, export a fresh Google PDF, and review all pages.
 The two deck-divider slides initially imported blank because the builder
 omitted explicit DrawingML rectangle geometry on their text boxes. A two-slide
 pilot confirmed that `a:prstGeom` preserves their editable labels. The current
@@ -381,46 +432,33 @@ records for the native Google links and PDF renders.
 
 ## Next actions for this batch
 
-1. Continue classifying active build chunks into meaningful instructional
-   states versus decorative effects; update output mappings for every state
-   that should become a separate static slide. Eleven build-bearing slides are
-   classified; 41 of 52 remain unclassified.
-2. Resolve the low-confidence and image-heavy page matches against the source
-   package and PDF. Record a final page/build disposition for every candidate.
-3. Finalize the ordered source/build map. The 111-page candidate remains the
-   baseline: one editable divider plus 30 mapped reference pages for
-   Introduction, then one divider plus 79 mapped reference pages for
-   Fault/Error. The current 147-page candidate includes nine meaningful
-   expanded builds; the source/build manifest maps every state. Page 27 adds
-   three cumulative states and two net slides to the previous 145-slide
-   candidate. Page 14's single All at Once acknowledgments build adds no
-   state. Later classifications may increase the count further. Both dividers
-   show the exact filename and topic.
-4. Repair the confirmed diagrams, tables, text fit, image composition, and
-   any further defects. Preserve notes where present and map all static build
-   states to their source. The standalone page 17 local fix appears at output
-   page 18 and page 68 at output page 102 in the rebuilt local candidate.
-   Google has checked isolated pilots for the page 4, 6, 15, and 17 builds,
-   plus the standalone page 17 and page 68 label repairs. Verify all integrated
-   content, including pages 65,
-   73, 74, 76, and 77, in the final batch. Leave the course schedule slide
-   untouched for the user to edit.
-5. Keep the full-size WIP deck at the shared Drive root and improve that same
-   native presentation in place. Re-export the full Google PDF after repairs,
-   compare all pages with the references, and apply confirmed visual fixes
-   directly in Google Slides. Use the local PPTX and maps as the reproducible source; if a
-   later build-state change alters structure, update the WIP deck and verify
-   its affected order/pages. Rename it as accepted only after the full review.
+1. Review all 272 local candidate pages against exact Fall PDFs where
+   available, including the Introduction page 26 reveal sequence at outputs
+   64–72 and the text-layout repairs on Introduction page 26 and Fault/Error
+   pages 12 and 69. Record source gaps and unresolved exceptions.
+2. Preserve the complete source/build map and resolve any content or layout
+   defects found in the full local review. Keep both tables editable through
+   the page 77 row-by-row sequence; keep raster fallback limited to the three
+   documented corrupted diagram regions.
+3. Reconcile reviewed content and all 52 build dispositions into the same
+   full-size native WIP in the shared Drive root. Keep the user-owned course
+   schedule slide untouched. Read back native order and relevant objects,
+   export a fresh Google PDF, and compare every resulting page with the exact
+   source where available.
+4. Record repairs, remaining exceptions, source/build maps, native deck link,
+   PDF evidence, and acceptance date. Rename the WIP as accepted only after
+   every check passes; only then begin Batch 2.
 
 ## Open questions and acceptance blockers
 
 - Which decoded build chunks change meaningful content and therefore need
-  separate static slides? The chunk order is available; the visual state
-  classification is still open.
+  separate static slides? Fifteen build-bearing slides remain unclassified;
+  the chunk order is available in the sequence CSVs.
 - Does each current Fall PDF exactly match its `.key` revision? The Introduction
   image discrepancy requires checking the package revision and embedded media.
-- Which notes are present on the selected source slides, and does the planned
-  package/assembly path retain them?
+- Speaker-note sizing is confirmed for the current native WIP and local
+  candidate: populated text runs read back at 8 pt, with no visual note review.
+  Verify the final Google deck again after structural integration.
 - Has every Google-exported page been visually reviewed against the exact
   reference? **Partially.** The current full PDF is exported, and contact
   sheets cover all 142 pages. Full-size follow-up on flagged pages and the

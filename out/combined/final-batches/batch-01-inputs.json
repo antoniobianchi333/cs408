@@ -1,6 +1,6 @@
 {
   "batch": 1,
-  "status": "provisional local assembly input; source order and skipped-slide disposition are structurally decoded and match the Fall PDF page maps; meaningful build-state expansion, remaining Google checks, and final-batch acceptance are pending",
+  "status": "52 of 52 build-bearing slides are classified; 37 expand into 198 cumulative states and 15 remain single static slides. The Round 39 local candidate has 272 ordered slides and a durable source/build map. Page-by-page review, structural reconciliation into the existing native WIP, fresh Google export, and final acceptance are pending.",
   "decks": [
     {
       "source_filename": "01-408st-introduction.key",

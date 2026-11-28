@@ -57,6 +57,9 @@ of every large source or processed slide binary. Add and keep current:
 - Small representative evidence only when the result cannot be reconstructed
   from the source and the script. Prefer a concise report or crop over a full
   render set.
+- Apply the user's global note-typography rule in every batch: set all
+  populated speaker-note text to 8 pt, preserve its other content and styles,
+  and confirm the size by native readback. Empty placeholders stay empty.
 - Source material required to reproduce the work when it is not already
   available from the chosen base branch or another documented authoritative
   source.
@@ -117,25 +120,45 @@ be able to:
    shared Drive root; inspect the current
    [Batch 1 diagnostic](combined/final-batches/batch-01-diagnostic.md) and
    [PLAN.md](PLAN.md) before continuing. The latest verified native revision
-   is `mEV_c_nCguc_IQ`; its 142-page Google PDF is 5,299,986 bytes, SHA256
-   `fb172ef445e150960d683aa3b01cfcfeba5f627ceb2c0172eefde5168359e2c2`.
-   Round 29 repaired output pages 2 and 64 in the same WIP and checked them
-   against exact Fall cover references. Complete Batch 1 before starting
+   is `To489WEWXyjpnw`; its Round 34 Google PDF has 142 pages, is 5,278,199
+   bytes, and has SHA256
+   `f209ce582c79ec0934992b157639c6ead8b53ff237867988ba5e2641cc5f72aa`.
+   Rounds 30–34 repaired selected pages in the same WIP; the final page 42
+   heading was compared with the exact Fall source. The earlier full native
+   note readback recorded 273 runs across 76 populated speaker-note shapes at
+   8 pt; 66 placeholders have no text. This session's native API response
+   returned 133 populated note runs, all explicitly 8 pt. All 52 build
+   dispositions are complete: 37 source slides expand into 198 states and 15
+   remain single static slides. Round 39 added editable local repairs for
+   Fault/Error PDF pages 24, 61, and 69. Full Google review and structural
+   integration remain open.
+   Complete Batch 1 before starting
    Batch 2. For each batch, map, convert, repair, validate locally, upload its
    Google Slides deck to the shared folder root above `Pilots` as a WIP, read
    back its structure, export the Google PDF, inspect every page, and update
    the manifest/docs. Keep only small pilots and disposable tests in `Pilots`.
    Continue in order through Batch 16; a pilot or partial batch is not project
    completion. The current local candidate is
-   `out/.build/batch-01/round29/rebuild-v2/`; it has 147 slides, a 147-row map,
-   ordered slide relationships, valid ZIP integrity, and a 147-page PDF.
-   Eleven of 52 build-bearing slides are classified; 41 remain. Round 28's
-   eight-slide native Google pilot verified page 2–3 and page 27 state order,
-   editable text, and PDF appearance against exact Fall sources. Six of 142
-   WIP pages are confirmed repaired (about 4%); full-size review has not
-   counted all remaining defects. The local 147-slide structure is not yet
-   integrated into the WIP. See the diagnostic for current evidence and
-   limitations. Regenerate `.build` outputs if missing.
+   `out/.build/batch-01/round39-page24-repair/`; it has 272 slides, a
+   272-row map, ordered slide relationships, valid ZIP integrity, and a
+   272-page diagnostic PDF. Its PPTX is 41,741,711 bytes, SHA256
+   `3fc340887af03f12bd5669a4dbfe5453f5e4ea06714121e48c376df56f96c164`; the
+   PDF is 5,228,469 bytes, SHA256
+   `86b78b494deac683ab634a181623566c16b373859d1ef00da044b716e145cb53`. All 52
+   build dispositions are classified: 37 expansions produce 198 cumulative
+   states, and 15 retain a single static slide. The editable Fault/Error page
+   77 tables grow through nine synchronized row states. All 305 populated
+   local note runs read back at 8 pt. The candidate is not yet integrated into
+   the WIP. See the diagnostic and Round 39 runbook for current evidence and
+   limitations. The durable map is
+   [`batch-01-round39-expanded-map.csv`](combined/final-batches/batch-01-round39-expanded-map.csv).
+   The notes-free native-text reconciliation now maps all 142 WIP slides to
+   candidate rows and records the remaining 130 rows at 32 insertion anchors.
+   It corrected 14 provisional state matches. See the tracked
+   [correspondence map](combined/final-batches/batch-01-wip-round39-correspondence.csv),
+   [insertion-gap map](combined/final-batches/batch-01-round39-wip-expansion-gaps.csv),
+   and [reconciliation script](combined/reconcile_batch01_wip_candidate.py).
+   Regenerate `.build` outputs if missing.
 7. Resolve missing source references as they affect the active batch; manual
    PDF exports are a last resort, and [`MANUALLYCONVERT.md`](MANUALLYCONVERT.md)
    currently has no requests.

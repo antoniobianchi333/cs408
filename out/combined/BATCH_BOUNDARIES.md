@@ -1,19 +1,32 @@
 # Final 16-batch boundaries
 
-**Updated:** 2026-11-27
+**Updated:** 2026-11-28
 **Status:** The 16 conceptual boundaries are fixed. Batch 1 is in progress and
 not accepted. Its 142-slide native WIP remains in the shared Drive root at
-revision `mEV_c_nCguc_IQ`. The latest 142-page Google PDF is 5,299,986 bytes
-(SHA256 `fb172ef445e150960d683aa3b01cfcfeba5f627ceb2c0172eefde5168359e2c2`).
-Round 29 repaired and visually checked output pages 2 and 64 against their
-exact Fall cover references. The local 147-slide candidate passes package and
-order checks but remains unintegrated; eleven of 52 build-bearing slides are
-classified and 41 remain. The Round 28 native Google pilot verified the page
-2–3 and page 27 states. The current work log and open pages are in the
-[Batch 1 diagnostic](final-batches/batch-01-diagnostic.md); the conversion
-process and latest Round 24–29 findings are in the
-[runbook](SLIDE_CONVERSION.md#round-29--batch-1-cover-photo-and-panels-in-full-wip).
-Do not start Batch 2 until Batch 1 passes its acceptance checks.
+revision `To489WEWXyjpnw`. The fresh Round 34 Google PDF is 5,278,199 bytes,
+has 142 pages, and has SHA256
+`f209ce582c79ec0934992b157639c6ead8b53ff237867988ba5e2641cc5f72aa`.
+Rounds 30–34 repaired selected pages in place; page 42 was compared with exact
+Fall Introduction PDF page 16 after the final heading adjustment. The Round
+39 local 272-slide candidate passes ZIP/order checks but remains unintegrated;
+all 52 build-bearing slides are classified. Thirty-seven source slides expand
+into 198 cumulative states and 15 no-expansion decisions retain one static
+slide. The candidate includes the Introduction PDF page 26 reveal sequence
+(outputs 64–72), local layout repairs on Introduction page 26 and Fault/Error
+pages 12 and 69, plus the new Fault/Error page 24 and 61 repairs at outputs
+130 and 202. All 305 local note runs read back at 8 pt. The earlier full native
+note readback recorded 273 runs across 76 shapes; this session's native API
+response returned 133 populated runs and all were 8 pt. Empty placeholders
+contain no text. The current work log and open pages are in the
+[Batch 1 diagnostic](final-batches/batch-01-diagnostic.md); see the
+[Round 39 record](SLIDE_CONVERSION.md#round-39--source-page-24-and-page-61-repairs).
+The notes-free text reconciler maps all 142 WIP slides to 142 candidate rows
+and places the remaining 130 rows at 32 insertion anchors. It corrected 14
+provisional build-state matches; the correspondence and gap maps are in
+[final-batches/](final-batches/), with the reusable
+[reconciler](reconcile_batch01_wip_candidate.py). The WIP still has not been
+structurally expanded. Do not start Batch 2 until Batch 1 passes its
+acceptance checks.
 
 ## Fixed rules
 
@@ -41,6 +54,10 @@ Do not start Batch 2 until Batch 1 passes its acceptance checks.
   deck divider. Map every output slide to its source file, source slide, and
   build state. Do not combine or split a source deck to meet an equal-size or
   file-size target.
+- Set all existing speaker-note text to 8 pt in every batch. The builder
+  sets copied runs and paragraph defaults before import; confirm populated
+  note text by native readback. Empty placeholders have no text and need no
+  visual review.
 - Week labels follow the actual Fall 2026 syllabus in syllabus/syllabus.tex.
   Week 12 includes a Midterm 2 review, but no selected current Fall slide deck
   for that review was found; the older March review remains comparison-only
