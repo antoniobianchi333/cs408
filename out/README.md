@@ -160,9 +160,10 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   [Batch 1 Fault/Error repairs](combined/repair_batch01_fault_error.py), and
   [page 18 image/build reconstruction](combined/prepare_intro_page18_build.py)
 - [Legacy editable batch baselines](combined/) and their
-  [batch manifest](combined/editable-parts-manifest.json). Each of the nine
-  `cs408-editable-part-*.pptx` files stays directly in `combined/`; these are
-  comparison inputs, not the final 16 Google Drive batches.
+  [batch manifest](combined/editable-parts-manifest.json). The manifest keeps
+  the nine-part comparison mapping; generated PPTX/PDF inputs are rebuildable
+  artifacts and belong under ignored `.build/` when present. They are not the
+  final 16 Google Drive batches.
 - [Pilot artifacts folder](combined/google-slides-pilot/), including the
   [pilot folder guide](combined/google-slides-pilot/README.md),
   [Round 2 rebuild](combined/google-slides-pilot/rebuild_round2.py),
