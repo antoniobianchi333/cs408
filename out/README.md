@@ -156,6 +156,7 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   [Round 39 WIP-to-candidate correspondence map](combined/final-batches/batch-01-wip-round39-correspondence.csv),
   [Round 39 WIP expansion-gap map](combined/final-batches/batch-01-round39-wip-expansion-gaps.csv),
   [WIP correspondence reconciler](combined/reconcile_batch01_wip_candidate.py),
+  [speaker-note 9 pt and blank-note helper](combined/speaker_notes.py),
   [historical Round 37 source/build map](combined/final-batches/batch-01-round37-expanded-map.csv),
   Introduction [provisional page map](combined/final-batches/batch-01-introduction-provisional-page-map.csv),
   [candidate audit](combined/final-batches/batch-01-introduction-candidate-audit.csv),
@@ -218,7 +219,7 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
 **Required live status document:** keep a single editable Google Doc titled
 `STATUS` directly in the CS 408 project Drive folder root, above `Pilots`.
 Refresh it about hourly during sustained work and after major milestones. Its
-sections must stay in this order: pending permissions; current code-usage
+sections must stay in this order: approvals needed; current code-usage
 percentages from [`codex_usage.py`](../codex_usage.py); current work and the
 near-term plan; the complete [manual conversion list](MANUALLYCONVERT.md); and
 the complete [plan](PLAN.md). Use the connected Drive tools only in the
@@ -226,9 +227,12 @@ documented CS 408 project folder. The live document is
 [STATUS](https://docs.google.com/document/d/1TAFn9A9Nkkr8YU8R0Hpfge4Q7MBOvBPT4F7XHiDG9UU/edit)
 (Drive ID `1TAFn9A9Nkkr8YU8R0Hpfge4Q7MBOvBPT4F7XHiDG9UU`); its metadata
 confirms the native Google Docs MIME type and project-root parent folder.
+Before requesting any permission in the future, first try to update `STATUS`
+with the exact blocked action and scope. If that write is itself blocked, use
+the platform's real approval flow rather than an ordinary chat request.
 
 **Batch 1 checkpoint — 2026-11-28:** the single 142-slide native WIP is at
-revision `To489WEWXyjpnw` in the project root. Its latest export is the Round
+revision `81I4pqOtZCYd2A` in the project root. Its latest export is the Round
 34 Google PDF: 142 pages, 5,278,199 bytes, SHA256
 `f209ce582c79ec0934992b157639c6ead8b53ff237867988ba5e2641cc5f72aa`. All 52
 build-bearing slides are classified: 37 expand into 198 cumulative states and
@@ -238,9 +242,12 @@ Its PPTX is 41,741,711 bytes, SHA256
 `3fc340887af03f12bd5669a4dbfe5453f5e4ea06714121e48c376df56f96c164`; the
 272-page local PDF is 5,228,469 bytes, SHA256
 `86b78b494deac683ab634a181623566c16b373859d1ef00da044b716e145cb53`. All 305
-populated local note runs are 8 pt. Current native readback returned 133
-populated note runs and every one is explicitly 8 pt; no note visual review is
-needed. Round 39 repaired Fault/Error PDF pages 24, 61, and 69 in the local
+All 142 WIP slides have 9 pt speaker-note text; native readback confirmed 339
+runs at 9 pt, including a whitespace anchor on each of the 66 formerly empty
+notes pages. The Round 40 local builder/expander check confirmed one notes
+page per candidate slide and 117 blank-note anchors across the 272-slide
+candidate. Notes are checked by text-style metadata only. Round 39 repaired
+Fault/Error PDF pages 24, 61, and 69 in the local
 candidate; their output pages are 130, 202, and 224–225. The current 142-slide
 WIP maps in order to 142 candidate rows; 130 rows remain to insert at 32
 anchors. A notes-free native text readback corrected 14 provisional state
@@ -248,7 +255,8 @@ matches, including pages where the WIP already held the later build state.
 The complete correspondence, insertion maps, and reconciler are linked above.
 Full Google review and structural reconciliation remain open, so Batch 1 is
 not accepted. See the
-[Round 39 record](combined/SLIDE_CONVERSION.md#round-39--source-page-24-and-page-61-repairs).
+[Round 39 record](combined/SLIDE_CONVERSION.md#round-39--source-page-24-and-page-61-repairs)
+and [Round 40 note/API verification](combined/SLIDE_CONVERSION.md#round-40--speaker-notes-and-structural-insertion-pilot).
 
 - **Batch 1 is active; its full native WIP is the live repair surface in Google Drive.** Keep the local PPTX and maps as the reproducible source. Make confirmed visual-only fixes in the same native WIP; rebuild and reconcile locally when content, build states, order, or structure changes, or when a local repair is needed to preserve the intended result through import. The paired page 2 and page 68 tests support local source repairs for those cases; Round 17 and Round 25 show targeted native Google edits for import-specific differences. See the [documented route decision](combined/SLIDE_CONVERSION.md#full-batch-working-deck-workflow). The current Fall Introduction
   and Fault/Error/Failure Keynote sources convert to 92 and 108 LibreOffice
@@ -314,13 +322,15 @@ not accepted. See the
   review, structural reconciliation, the final map, and full-batch Google
   verification remain open. The 142-slide [working deck](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit)
   is uploaded at the shared Drive root as `WIP - needs fixes`; native readback
-  confirms 142 ordered slides at revision `To489WEWXyjpnw`. Its Round 34
+  confirms 142 ordered slides at revision `81I4pqOtZCYd2A`. Its Round 34
   Google PDF has 142 pages, is 5,278,199 bytes, and has SHA256
   `f209ce582c79ec0934992b157639c6ead8b53ff237867988ba5e2641cc5f72aa`.
   Rounds 30–34 repaired selected pages; page 42's latest heading adjustment
   was checked against exact Fall Introduction PDF page 16. All populated WIP
-  speaker-note text is 8 pt by native readback; all 305 populated local
-  candidate runs are 8 pt. Full-size review has not established a reliable
+  speaker-note text is 9 pt by native readback; every slide has a notes body,
+  including a whitespace run for blank notes. The 272-slide local candidate
+  package check confirms a notes page for every slide at 9 pt. Full-size review
+  has not established a reliable
   remaining-defect count, so no repaired-page percentage is reported. See the
   [Round 35 runbook](combined/SLIDE_CONVERSION.md#round-35--8-pt-speaker-notes-and-single-state-build-classifications),
   [Round 36 runbook](combined/SLIDE_CONVERSION.md#round-36--continued-build-expansion-and-8-pt-speaker-notes),

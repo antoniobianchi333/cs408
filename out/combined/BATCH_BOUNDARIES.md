@@ -3,7 +3,7 @@
 **Updated:** 2026-11-28
 **Status:** The 16 conceptual boundaries are fixed. Batch 1 is in progress and
 not accepted. Its 142-slide native WIP remains in the shared Drive root at
-revision `To489WEWXyjpnw`. The fresh Round 34 Google PDF is 5,278,199 bytes,
+revision `81I4pqOtZCYd2A`. The fresh Round 34 Google PDF is 5,278,199 bytes,
 has 142 pages, and has SHA256
 `f209ce582c79ec0934992b157639c6ead8b53ff237867988ba5e2641cc5f72aa`.
 Rounds 30–34 repaired selected pages in place; page 42 was compared with exact
@@ -14,10 +14,10 @@ into 198 cumulative states and 15 no-expansion decisions retain one static
 slide. The candidate includes the Introduction PDF page 26 reveal sequence
 (outputs 64–72), local layout repairs on Introduction page 26 and Fault/Error
 pages 12 and 69, plus the new Fault/Error page 24 and 61 repairs at outputs
-130 and 202. All 305 local note runs read back at 8 pt. The earlier full native
-note readback recorded 273 runs across 76 shapes; this session's native API
-response returned 133 populated runs and all were 8 pt. Empty placeholders
-contain no text. The current work log and open pages are in the
+130 and 202. Native readback now confirms 339 note runs at 9 pt across the
+142-slide WIP, including whitespace anchors on all 66 formerly empty note
+pages. A package check confirmed notes pages and 9 pt runs on all 272 local
+candidate slides, including 117 blank-note anchors. The current work log and open pages are in the
 [Batch 1 diagnostic](final-batches/batch-01-diagnostic.md); see the
 [Round 39 record](SLIDE_CONVERSION.md#round-39--source-page-24-and-page-61-repairs).
 The notes-free text reconciler maps all 142 WIP slides to 142 candidate rows
@@ -26,7 +26,10 @@ provisional build-state matches; the correspondence and gap maps are in
 [final-batches/](final-batches/), with the reusable
 [reconciler](reconcile_batch01_wip_candidate.py). The WIP still has not been
 structurally expanded. Do not start Batch 2 until Batch 1 passes its
-acceptance checks.
+acceptance checks. The 14 corrected source/build-state matches are map
+alignment fixes, not visual repairs; no defensible repair count is available
+until full Google-page review is complete. The notes-only revision left slide
+order and the Round 34 visual PDF unchanged.
 
 ## Fixed rules
 
@@ -54,10 +57,11 @@ acceptance checks.
   deck divider. Map every output slide to its source file, source slide, and
   build state. Do not combine or split a source deck to meet an equal-size or
   file-size target.
-- Set all existing speaker-note text to 8 pt in every batch. The builder
-  sets copied runs and paragraph defaults before import; confirm populated
-  note text by native readback. Empty placeholders have no text and need no
-  visual review.
+- Set speaker-note text to 9 pt on every slide, including slides without
+  authored notes. Preserve existing note wording. The builder adds an
+  editable notes page with an ordinary-space run to each empty note body and
+  applies 9 pt styling. Confirm by native text readback; do not inspect notes
+  visually.
 - Week labels follow the actual Fall 2026 syllabus in syllabus/syllabus.tex.
   Week 12 includes a Midterm 2 review, but no selected current Fall slide deck
   for that review was found; the older March review remains comparison-only

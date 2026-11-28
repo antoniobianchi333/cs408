@@ -6,12 +6,14 @@ as active work: **keep working until all 16 final batches are converted,
 uploaded to Google Drive, and verified. Do not stop at a pilot, plan, or
 partial batch. Do not edit `GOAL.md` unless the user explicitly asks.**
 
-## Ask for permissions at the beginning
+## Check permissions at the beginning; update STATUS before any request
 
-At the start of the new session, check which permissions are active, then ask
-the user once—in one concise, grouped request—for anything missing before using
-Drive or running LibreOffice. The previous authorization may not carry over to
-the new session or machine. The request should cover:
+At the start of a new session, check which permissions are active. Do not send
+an ordinary chat approval question. Request only a permission that is actually
+missing and needed before using Drive or running LibreOffice. Before any such
+request, first try to update the live `STATUS` Doc with the exact blocked
+action and scope; if that update is itself blocked, use the platform's real
+approval flow for the blocked operation. The request should cover:
 
 - Google Drive connector access to read and edit the CS 408 project folder
   through the dedicated connected account. Use Drive only within the documented
@@ -21,21 +23,12 @@ the new session or machine. The request should cover:
   permission flow when it requires explicit approval; after approval, do not
   ask again during that session.
 
-Suggested single question: “Please confirm the Google Drive connector is
-connected as the dedicated account with Editor access to CS 408 folder
-`16vTRNocHa1rlPN1bii_w0b8Ce90XrFbn` (small pilots only in `Pilots`,
-`1PHuKHahwY2PxviNWTM2f8kYmb7K-37Dj`) and authorize all project
-`libreoffice --headless` commands for this session, including non-PDF
-conversions. I will use Drive only in that project folder and will not ask
-again after you grant the permissions.”
-
-If a permission is already active, do not request it again; state which one is
-active and ask only for the missing permission. Continue independent local
-documentation and read-only repository work while an approval is pending. Do
-not ask permission to stage, commit, or push; the user handles Git publishing.
-The last confirmed Google Drive plugin setting is “Allow all tools.” Check
-whether it remains active in a new session, but do not ask again if it does.
-Even with that setting, keep project operations limited to the CS 408 folder.
+If a permission is already active, do not request it again. Continue
+independent local work while an actual platform approval is pending. Do not ask
+permission to stage, commit, or push; the user handles Git publishing. The last
+confirmed Google Drive plugin setting is “Allow all tools.” Check whether it
+remains active in a new session. Even with that setting, keep project
+operations limited to the CS 408 folder.
 
 ## Read first
 
@@ -60,6 +53,9 @@ Read these files before making changes:
    and the linked batch build/repair scripts — reproducible repair entry
    points, including restoration of the page 18 image omitted by a clean
    reassembly.
+10. [`out/combined/speaker_notes.py`](out/combined/speaker_notes.py) — ensures
+    every PPTX slide has a 9 pt speaker-note run, including slides with no
+    source notes.
 
 The main `out/README.md` is the navigation hub and must link every relevant project
 Markdown file, script, map, and artifact folder. Update it and the PLAN as the
@@ -69,7 +65,7 @@ milestone.
 Maintain one native Google Doc titled `STATUS` directly in the CS 408 project
 Drive folder root, above `Pilots`. Create it if absent; verify its exact file
 metadata before editing. About hourly during sustained work and after major
-milestones, refresh that same document in this order: pending permissions (or
+milestones, refresh that same document in this order: approvals needed (or
 none), current 5-hour and weekly usage percentages from the root
 [`codex_usage.py`](codex_usage.py) script, current work and near-term plan,
 the full contents of `out/MANUALLYCONVERT.md`, and the full contents of
@@ -116,10 +112,10 @@ Drive ID `1TAFn9A9Nkkr8YU8R0Hpfge4Q7MBOvBPT4F7XHiDG9UU`, parent folder
   affected pages against the matching Fall PDF. For a new batch, upload one
   clearly named `WIP - needs fixes` deck directly to the shared root, then
   rename it only after the full acceptance review.
-- Set all existing speaker-note text to 8 pt in every batch. The builder
-  writes copied note runs and paragraph defaults at 8 pt before import;
-  confirm populated note text by native readback. Empty placeholders contain
-  no text and need no visual review. Do not inspect notes visually.
+- Set speaker-note text to 9 pt on every slide, including slides with no
+  authored notes. The builder creates a notes page with one ordinary-space
+  run on an empty body and explicitly styles every run to 9 pt. Confirm by
+  native note-text readback only; do not inspect notes visually.
 
 ## Current Batch 1 state (handoff snapshot: 2026-11-28)
 
@@ -133,8 +129,9 @@ Google Slides WIP is in the shared folder root, not `Pilots`:
 
 - Deck ID: `1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME`
 - URL: https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit
-- It has 142 ordered slides at native revision `To489WEWXyjpnw`; verify again
-  before a write. Drive metadata confirms native Slides type, project-root
+- It has 142 ordered slides at native revision `81I4pqOtZCYd2A`; verify again
+  before a write. The 9 pt notes-only change left slide order and visible slide
+  content unchanged. Drive metadata confirms native Slides type, project-root
   parent, and 20,356,502 bytes.
 - The Round 34 Google PDF has 142 pages, 5,278,199 bytes, and SHA256
   `f209ce582c79ec0934992b157639c6ead8b53ff237867988ba5e2641cc5f72aa`. Its
@@ -164,20 +161,31 @@ Readback and the latest 142-page Google PDF confirmed both pages against their
 exact Fall cover references. Rounds 30–34 then repaired selected pages in the
 same WIP, including pages 42–50, 64, 70, 87–90, 123–125, 132, and 139. The
 final page 42 heading adjustment was compared with exact Fall Introduction
-PDF page 16. Native readback confirms all 273 note text runs across 76 populated note
-shapes are 8 pt; 66 placeholders contain no text. This session's native API
-response returned 133 populated note runs, all explicitly 8 pt. The builder
-and expander set copied note text to 8 pt; all 305 populated note runs in the
-local candidate read back at 8 pt. Do not visually inspect notes. The 272-slide
-local structure has not yet been integrated into the WIP. Full-page review has
-not established a reliable repaired-page percentage or remaining-defect count.
+PDF page 16. Native readback after the notes-only update confirms 142 note
+shapes and 339 text runs, all 9 pt. The 66 previously empty placeholders now
+have a single ordinary-space run; preserve note content and do not inspect
+notes visually. The local builder and expander now apply 9 pt to every slide,
+including blank notes. The 272-slide local structure has not yet been
+integrated into the WIP. Full-page review has not established a reliable
+repaired-page percentage or remaining-defect count.
 
 The latest notes-free native-text reconciliation corrected 14 provisional
 WIP-to-candidate state matches. Its correspondence map covers all 142 current
 WIP slides; its gap map records 130 remaining candidate rows at 32 insertion
 anchors. Continue from these maps and the tracked
 [reconciler](out/combined/reconcile_batch01_wip_candidate.py); do not recreate
-the earlier unverified alignment. The existing WIP is still unchanged.
+the earlier unverified alignment. The slides themselves were not altered by
+these mapping corrections. The latest correspondence map is based on the
+pre-notes revision; slide text and order are unchanged at revision
+`81I4pqOtZCYd2A`.
+
+Round 40 verified the Slides API sequence for inserting a missing static
+state: `duplicateObject` with a child-ID mapping followed by `deleteObject`
+worked in one batch update, and `updateSlidesPosition` placed the clone at the
+required insertion index. The nine-slide API pilot is in Drive `Pilots` as
+`1qz2QdqzzT0m5tlSm1iS2LhOUHAKenZ0UonmSPU9z7R0`; do not use it as a full-batch
+deck. The Round 40 note-format pilot also confirmed that an empty native notes
+shape needs a whitespace run before `updateTextStyle` can set it to 9 pt.
 
 ### Confirmed divider rule — Round 24
 

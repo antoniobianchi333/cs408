@@ -61,13 +61,14 @@ The current connector result and detailed recovery order are recorded in the
 
 ## Speaker-note size rule
 
-Set all populated speaker-note text to 8 pt in every batch. Preserve note
-content and other styling. In the native Slides presentation, obtain each
-slide's `speakerNotesObjectId` from its notes page, apply `updateTextStyle` at
-8 pt to the complete text range, and verify every populated note by native
-readback. Empty note placeholders remain empty. Do not add a separate visual
-review of notes. Batch 1's 142-slide WIP has 76 populated notes, all confirmed
-at 8 pt, and 66 empty placeholders.
+Set speaker-note text to 9 pt on every slide in every batch, including slides
+without authored notes. Preserve existing note content. In native Slides, add
+one ordinary-space run to an empty notes body before `updateTextStyle`; this
+gives the blank placeholder a real run that can carry 9 pt styling. In PPTX,
+create a notes page with one whitespace run for each slide that lacks a notes
+page. Verify size by native readback and never inspect notes visually. As of
+Round 40, Batch 1's 142-slide WIP has 339 runs at 9 pt, including 66 blank-note
+anchors.
 
 ## Convert and verify an unfamiliar slide
 
@@ -3146,3 +3147,60 @@ the earlier contrary indication resulted from a field mask that omitted group
 children. Native insertion is not complete yet. The next step is to verify
 duplicate-and-state-edit requests in a small Pilot, then apply mapped state
 operations to the same WIP presentation.
+
+## Round 40 — 9 pt notes on every slide and structural insertion pilot
+
+**Recorded:** 2026-11-28. Round 40 supersedes the 8 pt note-size rule recorded
+in Rounds 35–39. The single native Batch 1 WIP remains in the project root at
+`1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME`. Its 142-slide native revision
+is now `81I4pqOtZCYd2A`. Round 40 changed speaker-note formatting only; slide
+order and visible slide content remain unchanged. The latest slide export is
+still the Round 34 Google PDF: 142 pages, 5,278,199 bytes, SHA256
+`f209ce582c79ec0934992b157639c6ead8b53ff237867988ba5e2641cc5f72aa`.
+
+The user changed the rule to 9 pt for every slide, including slides without
+authored speaker notes, and asked that note formatting not be visually
+reviewed. Native readback confirmed all 142 slides have a notes text run and
+all 339 runs are 9 pt. The 66 previously empty notes bodies each received a
+single ordinary space styled at 9 pt. The whitespace is visually empty and
+provides a native text run for the font size. The operation preserved all
+existing note text.
+
+The tracked [`speaker_notes.py`](speaker_notes.py) helper now sets all existing
+note runs/defaults to 9 pt, adds a notes page to every slide without one, and
+anchors an empty body with an ordinary-space run. Both
+[`build_batch_candidate.py`](build_batch_candidate.py) and
+[`expand_batch_build_states.py`](expand_batch_build_states.py) call it before
+writing their output packages. A 272-slide package check, based on the
+Round 39 candidate with no slide-content changes, confirmed one unique notes
+page per slide, 9 pt run properties throughout, valid notes-to-slide
+relationships and content-type entries, 272 map rows, and 117 blank-note
+anchors. A two-slide builder smoke check likewise confirmed note pages and
+9 pt anchors on both its generated divider and a source slide. No note was
+visually inspected.
+
+The small API pilot in Drive `Pilots`, ID
+`1qz2QdqzzT0m5tlSm1iS2LhOUHAKenZ0UonmSPU9z7R0`, tested the operation needed to
+insert missing states into the existing WIP. `duplicateObject` with an
+explicit child-object ID map and `deleteObject` succeeded in one batch update;
+`updateSlidesPosition` then placed the clone at the requested position.
+Native readback confirmed the 9-slide order and the clone's child IDs. This is
+pilot evidence, not full-batch integration. The 142-row correspondence map and
+130-row gap map at 32 insertion anchors remain the structural plan. Fourteen
+provisional source/build-state matches were corrected by comparing native
+slide text within the known source page. Those are map corrections, not visual
+slide repairs, and do not produce a repair percentage.
+
+The permission workflow is also explicit: before requesting any future
+permission, first try to update the live `STATUS` Doc with the exact blocked
+action and scope. If the Doc update is blocked too, use the platform's actual
+approval flow; do not send an ordinary chat approval request. Current project
+Drive and `libreoffice --headless` access are active. The latest
+`python3 codex_usage.py read` returned `5h 96% left · weekly 75% left`.
+
+Batch 1 remains unaccepted. Next, insert the 130 mapped rows at their 32
+anchors into the same native WIP, preserving source/build order and the
+user-owned schedule at WIP page 26. Then read back all slide order, source
+maps, relevant objects, and 9 pt note runs; export a fresh Google PDF; inspect
+all pages; and continue repairs until the acceptance gate passes. Do not start
+Batch 2 yet.

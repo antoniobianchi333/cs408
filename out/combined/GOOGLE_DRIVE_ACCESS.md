@@ -106,7 +106,10 @@ edited there. The user changed the Google Drive plugin setting to “Allow all
 tools”; no approval is pending. This setting does not change the working
 scope: use Drive for this project only within the documented CS 408 folder.
 The separate session-wide authorization for project `libreoffice --headless`
-commands is active.
+commands is active. Before requesting any future permission, first try to
+update `STATUS` with the exact blocked action and scope. If the write is itself
+blocked, use the platform's actual approval flow; do not send an ordinary chat
+approval question.
 
 On November 24, 2026, Codex listed **cs_408_ai_editable** and read the
 outline of the native
@@ -570,9 +573,12 @@ full-batch working copy.
 Keep one native Google Doc titled `STATUS` directly in this same project
 folder root, above `Pilots`. It is the live progress report, not a pilot.
 Update the same document about hourly during sustained work and after major
-milestones, with pending permissions, usage percentages from `codex_usage.py`,
+milestones, with approvals needed, usage percentages from `codex_usage.py`,
 current/near-term work, and the full current manual-conversion list and plan
 in the order specified by [`PLAN.md`](../PLAN.md#required-live-status-document).
+Before any future permission request, first try to update this Doc with the
+exact blocked operation and scope; use the actual platform approval flow only
+if the action remains blocked.
 Verify its file ID, title, MIME type, and parent folder before each edit, and
 keep its Drive URL in [`out/README.md`](../README.md).
 The current document is
@@ -805,7 +811,7 @@ and structural reconciliation were open. The Introduction schedule at Google
 output page 26 remains user-owned and untouched. Pace Drive calls at least 5.5
 seconds apart and keep work within the CS 408 project folder.
 
-## Current Batch 1 state after Round 39
+## Batch 1 state at the end of Round 39 (superseded by Round 40)
 
 The WIP is still the single 142-slide native presentation in the project root,
 ID `1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME`. Drive metadata confirms
@@ -841,3 +847,28 @@ records the remaining 130 candidate slides at 32 insertion anchors, and both
 maps cover all 272 candidate rows. See the
 [correspondence reconciler](reconcile_batch01_wip_candidate.py). This step was
 read-only; the WIP remains at revision `To489WEWXyjpnw`.
+
+## Round 40 current Drive state and insertion pilot
+
+The same full native WIP remains at the shared project root, with 142 ordered
+slides and native revision `81I4pqOtZCYd2A`. Round 40 updated speaker notes
+to 9 pt on every slide, including one ordinary-space run in each of the 66
+previously empty note bodies. Native readback found 339 runs, all at 9 pt. The
+notes-only update did not change visible slide content or order, so the Round
+34 142-page Google PDF remains the latest visual export. Do not inspect notes
+visually.
+
+The local 272-slide candidate still has 130 map rows to add at 32 insertion
+anchors. The corrected 14 source/build mappings are source/map alignments,
+not visual repairs. A nine-slide test deck in Drive `Pilots`, ID
+`1qz2QdqzzT0m5tlSm1iS2LhOUHAKenZ0UonmSPU9z7R0`, verified duplicate with
+child-object ID mapping, delete, and slide reposition requests. Keep the
+full WIP in place at the project root and use the pilot only as technical
+evidence.
+
+The current Drive permission setting is “Allow all tools”; no approval is
+pending. Before any future approval request, first try to update the live
+`STATUS` Doc with the exact blocked operation and scope. If that write is
+itself blocked, use the platform's real approval flow rather than an ordinary
+chat request. Keep Drive operations serial, at least 5.5 seconds apart, and
+limited to the CS 408 project folder.

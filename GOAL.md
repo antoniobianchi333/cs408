@@ -72,14 +72,27 @@ Complete Batch 1 before starting Batch 2, then proceed in order through Batch
   the main [`out/README.md`](out/README.md) whenever project status or navigation
   changes. The main README must link all relevant project Markdown, scripts,
   maps, and artifact folders.
-- At the beginning of every new session, ask the user once for any permissions
-  that may not carry over: Google Drive connector access needed to read and edit
-  only the project folder, and a session-wide authorization for project
-  `libreoffice --headless` conversions (including conversions beyond PDF
-  export). A previous LibreOffice authorization may be session-specific. Use
-  the platform's permission flow when it is available; do not ask repeatedly
-  after the user grants it. Do not ask permission to commit or push; the user
-  handles those actions.
+- Keep the live `STATUS` Google Doc in the project Drive root current about
+  hourly and after major milestones. Its ordered fields are: approvals needed,
+  code-usage percentages, current work and near-term plan, the complete
+  `out/MANUALLYCONVERT.md`, and the complete `out/PLAN.md`. Before requesting
+  any permission, first try to update `STATUS` with the exact blocked action
+  and scope. If a real platform approval is still required, use that platform
+  approval flow; do not substitute an ordinary chat request.
+- Set speaker-note text to 9 pt on every slide in every batch, including slides
+  with no authored notes. Preserve existing note text. For an empty note body,
+  add one ordinary space as an invisible editable run and explicitly style it
+  to 9 pt; this makes the setting survive Google Slides import. Verify note
+  text-size metadata by native readback and never inspect notes visually.
+- At the beginning of every new session, check which permissions are active.
+  Ask only for a missing permission that is needed for the work: connected
+  Google Drive access limited to the project folder and session-wide
+  `libreoffice --headless` authorization, including conversions beyond PDF
+  export. Before requesting any permission, first try to update `STATUS` with
+  the exact blocked action and scope; use the actual platform approval flow
+  when required, not an ordinary chat request. Do not ask again after the user
+  grants it. Do not ask permission to commit or push; the user handles those
+  actions.
 - Work on the `spring+2027+bianchi` branch after verifying the actual checkout.
   The user handles staging, commits, and pushes. **Never commit or push unless
   the user explicitly tells you to.** Do not change Git remotes or config.
@@ -99,10 +112,21 @@ shared Drive root:
 - [Runbook and Round 24–25 evidence](out/combined/SLIDE_CONVERSION.md)
 - [Current Drive state and access rules](out/combined/GOOGLE_DRIVE_ACCESS.md)
 
-As of 2026-11-27, the WIP contains 142 ordered slides; its latest Google PDF
-has 142 pages and is 5,233,045 bytes. Round 24 fixed the two source-deck
-dividers. Round 25 fixed the Course Grading tables on output pages 24–25 and
-verified their PPTX import in a two-slide pilot. Full-page follow-up and repair
-remain open, and 45 of 52 build-bearing slides still need classification.
-Continue with the open work listed in the diagnostic and PLAN; do not start
-Batch 2 until Batch 1 passes its completion gate.
+As of 2026-11-28, the same Batch 1 WIP contains 142 ordered slides at native
+revision `81I4pqOtZCYd2A`. Its latest slide PDF is the Round 34 Google export:
+142 pages, 5,278,199 bytes, SHA256
+`f209ce582c79ec0934992b157639c6ead8b53ff237867988ba5e2641cc5f72aa`. Round
+24 fixed the two source-deck dividers; Round 25 repaired the Course Grading
+tables; Rounds 30–34 repaired selected pages. All 52 build-bearing slides are
+classified. The local candidate has 272 mapped slides; 130 candidate rows
+remain to integrate at 32 anchors in the existing WIP. Its correspondence map
+was corrected in 14 source/build-state matches. Do not treat those map changes
+as visual repairs or as a repaired-slide count.
+
+Every WIP slide now has editable 9 pt speaker-note text, including a single
+whitespace run on each of the 66 previously empty note pages. Native readback
+confirmed 142 slides and 339 note runs, all 9 pt. The updated local builder
+and build-state expander also add blank 9 pt notes to slides without source
+notes. Speaker notes are checked by metadata only and are not visually
+inspected. Batch 1 still needs structural integration, a fresh Google PDF,
+full-page review, and the acceptance record. Do not start Batch 2 yet.

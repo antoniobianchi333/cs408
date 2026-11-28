@@ -7,7 +7,9 @@ audit_batch_source_alignment.py. The builder adds a full-slide solid pale-yellow
 (`#FFF2CC`) editable divider before each source deck, with centered 24 pt bold
 Arial filename text and 28 pt regular Arial topic text. Divider text boxes use
 explicit DrawingML rectangle geometry. The builder copies selected slides
-and notes, sets speaker-note text to 8 pt, and records every output page. It
+and notes, sets 9 pt speaker notes on every output slide, and records every
+output page. Blank notes pages receive one whitespace run so Google Slides
+retains an explicit 9 pt run after import. It
 deliberately does not expand Keynote animation builds or repair imported
 layouts; the output map labels those items as pending.
 
@@ -34,6 +36,8 @@ from pathlib import Path
 from zipfile import ZIP_DEFLATED, ZipFile
 
 from lxml import etree
+
+from speaker_notes import ensure_speaker_notes
 
 
 P = "http://schemas.openxmlformats.org/presentationml/2006/main"
@@ -369,7 +373,7 @@ def copy_notes(source: dict[str, bytes], output: dict[str, bytes], source_part: 
 
 
 def set_speaker_notes_font_size(notes_root: etree._Element) -> None:
-    """Set every existing speaker-note text run and paragraph default to 8 pt."""
+    """Set every existing speaker-note text run and paragraph default to 9 pt."""
     property_tags = {
         f"{{{A}}}rPr",
         f"{{{A}}}defRPr",
@@ -377,17 +381,17 @@ def set_speaker_notes_font_size(notes_root: etree._Element) -> None:
     }
     for node in notes_root.iter():
         if node.tag in property_tags:
-            node.set("sz", "800")
+            node.set("sz", "900")
 
     # Some source runs omit explicit properties and inherit a larger size from
-    # the notes master. Add a local run property so the 8 pt rule survives import.
+    # the notes master. Add a local run property so the 9 pt rule survives import.
     for tag in ("r", "fld"):
         for run in notes_root.findall(f".//a:{tag}", NS):
             run_properties = run.find("a:rPr", NS)
             if run_properties is None:
                 run_properties = etree.Element(f"{{{A}}}rPr")
                 run.insert(0, run_properties)
-            run_properties.set("sz", "800")
+            run_properties.set("sz", "900")
 
 
 def divider_xml(filename: str, topic: str, width: int, height: int) -> bytes:
@@ -668,6 +672,7 @@ def main() -> int:
 
     if len(map_records) != final_slide_count:
         raise ValueError(f"map has {len(map_records)} rows but expected {final_slide_count}")
+    blank_notes_added = ensure_speaker_notes(output, size=900)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with ZipFile(args.output, "w", ZIP_DEFLATED) as archive:
         for name, data in output.items():
@@ -694,6 +699,7 @@ def main() -> int:
         writer.writeheader()
         writer.writerows(map_records)
     print(f"Built {args.output} with {final_slide_count} ordered candidate slides.")
+    print(f"Ensured 9 pt speaker notes on every slide; added {blank_notes_added} blank notes page(s).")
     print(f"Output map: {args.map_output}")
     print("Candidate only: animation expansion and visual repair are still pending.")
     return 0

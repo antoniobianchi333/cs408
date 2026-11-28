@@ -32,23 +32,25 @@ boundaries.
 ## Batch 1 current state
 
 **Current checkpoint — 2026-11-28:** The same 142-slide native WIP is at the
-project root, revision `To489WEWXyjpnw`. Its Round 34 Google PDF has 142 pages,
+project root, revision `81I4pqOtZCYd2A`. Its Round 34 Google PDF has 142 pages,
 is 5,278,199 bytes, and has SHA256
 `f209ce582c79ec0934992b157639c6ead8b53ff237867988ba5e2641cc5f72aa`. Rounds
 30–34 repaired selected pages in place, and the final page 42 heading was
-compared with its exact Fall reference. The earlier full note readback
-confirmed 273 runs across 76 populated shapes at 8 pt; this session's native
-API response returned 133 populated runs, all explicitly 8 pt. The current
+compared with its exact Fall reference. Round 40 set speaker notes to 9 pt on
+all slides; native readback confirmed 339 runs across 142 slides, including
+whitespace anchors on the 66 previously empty note pages. The current
 Round 39 local 272-slide candidate and map pass package/order checks but remain
 unintegrated. All 52 build-bearing slides are classified: 37 expand into 198
-cumulative states and 15 retain one static state. All 305 populated local
-speaker-note runs read back at 8 pt. Round 39 repairs Fault/Error pages 24, 61,
+cumulative states and 15 retain one static state. The Round 40 package check
+confirmed a 9 pt notes page on every local candidate slide, including 117
+blank-note anchors. Round 39 repairs Fault/Error pages 24, 61,
 and 69 in the local candidate. Full Google review and structural integration
 remain open; Batch 1 is not accepted. See the
 [Round 35 record](../SLIDE_CONVERSION.md#round-35--8-pt-speaker-notes-and-single-state-build-classifications)
 and [Round 39 record](../SLIDE_CONVERSION.md#round-39--source-page-24-and-page-61-repairs).
 The latest notes-free native text comparison corrected 14 provisional WIP
-state matches. The correspondence map now covers all 142 WIP slides, while
+state matches; these are map corrections, not visual repairs. The
+correspondence map now covers all 142 WIP slides, while
 the gap map records 130 remaining rows at 32 insertion anchors. Together they
 cover all 272 candidate rows; native integration is still pending.
 
@@ -107,15 +109,17 @@ Fault/Error divider is at local output page 77; the Google WIP still has it at
 page 63. The page 77 By Row sequence retains both tables as editable and grows
 them in synchrony; local PDF states 1, 2, 5, and 9 were inspected. Linux
 LibreOffice font substitutions limit its use as an acceptance reference.
-The expander applies 8 pt to all copied note text; 305 populated local note
-runs read back at 8 pt. The
+The builder and expander apply 9 pt to every slide's notes. Their shared
+[`speaker_notes.py`](../speaker_notes.py) helper adds an editable notes page
+with a single whitespace run when a slide has no source notes. The
 full WIP has not been replaced by this regenerated candidate and still needs
 structural reconciliation and complete-batch visual review. The full
 expanded deck in Drive is the
 [142-slide WIP Batch 1 deck](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit).
-Native readback confirms 142 ordered slides at revision `To489WEWXyjpnw`. All
-273 note text runs across 76 populated shapes read back at 8 pt; 66 placeholders
-have no text. The
+Native readback confirms 142 ordered slides at revision `81I4pqOtZCYd2A`. All
+339 note text runs on 142 note pages read back at 9 pt; 66 are whitespace
+anchors. This notes-only update did not change visible slide content or order,
+so the Round 34 PDF remains the latest slide export. The
 Round 34 Google PDF has 142 pages, is 5,278,199 bytes, and has SHA256
 `f209ce582c79ec0934992b157639c6ead8b53ff237867988ba5e2641cc5f72aa`. Rounds
 30–34 repaired selected pages, including page 42 after the final heading edit;

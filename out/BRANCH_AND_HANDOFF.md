@@ -57,9 +57,11 @@ of every large source or processed slide binary. Add and keep current:
 - Small representative evidence only when the result cannot be reconstructed
   from the source and the script. Prefer a concise report or crop over a full
   render set.
-- Apply the user's global note-typography rule in every batch: set all
-  populated speaker-note text to 8 pt, preserve its other content and styles,
-  and confirm the size by native readback. Empty placeholders stay empty.
+- Apply the user's global note-typography rule in every batch: set speaker
+  notes to 9 pt on every slide, including slides without authored notes.
+  Preserve existing note content. Give an empty notes body an editable
+  ordinary-space run styled at 9 pt, then confirm by native text readback.
+  Never inspect notes visually.
 - Source material required to reproduce the work when it is not already
   available from the chosen base branch or another documented authoritative
   source.
@@ -120,15 +122,14 @@ be able to:
    shared Drive root; inspect the current
    [Batch 1 diagnostic](combined/final-batches/batch-01-diagnostic.md) and
    [PLAN.md](PLAN.md) before continuing. The latest verified native revision
-   is `To489WEWXyjpnw`; its Round 34 Google PDF has 142 pages, is 5,278,199
+   is `81I4pqOtZCYd2A`; its Round 34 Google PDF has 142 pages, is 5,278,199
    bytes, and has SHA256
    `f209ce582c79ec0934992b157639c6ead8b53ff237867988ba5e2641cc5f72aa`.
    Rounds 30–34 repaired selected pages in the same WIP; the final page 42
-   heading was compared with the exact Fall source. The earlier full native
-   note readback recorded 273 runs across 76 populated speaker-note shapes at
-   8 pt; 66 placeholders have no text. This session's native API response
-   returned 133 populated note runs, all explicitly 8 pt. All 52 build
-   dispositions are complete: 37 source slides expand into 198 states and 15
+   heading was compared with the exact Fall source. Round 40 updated all 142
+   slides' speaker notes to 9 pt; native readback confirmed 339 runs at 9 pt,
+   including a whitespace run on each of the 66 formerly empty note pages. All
+   52 build dispositions are complete: 37 source slides expand into 198 states and 15
    remain single static slides. Round 39 added editable local repairs for
    Fault/Error PDF pages 24, 61, and 69. Full Google review and structural
    integration remain open.
@@ -148,13 +149,17 @@ be able to:
    build dispositions are classified: 37 expansions produce 198 cumulative
    states, and 15 retain a single static slide. The editable Fault/Error page
    77 tables grow through nine synchronized row states. All 305 populated
-   local note runs read back at 8 pt. The candidate is not yet integrated into
-   the WIP. See the diagnostic and Round 39 runbook for current evidence and
+   local note runs in the original Round 39 snapshot are 8 pt. The Round 40
+   package check copied this candidate and confirmed that all 272 slides have
+   a notes page with 9 pt text, including 117 blank-note anchors. The candidate is not yet integrated
+   into the WIP. See the diagnostic and Round 40 runbook for current evidence and
    limitations. The durable map is
    [`batch-01-round39-expanded-map.csv`](combined/final-batches/batch-01-round39-expanded-map.csv).
    The notes-free native-text reconciliation now maps all 142 WIP slides to
    candidate rows and records the remaining 130 rows at 32 insertion anchors.
-   It corrected 14 provisional state matches. See the tracked
+   It corrected 14 provisional state matches; these are map corrections, not
+   visual repairs. A small API pilot verified duplicate, child-ID mapping,
+   delete, and position operations for state insertion. See the tracked
    [correspondence map](combined/final-batches/batch-01-wip-round39-correspondence.csv),
    [insertion-gap map](combined/final-batches/batch-01-round39-wip-expansion-gaps.csv),
    and [reconciliation script](combined/reconcile_batch01_wip_candidate.py).
@@ -168,8 +173,11 @@ be able to:
    browser route; never split a source deck/topic or use a shell downloader.
 9. Maintain the single editable Google Doc `STATUS` in the CS 408 project
    folder root, above `Pilots`. Refresh it about hourly and after major
-   milestones. Use the order documented in [`PLAN.md`](PLAN.md#required-live-status-document):
-   pending permissions, percentages from [`codex_usage.py`](../codex_usage.py),
+   milestones. Before requesting any permission, first try to update the same
+   Doc with the exact blocked action and scope; if the write is blocked, use
+   the platform's real approval flow. Use the order documented in
+   [`PLAN.md`](PLAN.md#required-live-status-document): approvals needed,
+   percentages from [`codex_usage.py`](../codex_usage.py),
    current and near-term work, complete `MANUALLYCONVERT.md`, then complete
    `PLAN.md`. Read the current sources before each update and keep the verified
    document link in [`README.md`](README.md). The current document is

@@ -425,13 +425,12 @@ The PDF retains its original page dimensions and vector text where available.
 The source-selection gate and 16 conceptual boundaries are complete. Batch 1
 is active and not accepted. Its full native WIP is the
 [142-slide Google deck](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit)
-at the shared Drive root; current native revision `To489WEWXyjpnw`. The latest
+at the shared Drive root; current native revision `81I4pqOtZCYd2A`. The latest
 Google export is the Round 34 PDF with 142 pages, 5,278,199 bytes, and SHA256
 `f209ce582c79ec0934992b157639c6ead8b53ff237867988ba5e2641cc5f72aa`. Rounds
-29–34 repaired selected pages in that same WIP. The earlier full native note
-readback recorded 273 runs across 76 populated shapes at 8 pt; this session's
-native API response returned 133 populated runs and all were explicitly 8 pt.
-The local candidate has 305 populated note runs, all 8 pt. Full-size Google
+29–34 repaired selected pages in that same WIP. Round 40 set all speaker notes
+to 9 pt; native readback confirmed 339 runs across all 142 slides, including
+whitespace anchors on the 66 formerly empty note pages. Full-size Google
 review and structural reconciliation remain open. All 52 build dispositions
 are complete: 37 source slides expand into 198 cumulative states and 15 remain
 single static slides. Do not repeat content selection or start Batch 2 early.
@@ -453,14 +452,22 @@ and 224–225), retaining the page 24 title and page 61 text as editable. The
 page 77 progression keeps both tables editable. Linux LibreOffice substitutes
 fonts, so use Google rendering for font-sensitive acceptance. Round 28's
 eight-slide native pilot verified the page 2–3 and page 27 states against
-exact Fall PDFs. This local candidate is not integrated into the Drive WIP. The user set
+exact Fall PDFs. The Round 40 package check added 117 blank-note anchors to a
+copy and confirmed 272 note pages at 9 pt without changing the slide map or
+order. The tracked [speaker-note helper](speaker_notes.py) is used by the
+batch builder and expander. This local candidate is not integrated into the
+Drive WIP. The user set
 the Google Drive plugin to “Allow all tools”; no approval is pending. Project
 operations remain limited to the CS 408 folder.
 
 The notes-free native text readback has now been reconciled with the candidate:
 all 142 existing WIP slides map in order, and 130 candidate rows remain at 32
 insertion anchors. The reconciler corrected 14 provisional build-state
-matches; see the correspondence and insertion-gap maps in
+matches; these are map alignments, not visual repairs. A small Slides API pilot
+verified duplicate with child-ID mapping, delete, and position operations; it
+did not modify the full WIP. The nine-slide test deck is
+[in Drive Pilots](https://docs.google.com/presentation/d/1qz2QdqzzT0m5tlSm1iS2LhOUHAKenZ0UonmSPU9z7R0/edit).
+See the correspondence and insertion-gap maps in
 [final-batches/](final-batches/) and
 [reconcile_batch01_wip_candidate.py](reconcile_batch01_wip_candidate.py).
 

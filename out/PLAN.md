@@ -3,7 +3,7 @@
 **Updated:** 2026-11-28
 **Status:** Batch 1 remains active and unaccepted. The existing native Google
 Slides WIP remains 142 ordered slides in the shared project root. Its latest
-verified native revision is `To489WEWXyjpnw`; the latest Google PDF is the
+verified native revision is `81I4pqOtZCYd2A`; the latest Google PDF is the
 Round 34 export with 142 pages, 5,278,199 bytes, and SHA256
 `f209ce582c79ec0934992b157639c6ead8b53ff237867988ba5e2641cc5f72aa`. The
 Round 39 272-slide local candidate has not been integrated into that same WIP.
@@ -34,14 +34,28 @@ candidate rows at 32 WIP anchors. Together they cover all 272 candidate rows.
 A notes-free native text readback and the tracked
 [reconciler](combined/reconcile_batch01_wip_candidate.py) corrected 14
 provisional build-state matches. These maps now define the structural
-integration plan; native insertion is still open.
-The local candidate's 305 populated note runs are 8 pt; the builder and
-expander set copied notes to 8 pt. This session's native WIP readback returned
-133 populated note runs, all explicitly 8 pt; the earlier full readback
-recorded 273 runs across 76 shapes. Empty placeholders contain no text. Do not
-inspect notes visually. The user-owned course schedule remains output page 26
-in the current Google WIP and output page 29 in the Round 39 local map; do not
-edit it.
+integration plan; native insertion is still open. The 14 corrections are
+source/build map alignments, not visual repairs; the full-page repair count is
+still unknown.
+
+Round 40 set the existing WIP's speaker-note text to 9 pt on all 142 slides.
+Native readback confirmed 339 runs at 9 pt, including an ordinary-space run
+on each of the 66 previously empty notes pages. The notes-only write changed
+the revision to `81I4pqOtZCYd2A` without changing visible slide content or
+order, so the Round 34 PDF remains the latest slide export. The tracked
+[`speaker_notes.py`](combined/speaker_notes.py) helper and both local builders
+now add a 9 pt notes page to every slide, including slides without authored
+notes. Do not inspect notes visually. The 272-slide package check confirmed
+272 notes pages and 117 whitespace anchors; the map and slide order remain
+unchanged. The user-owned course schedule remains output page 26 in the current
+Google WIP and output page 29 in the local map; do not edit it.
+
+Round 40's small API pilot verified that `duplicateObject` with child-ID
+mapping, `deleteObject`, and `updateSlidesPosition` can insert a state in the
+correct order. This is pilot evidence only; full integration remains pending.
+No current Drive or LibreOffice approval is needed. The latest
+`codex_usage.py read` attempt failed because the child Codex CLI exited while
+loading; usage remains unavailable until the helper returns fresh data.
 
 Rounds 30–34 repaired and checked selected WIP pages in place, including
 pages 42–50, 64, 70, 87–90, 123–125, 132, and 139. The Round 28 eight-slide
@@ -50,7 +64,9 @@ page 2–3 and page 27 states. See the [Round 39 update](combined/SLIDE_CONVERSI
 
 The user set the Google Drive plugin to “Allow all tools”; no approval is
 pending, and project Drive operations remain limited to the CS 408 folder.
-Session-wide `libreoffice --headless` authorization is active.
+Session-wide `libreoffice --headless` authorization is active. Before any
+future permission request, first attempt to update `STATUS` with the exact
+action and scope; only use the platform's actual approval flow if blocked.
 
 The two generated source-deck dividers initially imported blank. The local
 builder's editable text boxes lacked explicit DrawingML rectangle geometry;
@@ -69,12 +85,11 @@ size, alignment, and row heights survive a fresh PPTX import. The title face
 maps to Arial on that import, so the full WIP keeps a native Source Sans Pro
 repair. See [Round 25](combined/SLIDE_CONVERSION.md#round-25--batch-1-course-grading-table-typography).
 
-**Speaker notes:** set all existing speaker-note text to 8 pt. Preserve the
-notes' wording and other properties. The local batch builder sets copied note
-runs and paragraph defaults to 8 pt before import. Read back the native Slides
-deck and confirm every populated note text run is 8 pt. Empty placeholders
-remain empty because they contain no text. No separate visual note review is
-required.
+**Speaker notes:** set notes to 9 pt on every slide, including slides without
+authored notes. Preserve existing note wording and other properties. The
+builder creates an editable notes page with a single ordinary-space run on an
+empty body and styles every note run at 9 pt. Confirm every slide by native
+text-size readback; do not inspect notes visually.
 
 ### Historical build and repair checkpoints
 
@@ -215,7 +230,10 @@ update must put these items in order: permission approvals needed (or none
 pending), the current 5-hour and weekly usage percentages from
 `codex_usage.py`, current work and near-term plan, the full contents of
 `MANUALLYCONVERT.md`, and the full contents of this plan. The status Doc
-belongs in the project root and is not a pilot artifact.
+belongs in the project root and is not a pilot artifact. Before any future
+permission request, first try to update this Doc with the exact blocked action
+and scope. If that write is itself blocked, use the platform approval flow;
+do not send a substitute chat approval request.
 
 **Working branch:** `spring+2027+bianchi`, based on the newest available
 course branch, `others/fall+2026` at `900304aa` (2026-11-15). Its selected
@@ -264,10 +282,11 @@ batch size, API behavior, and review effort become measurable.
   insets before reducing font size. Keep an image fallback limited to the
   smallest element that remains unreliable; whole-slide images are a last
   resort.
-- Set all existing speaker-note text to 8 pt in every batch. Preserve note
-  wording and other properties. The batch builder sets copied notes before
-  import; confirm every populated text run by native readback. Empty
-  placeholders have no text and need no visual review.
+- Set speaker-note text to 9 pt on every slide, including slides without
+  authored notes. Preserve note wording. The batch builder creates editable
+  notes pages and gives each empty body a single ordinary-space run styled to
+  9 pt. Confirm every slide by native text-size readback; do not inspect notes
+  visually.
 - **Repair route:** build reproducible source repairs in the local PPTX, then
   import and verify the Google PDF. Once the full WIP is uploaded, make
   confirmed visual-only fixes in that same native deck to avoid unnecessary
@@ -410,7 +429,7 @@ behavior and for full-deck visual review.
 | 8 | **Complete 2026-11-25 (older-topic import pilot).** Import the complete archived concurrency-testing lab introduction, map it, and compare every Google-rendered page with the PPTX source. | 45–90 min active · medium | Complete: 28 ordered slides and 28 Google PDF pages; all pages visually reviewed against the source's local diagnostic PDF. No layout repair needed. The source has no notes or timed animation. See [Round 14](combined/SLIDE_CONVERSION.md#round-14--older-concurrency-testing-lab-introduction). |
 | 9 | **Complete 2026-11-26.** Review all 38 pages of the Round 16 Google export against the current Keynote-derived deck and September PDF where applicable; repair verified defects. | Complete · 0 min remaining | All 38 map rows have close review. Repairs cover slide 1's banner, slide 2's empty bullets and line fit, diagram regions on slides 4–5, agenda bullets on 7 and 38, and the blank code row on 25. Google shows `3.` on the restored blank row; source PDF leaves it unnumbered. The audit passes page order/count, requested text, and slide 6's unchanged XML/pixel control. See [Round 16](combined/SLIDE_CONVERSION.md#round-16--test-anatomy-repairs-and-google-review). |
 | 10 | **Complete 2026-11-26.** Set the 16 conceptual boundaries from the closed selection audit and Fall syllabus. | Complete · 0 min remaining | [BATCH_BOUNDARIES.md](combined/BATCH_BOUNDARIES.md) records the ordered groups, complete source topics, Week 12 Midterm 2 review and Week 15 Floyd/Dafny source gaps, and six older-only units. Confirm those source gaps before the affected batches; do not substitute an unrelated topic. Every final batch gets a full-slide, solid pale-yellow (`#FFF2CC`) editable divider before each original deck. Center the exact filename in 24 pt bold Arial and the following topic in 28 pt regular Arial; map each divider separately. |
-| 11 | **In progress.** Complete Batch 1 end to end: inspect every source/build candidate, finalize the map, expand meaningful states, repair, assemble, iteratively fix the full Google deck, export its PDF, inspect every page, and document acceptance. | Remaining estimate 4–7 working days · low | All 52 build-bearing slides are classified: 37 expand into 198 cumulative states and 15 are single static slides. The Round 39 local candidate has 272 ordered slides and map rows, passes ZIP/order checks, and is not integrated into the 142-slide Drive WIP. Its PPTX is 41,741,711 bytes (SHA256 `3fc340887af03f12bd5669a4dbfe5453f5e4ea06714121e48c376df56f96c164`); its 272-page local PDF is 5,228,469 bytes (SHA256 `86b78b494deac683ab634a181623566c16b373859d1ef00da044b716e145cb53`). The Round 39 map is [batch-01-round39-expanded-map.csv](combined/final-batches/batch-01-round39-expanded-map.csv). The [WIP correspondence map](combined/final-batches/batch-01-wip-round39-correspondence.csv) maps all 142 existing slides in order; the [insertion-gap map](combined/final-batches/batch-01-round39-wip-expansion-gaps.csv) records 130 candidate rows at 32 anchors, together covering all 272 rows. The [notes-free text reconciler](combined/reconcile_batch01_wip_candidate.py) corrected 14 provisional state matches; next, verify duplicate-and-edit requests in a small Pilot, then integrate mapped states into this same WIP. The candidate's 305 populated note runs are 8 pt; native WIP readback found only 8 pt runs and no notes need visual inspection. Fault/Error PDF page 24 (output 130) now has a source-matched image region and editable title; page 61 (output 202) has the exact Fall wording and fitted editable text; page 69 (outputs 224–225) is repaired through its four states. Full-page source review and structural integration remain open. The user owns the current WIP schedule slide at page 26; do not edit it. Do not start Batch 2 until every gate passes. |
+| 11 | **In progress.** Complete Batch 1 end to end: inspect every source/build candidate, finalize the map, expand meaningful states, repair, assemble, iteratively fix the full Google deck, export its PDF, inspect every page, and document acceptance. | Remaining estimate 4–7 working days · low | All 52 build-bearing slides are classified: 37 expand into 198 cumulative states and 15 are single static slides. The Round 39 local candidate has 272 ordered slides and map rows, passes ZIP/order checks, and is not integrated into the 142-slide Drive WIP. Its PPTX is 41,741,711 bytes (SHA256 `3fc340887af03f12bd5669a4dbfe5453f5e4ea06714121e48c376df56f96c164`); its 272-page local PDF is 5,228,469 bytes (SHA256 `86b78b494deac683ab634a181623566c16b373859d1ef00da044b716e145cb53`). The Round 39 map is [batch-01-round39-expanded-map.csv](combined/final-batches/batch-01-round39-expanded-map.csv). The [WIP correspondence map](combined/final-batches/batch-01-wip-round39-correspondence.csv) maps all 142 existing slides in order; the [insertion-gap map](combined/final-batches/batch-01-round39-wip-expansion-gaps.csv) records 130 candidate rows at 32 anchors, together covering all 272 rows. The [notes-free text reconciler](combined/reconcile_batch01_wip_candidate.py) corrected 14 provisional state matches; those were map fixes, not visual repairs. Round 40's API pilot proved the duplicate/map/delete/position sequence, so next integrate the 130 mapped rows into this same WIP. All 142 native slides now have 9 pt speaker notes; readback confirmed 339 runs at 9 pt, including 66 whitespace anchors for formerly empty notes. The local candidate builder and expander now ensure a notes page and 9 pt run for every slide; package validation confirmed 272 notes pages and 117 blank anchors. Fault/Error PDF page 24 (output 130) now has a source-matched image region and editable title; page 61 (output 202) has the exact Fall wording and fitted editable text; page 69 (outputs 224–225) is repaired through its four states. Full-page source review and structural integration remain open. The user owns the current WIP schedule slide at page 26; do not edit it. Do not start Batch 2 until every gate passes. |
 | 12 | Complete Batches 2–16 in order, repeating the full Batch 1 workflow; start each only after the previous batch is accepted. | Initial estimate 1–3 working days per batch (15–45 days total) · low; recalibrate after Batch 1 | All 16 final decks are directly in the shared Drive root (above `Pilots`), with complete maps, native readbacks, reviewed Google PDFs, and current documentation. |
 | 13 | Use the no-curl large-PDF fallback only if a real batch export exceeds the direct response limit. | Conditional: 30–90 min if needed | Try the documented `files.download` LRO or authenticated browser route for that batch. Do not run a standalone size test and do not split a whole deck/topic just to fit the limit. |
 
@@ -671,21 +690,20 @@ behavior and for full-deck visual review.
 ## Next action
 
 1. Keep the existing editable `STATUS` Google Doc in the project root current.
-   Refresh it after major milestones and about hourly, including the latest
-   usage percentages, current work/near-term plan, complete manual-conversion
-   list, and complete PLAN.
-2. Regenerate missing ignored build artifacts from tracked sources and review
-   every local candidate page against the exact Fall source PDF where
-   available. Review the new Introduction page 26 states (outputs 64–72), and
-   the editable fixes on Introduction page 26 and Fault/Error pages 12 and 69.
-   Include the remaining previously flagged pages and keep the schedule slide
-   untouched.
-3. Reconcile the 272-slide candidate and its complete source/build map into
-   the same native WIP after local review. Read back native slide order and
-   relevant objects, export a fresh Google PDF, and inspect every page against
-   the exact-revision Fall PDFs. Apply the agreed 8 pt note rule and verify by
-   text readback only; do not inspect notes visually.
-4. Record repairs, exceptions, source/build mappings, native deck link, PDF
+   Before any permission request, try to update it with the exact action and
+   scope. Refresh after major milestones and about hourly, including current
+   usage percentages, current work/near-term plan, the full manual-conversion
+   list, and the full PLAN.
+2. Integrate the 130 candidate rows in the gap map at their 32 insertion
+   anchors into the same native WIP. Use the verified duplicate/child-ID/delete
+   and position API sequence; preserve whole source/build order and leave the
+   user-owned schedule slide at WIP page 26 untouched.
+3. Read back all 272 native slide positions, relevant objects, map references,
+   and 9 pt speaker-note text. Export one fresh Google PDF and inspect every
+   page against the exact-revision Fall PDFs. Do not inspect notes visually.
+4. Repair visual differences found in that review in the same WIP, then export
+   again after each repair set and verify affected pages.
+5. Record repairs, exceptions, source/build mappings, native deck link, PDF
    evidence, and acceptance date. Rename the WIP as accepted only after every
    check passes; begin Batch 2 only after that gate. Keep `Pilots` for small
    test sets.

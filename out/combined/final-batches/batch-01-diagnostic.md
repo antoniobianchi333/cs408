@@ -24,17 +24,16 @@ compared with exact Fall Introduction PDF page 16 in the Round 34 export. The
 Google PDF review has not yet counted all remaining repairs, so no current
 percentage or remaining-defect count is reported; the flagged pages are a
 review queue. The local 272-slide candidate remains unintegrated. The 142-slide
-WIP is at native revision `To489WEWXyjpnw`; the Round 34 PDF remains the latest
-slide export. All 273 note text runs across 76 populated shapes read back at 8
-pt; 66 placeholders contain no text. This session's native API response
-returned 133 populated text runs, all explicitly 8 pt; the earlier full
-readback recorded 273. The current local candidate's 305
-populated note runs also read back at 8 pt; the builder and expander set copied
-notes to 8 pt. Do not visually inspect notes.
+WIP is at native revision `81I4pqOtZCYd2A`; the Round 34 PDF remains the latest
+slide export. Round 40's native notes readback confirmed 339 runs at 9 pt on
+all 142 slides. The 66 formerly empty note pages now each contain one
+ordinary-space run. The Round 40 local package check confirmed 272 notes pages
+at 9 pt, including 117 blank-note anchors; the builder and expander create
+these automatically. Do not visually inspect notes.
 
 The same 142-slide WIP remains in the shared Drive root as
 [CS408 Batch 1 - WIP - needs fixes](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit);
-current native revision `To489WEWXyjpnw`.  Its Round 34 Google PDF has 142
+current native revision `81I4pqOtZCYd2A`. Its Round 34 Google PDF has 142
 pages, is 5,278,199 bytes, and has SHA256
 `f209ce582c79ec0934992b157639c6ead8b53ff237867988ba5e2641cc5f72aa`. Full-size
 page-by-page review and repairs remain open; this export is not acceptance.
@@ -48,17 +47,19 @@ page was inspected against the exact Fall Introduction references. The
 [tracked source/build map](batch-01-round28-google-pilot-map.csv) maps each
 pilot page to its local candidate slide, source page, state, and chunk.
 
-The current local candidate is in ignored
-`out/.build/batch-01/round39-page24-repair/`. It has 272 consecutive map rows,
-272 ordered slide references resolving to existing parts, valid ZIP integrity,
-and 272 PDF pages. Its PPTX is 41,741,711 bytes, SHA256
+The current local slide content is in the ignored Round 39 candidate. Round 40
+copied it to `out/.build/batch-01/round40-notes-9pt/expander-check.pptx` and
+added notes metadata without changing slide content or order. It has 272
+consecutive map rows, 272 ordered slide references resolving to existing
+parts, valid ZIP integrity, and one notes page for every slide. The source
+PPTX is 41,741,711 bytes, SHA256
 `3fc340887af03f12bd5669a4dbfe5453f5e4ea06714121e48c376df56f96c164`; its
 diagnostic PDF is 5,228,469 bytes, SHA256
 `86b78b494deac683ab634a181623566c16b373859d1ef00da044b716e145cb53`. Linux
 font substitutions make that PDF diagnostic only. The source/build map places
 the Fault/Error divider at page 77; the current Google WIP retains its divider
-at page 63 until structural changes are integrated. All 305 populated local
-candidate note runs are 8 pt. The candidate has 198 states across 37 expanded
+at page 63 until structural changes are integrated. The candidate has 198
+states across 37 expanded
 source slides and 15 single-state no-expansion dispositions. Local visual
 review, full WIP integration, and Google acceptance remain open. The user set
 the Google Drive plugin to “Allow
@@ -451,14 +452,23 @@ records for the native Google links and PDF renders.
 
 ## Open questions and acceptance blockers
 
-- Which decoded build chunks change meaningful content and therefore need
-  separate static slides? Fifteen build-bearing slides remain unclassified;
-  the chunk order is available in the sequence CSVs.
+- Build classification is complete: 37 source slides expand into 198
+  cumulative static states and 15 build-bearing slides remain one final static
+  slide. The open structural task is to insert the 130 mapped candidate rows
+  at 32 anchors in the current WIP.
 - Does each current Fall PDF exactly match its `.key` revision? The Introduction
   image discrepancy requires checking the package revision and embedded media.
-- Speaker-note sizing is confirmed for the current native WIP and local
-  candidate: populated text runs read back at 8 pt, with no visual note review.
-  Verify the final Google deck again after structural integration.
+- Speaker-note sizing is confirmed at 9 pt for the current native WIP and local
+  candidate: every slide has a notes body, including a whitespace run on blank
+  notes pages. Verify native text-size metadata again after structural
+  integration; do not inspect notes visually.
+- The Round 40 nine-slide API pilot confirms `duplicateObject` with child ID
+  mapping, `deleteObject`, and `updateSlidesPosition` can add a slide in the
+  required place. Use the existing full WIP for integration; keep the test in
+  Drive `Pilots`.
+- The 14 source/map alignment corrections do not count as visual repairs. A
+  defensible repaired-slide count remains unknown until the full Google PDF is
+  reviewed page by page.
 - Has every Google-exported page been visually reviewed against the exact
   reference? **Partially.** The current full PDF is exported, and contact
   sheets cover all 142 pages. Full-size follow-up on flagged pages and the

@@ -16,6 +16,19 @@ The batch manifest is
 [`../editable-parts-manifest.json`](../editable-parts-manifest.json). Do not
 put a full batch deck in this pilot folder.
 
+## Round 40 API and note-format pilot
+
+The nine-slide [Round 40 API test deck](https://docs.google.com/presentation/d/1qz2QdqzzT0m5tlSm1iS2LhOUHAKenZ0UonmSPU9z7R0/edit)
+is a disposable structural test in Drive `Pilots`, not a second full-batch
+deck. Native readback confirmed a cloned slide was inserted at the requested
+position after `duplicateObject` with an explicit child-object ID map,
+`deleteObject`, and `updateSlidesPosition` succeeded. The pilot also confirmed
+that an empty speaker-notes placeholder needs one ordinary-space run before
+`updateTextStyle` can set its size. All nine pilot slides now have note runs at
+9 pt. Check note text size by metadata only; do not inspect notes visually.
+The runbook records the exact API and package evidence in the
+[Round 40 entry](../SLIDE_CONVERSION.md#round-40--speaker-notes-and-structural-insertion-pilot).
+
 ## Recent Batch 1 verification pilot: Round 28
 
 The small [Round 28 native Google Slides pilot](https://docs.google.com/presentation/d/1yVQs-RXPXoLUeMr8nnDLEsn-9jj6tHp7IW-tjVj_GuQ/edit)

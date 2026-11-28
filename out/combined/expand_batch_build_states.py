@@ -8,7 +8,8 @@ requested paragraph or table-row prefixes and/or removes requested shape IDs.
 A classified `non_expansions` entry annotates the existing map row with its
 final static state and build chunk IDs without duplicating the slide.
 Duplicated slides retain their layout, media relationships, and speaker notes;
-speaker-note text is set to 8 pt for every source and cloned notes part.
+speaker-note text is set to 9 pt for every slide. Slides without a source note
+page receive a blank editable note page with a whitespace run to anchor 9 pt.
 
 This supports paragraph, table-row, object-visibility, and progressive picture
 region states. Pillow is already used by the tracked source-repair scripts.
@@ -39,6 +40,8 @@ from zipfile import ZIP_DEFLATED, ZipFile
 from lxml import etree
 from PIL import Image, ImageDraw
 
+from speaker_notes import ensure_speaker_notes
+
 
 P = "http://schemas.openxmlformats.org/presentationml/2006/main"
 A = "http://schemas.openxmlformats.org/drawingml/2006/main"
@@ -58,7 +61,7 @@ def xml_bytes(root: etree._Element) -> bytes:
 
 
 def set_speaker_notes_font_size(notes_root: etree._Element) -> None:
-    """Set every existing speaker-note text run and paragraph default to 8 pt."""
+    """Set every existing speaker-note text run and paragraph default to 9 pt."""
     property_tags = {
         f"{{{A}}}rPr",
         f"{{{A}}}defRPr",
@@ -66,7 +69,7 @@ def set_speaker_notes_font_size(notes_root: etree._Element) -> None:
     }
     for node in notes_root.iter():
         if node.tag in property_tags:
-            node.set("sz", "800")
+            node.set("sz", "900")
     # Add local run styling when the source relies on a larger notes-master default.
     for tag in ("r", "fld"):
         for run in notes_root.findall(f".//a:{tag}", NS):
@@ -74,7 +77,7 @@ def set_speaker_notes_font_size(notes_root: etree._Element) -> None:
             if run_properties is None:
                 run_properties = etree.Element(f"{{{A}}}rPr")
                 run.insert(0, run_properties)
-            run_properties.set("sz", "800")
+            run_properties.set("sz", "900")
 
 
 def rels_path(part: str) -> str:
@@ -522,6 +525,8 @@ def main() -> int:
             set_speaker_notes_font_size(note_root)
             parts[part_name] = xml_bytes(note_root)
 
+    blank_notes_added = ensure_speaker_notes(parts, size=900)
+
     extra_columns = ["source_keynote_slide_order", "source_build_state", "source_build_chunk_ids"]
     output_columns = map_columns + [c for c in extra_columns if c not in map_columns]
     args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -543,6 +548,7 @@ def main() -> int:
         writer.writeheader()
         writer.writerows(new_rows)
     print(f"Expanded {len(expansions)} source slide(s) to {len(new_rows)} ordered static slides.")
+    print(f"Ensured 9 pt speaker notes on every slide; added {blank_notes_added} blank notes page(s).")
     print(f"PPTX: {args.output}")
     print(f"Map: {args.map_output}")
     return 0
