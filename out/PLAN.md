@@ -15,11 +15,17 @@ map is consecutive; all ordered slide references resolve and ZIP integrity
 passes. The local PDF has 147 pages and is 4,158,723 bytes, SHA256
 `ef72b57542fb5457e387f23082525977d1cf68f2e945abf33d628c41170d9a88`. Linux
 LibreOffice substitutes Source Sans Pro with Liberation Sans, changing some
-line wraps; use a native Google export for acceptance. Google verification of
-the new page 27 and page 2–3 states and the full-page review remain open. The
-existing native WIP has not been structurally changed. The user reports that a
-brief visual check found about 90% of slides looking fine; this is not
-acceptance.
+line wraps. Round 28 imported an 8-slide verification pilot to Drive `Pilots`.
+Its native readback confirmed all eight pages in order with editable text; the
+591,184-byte Google PDF (SHA256
+`9f79d475cfb53ef87443b4b5430140b16abf876997f969bb1ea90f30fdafe397`) was
+inspected page by page against exact Fall Introduction pages 2, 3, and 27.
+The states are mapped in
+[`batch-01-round28-google-pilot-map.csv`](combined/final-batches/batch-01-round28-google-pilot-map.csv)
+and detailed in [Round 28](combined/SLIDE_CONVERSION.md#round-28--batch-1-google-verification-pilot-for-build-states).
+The existing native WIP has not been structurally changed; full-batch repair,
+review, and acceptance remain open. The user reports that a brief visual check
+found about 90% of slides looking fine; this is not acceptance.
 
 The connected Drive account can list the project folder, and the native
 `STATUS` document was created, read, and edited there. The user confirmed that
@@ -49,8 +55,8 @@ The 111-page baseline now has a 147-page partial candidate after nine
 expansions. Introduction PDF pages 2, 3, 4, 6, 12, 15, 17, 18, and 27 have 2,
 3, 11, 7, 2, 9, 6, 2, and 3 cumulative states. The original 37 states across
 pages 4, 6, 12, 15, 17, and 18 passed local and Google PDF review. The new
-states on pages 2–3 and 27 passed local order/content review; Google
-verification remains pending. Page 12's explicit Arial sizes, bullet glyphs, and line breaks
+states on pages 2–3 and 27 passed local review and the Round 28 native Google
+pilot. Page 12's explicit Arial sizes, bullet glyphs, and line breaks
 survived import while remaining editable. Page 18's source article image now
 precedes its editable headline; Google needed a 31 pt text size and a small
 vertical adjustment. Its final line width and baseline closely match the
@@ -369,7 +375,7 @@ behavior and for full-deck visual review.
 | 8 | **Complete 2026-11-25 (older-topic import pilot).** Import the complete archived concurrency-testing lab introduction, map it, and compare every Google-rendered page with the PPTX source. | 45–90 min active · medium | Complete: 28 ordered slides and 28 Google PDF pages; all pages visually reviewed against the source's local diagnostic PDF. No layout repair needed. The source has no notes or timed animation. See [Round 14](combined/SLIDE_CONVERSION.md#round-14--older-concurrency-testing-lab-introduction). |
 | 9 | **Complete 2026-11-26.** Review all 38 pages of the Round 16 Google export against the current Keynote-derived deck and September PDF where applicable; repair verified defects. | Complete · 0 min remaining | All 38 map rows have close review. Repairs cover slide 1's banner, slide 2's empty bullets and line fit, diagram regions on slides 4–5, agenda bullets on 7 and 38, and the blank code row on 25. Google shows `3.` on the restored blank row; source PDF leaves it unnumbered. The audit passes page order/count, requested text, and slide 6's unchanged XML/pixel control. See [Round 16](combined/SLIDE_CONVERSION.md#round-16--test-anatomy-repairs-and-google-review). |
 | 10 | **Complete 2026-11-26.** Set the 16 conceptual boundaries from the closed selection audit and Fall syllabus. | Complete · 0 min remaining | [BATCH_BOUNDARIES.md](combined/BATCH_BOUNDARIES.md) records the ordered groups, complete source topics, Week 12 Midterm 2 review and Week 15 Floyd/Dafny source gaps, and six older-only units. Confirm those source gaps before the affected batches; do not substitute an unrelated topic. Every final batch gets a full-slide, solid pale-yellow (`#FFF2CC`) editable divider before each original deck. Center the exact filename in 24 pt bold Arial and the following topic in 28 pt regular Arial; map each divider separately. |
-| 11 | **In progress.** Complete Batch 1 end to end: inspect every source/build candidate, finalize the map, expand meaningful states, repair, assemble, iteratively fix the full Google deck, export its PDF, inspect every page, and document acceptance. | Remaining estimate 4–7 working days · low | The repaired 111-page baseline now expands to a 147-slide local candidate. Nine source slides contribute 45 cumulative states; the one-chunk All at Once builds on pages 14 and 16 add no slide. Eleven of 52 build-bearing slides are classified and 41 remain. The page 27 states on output pages 62–64 and the five new page 2–3 states passed local review; native Google verification is pending. Source Sans Pro substitution changes some local line wraps. The existing 142-slide native WIP remains the live repair surface and was not changed by Round 27. The 37 earlier expanded states passed local and native Google PDF review. Round 25 repaired Course Grading pages 24–25 in the WIP; local source repairs and full-size follow-up remain open on flagged pages. The user owns the schedule slide. Batch 1 is not accepted; do not start Batch 2 until all acceptance checks pass. |
+| 11 | **In progress.** Complete Batch 1 end to end: inspect every source/build candidate, finalize the map, expand meaningful states, repair, assemble, iteratively fix the full Google deck, export its PDF, inspect every page, and document acceptance. | Remaining estimate 4–7 working days · low | The repaired 111-page baseline now expands to a 147-slide local candidate. Nine source slides contribute 45 cumulative states; the one-chunk All at Once builds on pages 14 and 16 add no slide. Eleven of 52 build-bearing slides are classified and 41 remain. Round 28's 8-slide native pilot passed readback and page-by-page Google PDF comparison for the page 2–3 and page 27 builds; all pilot text remains editable. The tracked pilot map and evidence are in the Round 28 runbook entry. The existing 142-slide native WIP remains the live repair surface and was not changed. The 37 earlier expanded states passed local and native Google PDF review. Round 25 repaired Course Grading pages 24–25 in the WIP; local source repairs, full-size follow-up, and full-batch integration remain open. The user owns the schedule slide. Batch 1 is not accepted; do not start Batch 2 until all acceptance checks pass. |
 | 12 | Complete Batches 2–16 in order, repeating the full Batch 1 workflow; start each only after the previous batch is accepted. | Initial estimate 1–3 working days per batch (15–45 days total) · low; recalibrate after Batch 1 | All 16 final decks are directly in the shared Drive root (above `Pilots`), with complete maps, native readbacks, reviewed Google PDFs, and current documentation. |
 | 13 | Use the no-curl large-PDF fallback only if a real batch export exceeds the direct response limit. | Conditional: 30–90 min if needed | Try the documented `files.download` LRO or authenticated browser route for that batch. Do not run a standalone size test and do not split a whole deck/topic just to fit the limit. |
 

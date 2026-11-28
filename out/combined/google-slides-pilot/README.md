@@ -16,6 +16,19 @@ The batch manifest is
 [`../editable-parts-manifest.json`](../editable-parts-manifest.json). Do not
 put a full batch deck in this pilot folder.
 
+## Recent Batch 1 verification pilot: Round 28
+
+The small [Round 28 native Google Slides pilot](https://docs.google.com/presentation/d/1yVQs-RXPXoLUeMr8nnDLEsn-9jj6tHp7IW-tjVj_GuQ/edit)
+checks the five Introduction page 2–3 object states and three page 27
+paragraph states before they are integrated into the full Batch 1 WIP. Native
+readback confirmed eight slides in source/build order with editable text. All
+eight pages of the 591,184-byte Google PDF were reviewed against the exact Fall
+references. The tracked
+[source/build map](../final-batches/batch-01-round28-google-pilot-map.csv) and
+[Round 28 review record](../SLIDE_CONVERSION.md#round-28--batch-1-google-verification-pilot-for-build-states)
+document the evidence. Rebuildable PPTX/PDF/render files remain under ignored
+`out/.build/`.
+
 ## Google Drive organization
 
 The user's shared CS408 folder is

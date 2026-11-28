@@ -126,9 +126,11 @@ be able to:
    147-slide candidate was regenerated in ignored `out/.build/batch-01/` after
    mapping the page 27 three-paragraph build. Eleven of 52 build-bearing slides
    are classified; 41 remain. Its 147-row map, ordered slide relationships,
-   ZIP integrity, and local PDF page count pass. Local pages 62–64 were checked
-   against the exact Fall PDF; Linux font substitution changes some line wraps,
-   and native Google verification of the new page 27 and page 2–3 states remains
+   ZIP integrity, and local PDF page count pass. Round 28's 8-slide native
+   Google pilot verified the page 2–3 and page 27 state order, editable text,
+   and PDF appearance against exact Fall sources. Its map and Google evidence
+   are tracked in the final-batch workspace. The 147-slide local structure is
+   not yet integrated into the 142-slide WIP, and full-deck review remains
    open. See the diagnostic for exact files and limitations.
    Regenerate it if missing.
 7. Resolve missing source references as they affect the active batch; manual

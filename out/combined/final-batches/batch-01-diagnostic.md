@@ -12,10 +12,12 @@ local and native Google review. Round 26's five new states on pages 2–3 passed
 local order and visual inspection against the exact Fall PDF. Round 27 added
 three cumulative paragraph states for Introduction page 27 at local output
 pages 62–64. Its editable bullet, text geometry, and line spacing were repaired
-and checked against the exact source. Linux LibreOffice substitutes Source
-Sans Pro with Liberation Sans, so some local line wraps differ; native Google
-verification for the page 2–3 and page 27 states remains pending. Page 14's
-one-step acknowledgments text build remains a single static slide. Forty-one
+and checked against the exact source. Round 28 verified the five page 2–3
+states and three page 27 states in an 8-slide native Google pilot. Native
+readback confirmed the ordered editable text, and all eight Google PDF pages
+were visually checked against the exact Fall references. The full local
+candidate remains unintegrated into the 142-slide WIP. Page 14's one-step
+acknowledgments text build remains a single static slide. Forty-one
 build-bearing slides still need classification.
 
 The existing 142-slide WIP remains in the shared Drive root as
@@ -24,6 +26,15 @@ native outline readback confirmed 142 ordered slides. Its latest Google PDF
 has 142 pages and is 5,233,045 bytes. Contact sheets cover every WIP page;
 full-size exception review and repairs remain open. The user reports a brief
 visual check found about 90% looking fine, which is not acceptance.
+
+The separate [Round 28 build-state pilot](https://docs.google.com/presentation/d/1yVQs-RXPXoLUeMr8nnDLEsn-9jj6tHp7IW-tjVj_GuQ/edit)
+contains eight small test slides, not a second full-batch deck. Its native
+readback confirmed p1–p8 in order with editable text. The Google PDF has eight
+pages, is 591,184 bytes, and has SHA256
+`9f79d475cfb53ef87443b4b5430140b16abf876997f969bb1ea90f30fdafe397`; every
+page was inspected against the exact Fall Introduction references. The
+[tracked source/build map](batch-01-round28-google-pilot-map.csv) maps each
+pilot page to its local candidate slide, source page, state, and chunk.
 
 The current local candidate has 147 consecutive map rows, 147 ordered slide
 references resolving to existing parts, and valid ZIP integrity. Its diagnostic

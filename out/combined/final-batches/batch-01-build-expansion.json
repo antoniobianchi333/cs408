@@ -1,6 +1,6 @@
 {
   "batch": 1,
-  "status": "Eleven of 52 build-bearing slides are structurally classified: nine expanded Introduction slides account for 45 cumulative static states, while two one-chunk All at Once builds retain a single final static slide. The local candidate now has 147 ordered slides. Introduction page 27's three paragraph states are mapped to local output pages 62–64; cumulative order, editable text, repaired bullet glyph and indentation, and source-based geometry were checked against the exact Fall PDF. LibreOffice substitutes Source Sans Pro with Liberation Sans and changes some line wraps, so Google-native verification is still pending. The five new states on Introduction pages 2–3 also passed local review, with native Google verification pending. The remaining 41 build-bearing slides need classification; full-batch integration and review remain open.",
+  "status": "Eleven of 52 build-bearing slides are structurally classified: nine expanded Introduction slides account for 45 cumulative static states, while two one-chunk All at Once builds retain a single final static slide. The local candidate now has 147 ordered slides. The five states on Introduction PDF pages 2–3 and the three paragraph states on page 27 passed local review and native Google pilot readback/PDF inspection against their exact Fall references. The page 27 states retain editable 40 pt heading and 36 pt body text; Google rendering matches the source line progression. The Round 28 pilot evidence and page map are recorded in the conversion runbook and final-batch workspace. Full-batch integration and review remain open; 41 build-bearing slides still need classification.",
   "policy": "Each selected state is cumulative and stays adjacent to its source slide within the original deck. Do not expand a decorative-only effect. Do not infer instructional meaning from chunk count alone.",
   "non_expansions": [
     {
@@ -42,7 +42,9 @@
       "converted_pptx_slide": 3,
       "decision": "Two ordered All at Once builds reveal the editable WHERE value/label, followed by the WHEN value/label. Preserve two cumulative states; the second state retains the Fall 2026 repair in place of the stale seasonal phrase.",
       "build_status": "Two cumulative object states: WHERE details first, then WHEN details.",
-      "review_status": "Local output pages 3–4 were inspected against the exact Fall PDF page 2. State 1 reveals the WHERE label/value; state 2 adds WHEN and retains the Fall-corrected value. Editable text, order, and local layout were checked. Native Google readback and PDF review remain pending.",
+      "review_status": "Local output pages 3–4 were inspected against the exact Fall PDF page 2. Round 28 pilot slides 1–2 preserve the WHERE-then-WHEN reveal as editable text; native readback and both Google PDF pages were reviewed against the reference. The final state uses the Fall-corrected value. Full-batch integration remains pending.",
+      "google_pilot_url": "https://docs.google.com/presentation/d/1yVQs-RXPXoLUeMr8nnDLEsn-9jj6tHp7IW-tjVj_GuQ/edit",
+      "google_pdf_review": "Round 28 Google PDF pages 1–2 were visually inspected against exact Fall Introduction PDF page 2. The eight-page export is 591,184 bytes, SHA256 9f79d475cfb53ef87443b4b5430140b16abf876997f969bb1ea90f30fdafe397; local evidence: out/.build/batch-01/pilots/round27-build-states/google-render/presentation.pdf.",
       "states": [
         {
           "label": "1/2",
@@ -73,7 +75,9 @@
       "converted_pptx_slide": 4,
       "decision": "Three ordered All at Once builds add the lecture block, the attendance/course-material note, and then the communication block. Preserve the three cumulative object states while leaving the static title and textbook block visible throughout.",
       "build_status": "Three cumulative object states: lectures; attendance/course-material note; communication details.",
-      "review_status": "Local output pages 5–7 were inspected against the exact Fall PDF page 3. The lecture block appears first, then the attendance/course-material note, then communication details; the title and textbook block remain visible throughout. Editable objects, order, and local layout were checked. Native Google readback and PDF review remain pending.",
+      "review_status": "Local output pages 5–7 were inspected against the exact Fall PDF page 3. Round 28 pilot slides 3–5 preserve the cumulative sequence: lectures, attendance/course-material note, then communication details. Native readback confirms editable text and the Google PDF pages were visually inspected against the reference. Full-batch integration remains pending.",
+      "google_pilot_url": "https://docs.google.com/presentation/d/1yVQs-RXPXoLUeMr8nnDLEsn-9jj6tHp7IW-tjVj_GuQ/edit",
+      "google_pdf_review": "Round 28 Google PDF pages 3–5 were visually inspected against exact Fall Introduction PDF page 3. The eight-page export is 591,184 bytes, SHA256 9f79d475cfb53ef87443b4b5430140b16abf876997f969bb1ea90f30fdafe397; local evidence: out/.build/batch-01/pilots/round27-build-states/google-render/presentation.pdf.",
       "states": [
         {
           "label": "1/3",
@@ -613,7 +617,9 @@
       "converted_pptx_slide": 30,
       "decision": "The active Keynote slide has one By Paragraph build with three ordered chunks matching the three editable Learning Objective 1 paragraphs. Preserve the instructional reveal as three cumulative static states, following the verified paragraph-state method.",
       "build_status": "Three cumulative paragraph states; each state reveals the next objective paragraph.",
-      "review_status": "Local output pages 62–64 reveal the three editable paragraphs cumulatively in chunk order 1574228, 1574267, and 1574300. The exact Fall PDF page 27 was checked: the missing bullet glyph was repaired, heading/body sizes and geometry were set to the source hierarchy, text remains editable, and the 45 pt line spacing matches the source rhythm. LibreOffice substitutes Source Sans Pro with Liberation Sans, so some paragraphs wrap to four lines locally instead of the three source lines; verify the native Google render before acceptance.",
+      "review_status": "Local output pages 62–64 reveal the three editable paragraphs cumulatively in chunk order 1574228, 1574267, and 1574300. The exact Fall PDF page 27 was checked and the bullet, heading/body geometry, and 45 pt line spacing were repaired. Round 28 pilot slides 6–8 passed native readback and Google PDF review against the source; all three paragraphs remain editable and the cumulative order and line progression match. Full-batch integration remains pending.",
+      "google_pilot_url": "https://docs.google.com/presentation/d/1yVQs-RXPXoLUeMr8nnDLEsn-9jj6tHp7IW-tjVj_GuQ/edit",
+      "google_pdf_review": "Round 28 Google PDF pages 6–8 were visually inspected against exact Fall Introduction PDF page 27. Native Slides readback confirms the editable 40 pt heading and 36 pt body text. The eight-page export is 591,184 bytes, SHA256 9f79d475cfb53ef87443b4b5430140b16abf876997f969bb1ea90f30fdafe397; local evidence: out/.build/batch-01/pilots/round27-build-states/google-render/presentation.pdf.",
       "states": [
         {
           "label": "1/3",

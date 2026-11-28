@@ -6,12 +6,14 @@ not accepted: its 142-slide WIP is being repaired and reviewed in Google Drive.
 The 147-slide local candidate has nine expanded build sequences and passed
 package/order checks; eleven of 52 build-bearing slides are classified and 41
 remain. Introduction page 27's three editable states are locally checked
-against the Fall PDF; native Google verification remains open. The local
-candidate remains ignored scratch and has not replaced the Drive WIP.
+against the Fall PDF and passed the Round 28 native Google pilot review. The
+local candidate remains ignored scratch and has not replaced the Drive WIP.
+The 8-slide pilot verified the page 2–3 and page 27 states; the full 147-slide
+structure still needs integration into the WIP.
 The current work log and open pages are in the
 [Batch 1 diagnostic](final-batches/batch-01-diagnostic.md); the conversion
-process and latest Round 24–27 findings are in the
-[runbook](SLIDE_CONVERSION.md#round-27--batch-1-introduction-learning-objective-paragraph-build).
+process and latest Round 24–28 findings are in the
+[runbook](SLIDE_CONVERSION.md#round-28--batch-1-google-verification-pilot-for-build-states).
 Do not start Batch 2 until Batch 1 passes its
 acceptance checks.
 

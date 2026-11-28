@@ -45,9 +45,10 @@ paragraph states; page 12 has a two-state AI-policy subtitle/list build; page
 page 17 has a six-state banner-first, five-question build; page 18 has a two-state
 article-image then editable-headline build; page 27 has three cumulative
 paragraph states. The original 37 states across six slides passed local review,
-native Google readback, and page-by-page PDF review. The states on pages 2–3
-and 27 passed local review; native Google verification remains pending. The
-other 41 build-bearing slides need classification.
+native Google readback, and page-by-page PDF review. The five states on pages
+2–3 and three states on page 27 passed the Round 28 native Google pilot
+readback and page-by-page PDF review. The other 41 build-bearing slides need
+classification.
 
 - [Batch 1 diagnostic and visual findings](batch-01-diagnostic.md)
 - [Introduction reference-page candidates](batch-01-introduction-provisional-page-map.csv)
@@ -60,6 +61,7 @@ other 41 build-bearing slides need classification.
 - [Fault/Error Keynote slide/build sequence](batch-01-fault-error-build-sequences.csv)
 - [Batch 1 input manifest](batch-01-inputs.json)
 - [Build-state decisions and chunk map](batch-01-build-expansion.json)
+- [Round 28 native Google pilot source/build map](batch-01-round28-google-pilot-map.csv)
 
 The corresponding PDFs are `slides/f26-pdfs/01-408st-introduction.pdf` and
 `slides/f26-pdfs/02-408st-fault-error-failure.pdf`. Diagnostic PPTX files,
@@ -87,8 +89,9 @@ parts; ZIP integrity passes. Its local diagnostic PDF has 147 pages and is
 62–64 were inspected against the exact Fall Introduction PDF. The missing bullet
 glyph, heading/body sizes, indentation, line spacing, and editable cumulative
 progression were checked. Linux LibreOffice substitutes Source Sans Pro with
-Liberation Sans and changes some line wraps, so the local PDF is diagnostic only;
-native Google verification remains pending.
+Liberation Sans and changes some line wraps. The Round 28 native Google PDF
+showed the expected three-paragraph progression with editable 36 pt body text.
+The full WIP still needs the structural update and complete-batch visual review.
 The Google WIP has not been replaced by this regenerated candidate. The full
 expanded deck in Drive is the
 [142-slide WIP Batch 1 deck](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit).

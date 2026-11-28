@@ -9,9 +9,13 @@ artifact paths in round records may not exist in a fresh checkout.
 Use this guide for the part of the conversion that runs in Google. The
 local PPTX and the page map identify the exact test input. A native Google
 Slides copy and its PDF record what Google imported for that round. The
-Google-import evidence documented here includes Rounds 5–25. Rounds 26–27
-expanded the local Batch 1 candidate; native Google verification of those new
-states is still pending. Round 16's Test Anatomy repair
+Google-import evidence documented here includes Rounds 5–25 and Round 28.
+Rounds 26–27 expanded the local Batch 1 candidate; Round 28 verified the five
+page 2–3 states and three page 27 states in an 8-slide native pilot. Its
+readback and 8-page, 591,184-byte Google PDF review are recorded in the
+[Round 28 runbook entry](SLIDE_CONVERSION.md#round-28--batch-1-google-verification-pilot-for-build-states)
+and [source/build map](final-batches/batch-01-round28-google-pilot-map.csv).
+Round 16's Test Anatomy repair
 pilot is complete: native readback confirms 38 ordered slides, and all 38
 Google PDF pages have close visual review. Its final PDF is 5,101,352 bytes;
 the map, contact sheets, and slide 25 repair comparison are saved with the
@@ -28,11 +32,10 @@ failed. Rounds 17 and 21 verified native `DOT` outline updates on freeform
 banner shapes. Round 21 applied the repair to all six slides in a mixed-build
 pilot; the evidence and limits are recorded below. The current Batch 1 divider
 and grading-table imports are recorded in Rounds 24–25 of the conversion
-runbook. Round 27 added three locally checked editable states for Introduction
-page 27, producing a 147-slide candidate; the earlier page 2–3 states also
-remain locally checked. Google verification of these eight new states is still
-pending. Keep the same 142-slide full-batch WIP in the root and reconcile it
-only after the state map and local repairs are ready.
+runbook. Rounds 26–27 expanded the local candidate with page 2–3 and page 27
+states. Round 28 verified these eight states in a small native pilot; the
+147-slide structure is not yet integrated into the same 142-slide full-batch
+WIP in the project root.
 
 **Connector check before the Round 23 full-deck upload (November 27, 2026):** read-only listing works
 for the exact shared project folder. The folder listing returned its `Pilots`

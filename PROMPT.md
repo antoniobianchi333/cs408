@@ -46,7 +46,7 @@ Read these files before making changes:
 5. [`out/combined/BATCH_BOUNDARIES.md`](out/combined/BATCH_BOUNDARIES.md) — the
    completed 16-batch outline and whole-topic rules.
 6. [`out/combined/SLIDE_CONVERSION.md`](out/combined/SLIDE_CONVERSION.md) — conversion
-   and repair evidence, especially Rounds 24–27.
+   and repair evidence, especially Rounds 24–28.
 7. [`out/combined/GOOGLE_DRIVE_ACCESS.md`](out/combined/GOOGLE_DRIVE_ACCESS.md) — Drive
    access, file organization, pacing, export, and no-curl rules.
 8. [`out/combined/final-batches/README.md`](out/combined/final-batches/README.md) and
@@ -139,14 +139,18 @@ Google Slides WIP is in the shared folder root, not `Pilots`:
 The Round 27 local candidate has 147 ordered slides and a 147-row map. Eleven
 of 52 build-bearing slides are classified; 41 remain. Nine expanded slides
 account for 45 cumulative static states; the one-chunk builds on Introduction
-PDF pages 14 and 16 remain single static slides. The three states on page 27
-map to local output pages 62–64 and passed local order and visual review
-against the exact Fall PDF. The empty bullet was repaired; the editable heading
-and body now use source-based sizes, geometry, indentation, and 45 pt line
-spacing. LibreOffice substitutes Source Sans Pro with Liberation Sans, so some
-local line wraps differ; native Google verification is still pending. The five
-states on pages 2–3 also passed local review. The 142-slide native WIP has not
-yet been structurally updated with these states.
+PDF pages 14 and 16 remain single static slides. Round 28 imported a focused
+8-slide verification pilot to Drive `Pilots` for the page 2–3 and page 27
+states. Native readback confirmed all eight ordered, editable slides. Its
+591,184-byte Google PDF (SHA256
+`9f79d475cfb53ef87443b4b5430140b16abf876997f969bb1ea90f30fdafe397`) was
+visually reviewed page by page against the exact Fall PDFs. The pilot is
+`https://docs.google.com/presentation/d/1yVQs-RXPXoLUeMr8nnDLEsn-9jj6tHp7IW-tjVj_GuQ/edit`;
+the eight-row source/build map is tracked in `out/combined/final-batches/`.
+The page 27 bullet, editable heading/body sizes, geometry, and 45 pt line
+spacing passed. LibreOffice substitutes Source Sans Pro with Liberation Sans
+and changes some local line wraps. The 142-slide native WIP has not yet been
+structurally updated; full-batch review remains open.
 
 ### Confirmed divider rule — Round 24
 

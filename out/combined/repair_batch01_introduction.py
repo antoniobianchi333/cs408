@@ -159,6 +159,127 @@ def set_shape_box(shape: etree._Element, x: float, y: float, width: float, heigh
             body.set(key, "0")
 
 
+def set_shape_solid_fill(shape: etree._Element, color: str, alpha: float) -> None:
+    properties = shape.find("./p:spPr", NS)
+    if properties is None:
+        raise ValueError("target shape has no shape properties")
+    fill_names = {"solidFill", "gradFill", "blipFill", "noFill", "pattFill"}
+    for child in list(properties):
+        if etree.QName(child).localname in fill_names:
+            properties.remove(child)
+    fill = etree.Element(f"{{{A}}}solidFill")
+    rgb = etree.SubElement(fill, f"{{{A}}}srgbClr", val=color)
+    etree.SubElement(rgb, f"{{{A}}}alpha", val=str(round(alpha * 100000)))
+    geometry = properties.find("./a:prstGeom", NS)
+    if geometry is None:
+        geometry = properties.find("./a:custGeom", NS)
+    properties.insert(properties.index(geometry) + 1 if geometry is not None else 0, fill)
+
+
+def set_text_lines(
+    shape: etree._Element,
+    lines: list[str],
+    *,
+    font_family: str,
+    font_size_pt: float,
+    color: str,
+    line_spacing_percent: int,
+    small_caps: bool = False,
+) -> None:
+    tx_body = shape.find("./p:txBody", NS)
+    if tx_body is None:
+        raise ValueError("target shape has no text body")
+    body = tx_body.find("./a:bodyPr", NS)
+    if body is None:
+        raise ValueError("target shape has no text-body properties")
+    for key in ("lIns", "rIns", "tIns", "bIns"):
+        body.set(key, "0")
+    body.set("anchor", "t")
+    for child in list(tx_body):
+        if etree.QName(child).localname == "p":
+            tx_body.remove(child)
+    size = str(round(font_size_pt * 100))
+    for line in lines:
+        paragraph = etree.SubElement(tx_body, f"{{{A}}}p")
+        ppr = etree.SubElement(paragraph, f"{{{A}}}pPr", algn="ctr")
+        line_spacing = etree.SubElement(ppr, f"{{{A}}}lnSpc")
+        etree.SubElement(line_spacing, f"{{{A}}}spcPct", val=str(line_spacing_percent * 1000))
+        etree.SubElement(ppr, f"{{{A}}}buNone")
+        run = etree.SubElement(paragraph, f"{{{A}}}r")
+        rpr = etree.SubElement(run, f"{{{A}}}rPr", lang="en-US", sz=size)
+        if small_caps:
+            rpr.set("cap", "small")
+        solid = etree.SubElement(rpr, f"{{{A}}}solidFill")
+        etree.SubElement(solid, f"{{{A}}}srgbClr", val=color)
+        for tag in ("latin", "ea", "cs"):
+            etree.SubElement(rpr, f"{{{A}}}{tag}", typeface=font_family)
+        etree.SubElement(run, f"{{{A}}}t").text = line
+        end = etree.SubElement(paragraph, f"{{{A}}}endParaRPr", lang="en-US", sz=size)
+        if small_caps:
+            end.set("cap", "small")
+        etree.SubElement(end, f"{{{A}}}latin", typeface=font_family)
+
+
+def restore_intro_cover_background(
+    parts: dict[str, bytes],
+    slide_part: str,
+    slide_root: etree._Element,
+    rels_root: etree._Element,
+    template: etree._Element,
+    pdf: Path,
+    workdir: Path,
+) -> None:
+    prefix = workdir / "intro-cover-image"
+    subprocess.run(
+        ["pdfimages", "-f", "1", "-l", "1", "-j", str(pdf), str(prefix)],
+        check=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+    )
+    images = sorted(workdir.glob("intro-cover-image-*"))
+    if len(images) != 1:
+        raise ValueError(f"expected one embedded cover photo, found {len(images)}")
+    image = Image.open(images[0]).convert("RGB")
+    if image.size != (1543, 1028):
+        raise ValueError(f"unexpected Introduction cover photo size: {image.size}")
+    # pdftocairo's SVG view of the exact Fall PDF places this image at (-260,-130)
+    # with no scale inside a 1024 x 768 pt page, so this is its visible source crop.
+    crop = image.crop((260, 130, 1284, 898))
+    if crop.size != (1024, 768):
+        raise ValueError(f"unexpected Introduction cover crop size: {crop.size}")
+    buffer = io.BytesIO()
+    crop.save(buffer, format="PNG", optimize=True)
+    media_part = "ppt/media/cs408-intro-page1-cover-background.png"
+    if media_part in parts:
+        raise ValueError(f"PPTX media part already exists: {media_part}")
+    background = slide_root.find("./p:cSld/p:bg", NS)
+    if background is not None:
+        old_blip = background.find(".//a:blip", NS)
+        if old_blip is not None:
+            old_rid = old_blip.get(f"{{{R}}}embed")
+            old_relation = next(
+                (item for item in rels_root.findall("rel:Relationship", NS)
+                 if item.get("Id") == old_rid),
+                None,
+            )
+            if old_relation is not None:
+                rels_root.remove(old_relation)
+        background.getparent().remove(background)
+    add_picture(
+        parts,
+        slide_part,
+        slide_root,
+        rels_root,
+        template,
+        buffer.getvalue(),
+        "cs408-intro-page1-cover-background.png",
+        "Fall PDF cover photo crop",
+        (0, 0, 1024, 768),
+        behind=True,
+    )
+
+
 def set_table_cell(cell: etree._Element, text: str, *, first_column: bool,
                    font_size_pt: float = 66) -> None:
     tcpr = cell.find("./a:tcPr", NS)
@@ -265,6 +386,8 @@ def add_picture(
     media_name: str,
     label: str,
     bounds: tuple[float, float, float, float],
+    *,
+    behind: bool = False,
 ) -> None:
     media_part = f"ppt/media/{media_name}"
     if media_part in parts:
@@ -306,7 +429,10 @@ def add_picture(
     tree = slide_root.find("./p:cSld/p:spTree", NS)
     if tree is None:
         raise ValueError("slide has no shape tree")
-    tree.append(pic)
+    if behind:
+        tree.insert(2, pic)
+    else:
+        tree.append(pic)
     parts[media_part] = image_bytes
     types = etree.fromstring(parts["[Content_Types].xml"])
     if not any(node.get("Extension", "").lower() == "png" for node in types.findall("{http://schemas.openxmlformats.org/package/2006/content-types}Default")):
@@ -394,6 +520,46 @@ def repair(pptx_in: Path, pptx_out: Path) -> None:
         rel_part = posixpath.join(posixpath.dirname(slide_part), "_rels", posixpath.basename(slide_part) + ".rels")
         rels = etree.fromstring(parts[rel_part])
         return slide_part, root, rels
+
+    # Source page 1: restore the exact cover panels and typography while
+    # keeping both lines of the course title and the three-line quote editable.
+    reference_pdf = getattr(repair, "reference_pdf", None)
+    cover_part, cover, cover_rels = load_slide(2)
+    title = find_text_shape(
+        cover,
+        lambda text: re.sub(r"\s+", "", text).casefold() == "cs408:softwaretesting",
+        "Introduction cover title",
+    )
+    set_shape_box(title, 311.636719, 569.578125, 699.570312, 187.960937)
+    set_shape_solid_fill(title, "805540", 0.5171)
+    set_text_lines(
+        title,
+        ["CS 408:", "Software Testing"],
+        font_family="BebasNeue",
+        font_size_pt=96.67,
+        color="F4F0E5",
+        line_spacing_percent=85,
+        small_caps=True,
+    )
+    quote = find_text_shape(
+        cover,
+        lambda text: text.startswith("what does this thing do"),
+        "Introduction cover quote",
+    )
+    set_shape_box(quote, 30.496094, 6.054688, 553.804687, 182)
+    set_shape_solid_fill(quote, "805540", 0.7571)
+    if reference_pdf is not None:
+        _, template_slide, _ = load_slide(3)
+        picture_template = template_slide.find(".//p:pic", NS)
+        if picture_template is None:
+            raise ValueError("Introduction cover repair has no picture template")
+        with tempfile.TemporaryDirectory(prefix="cs408-intro-cover-") as tmp:
+            restore_intro_cover_background(
+                parts, cover_part, cover, cover_rels, picture_template, reference_pdf, Path(tmp)
+            )
+    parts[cover_part] = etree.tostring(cover, xml_declaration=True, encoding="UTF-8", standalone=True)
+    cover_rel_part = posixpath.join(posixpath.dirname(cover_part), "_rels", posixpath.basename(cover_part) + ".rels")
+    parts[cover_rel_part] = etree.tostring(cover_rels, xml_declaration=True, encoding="UTF-8", standalone=True)
 
     slide_part = order[2]
     root = etree.fromstring(parts[slide_part])
@@ -890,7 +1056,6 @@ def repair(pptx_in: Path, pptx_out: Path) -> None:
     # Source page 18: restore the missing embedded article screenshot as an
     # image object. It is intrinsically a screenshot; surrounding title and
     # caption remain editable text objects.
-    reference_pdf = getattr(repair, "reference_pdf", None)
     if reference_pdf is not None:
         with tempfile.TemporaryDirectory(prefix="cs408-intro-reference-") as tmp:
             workdir = Path(tmp)

@@ -2735,7 +2735,48 @@ Eleven of 52 build-bearing slides are now classified: nine expanded source
 slides account for 45 cumulative static states, and the one-chunk builds on
 pages 14 and 16 remain single slides. Forty-one build-bearing slides remain.
 The page 27 structural change has not been integrated into the native Google
-WIP; that same 142-slide presentation remains the live surface. Native readback
-and Google PDF verification of the page 27 and page 2–3 states are pending.
-Batch 1 remains unaccepted; do not start Batch 2 until every acceptance check
-passes.
+WIP; that same 142-slide presentation remains the live surface. At the Round 27
+close, native readback and Google PDF verification for the page 27 and page 2–3
+states had not yet been done. Round 28's pilot-only verification is recorded
+below. Batch 1 remains unaccepted; do not start Batch 2 until every acceptance
+check passes.
+
+## Round 28 — Batch 1 Google verification pilot for build states
+
+Round 28 imported a focused eight-slide review deck into the project's
+`Pilots` folder. It samples local candidate positions 3–7 and 62–64, covering
+the two states on Introduction PDF page 2, the three states on page 3, and the
+three states on page 27. The source, local slide, build-state, and pilot-page
+crosswalk is recorded in
+[`batch-01-round28-google-pilot-map.csv`](final-batches/batch-01-round28-google-pilot-map.csv).
+
+The native Google Slides pilot is
+[CS408 Batch 1 Round 27 build states - review pilot](https://docs.google.com/presentation/d/1yVQs-RXPXoLUeMr8nnDLEsn-9jj6tHp7IW-tjVj_GuQ/edit)
+(ID `1yVQs-RXPXoLUeMr8nnDLEsn-9jj6tHp7IW-tjVj_GuQ`). Drive metadata showed
+the native Slides MIME type, the expected `Pilots` parent, and 1,178,623
+bytes. Its outline revision was `wFh71IhIz4iFZg`; native readback returned
+eight slides in order. Every sampled slide retained editable text. Page 2's
+final state contains the Fall 2026 value, page 3 progresses through its three
+ordered content reveals, and page 27 progresses through one, two, then all
+three objective paragraphs. Native readback shows a 40 pt heading and 36 pt
+body on the objective states.
+
+The Google-exported PDF has eight pages, is 591,184 bytes, and has SHA256
+`9f79d475cfb53ef87443b4b5430140b16abf876997f969bb1ea90f30fdafe397`. Every
+page was inspected against the exact Fall Introduction PDF: pilot pages 1–2
+against source page 2, pages 3–5 against source page 3, and pages 6–8 against
+source page 27. The reveal order, final content, editable text, and paragraph
+progression match. The final page 2 state intentionally uses “Fall 2026” in
+place of the stale seasonal phrase in the source PDF. The rendered PDF and
+120 dpi page images are in ignored `out/.build/batch-01/pilots/round27-build-states/google-render/`;
+regenerate them through the documented Google export helper if they are
+missing. The export used the bounded connected-tool `include_base64` path;
+no shell or network downloader was used.
+
+This pilot closes the Round 27 pending native verification for these eight
+sampled states. It does not integrate the 147-slide local structure into the
+existing full WIP: the root presentation remains the same 142-slide deck and
+was not modified in this round. The other 41 build-bearing slides, full-batch
+reconciliation, flagged-page review, and complete 142-plus-page WIP inspection
+remain open. Batch 1 remains unaccepted, and Batch 2 must wait for the full
+acceptance gate.

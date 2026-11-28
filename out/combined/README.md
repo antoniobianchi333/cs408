@@ -442,10 +442,13 @@ SHA256 `ef72b57542fb5457e387f23082525977d1cf68f2e945abf33d628c41170d9a88`).
 Pages 62–64 were checked against the exact Fall Introduction PDF. The missing
 bullet was repaired and the editable paragraphs reveal cumulatively in order;
 Linux LibreOffice substitutes Source Sans Pro with Liberation Sans, changing
-some line wraps, so native Google verification is still pending. The five new
-states on pages 2–3 passed local review and also need Google verification. Page
-14's one-chunk acknowledgments build adds no slide. Eleven of 52 build-bearing
-slides are classified; 41 remain. This local `.build` candidate
+some line wraps. Round 28's native Google pilot verified the five new states
+on pages 2–3 and the three page 27 states; every pilot page was reviewed
+against the exact Fall PDFs. The 8-page export is 591,184 bytes, SHA256
+`9f79d475cfb53ef87443b4b5430140b16abf876997f969bb1ea90f30fdafe397`; its
+tracked source/build map is in `final-batches/`. Page 14's one-chunk
+acknowledgments build adds no slide. Eleven of 52 build-bearing slides are
+classified; 41 remain. This local `.build` candidate
 has not replaced the native Drive WIP, which still has 142 slides. The
 connected account already listed the project folder and
 created/edited the native `STATUS` Doc there; the user confirmed no separate

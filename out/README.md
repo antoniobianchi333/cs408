@@ -236,10 +236,15 @@ confirms the native Google Docs MIME type and project-root parent folder.
   of 52 build-bearing slides are classified; 41 remain. Round 27 added the
   three paragraph states on Introduction page 27, mapped to local output pages
   62–64. The editable list's missing bullet, geometry, and line spacing were
-  repaired from the Fall PDF. Linux LibreOffice substitutes Source Sans Pro
-  with Liberation Sans, changing some line wraps; native Google verification
-  remains open. Round 27's evidence is recorded in the
-  [conversion runbook](combined/SLIDE_CONVERSION.md#round-27--batch-1-introduction-learning-objective-paragraph-build).
+  repaired from the Fall PDF. Round 28 imported an 8-slide native pilot for
+  the page 2–3 and page 27 states. Native readback confirmed ordered editable
+  slides; every Google PDF page was compared with exact Fall pages 2, 3, and
+  27. See the [Round 28 runbook](combined/SLIDE_CONVERSION.md#round-28--batch-1-google-verification-pilot-for-build-states)
+  and the tracked
+  [pilot source/build map](combined/final-batches/batch-01-round28-google-pilot-map.csv).
+  Linux LibreOffice substitutes Source Sans Pro with Liberation Sans, changing
+  some local line wraps; native Google review resolved that preview issue for
+  these states.
   In the current session, the repaired source packages and full local
   candidate were regenerated. The output map has 147 consecutive rows, and
   PPTX order, relationships, slide parts, and ZIP integrity pass. Local divider
@@ -255,8 +260,8 @@ confirms the native Google Docs MIME type and project-root parent folder.
   expanded candidate has 147 pages after the earlier states and the five new
   object states on pages 2–3 plus page 27's three states. The original 37
   expanded states were inspected locally and in separate native Google pilots.
-  The newer page 2–3 and page 27 states passed local order/content review and
-  still need Google verification. Existing pilot PDFs confirmed ordered
+  The newer page 2–3 and page 27 states passed local review and the Round 28
+  native Google pilot. Existing pilot PDFs confirmed ordered
   progression, bullet hierarchy, emphasis, and line fit for their reviewed
   builds. The final
   states closely match their Fall references; page 12's explicit Arial sizes
