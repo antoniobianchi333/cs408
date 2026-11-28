@@ -151,8 +151,9 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   [Keynote build-marker audit](combined/audit_keynote_build_markers.py), and
   [batch-candidate builder](combined/build_batch_candidate.py) with its
   [Batch 1 input manifest](combined/final-batches/batch-01-inputs.json), plus
-  [Batch 1 Introduction text repair](combined/repair_batch01_introduction.py)
-  and [Batch 1 Fault/Error repairs](combined/repair_batch01_fault_error.py)
+  [Batch 1 Introduction text repair](combined/repair_batch01_introduction.py),
+  [Batch 1 Fault/Error repairs](combined/repair_batch01_fault_error.py), and
+  [page 18 image/build reconstruction](combined/prepare_intro_page18_build.py)
 - [Legacy editable batch baselines](combined/) and their
   [batch manifest](combined/editable-parts-manifest.json). Each of the nine
   `cs408-editable-part-*.pptx` files stays directly in `combined/`; these are
@@ -191,7 +192,7 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
 
 ## Current conversion status
 
-- **Batch 1 local diagnostics are underway; local-first is the default repair route, with native Google Slides repair as the fallback.** The current Fall Introduction
+- **Batch 1 is active; its full native WIP is the live repair surface in Google Drive.** Keep the local PPTX and maps as the reproducible source. Make confirmed visual-only fixes in the same native WIP; rebuild and reconcile locally when content, build states, order, or structure changes, or when a local repair is needed to preserve the intended result through import. The paired page 2 and page 68 tests support local source repairs for those cases; Round 17 and Round 25 show targeted native Google edits for import-specific differences. See the [documented route decision](combined/SLIDE_CONVERSION.md#full-batch-working-deck-workflow). The current Fall Introduction
   and Fault/Error/Failure Keynote sources convert to 92 and 108 LibreOffice
   PPTX slides, while their reference PDFs contain 30 and 79 pages. A structural
   IWA decoder now confirms 62 Introduction nodes and 29 Fault/Error nodes are
@@ -264,13 +265,14 @@ inventory are in [BRANCH_AND_HANDOFF.md](BRANCH_AND_HANDOFF.md).
   `Pilots`. The current WIP deck is now at the root, above `Pilots`, and is
   linked in the [Drive guide](combined/GOOGLE_DRIVE_ACCESS.md#pilot-and-final-batch-folder-organization).
   Earlier one-slide pilots show that both routes can repair
-  Introduction page 2: the local-first Google PDF retains the orange Fall
+  Introduction page 2: the local-repair Google PDF retains the orange Fall
   2026 styling, while the final two-pass native repair is readable but makes
-  that value black. On Fault/Error page 68, the 36 pt local-first repair
+  that value black. On Fault/Error page 68, the 36 pt local repair
   survives import with the photo visible and both labels on one line; the
-  Google-first export has a black field where the photo belongs. This evidence
-  sets local-first as the default and native Google Slides repair as the
-  fallback for a family where the local roundtrip fails or performs worse.
+  Google-first export has a black field where the photo belongs. This supports
+  local source repairs for those specific content/media defects. For the
+  uploaded full-batch WIP, make confirmed visual-only fixes in the same native
+  Google deck and rebuild locally when content or structure changes.
   See the [conversion route decision and Round 17 record](combined/SLIDE_CONVERSION.md#round-17--introduction-page-17-repair-pilot).
   See the
   [Batch 1 diagnostic](combined/final-batches/batch-01-diagnostic.md),

@@ -64,10 +64,13 @@ outline is recorded. Each final batch gets a full-slide solid pale-yellow
 its exact filename and following topic; use 24 pt bold Arial for the filename
 and 28 pt regular Arial for the topic.
 
-Batch 1 local repairs cover Introduction pages 2 and 17 and Fault/Error pages
-65, 68, 73, 74, 76, and 77; the three diagram-region crops are documented last
-resorts. Local-first remains the default; native Google repair is the fallback
-when an import defect persists or a specific repair is better handled there.
+Batch 1 local source repairs cover Introduction pages 2 and 17 and Fault/Error
+pages 65, 68, 73, 74, 76, and 77; the three diagram-region crops are documented
+last resorts. The uploaded full-batch native Google deck is the live surface
+for confirmed visual-only fixes. Keep the local PPTX and maps as the
+reproducible source, and rebuild/reconcile them when content, build states,
+order, or structure changes, or when a local repair is needed to preserve the
+intended result through import.
 Introduction page 2's local repair retains the orange Fall 2026 value; its
 final two-pass native repair is readable but renders that value black. On
 Fault/Error page 68, Google-first loses the source photo, while the local-first
@@ -77,8 +80,11 @@ records; these are locator counts, not animation counts. Structural build
 order is decoded; meaningful static expansion remains open. Use local PPTX
 repairs by default and native Google Slides edits as a per-family backup when
 import-specific defects remain or Google-first evidence is stronger. Page 17
-supports that exception; the page 4 and 6 paragraph pilots support local-first
-for those editable text-build families. Do not repeat the closed
+  supports targeted Google-native repair for import-only differences; page 4
+  and 6 paragraph pilots confirm local repairs for their editable text-build
+  families. For the uploaded full batch, repair visual-only defects in the
+  same native WIP and use a local rebuild when content or structure changes.
+  Do not repeat the closed
 57-deck content-selection analysis. See the
 [Round 16 record](combined/SLIDE_CONVERSION.md#round-16--test-anatomy-repairs-and-google-review),
 [Round 17 record](combined/SLIDE_CONVERSION.md#round-17--introduction-page-17-repair-pilot),
@@ -182,11 +188,14 @@ batch size, API behavior, and review effort become measurable.
   insets before reducing font size. Keep an image fallback limited to the
   smallest element that remains unreliable; whole-slide images are a last
   resort.
-- **Repair route:** use local-first edits by default, import the repaired PPTX
-  as native Google Slides, and verify the Google PDF. Use native Google Slides
-  repair as the fallback for a family where the local roundtrip fails or
-  performs worse. Paired Introduction page 2 and Fault/Error page 68 evidence
-  and pilot links are in the [conversion runbook](combined/SLIDE_CONVERSION.md#repair-route-decision-local-first-default-google-first-fallback).
+- **Repair route:** build reproducible source repairs in the local PPTX, then
+  import and verify the Google PDF. Once the full WIP is uploaded, make
+  confirmed visual-only fixes in that same native deck to avoid unnecessary
+  full-deck re-imports. Rebuild/reconcile locally for source-content, build,
+  order, or structural changes, or when a source-side repair is needed to
+  preserve media through import. Paired page 2 and page 68 evidence and the
+  full-batch workflow are in the
+  [conversion runbook](combined/SLIDE_CONVERSION.md#full-batch-working-deck-workflow).
 - Convert meaningful instructional animation or reveal builds into
   sequential static slides in the original build order. Map every generated
   slide to its source slide and build state. Keep the expanded sequence within

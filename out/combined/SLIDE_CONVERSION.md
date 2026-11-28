@@ -90,6 +90,17 @@ or when a specific slide family has stronger Google-first evidence. Keep
 object-specific exceptions; this is an operational default based on tested
 families, not a claim that every PowerPoint feature behaves the same.
 
+**Full-batch WIP scope:** this local-first decision describes how to prepare
+reproducible source repairs and new candidate slide content. It does not mean
+re-importing the full deck after every visual adjustment. Once a full native
+Google WIP is uploaded, make confirmed visual-only repairs directly in that
+same presentation and export a fresh PDF to verify them. Rebuild/reconcile
+locally when source content, media, build states, slide order, or structure
+changes, or when evidence shows a local change is needed to preserve the
+intended result through import. This keeps the tested local-source route for
+content/media defects while reducing unnecessary full-deck conversions and
+Drive writes.
+
 **Why this route won:** the paired page 2 text-fit trial showed that the
 local-first version cleanly aligned the WHO/WHERE/WHEN content and retained
 the orange Fall 2026 value. The final two-pass Google-first repair is also

@@ -8,21 +8,31 @@ partial batch.**
 
 ## Ask for permissions at the beginning
 
-Before tool actions in this new session, ask the user once—in one concise,
-grouped request—to confirm or grant the permissions that may not carry over:
+At the start of the new session, check which permissions are active, then ask
+the user once—in one concise, grouped request—for anything missing before using
+Drive or running LibreOffice. The previous authorization may not carry over to
+the new session or machine. The request should cover:
 
-- Google Drive connector access to read and edit the shared CS408 project
-  folder. Use the dedicated connected account and make Drive calls only within
-  the documented project folder.
-- One project-wide authorization for any `libreoffice --headless` command,
-  including conversions beyond PDF export. The earlier broad grant may have
-  applied only to the previous session or machine. Use the session's approval
-  flow if it requires an explicit permission request.
+- Google Drive connector access to read and edit the CS 408 project folder
+  through the dedicated connected account. Use Drive only within the documented
+  project folder, even if the connected account can see other files.
+- One session-wide authorization for every project `libreoffice --headless`
+  command, including conversions beyond PDF export. Use the platform's
+  permission flow when it requires explicit approval; after approval, do not
+  ask again during that session.
 
-If Drive access is already active or a permission is already granted, do not
-ask for it again. Continue independent local and read-only work while a needed
-permission is pending. Do not ask permission to stage, commit, or push; the user
-handles Git publishing.
+Suggested single question: “Please confirm the Google Drive connector is
+connected as the dedicated account with Editor access to CS 408 folder
+`16vTRNocHa1rlPN1bii_w0b8Ce90XrFbn` (small pilots only in `Pilots`,
+`1PHuKHahwY2PxviNWTM2f8kYmb7K-37Dj`) and authorize all project
+`libreoffice --headless` commands for this session, including non-PDF
+conversions. I will use Drive only in that project folder and will not ask
+again after you grant the permissions.”
+
+If a permission is already active, do not request it again; state which one is
+active and ask only for the missing permission. Continue independent local
+documentation and read-only repository work while an approval is pending. Do
+not ask permission to stage, commit, or push; the user handles Git publishing.
 
 ## Read first
 
@@ -42,9 +52,11 @@ Read these files before making changes:
 8. [`out/combined/final-batches/README.md`](out/combined/final-batches/README.md) and
    [`out/combined/final-batches/batch-01-diagnostic.md`](out/combined/final-batches/batch-01-diagnostic.md)
    — Batch 1 map, status, repairs, and open issues.
-9. [`out/combined/repair_batch01_introduction.py`](out/combined/repair_batch01_introduction.py)
+9. [`out/combined/repair_batch01_introduction.py`](out/combined/repair_batch01_introduction.py),
+   [`out/combined/prepare_intro_page18_build.py`](out/combined/prepare_intro_page18_build.py),
    and the linked batch build/repair scripts — reproducible repair entry
-   points.
+   points, including restoration of the page 18 image omitted by a clean
+   reassembly.
 
 The main `out/README.md` is the navigation hub and must link every relevant project
 Markdown file, script, map, and artifact folder. Update it and the PLAN as the
@@ -76,6 +88,14 @@ milestone.
   or network downloader** for Drive files or signed references. Follow the
   connected export helper in the Drive guide and its bounded
   `include_base64: true` compatibility path.
+- Keep the existing 142-slide Batch 1 WIP in the shared root and repair that
+  same native presentation in place. Read its current metadata and revision
+  before edits; never create a duplicate full-batch deck or move it into
+  `Pilots`. Use `Pilots` for small isolated tests only. Read back changed
+  native objects, export one fresh Google PDF after a repair set, and inspect
+  affected pages against the matching Fall PDF. For a new batch, upload one
+  clearly named `WIP - needs fixes` deck directly to the shared root, then
+  rename it only after the full acceptance review.
 
 ## Current Batch 1 state (handoff snapshot: 2026-11-27)
 
@@ -169,6 +189,21 @@ the page 18 image; restore that asset with the tracked
 6. Re-export and inspect all 142+ pages after repairs. Complete the final map,
    native readback, source comparison, exception log, and acceptance record.
    Begin Batch 2 only after Batch 1 passes every gate.
+
+## Repair route to use
+
+Use local PPTX repairs to create reproducible source content and to fix
+content, media, or structural issues that must survive import. After a full
+batch is uploaded, treat that same native Google Slides deck as the live
+surface for confirmed visual-only fixes; avoid re-importing the whole deck for
+each adjustment. Rebuild and reconcile the WIP only when source content, build
+states, slide order, or structure changes, or when the evidence shows a local
+repair is needed to preserve the intended result through import. The paired
+page 2 and page 68 tests are evidence for local source repair in those cases;
+page 17 and page 24–25 show where native Google edits address import-specific
+differences. Record which route each repair used in the
+[Batch 1 diagnostic](out/combined/final-batches/batch-01-diagnostic.md) and
+[conversion runbook](out/combined/SLIDE_CONVERSION.md).
 
 Do not stop after this handoff document is read. Continue the conversion work
 until the completion criteria in `GOAL.md` are met. Report progress briefly,
