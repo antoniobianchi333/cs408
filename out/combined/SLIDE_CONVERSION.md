@@ -79,7 +79,7 @@ The current connector result and detailed recovery order are recorded in the
    separately. Check the neighboring builds and confirm page order when
    returning the slide to a batch.
 
-## Repair route decision: local-first default; Google-first fallback
+## Repair route decision: local source repairs; in-place Google WIP edits
 
 **Decision (November 27, 2026):** use local-first repair as the default. Make
 the local PPTX repair, import it as native Google Slides, and accept it only

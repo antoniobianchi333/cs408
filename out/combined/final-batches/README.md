@@ -146,29 +146,34 @@ custom border's dotted style. That pilot's final Google PDF is one page and
 39,981 bytes; the integrated local title fix still needs verification in the
 full-batch import. The pilot is
 [in the shared Pilots folder](https://docs.google.com/presentation/d/1Gat0ZLl5w5iSrU4tDtZOgEEwQnvEIANW3pUV2vsqw48/edit).
-The full 111-page candidate has not been accepted. The
-source-specific Fault/Error repair
+The following repair details record local checks on the pre-expansion
+111-page baseline; the active full-size Google WIP is the 142-slide deck
+summarized above. The source-specific Fault/Error repair
 is [`repair_batch01_fault_error.py`](../repair_batch01_fault_error.py). It
 restores two pages of native table cells, repairs two editable video labels,
 and uses diagram-only crops from the matching Fall PDF for three corrupted
-connector diagrams. The current local 111-page candidate has been rendered;
-these repairs match the references locally. The Introduction page 2 local
+connector diagrams. At that stage, the 111-page pre-expansion baseline was
+rendered and these repairs matched the references locally. The Introduction page 2 local
 repair and the Fault/Error page 68, 36 pt label repair have also passed Google
-PDF checks. Page 68's local-first import preserves the photo and fits both
-labels on one line; the Google-first PDF loses the photo. The route decision
-is therefore local-first by default, with native Google Slides repair as a
-fallback for a slide family where the local roundtrip fails or performs worse.
+PDF checks. Page 68's local import preserves the photo and fits both labels on
+one line; the Google-first PDF loses the photo. These paired trials support
+local source repairs for these specific content and media defects. The full
+native Google WIP is the live surface for confirmed visual-only fixes after
+upload; make those fixes in the same presentation. Rebuild and reconcile the
+local PPTX when content, media, build states, order, or structure changes, or
+when a local repair is needed to preserve the intended result through import.
 See the tested evidence in the
-[conversion runbook](../SLIDE_CONVERSION.md#repair-route-decision-local-first-default-google-first-fallback).
-The provisional 111-page candidate was rebuilt after this 36 pt update, and
+[conversion runbook](../SLIDE_CONVERSION.md#repair-route-decision-local-source-repairs-in-place-google-wip-edits).
+The 111-page baseline candidate was rebuilt after this 36 pt update, and
 its local output page 100 was reviewed with the photo and both labels visible.
 Output page 18 (Introduction page 17) and page 100 have both been checked in
-the rebuilt local PDF. These are local checks; the provisional full batch
-remains unaccepted and has not been uploaded as a final batch.
+the rebuilt local PDF. These were checks of the reproducible source candidate.
+The separate 142-slide WIP has since been uploaded to the shared Drive root
+and remains unaccepted.
 The Introduction course schedule slide is user-owned:
 leave it unchanged and continue other Batch 1 work; the user will make that
 edit directly. It is not an agent repair blocker.
-Nothing in this folder represents an uploaded or accepted final batch yet.
+There is no accepted final batch yet; Batch 1's full-size WIP is in Drive.
 
 ## Acceptance tracking
 

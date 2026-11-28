@@ -353,7 +353,7 @@ behavior and for full-deck visual review.
 - Carry forward Round 11's CFG-label repair only when the same object/layout
   appears in a selected batch. Other legacy Part 1 visual issues are not a
   separate pre-batch gate; check relevant layouts during that batch and use
-  the [route decision and repair evidence](combined/SLIDE_CONVERSION.md#repair-route-decision-local-first-default-google-first-fallback).
+  the [route decision and repair evidence](combined/SLIDE_CONVERSION.md#repair-route-decision-local-source-repairs-in-place-google-wip-edits).
 - Before integrating the Round 14 older concurrency-lab unit, update or mark
   the `CS503 Spring 2021` screenshots on slides 4–6 as archival. Its full
   Spring 2026 handout is already in the study guide; the date and Classroom

@@ -37,7 +37,7 @@ are recorded in the [conversion runbook](../SLIDE_CONVERSION.md#round-25--batch-
 Keep the local PPTX and maps as the reproducible source; use the full native
 Google deck as the working surface for iterative visual fixes. Apply confirmed
 repairs in that deck, rebuilding locally only when a content or structural
-change requires it. See the [route decision](../SLIDE_CONVERSION.md#repair-route-decision-local-first-default-google-first-fallback),
+change requires it. See the [route decision](../SLIDE_CONVERSION.md#repair-route-decision-local-source-repairs-in-place-google-wip-edits),
 [Round 17 repair pilot](../SLIDE_CONVERSION.md#round-17--introduction-page-17-repair-pilot),
 [Round 21 build pilot](../SLIDE_CONVERSION.md#round-21--batch-1-introduction-mixed-bannerquestion-build),
 [Round 22 build pilot](../SLIDE_CONVERSION.md#round-22--batch-1-introduction-page-18-imageheadline-build),
@@ -156,7 +156,7 @@ separate slides only for meaningful visible changes.
   renders all these rows cleanly. The final two-pass native Google repair is
   also readable but renders Fall 2026 in black instead of the local repair's
   orange; see the
-  [route decision record](../SLIDE_CONVERSION.md#repair-route-decision-local-first-default-google-first-fallback).
+  [route decision record](../SLIDE_CONVERSION.md#repair-route-decision-local-source-repairs-in-place-google-wip-edits).
 - Source page 17 is now repaired locally with editable text and shapes. The
   blue response banner's text was below the canvas and horizontal; the repair
   positions and rotates it over the existing native blue freeform, uses an
