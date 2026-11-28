@@ -430,6 +430,16 @@ content selection or start Batch 2 early. The detailed boundaries are in
 [BATCH_BOUNDARIES.md](BATCH_BOUNDARIES.md), and batch maps and acceptance
 records are maintained in [final-batches/](final-batches/).
 
+The local candidate was regenerated in the current session: its 142-row map
+is consecutive, its presentation order resolves to 142 existing slide parts,
+and the PPTX ZIP integrity check passes. The local diagnostic PDF also has
+142 pages (32,564,269 bytes), but Linux font substitutions prevent using it as
+acceptance evidence. This local `.build` candidate has not replaced the native
+Drive WIP. The connected account already listed the project folder and
+created/edited the native `STATUS` Doc there; the user confirmed no separate
+Drive authorization is needed now. The app inherits “Allow low-risk actions,”
+so handle any actual per-operation platform prompt or denial if it occurs.
+
 The initial unmatched-slide review sheets can be regenerated with
 [render_unmatched_contact_sheets.py](render_unmatched_contact_sheets.py). The
 current local Batch 1 repairs are implemented by

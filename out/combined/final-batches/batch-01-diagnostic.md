@@ -22,6 +22,16 @@ export has 142 pages and is 5,233,045 bytes. Contact sheets have been reviewed
 across every page; full-size exception review, confirmed repairs, and build
 classification remain open. The user reports a brief visual check found about
 90% of slides looking fine; that is a first-pass impression, not acceptance.
+In the current session, both repaired source PPTX files and the 142-slide
+local candidate were regenerated. The current candidate map has 142 consecutive
+rows, its `presentation.xml` order contains 142 slide references that all
+resolve to existing slide parts, and the PPTX passes ZIP integrity checking.
+Its local diagnostic PDF has 142 pages (32,564,269 bytes); it is not acceptance
+evidence because Linux font substitutions affect some reference typography.
+The existing Google WIP remains the active full-batch deck and has not been
+replaced by this local build. The user confirmed no separate Drive authorization
+is needed; the connected account has already listed the project folder and
+created/edited the native `STATUS` Doc there.
 The two deck-divider slides initially imported blank because the builder
 omitted explicit DrawingML rectangle geometry on their text boxes. A two-slide
 pilot confirmed that `a:prstGeom` preserves their editable labels. The current

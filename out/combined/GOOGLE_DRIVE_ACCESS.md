@@ -81,6 +81,17 @@ time and keep the same pacing before larger imports, exports, or readbacks.
 
 ## Verified for this project
 
+**Current-session authorization check (November 27, 2026):** the connected
+profile reports `purduegcecloud@gmail.com`. Listing the exact project folder
+works, and the native Google Doc `STATUS` was created, read back, and edited in
+that folder. The user confirmed that no separate Drive authorization is
+needed now, so no approval is pending. Google Drive inherits the platform's
+“Allow low-risk actions” app permission; a sensitive operation may still
+prompt or be denied by the platform. Proceed only in the documented CS 408
+folder, and respond to an actual per-operation prompt or denial if it occurs.
+The separate session-wide authorization for project `libreoffice --headless`
+commands is active.
+
 On November 24, 2026, Codex listed **cs_408_ai_editable** and read the
 outline of the native
 [Round 4 deck](https://docs.google.com/presentation/d/1RsGbPcJJZucpjhRbT1-K3cIYqyC25hCHmqqqOSDw1A8/edit).
@@ -548,6 +559,15 @@ current/near-term work, and the full current manual-conversion list and plan
 in the order specified by [`PLAN.md`](../PLAN.md#required-live-status-document).
 Verify its file ID, title, MIME type, and parent folder before each edit, and
 keep its Drive URL in [`out/README.md`](../README.md).
+The current document is
+[STATUS](https://docs.google.com/document/d/1TAFn9A9Nkkr8YU8R0Hpfge4Q7MBOvBPT4F7XHiDG9UU/edit),
+Drive ID `1TAFn9A9Nkkr8YU8R0Hpfge4Q7MBOvBPT4F7XHiDG9UU`. Readback confirms
+the native Google Docs MIME type and parent folder
+`16vTRNocHa1rlPN1bii_w0b8Ce90XrFbn`. The OAuth connector rejected
+`create_file` with a parent-folder argument; the first version was therefore
+imported from a local HTML scratch file through `import_document` with native
+Google Docs conversion and the project folder as its parent. Edit future
+versions in place with the Docs batch-update action; do not create duplicates.
 On November 24, 2026, all 17 presentations in the shared root were confirmed
 to be pilots or test copies; their parent metadata was read before they were
 moved into `Pilots`. New pilot rounds follow the same organization; final

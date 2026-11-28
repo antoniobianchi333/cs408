@@ -84,8 +84,9 @@ Keynote. The exact gaps and the Round 15–17 diagnostics and repairs are in the
 - [Live plan and time estimates](PLAN.md)
 - [Last-resort manual Keynote-to-PDF request list](MANUALLYCONVERT.md)
 - [Codex usage reader for the live status report](../codex_usage.py)
-- Live Google Drive `STATUS` document: create or verify it in the CS 408 project
-  folder root, above `Pilots`; refresh it hourly using the ordered fields in
+- [Live Google Drive `STATUS` document](https://docs.google.com/document/d/1TAFn9A9Nkkr8YU8R0Hpfge4Q7MBOvBPT4F7XHiDG9UU/edit)
+  — native Google Doc, verified directly in the CS 408 project folder root
+  above `Pilots`; refresh it hourly using the ordered fields in
   [the live plan](PLAN.md#required-live-status-document).
 - [Branch, restart-kit, and artifact-tracking policy](BRANCH_AND_HANDOFF.md)
 - [Combined slide collection and source map](combined/README.md)
@@ -203,8 +204,10 @@ sections must stay in this order: pending permissions; current code-usage
 percentages from [`codex_usage.py`](../codex_usage.py); current work and the
 near-term plan; the complete [manual conversion list](MANUALLYCONVERT.md); and
 the complete [plan](PLAN.md). Use the connected Drive tools only in the
-documented CS 408 project folder, and link the live document here after its
-metadata and URL have been verified.
+documented CS 408 project folder. The live document is
+[STATUS](https://docs.google.com/document/d/1TAFn9A9Nkkr8YU8R0Hpfge4Q7MBOvBPT4F7XHiDG9UU/edit)
+(Drive ID `1TAFn9A9Nkkr8YU8R0Hpfge4Q7MBOvBPT4F7XHiDG9UU`); its metadata
+confirms the native Google Docs MIME type and project-root parent folder.
 
 - **Batch 1 is active; its full native WIP is the live repair surface in Google Drive.** Keep the local PPTX and maps as the reproducible source. Make confirmed visual-only fixes in the same native WIP; rebuild and reconcile locally when content, build states, order, or structure changes, or when a local repair is needed to preserve the intended result through import. The paired page 2 and page 68 tests support local source repairs for those cases; Round 17 and Round 25 show targeted native Google edits for import-specific differences. See the [documented route decision](combined/SLIDE_CONVERSION.md#full-batch-working-deck-workflow). The current Fall Introduction
   and Fault/Error/Failure Keynote sources convert to 92 and 108 LibreOffice
@@ -220,6 +223,14 @@ metadata and URL have been verified.
   classified: its subtitle appears first, then its editable policy list. The
   single-chunk All at Once build on page 16 needs no extra slide. Seven of 52
   build-bearing slides are classified; 45 remain.
+  In the current session, the repaired source packages and full local
+  candidate were regenerated: 111 mapped source/divider slides plus the
+  six classified expansions produce 142 ordered slides. The output map has
+  142 consecutive rows, and the PPTX order, relationships, slide parts, and
+  ZIP integrity check pass. The local diagnostic PDF has 142 pages and is
+  32,564,269 bytes; Linux font substitutions make it diagnostic only. This
+  rebuilt `.build` candidate has not replaced or changed the existing Drive
+  WIP.
   Confirmed repair areas include Introduction tables/text/diagram fit and
   Fault/Error diagrams, video composition, and colored outcome tables. A
   111-page local baseline includes editable source-deck dividers; the current

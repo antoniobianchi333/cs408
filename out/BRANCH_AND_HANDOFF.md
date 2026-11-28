@@ -121,7 +121,10 @@ be able to:
    the shared folder root above `Pilots` as a WIP deck, read back its structure, export the
    Google PDF, inspect every page, and update the manifest/docs. Keep only
    small pilots and disposable tests in `Pilots`. Continue in order through Batch
-   16; a pilot or partial batch is not project completion.
+   16; a pilot or partial batch is not project completion. The current local
+   142-slide candidate was regenerated in ignored `out/.build/batch-01/` and
+   passed order, map-row, relationship, and ZIP-integrity checks; see the
+   diagnostic for its exact files and limitations. Regenerate it if missing.
 7. Resolve missing source references as they affect the active batch; manual
    PDF exports are a last resort, and [`MANUALLYCONVERT.md`](MANUALLYCONVERT.md)
    currently has no requests.
@@ -135,7 +138,10 @@ be able to:
    pending permissions, percentages from [`codex_usage.py`](../codex_usage.py),
    current and near-term work, complete `MANUALLYCONVERT.md`, then complete
    `PLAN.md`. Read the current sources before each update and keep the verified
-   document link in [`README.md`](README.md).
+   document link in [`README.md`](README.md). The current document is
+   [STATUS](https://docs.google.com/document/d/1TAFn9A9Nkkr8YU8R0Hpfge4Q7MBOvBPT4F7XHiDG9UU/edit)
+   (ID `1TAFn9A9Nkkr8YU8R0Hpfge4Q7MBOvBPT4F7XHiDG9UU`), directly in folder
+   `16vTRNocHa1rlPN1bii_w0b8Ce90XrFbn`.
 
 The root [`README.md`](README.md) is the navigation hub and must link to every
 relevant project Markdown file, script, map, and artifact folder. Update that

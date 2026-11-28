@@ -66,14 +66,22 @@ PDFs, and contact sheets are under ignored `out/.build/batch-01/` and must be
 regenerated if that directory is cleared. The reusable
 [`expand_batch_build_states.py`](../expand_batch_build_states.py) creates
 cumulative paragraph or object-visibility states from the manifest above.
-The current ignored 142-page local candidate
-`out/.build/batch-01/assembled/batch-01-expanded-candidate-round24b.pptx` adds ten
-homework states, six Course Grading states, one AI-policy state, eight Course
-Objectives states, five net states for the page 17 mixed build, and one net
-state for each of the page 12 and page 18 two-state builds to the 111-page
-baseline; its
-output map is `out/.build/batch-01/assembled/batch-01-expanded-map.csv`. The full expanded
-deck has been imported to the shared Drive root as the
+The current ignored 142-page local candidate is
+`out/.build/batch-01/assembled/batch-01-expanded-candidate.pptx`; its output map
+is `out/.build/batch-01/assembled/batch-01-expanded-map.csv`. In the current
+session it was rebuilt from the repaired source packages and 111-page base.
+The page 18 article image/headline reconstruction was applied before expansion,
+using the unrepaired converted Introduction PPTX as the source for its editable
+headline; the source-repair package does not retain that separate text shape.
+The six classified slides add ten homework states, six Course Grading states,
+one AI-policy state, eight Course Objectives states, five net states for the
+page 17 mixed build, and one net state each for the two-state page 12 and page
+18 builds. The 142-row output map is consecutive and the PPTX has 142 ordered
+slide references, all resolving to existing slide parts; ZIP integrity passes.
+Its local diagnostic PDF has 142 pages and is 32,564,269 bytes. Linux font
+substitution makes that local PDF unsuitable as final visual evidence.
+The Google WIP has not been replaced by this regenerated candidate. The full
+expanded deck in Drive is the
 [142-slide WIP Batch 1 deck](https://docs.google.com/presentation/d/1EYXO-ZvBcLhUg9-JdA0t6C78sSx6Ki-4OGnIeYM9IME/edit).
 Native outline readback confirmed 142 ordered slides. The latest Google PDF
 export has 142 pages and is 5,233,045 bytes. The user reports a brief visual
@@ -90,9 +98,10 @@ Page 24 uses corrected 92/92/77/92/92 pt rows. A two-slide PPTX import pilot
 rev2 confirmed the table font, sizes, row heights, and MIDDLE cell alignment;
 the title maps to Arial on import, so the full WIP received a native
 Source Sans Pro edit. See the [Round 25 log](../SLIDE_CONVERSION.md#round-25--batch-1-course-grading-table-typography).
-The current full PDF is saved under
+The latest full Google PDF from Round 25 is saved under
 `out/.build/batch-01/round24-grading-cell-style/`; regenerate it from Google
-Drive if the ignored `.build` directory is absent.
+Drive if the ignored `.build` directory is absent. The newly regenerated local
+diagnostic PDF is `out/.build/batch-01/assembled/batch-01-expanded-candidate.pdf`.
 Pruned
 11-slide,
 7-slide, 2-slide, 9-slide, 6-slide, and two 2-slide state subsets were imported

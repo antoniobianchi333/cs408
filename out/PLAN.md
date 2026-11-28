@@ -9,6 +9,24 @@ across all pages; full-size follow-up on flagged slides and confirmed repairs
 remain open, so Batch 1 is not accepted. The user reports that a brief visual
 check found about 90% of slides looking fine.
 
+In the current session, I regenerated the local repaired source PPTX files,
+rebuilt the 111-page base, restored the page 18 article/headline build, and
+expanded the six classified build slides to a 142-slide candidate. The output
+map has 142 consecutive rows, including dividers at pages 1 and 63; the PPTX
+presentation order resolves to 142 existing slide parts and passes ZIP
+integrity checking. Its local diagnostic PDF also has 142 pages (32,564,269
+bytes). This local render is not acceptance evidence: Linux substitutes some
+source fonts, and the full Google WIP still needs the remaining repairs,
+build classifications, and recheck. Seven of 52 build-bearing slides are
+classified; 45 remain.
+
+The connected Drive account can list the project folder, and the native
+`STATUS` document was created, read, and edited there. The user confirmed that
+no separate Drive authorization is needed now. The Google Drive app inherits
+the platform's “Allow low-risk actions” mode, so handle an actual per-operation
+prompt or denial if one occurs. The session-wide LibreOffice authorization is
+active.
+
 The two generated source-deck dividers initially imported blank. The local
 builder's editable text boxes lacked explicit DrawingML rectangle geometry;
 Arial itself was present. A two-slide Google pilot confirmed that explicit
@@ -145,14 +163,16 @@ WIP deck is now in the root; its placement is documented in the
 
 Keep one native Google Doc titled `STATUS` directly in the CS 408 project
 Drive folder root (`16vTRNocHa1rlPN1bii_w0b8Ce90XrFbn`), above `Pilots`.
-Create or verify it before the next Drive work, then update the same document
-about hourly during sustained work and after major milestones. Every update
-must put these items in order: permission approvals needed (or none pending),
-the current 5-hour and weekly usage percentages from `codex_usage.py`, current
-work and near-term plan, the full contents of `MANUALLYCONVERT.md`, and the
-full contents of this plan. Link the verified live document from
-[`README.md`](README.md). The status Doc belongs in the project root and is
-not a pilot artifact.
+The [live STATUS document](https://docs.google.com/document/d/1TAFn9A9Nkkr8YU8R0Hpfge4Q7MBOvBPT4F7XHiDG9UU/edit)
+was created and verified on 2026-11-27; its ID is
+`1TAFn9A9Nkkr8YU8R0Hpfge4Q7MBOvBPT4F7XHiDG9UU`, its MIME type is native Google
+Docs, and its parent is the designated project folder. Update this same
+document about hourly during sustained work and after major milestones. Every
+update must put these items in order: permission approvals needed (or none
+pending), the current 5-hour and weekly usage percentages from
+`codex_usage.py`, current work and near-term plan, the full contents of
+`MANUALLYCONVERT.md`, and the full contents of this plan. The status Doc
+belongs in the project root and is not a pilot artifact.
 
 **Working branch:** `spring+2027+bianchi`, based on the newest available
 course branch, `others/fall+2026` at `900304aa` (2026-11-15). Its selected
@@ -603,14 +623,17 @@ behavior and for full-deck visual review.
 
 ## Next action
 
-1. Create or verify the `STATUS` Google Doc in the project root after Drive
-   access is granted. Confirm its parent folder and native Google Docs type,
-   then publish the current ordered status and link it from `README.md`.
+1. **Complete 2026-11-27.** Create and verify the single `STATUS` Google Doc in
+   the project root, populate the current usage/work sections and full source
+   contents, and link it from `README.md`. Refresh hourly after reading the
+   current sources and usage script.
 2. Continue reviewing the remaining Batch 1 build chunks in decoded playback
    order. Introduction PDF pages 4, 6, 12, 15, 17, and 18 have verified
    expansions of 11, 7, 2, 9, 6, and 2 cumulative states; page 16's one-chunk
    All at Once build adds no extra slide. Seven of 52 build-bearing slides are
-   classified; 45 remain. Map every meaningful state.
+   classified; 45 remain. The current local 142-slide candidate and its 142-
+   page diagnostic PDF have been regenerated and package-checked. Map every
+   meaningful state before replacing/reconciling the same Drive WIP.
 3. Finalize the complete ordered map, expand meaningful states, resolve the
    remaining page defects, then rebuild and audit the full local PPTX. Keep each
    source deck and topic whole and retain the required editable dividers.

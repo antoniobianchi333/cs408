@@ -2606,3 +2606,36 @@ Introduction source package; validation confirms the other 834 package parts
 are unchanged. This preserves the page 18 source-image reconstruction. Do not
 clean-rebuild the full candidate from the manifest until that page 18 repair is
 included in the rebuild inputs.
+
+## Batch 1 local rebuild check — 2026-11-27 session continuation
+
+The ignored `.build` directory was absent at the start of this session. The
+Fall Keynotes were reconverted with the already authorized project
+`libreoffice --headless` workflow, the tracked Introduction and Fault/Error
+repair scripts were applied, the 111-page candidate was rebuilt, the page 18
+article image and headline were restored, and the six currently classified
+build slides were expanded. For the page 18 reconstruction, pass the original
+converted Introduction PPTX as `--source-pptx`: the repaired package has the
+article screenshot but no separate headline shape for the two-state build.
+Apply `prepare_intro_page18_build.py` before `expand_batch_build_states.py`.
+
+The resulting ignored candidate is
+`out/.build/batch-01/assembled/batch-01-expanded-candidate.pptx`; its output map
+is `out/.build/batch-01/assembled/batch-01-expanded-map.csv`. The map has 142
+consecutive rows, including the two divider rows. The active presentation order
+has 142 slide references; every relationship and slide part resolves, the PPTX
+ZIP integrity check passes, and LibreOffice exports 142 PDF pages. The local
+PDF is 32,564,269 bytes and remains diagnostic only because Linux font
+substitution affects some reference typography. These checks do not accept the
+batch. The existing 142-slide native WIP remains the Drive repair surface and
+has not been replaced by this candidate.
+
+The current Drive account can list the project folder, and the native `STATUS`
+Doc was created, read, and edited there. The user confirmed that no separate
+Drive authorization is needed in this session. The app inherits the platform's
+“Allow low-risk actions” mode, so react to an actual operation-level prompt or
+denial; keep all Drive calls scoped to the CS 408 folder and at least 5.5
+seconds apart. The user-owned course schedule slide remains outside the repair
+scope. Continue by classifying the 45 remaining build-bearing slides and
+reviewing the flagged pages; do not start Batch 2 until Batch 1 passes every
+acceptance check.

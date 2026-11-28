@@ -73,6 +73,11 @@ the full contents of `out/MANUALLYCONVERT.md`, and the full contents of
 `out/PLAN.md`. Read the local sources for each refresh, and link the verified
 Google Doc from `out/README.md`.
 
+The current verified `STATUS` Doc is
+[`STATUS`](https://docs.google.com/document/d/1TAFn9A9Nkkr8YU8R0Hpfge4Q7MBOvBPT4F7XHiDG9UU/edit),
+Drive ID `1TAFn9A9Nkkr8YU8R0Hpfge4Q7MBOvBPT4F7XHiDG9UU`, parent folder
+`16vTRNocHa1rlPN1bii_w0b8Ce90XrFbn`.
+
 ## Verify this checkout and Drive state
 
 - Check `git branch --show-current`, `git status --short`, and the current Git
@@ -177,6 +182,14 @@ and preserving the page 18 image. That candidate is ignored scratch and may
 not be available here. A clean reassembly from the manifest previously omitted
 the page 18 image; restore that asset with the tracked
 `out/combined/prepare_intro_page18_build.py` before replacing the full candidate.
+
+During the current 2026-11-27 session, the local candidate was regenerated at
+`out/.build/batch-01/assembled/batch-01-expanded-candidate.pptx`, with a 142-row
+map and a 142-page diagnostic PDF. Its active PPTX order and ZIP integrity
+passed local checks. The page 18 reconstruction must read its separate editable
+headline from the unrepaired converted Introduction PPTX, then run before the
+build-state expander. These are ignored scratch files and may be missing in a
+later session; regenerate from the tracked scripts and sources.
 
 ## Immediate work — finish Batch 1
 

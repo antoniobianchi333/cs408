@@ -3,6 +3,9 @@
 **Updated:** 2026-11-27
 **Status:** The 16 conceptual boundaries are fixed. Batch 1 is in progress and
 not accepted: its 142-slide WIP is being repaired and reviewed in Google Drive.
+The current session also regenerated and package-checked a 142-slide local
+candidate; 45 of 52 build-bearing slides still need classification. The local
+candidate remains ignored scratch and has not replaced the Drive WIP.
 The current work log and open pages are in the
 [Batch 1 diagnostic](final-batches/batch-01-diagnostic.md); the conversion
 process and latest Round 24–25 findings are in the
