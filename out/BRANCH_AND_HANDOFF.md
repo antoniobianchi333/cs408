@@ -116,23 +116,26 @@ be able to:
 6. Batch 1 is active and not accepted. Its 142-slide native WIP is in the
    shared Drive root; inspect the current
    [Batch 1 diagnostic](combined/final-batches/batch-01-diagnostic.md) and
-   [PLAN.md](PLAN.md) before continuing. Complete Batch 1 end to end before
-   starting Batch 2. For each batch, map,
-   convert, repair, validate locally, upload its final Google Slides deck to
-   the shared folder root above `Pilots` as a WIP deck, read back its structure, export the
-   Google PDF, inspect every page, and update the manifest/docs. Keep only
-   small pilots and disposable tests in `Pilots`. Continue in order through Batch
-   16; a pilot or partial batch is not project completion. The current local
-   147-slide candidate was regenerated in ignored `out/.build/batch-01/` after
-   mapping the page 27 three-paragraph build. Eleven of 52 build-bearing slides
-   are classified; 41 remain. Its 147-row map, ordered slide relationships,
-   ZIP integrity, and local PDF page count pass. Round 28's 8-slide native
-   Google pilot verified the page 2–3 and page 27 state order, editable text,
-   and PDF appearance against exact Fall sources. Its map and Google evidence
-   are tracked in the final-batch workspace. The 147-slide local structure is
-   not yet integrated into the 142-slide WIP, and full-deck review remains
-   open. See the diagnostic for exact files and limitations.
-   Regenerate it if missing.
+   [PLAN.md](PLAN.md) before continuing. The latest verified native revision
+   is `mEV_c_nCguc_IQ`; its 142-page Google PDF is 5,299,986 bytes, SHA256
+   `fb172ef445e150960d683aa3b01cfcfeba5f627ceb2c0172eefde5168359e2c2`.
+   Round 29 repaired output pages 2 and 64 in the same WIP and checked them
+   against exact Fall cover references. Complete Batch 1 before starting
+   Batch 2. For each batch, map, convert, repair, validate locally, upload its
+   Google Slides deck to the shared folder root above `Pilots` as a WIP, read
+   back its structure, export the Google PDF, inspect every page, and update
+   the manifest/docs. Keep only small pilots and disposable tests in `Pilots`.
+   Continue in order through Batch 16; a pilot or partial batch is not project
+   completion. The current local candidate is
+   `out/.build/batch-01/round29/rebuild-v2/`; it has 147 slides, a 147-row map,
+   ordered slide relationships, valid ZIP integrity, and a 147-page PDF.
+   Eleven of 52 build-bearing slides are classified; 41 remain. Round 28's
+   eight-slide native Google pilot verified page 2–3 and page 27 state order,
+   editable text, and PDF appearance against exact Fall sources. Six of 142
+   WIP pages are confirmed repaired (about 4%); full-size review has not
+   counted all remaining defects. The local 147-slide structure is not yet
+   integrated into the WIP. See the diagnostic for current evidence and
+   limitations. Regenerate `.build` outputs if missing.
 7. Resolve missing source references as they affect the active batch; manual
    PDF exports are a last resort, and [`MANUALLYCONVERT.md`](MANUALLYCONVERT.md)
    currently has no requests.
